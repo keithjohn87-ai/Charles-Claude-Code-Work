@@ -37,6 +37,11 @@ class Tool:
 
 REGISTRY: dict[str, Tool] = {}
 
+_SMART_QUOTES = str.maketrans({
+    "‘": "'", "’": "'", "‚": "'", "‛": "'",
+    "“": '"', "”": '"', "„": '"', "‟": '"',
+})
+
 
 def tool(*, name: str, summary: str, schema: dict, triggers: tuple[str, ...] = ()):
     def decorator(fn: Callable[..., str]) -> Callable[..., str]:
@@ -68,7 +73,7 @@ def select_tools(message: str, max_tools: int = 3) -> list[Tool]:
     v0 classifier: case-insensitive substring match on registered triggers.
     Score = number of distinct triggers that hit. Ties broken by registration order.
     """
-    text = (message or "").lower()
+    text = (message or "").lower().translate(_SMART_QUOTES)
     scored: list[tuple[int, int, Tool]] = []
     for idx, t in enumerate(REGISTRY.values()):
         hits = sum(1 for trig in t.triggers if trig in text)
