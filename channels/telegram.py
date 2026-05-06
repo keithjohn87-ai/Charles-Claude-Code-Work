@@ -68,9 +68,22 @@ async def _on_voice(update: Update, ctx: ContextTypes.DEFAULT_TYPE) -> None:
     log.info("transcript (%d chars): %r", len(text), text[:200])
 
     reply = await asyncio.to_thread(agent.respond, text, str(update.effective_chat.id))
-    # Echo what was heard so the user can spot mistranscriptions, then Charles's reply
+    # Text reply with transcript echo (so user can spot mistranscriptions)
     combined = f"📝 \"{text}\"\n\n{reply or '(empty reply)'}"
     await update.message.reply_text(combined)
+
+    # Voice-out: mirror the input mode. If they spoke, Charles speaks back too.
+    if reply:
+        try:
+            from core import speak as _speak
+            ogg = await asyncio.to_thread(_speak.speak_to_ogg, reply)
+            try:
+                with ogg.open("rb") as fh:
+                    await update.message.reply_voice(voice=fh)
+            finally:
+                ogg.unlink(missing_ok=True)
+        except Exception as e:  # noqa: BLE001
+            log.warning("voice-out failed (text reply already sent): %s", e)
 
 
 async def _post_init(app: Application) -> None:
