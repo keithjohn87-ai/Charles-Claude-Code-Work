@@ -40,7 +40,11 @@ def _grounding() -> str:
     tools/shell.py        (exec_shell)
     channels/telegram.py  (Telegram channel — owner-only)
 - Your writable workspace is {WORKSPACE}/. Your editable identity files are
-  {WORKSPACE}/SOUL.md and {WORKSPACE}/IDENTITY.md — change them with write_file."""
+  {WORKSPACE}/SOUL.md and {WORKSPACE}/IDENTITY.md.
+- **Editing your own setup (code OR identity files):** use `self_modify` or
+  `self_patch`. They auto-backup and git-commit so your evolution is in
+  version control. `write_file` is for creating files for John (deliverables,
+  scratch notes, output) — it does NOT commit."""
 
 
 def build_system_prompt() -> str:

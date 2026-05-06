@@ -24,7 +24,9 @@
       "Bash(git -c user.name=\"Charles\" -c user.email=\"charles@local\" commit -q -m \"Identity: seed SOUL.md, IDENTITY.md, USER.md, TOOLS.md from OpenClaw workspace, adapted for Python+MLX+macOS\")",
       "Bash(git -c user.name=\"Charles\" -c user.email=\"charles@local\" commit -q -m \"M2: SQLite-backed memory — conversation history, long-term facts, daily log; remember/recall tools\")",
       "Bash(git -c user.name=\"Charles\" -c user.email=\"charles@local\" commit -q -m \"M2 fix: send all tool schemas, persist tool_calls+results in history, harden anti-narration prompt rules\")",
-      "Bash(git -c user.name=\"Charles\" -c user.email=\"charles@local\" commit -q -m \"M3: self_modify + self_patch tools — auto-backup, syntax check, git commit per change\")"
+      "Bash(git -c user.name=\"Charles\" -c user.email=\"charles@local\" commit -q -m \"M3: self_modify + self_patch tools — auto-backup, syntax check, git commit per change\")",
+      "Bash(git -c user.name=\"Charles\" -c user.email=\"charles@local\" commit -q -m \"self_modify: Add 'How I think' principles section \\(Charles's first self-authored personality edit, recovered from uncommitted write_file\\)\")",
+      "Bash(git -c user.name=\"Charles\" -c user.email=\"charles@local\" commit -am \"Grounding: route SOUL.md/IDENTITY.md edits through self_modify so they're version-controlled\" -q)"
     ]
   }
 }
