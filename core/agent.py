@@ -1,9 +1,9 @@
-"""Single-conversation reasoning with multi-round tool calls.
+"""Single-conversation reasoning with multi-round tool calls and persistent memory.
 
-M1: tools available. The classifier picks 0-3 tools per inbound user message
-and only those tools' full JSON schemas are sent to the model. The
-multi-round loop keeps going until the model stops emitting tool_calls or
-the iteration cap is hit.
+M2: every turn loads the last few user/assistant exchanges for the same
+conversation_id from SQLite and prepends them to the prompt. Each user
+message and final assistant reply is also persisted, so Charles is
+continuous across Telegram messages — not a goldfish.
 """
 from __future__ import annotations
 
@@ -11,6 +11,7 @@ import logging
 
 import tools  # noqa: F401  — import side-effect: registers all tools
 
+from core import memory
 from core.inference import complete
 from core.prompts import build_system_prompt
 from core.tools import dispatch, select_tools
@@ -18,29 +19,43 @@ from core.tools import dispatch, select_tools
 log = logging.getLogger("charles.agent")
 
 MAX_TOOL_ROUNDS = 5
+HISTORY_CHAR_BUDGET = 4000
 
 
 def respond(message: str, conversation_id: str | None = None) -> str:
     system = build_system_prompt()
-    history: list[dict] = [
-        {"role": "system", "content": system},
-        {"role": "user", "content": message},
-    ]
+    history: list[dict] = [{"role": "system", "content": system}]
+
+    if conversation_id:
+        prior = memory.recent_history(conversation_id, max_chars=HISTORY_CHAR_BUDGET)
+        history.extend(prior)
+        log.info("loaded %d prior turns for conv=%s", len(prior), conversation_id)
+
+    history.append({"role": "user", "content": message})
+
+    if conversation_id:
+        memory.log_turn(conversation_id, "user", message)
 
     selected = select_tools(message)
     api_tools = [t.openai_schema() for t in selected] if selected else None
 
     total_chars = sum(len(m.get("content") or "") for m in history)
     log.info(
-        "respond start: prompt_chars=%d tools=%s",
+        "respond start: prompt_chars=%d turns_in_prompt=%d tools=%s",
         total_chars,
+        len(history) - 1,
         [t.name for t in selected] or "none",
     )
 
     final_text = ""
     for round_n in range(MAX_TOOL_ROUNDS):
         text, msg, usage = complete(history, tools=api_tools, max_tokens=800)
-        log.info("round=%d usage=%s tool_calls=%d", round_n, usage, len(msg.tool_calls or []))
+        log.info(
+            "round=%d usage=%s tool_calls=%d",
+            round_n,
+            usage,
+            len(msg.tool_calls or []),
+        )
 
         if not msg.tool_calls:
             final_text = text
@@ -64,7 +79,12 @@ def respond(message: str, conversation_id: str | None = None) -> str:
 
         for tc in msg.tool_calls:
             result = dispatch(tc.function.name, tc.function.arguments)
-            log.info("tool=%s args=%r result_chars=%d", tc.function.name, tc.function.arguments[:200], len(result))
+            log.info(
+                "tool=%s args=%r result_chars=%d",
+                tc.function.name,
+                tc.function.arguments[:200],
+                len(result),
+            )
             history.append({
                 "role": "tool",
                 "tool_call_id": tc.id,
@@ -72,5 +92,8 @@ def respond(message: str, conversation_id: str | None = None) -> str:
             })
     else:
         final_text = text or "(max tool rounds reached)"
+
+    if conversation_id and final_text:
+        memory.log_turn(conversation_id, "assistant", final_text)
 
     return final_text

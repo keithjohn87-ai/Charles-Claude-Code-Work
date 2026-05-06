@@ -18,7 +18,11 @@
       "Bash(sudo launchctl *)",
       "Bash(launchctl unload *)",
       "Bash(ps -p 52759 -o pid=,stat=,command=)",
-      "Bash(git -c user.name=\"Charles\" -c user.email=\"charles@local\" commit -q -m \"M1: tool registry, dynamic loading, read_file/write_file/exec_shell\")"
+      "Bash(git -c user.name=\"Charles\" -c user.email=\"charles@local\" commit -q -m \"M1: tool registry, dynamic loading, read_file/write_file/exec_shell\")",
+      "Bash(git -c user.name=\"Charles\" -c user.email=\"charles@local\" commit -q -m \"M1: normalize curly quotes \\(iOS smart-quote substitution\\) in classifier\")",
+      "Bash(git -c user.name=\"Charles\" -c user.email=\"charles@local\" commit -q -m \"M1: add grounding block \\(root path, source layout, workspace\\) to system prompt\")",
+      "Bash(git -c user.name=\"Charles\" -c user.email=\"charles@local\" commit -q -m \"Identity: seed SOUL.md, IDENTITY.md, USER.md, TOOLS.md from OpenClaw workspace, adapted for Python+MLX+macOS\")",
+      "Bash(git -c user.name=\"Charles\" -c user.email=\"charles@local\" commit -q -m \"M2: SQLite-backed memory — conversation history, long-term facts, daily log; remember/recall tools\")"
     ]
   }
 }
