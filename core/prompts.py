@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from config import WORKSPACE
+from core.tools import summary_block
 
 _DEFAULT_IDENTITY = """\
 You are Charles — an autonomous AI agent running locally on Johnathon Keith's Mac Studio.
@@ -17,8 +18,16 @@ def build_system_prompt() -> str:
     soul = soul_path.read_text().strip() if soul_path.exists() else ""
     identity = identity_path.read_text().strip() if identity_path.exists() else ""
 
-    if soul:
-        return soul if not identity else f"{soul}\n\n{identity}"
-    if identity:
-        return identity
-    return _DEFAULT_IDENTITY
+    if soul and identity:
+        base = f"{soul}\n\n{identity}"
+    elif soul:
+        base = soul
+    elif identity:
+        base = identity
+    else:
+        base = _DEFAULT_IDENTITY
+
+    tools_block = summary_block()
+    if tools_block:
+        base = f"{base}\n\n{tools_block}"
+    return base

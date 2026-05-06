@@ -13,7 +13,12 @@
       "Bash(.venv/bin/python -c ' *)",
       "Bash(git init *)",
       "Bash(git add *)",
-      "Bash(git -c user.name=\"Charles\" -c user.email=\"charles@local\" commit -q -m \"M0: initial skeleton, MLX inference, Telegram channel\")"
+      "Bash(git -c user.name=\"Charles\" -c user.email=\"charles@local\" commit -q -m \"M0: initial skeleton, MLX inference, Telegram channel\")",
+      "Bash(launchctl list *)",
+      "Bash(sudo launchctl *)",
+      "Bash(launchctl unload *)",
+      "Bash(ps -p 52759 -o pid=,stat=,command=)",
+      "Bash(git -c user.name=\"Charles\" -c user.email=\"charles@local\" commit -q -m \"M1: tool registry, dynamic loading, read_file/write_file/exec_shell\")"
     ]
   }
 }
