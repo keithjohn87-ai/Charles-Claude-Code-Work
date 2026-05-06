@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s http://127.0.0.1:8080/v1/chat/completions -H 'Content-Type: application/json' -d '{ *)",
+      "Bash(python3 -c 'import sys,json; r=json.load\\(sys.stdin\\); print\\(\"=== RAW CONTENT ===\"\\); print\\(r[\"choices\"][0][\"message\"][\"content\"]\\); print\\(\"=== USAGE ===\"\\); print\\(r.get\\(\"usage\"\\)\\)')",
+      "Bash(python3 -c 'import sys,json; r=json.load\\(sys.stdin\\); print\\(json.dumps\\(r, indent=2\\)\\)')",
+      "Bash(time curl -s http://127.0.0.1:8080/v1/chat/completions -H 'Content-Type: application/json' -d '{ *)",
+      "Bash(python3 -c 'import sys,json; r=json.load\\(sys.stdin\\); print\\(json.dumps\\(r[\"choices\"][0][\"message\"], indent=2\\)\\)')",
+      "Bash(/opt/homebrew/bin/python3.11 -m venv .venv)",
+      "Bash(chmod +x run)",
+      "Bash(.venv/bin/pip install *)",
+      "Bash(.venv/bin/pip list *)",
+      "Bash(.venv/bin/python -c ' *)",
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(git -c user.name=\"Charles\" -c user.email=\"charles@local\" commit -q -m \"M0: initial skeleton, MLX inference, Telegram channel\")"
+    ]
+  }
+}
