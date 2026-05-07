@@ -18,7 +18,7 @@ from core.tools import REGISTRY, dispatch  # select_tools still in core.tools, k
 
 log = logging.getLogger("charles.agent")
 
-MAX_TOOL_ROUNDS = 5
+MAX_TOOL_ROUNDS = 25
 HISTORY_CHAR_BUDGET = 4000
 
 

@@ -34,7 +34,8 @@
       "Bash(say -o /tmp/charles_test.aiff \"Hello Charles, this is a test of your voice transcription tool. Reply with the time.\")",
       "Read(//tmp/**)",
       "Bash(git -c user.name=\"Charles\" -c user.email=\"charles@local\" commit -q -m \"M5: voice channel — Telegram voice/audio messages auto-transcribed via mlx-whisper \\(base.en\\) and fed to agent\")",
-      "Bash(git -c user.name=\"Charles\" -c user.email=\"charles@local\" commit -q -m \"M5: voice-out — Telegram voice messages get a spoken reply via macOS say + ffmpeg/Opus \\(default voice: Daniel\\)\")"
+      "Bash(git -c user.name=\"Charles\" -c user.email=\"charles@local\" commit -q -m \"M5: voice-out — Telegram voice messages get a spoken reply via macOS say + ffmpeg/Opus \\(default voice: Daniel\\)\")",
+      "Bash(ps -p 56606 -o pid=,etime=,stat=)"
     ]
   }
 }
