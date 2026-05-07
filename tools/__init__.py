@@ -8,6 +8,7 @@ from . import (  # noqa: F401
     memory,
     notify,
     scheduler,
+    search,
     self_modify,
     sentiment,
     shell,
