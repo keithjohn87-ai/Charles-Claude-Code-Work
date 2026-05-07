@@ -1,0 +1,23 @@
+{
+  "session_id": "test_pipeline",
+  "name": "test_pipeline",
+  "category": "general",
+  "created": "2026-05-07T17:48:06Z",
+  "status": "complete",
+  "prompt": "Create a Python function that calculates fibonacci numbers",
+  "response": "Here's a fibonacci implementation using memoization:",
+  "tool_calls": [
+    "write_file: fibonacci.py",
+    "exec_shell: python3 fibonacci.py"
+  ],
+  "file_diffs": [
+    "Created fibonacci.py with recursive + memoization approach"
+  ],
+  "tokens": {
+    "input": 2000,
+    "output": 0,
+    "total": 2000
+  },
+  "outcome": "Success - fibonacci function created and tested",
+  "notes": "Pipeline test - all fields populated correctly"
+}

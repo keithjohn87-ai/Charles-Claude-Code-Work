@@ -1,0 +1,14 @@
+{
+  "session_id": "test_001",
+  "session_name": "Test session for logging pipeline",
+  "status": "in_progress",
+  "created_at": "2026-05-07T15:45:00Z",
+  "responses": [],
+  "tool_calls": [],
+  "file_diffs": [],
+  "token_usage": {
+    "input": 0,
+    "output": 0,
+    "total": 0
+  }
+}

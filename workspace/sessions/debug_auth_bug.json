@@ -1,0 +1,18 @@
+{
+  "session_id": "debug_auth_bug",
+  "name": "debug_auth_bug",
+  "category": "debugging",
+  "created": "2026-05-07T17:48:33Z",
+  "status": "active",
+  "prompt": "",
+  "response": "",
+  "tool_calls": [],
+  "file_diffs": [],
+  "tokens": {
+    "input": 0,
+    "output": 0,
+    "total": 0
+  },
+  "outcome": "",
+  "notes": ""
+}

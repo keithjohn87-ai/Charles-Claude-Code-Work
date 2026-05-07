@@ -1,0 +1,31 @@
+{
+  "session_id": "test_001",
+  "session_name": "Test session for logging pipeline",
+  "status": "complete",
+  "created_at": "2026-05-07T15:45:00Z",
+  "responses": [
+    {
+      "role": "assistant",
+      "content": "Test response"
+    }
+  ],
+  "tool_calls": [
+    {
+      "tool": "exec_shell",
+      "args": [
+        "echo test"
+      ]
+    }
+  ],
+  "file_diffs": [
+    {
+      "file": "test.py",
+      "diff": "--- a/test.py\n+++ b/test.py\n@@ -1 +1 @@\n-old\n+new"
+    }
+  ],
+  "token_usage": {
+    "input": 100,
+    "output": 50,
+    "total": 150
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "session_id": "integrate_auth_provider",
+  "name": "integrate_auth_provider",
+  "category": "integration",
+  "created": "2026-05-07T17:48:33Z",
+  "status": "active",
+  "prompt": "",
+  "response": "",
+  "tool_calls": [],
+  "file_diffs": [],
+  "tokens": {
+    "input": 0,
+    "output": 0,
+    "total": 0
+  },
+  "outcome": "",
+  "notes": ""
+}
