@@ -10,6 +10,9 @@
 - **`self_modify(path, new_content, reason)`** — overwrite one of my own files. Auto-backups to `workspace/self_modify_backups/`, syntax-checks `.py`, git-commits on success. Effect on NEXT restart.
 - **`self_patch(path, find, replace, reason)`** — find-and-replace a unique snippet. Cheaper than `self_modify` for small edits. Same backup + commit guarantees.
 - **`current_time()`** — return current local (EST) time as a formatted string.
+- **`get_weather(location, format=...)`** — fetch current weather + short forecast via wttr.in. No API key.
+- **`set_goal(description, advance_minutes=)`** — create a long-running open-ended goal. Heartbeat advances it every advance_minutes; you take one concrete step per tick, log notes, and complete when done.
+- **`list_goals(status=)`** / **`append_goal_note(goal_id, note)`** / **`complete_goal(goal_id, summary)`** / **`cancel_goal(goal_id)`** — goal lifecycle.
 - **`schedule_task(description, in_seconds=, at_iso=, cadence_seconds=)`** — queue a future tick. `cadence_seconds` makes it recurring.
 - **`list_scheduled_tasks(status="pending")`** — show scheduled tasks. Status: pending/running/done/failed/cancelled/all.
 - **`cancel_scheduled_task(task_id)`** — cancel a pending task.

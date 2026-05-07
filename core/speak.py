@@ -1,31 +1,37 @@
 """Text → speech → Telegram-compatible voice note.
 
-Two-tier engine:
-  1. Primary: mlx-audio Kokoro (neural, Apple Silicon native, voice configurable
-     via CHARLES_VOICE — default am_onyx, deeper/authoritative American male).
-  2. Fallback: macOS `say` (built-in, robotic, last-resort if Kokoro fails).
+Three-tier engine, in priority order:
+  1. **Voice clone (Chatterbox)** — if `workspace/voice_reference.wav` exists,
+     mlx-audio Chatterbox clones the reference voice. Best quality, matches
+     character (Keith David reference, etc.).
+  2. **Kokoro neural** — Apple Silicon native, configurable voice via
+     CHARLES_VOICE (default am_fenrir). Studio-clean American narrator.
+  3. **macOS `say` fallback** — built-in, robotic, last-resort.
 
 Output is always .ogg/Opus — Telegram voice-note format.
 
-Phase 2 (TODO when John provides a reference clip): swap to mlx-audio Chatterbox
-or F5-TTS for true voice cloning matching the character spec (Southern Black
-male, sophisticated/blue-collar, whiskey-and-cigarettes warmth). Reference clip
-should be 10-30 seconds of clean speech.
+Toggle the clone tier off via `CHARLES_USE_CLONE=0` in `.env` (e.g. when
+debugging, or when the reference clip needs to be replaced).
 """
 from __future__ import annotations
 
 import logging
 import os
 import subprocess
-import tempfile
 import uuid
 from pathlib import Path
+
+from config import WORKSPACE
 
 log = logging.getLogger("charles.speak")
 
 DEFAULT_VOICE = os.environ.get("CHARLES_VOICE", "am_fenrir")
 KOKORO_MODEL = os.environ.get("CHARLES_KOKORO_MODEL", "prince-canuma/Kokoro-82M")
-SPEAK_RATE = float(os.environ.get("CHARLES_SPEAK_RATE", "0.85"))  # speed multiplier for Kokoro; <1 = slower (Keith-David-ish cadence)
+SPEAK_RATE = float(os.environ.get("CHARLES_SPEAK_RATE", "0.85"))
+
+CLONE_MODEL = os.environ.get("CHARLES_CLONE_MODEL", "mlx-community/Chatterbox-TTS-fp16")
+CLONE_REF = WORKSPACE / "voice_reference.wav"
+USE_CLONE = os.environ.get("CHARLES_USE_CLONE", "1") != "0"
 
 # macOS-say fallback only
 _SAY_VOICE = os.environ.get("CHARLES_SAY_VOICE", "Daniel")
@@ -33,9 +39,9 @@ _SAY_RATE = int(os.environ.get("CHARLES_SAY_RATE", "180"))
 
 
 def speak_to_ogg(text: str, out_dir: str | Path = "/tmp", voice: str | None = None) -> Path:
-    """Synthesize speech and return path to a .ogg file Telegram will accept.
+    """Synthesize speech and return a .ogg file Telegram accepts as a voice note.
 
-    Tries Kokoro first; falls back to macOS `say` on any error.
+    Tries clone → Kokoro → say in order; returns on first success.
     Caller is responsible for deleting the file when done.
     """
     if not text or not text.strip():
@@ -44,7 +50,12 @@ def speak_to_ogg(text: str, out_dir: str | Path = "/tmp", voice: str | None = No
     out_dir = Path(out_dir)
     stem = f"charles_speak_{uuid.uuid4().hex[:8]}"
 
-    # Try the neural path first
+    if USE_CLONE and CLONE_REF.exists():
+        try:
+            return _clone_to_ogg(text, out_dir, stem)
+        except Exception as e:  # noqa: BLE001
+            log.warning("clone failed (%s: %s) — falling back to kokoro", type(e).__name__, e)
+
     try:
         return _kokoro_to_ogg(text, voice, out_dir, stem)
     except Exception as e:  # noqa: BLE001
@@ -52,13 +63,32 @@ def speak_to_ogg(text: str, out_dir: str | Path = "/tmp", voice: str | None = No
         return _say_to_ogg(text, out_dir, stem)
 
 
-def _kokoro_to_ogg(text: str, voice: str, out_dir: Path, stem: str) -> Path:
-    """Kokoro path: neural .wav → ffmpeg .ogg."""
+def _clone_to_ogg(text: str, out_dir: Path, stem: str) -> Path:
+    """Voice-clone path: Chatterbox with the reference clip → ffmpeg .ogg."""
     from mlx_audio.tts.generate import generate_audio  # late import — heavy
 
-    log.info("kokoro voice=%s rate=%.2f chars=%d", voice, SPEAK_RATE, len(text))
+    log.info("clone model=%s ref=%s chars=%d", CLONE_MODEL, CLONE_REF.name, len(text))
+    cwd_before = Path.cwd()
+    try:
+        os.chdir(out_dir)
+        generate_audio(
+            text=text,
+            model=CLONE_MODEL,
+            ref_audio=str(CLONE_REF),
+            file_prefix=stem,
+            save=True,
+            verbose=False,
+        )
+    finally:
+        os.chdir(cwd_before)
+    return _wav_to_ogg(out_dir, stem)
 
-    # mlx-audio writes <prefix>_000.wav in cwd
+
+def _kokoro_to_ogg(text: str, voice: str, out_dir: Path, stem: str) -> Path:
+    """Kokoro path: neural .wav → ffmpeg .ogg."""
+    from mlx_audio.tts.generate import generate_audio
+
+    log.info("kokoro voice=%s rate=%.2f chars=%d", voice, SPEAK_RATE, len(text))
     cwd_before = Path.cwd()
     try:
         os.chdir(out_dir)
@@ -73,11 +103,14 @@ def _kokoro_to_ogg(text: str, voice: str, out_dir: Path, stem: str) -> Path:
         )
     finally:
         os.chdir(cwd_before)
+    return _wav_to_ogg(out_dir, stem)
 
+
+def _wav_to_ogg(out_dir: Path, stem: str) -> Path:
+    """Find the wav mlx-audio just wrote, convert to .ogg, delete the wav."""
     wav_path = out_dir / f"{stem}_000.wav"
     if not wav_path.exists():
-        raise FileNotFoundError(f"kokoro produced no wav: {wav_path}")
-
+        raise FileNotFoundError(f"mlx-audio produced no wav: {wav_path}")
     ogg_path = out_dir / f"{stem}.ogg"
     try:
         subprocess.run(
@@ -92,15 +125,13 @@ def _kokoro_to_ogg(text: str, voice: str, out_dir: Path, stem: str) -> Path:
     finally:
         if wav_path.exists():
             wav_path.unlink()
-
     return ogg_path
 
 
 def _say_to_ogg(text: str, out_dir: Path, stem: str) -> Path:
-    """Fallback path: macOS `say` → aiff → ffmpeg .ogg."""
+    """Fallback: macOS `say` → aiff → ffmpeg .ogg."""
     aiff_path = out_dir / f"{stem}.aiff"
     ogg_path = out_dir / f"{stem}.ogg"
-
     log.info("say fallback voice=%s rate=%d chars=%d", _SAY_VOICE, _SAY_RATE, len(text))
     try:
         subprocess.run(
