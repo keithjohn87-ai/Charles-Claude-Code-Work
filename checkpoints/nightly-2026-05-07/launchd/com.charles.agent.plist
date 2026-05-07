@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.charles.agent</string>
+
+    <!-- Run charles.py as the foreground process. The script runs the
+         Telegram channel + heartbeat loop in-process. -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/home/charles/.venv/bin/python</string>
+        <string>/Users/home/charles/charles.py</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/home/charles</string>
+
+    <!-- Restart automatically if Charles exits or crashes. -->
+    <key>KeepAlive</key>
+    <true/>
+
+    <!-- Don't auto-start on user login until John explicitly enables this.
+         To enable: launchctl load -w ~/Library/LaunchAgents/com.charles.agent.plist
+         To disable: launchctl unload -w ~/Library/LaunchAgents/com.charles.agent.plist -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <!-- Throttle restart attempts so a permanently-broken Charles
+         doesn't burn CPU. 30s between retries. -->
+    <key>ThrottleInterval</key>
+    <integer>30</integer>
+
+    <key>StandardOutPath</key>
+    <string>/Users/home/charles/logs/charles.launchd.out.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/home/charles/logs/charles.launchd.err.log</string>
+
+    <!-- Inherit user environment (so /opt/homebrew, FDA, etc. work). -->
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/Users/home/charles/.venv/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    </dict>
+</dict>
+</plist>

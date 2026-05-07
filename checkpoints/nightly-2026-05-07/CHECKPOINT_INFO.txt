@@ -1,0 +1,21 @@
+Tag: nightly-2026-05-07
+Created: Thu May  7 11:10:32 EDT 2026
+Host: homes-Mac-Studio.local
+Git HEAD: f3a25f7
+Source: /Users/home/charles
+Destination: /Users/home/charles/checkpoints/nightly-2026-05-07
+Location: internal SSD (no external mounted)
+
+Charles process: 80055
+
+Sizes:
+  workspace: 3.3M
+  memory.db: 500K
+  source code: 
+
+NOTES:
+  - models/ excluded (re-downloadable from HF / direct curl)
+  - .venv excluded (re-installable via pip install -r requirements.txt)
+  - logs/ excluded
+  - .git/objects excluded (use git push for full git history backup)
+  - voice_reference_short.wav excluded (deprecated, voice_reference.wav is canonical)
