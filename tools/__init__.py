@@ -3,6 +3,7 @@ from . import (  # noqa: F401
     browser,
     filesystem,
     goals,
+    governance,
     imessage,
     memory,
     notify,
