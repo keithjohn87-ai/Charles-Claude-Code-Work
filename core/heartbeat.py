@@ -65,14 +65,26 @@ async def _advance_one_goal() -> None:
         f"## Progress so far\n{notes_block}\n\n"
         f"## Your job this tick\n"
         f"Take ONE concrete step toward this goal right now: read a file, write a file, "
-        f"schedule a subtask, save a fact, anything actionable. Then call "
-        f"`append_goal_note(goal_id={goal['id']}, note=...)` with one sentence describing what "
-        f"you did and what the next step is. If the goal is fully complete, call "
-        f"`complete_goal(goal_id={goal['id']}, summary=...)`. Do NOT call notify_john unless "
-        f"the goal actually finished — silent ticks are correct."
+        f"schedule a subtask, save a fact, anything actionable. Your final plain-text reply "
+        f"will be AUTO-LOGGED as the next progress note for this goal — so write it as ONE "
+        f"sentence describing what you did this tick and what the next concrete step is. "
+        f"If the goal is fully complete, call `complete_goal(goal_id={goal['id']}, summary=...)` "
+        f"instead. Do NOT call notify_john unless the goal actually finished — silent ticks "
+        f"are correct."
     )
     goals.mark_advanced(goal["id"])  # mark before running so a slow run doesn't double-fire
-    await _run_blocking(prompt, f"goal:{goal['id']}")
+    ok, reply = await _run_blocking(prompt, f"goal:{goal['id']}")
+
+    # Auto-append the final reply as a progress note so progress survives even if
+    # Charles forgets to call append_goal_note. Skip if the goal got completed/cancelled
+    # this turn (status flipped) — its notes already got the completion summary.
+    if ok and reply.strip():
+        latest = goals.get_goal(goal["id"])
+        if latest and latest["status"] == "active":
+            note = reply.strip()
+            if len(note) > 500:
+                note = note[:500] + "…"
+            goals.append_note(goal["id"], note)
 
 
 async def _tick() -> None:
