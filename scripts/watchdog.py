@@ -24,7 +24,9 @@ from pathlib import Path
 
 LOG_PATH = Path("/Users/home/charles/logs/watchdog.log")
 STATE_PATH = Path("/tmp/charles_watchdog_state.json")
-HEARTBEAT_LOG = Path("/Users/home/charles/logs/charles.launchd.out.log")
+# Charles's logging.basicConfig writes to stderr, so the err.log is what gets
+# touched on every heartbeat tick / Telegram poll. The .out.log stays empty.
+HEARTBEAT_LOG = Path("/Users/home/charles/logs/charles.launchd.err.log")
 CHARLES_LABEL = "com.charles.agent"
 
 CHECK_SECONDS = 30
