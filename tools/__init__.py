@@ -2,6 +2,7 @@
 from . import (  # noqa: F401
     browser,
     filesystem,
+    gmail,
     goals,
     governance,
     imessage,
