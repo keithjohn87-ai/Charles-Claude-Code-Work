@@ -13,7 +13,7 @@ set -e
 ACTION="${1:-status}"
 SRC_DIR="/Users/home/charles/launchd"
 DST_DIR="$HOME/Library/LaunchAgents"
-PLISTS=("com.charles.agent.plist" "com.charles.watchdog.plist" "com.charles.nightly-backup.plist")
+PLISTS=("com.charles.agent.plist" "com.charles.watchdog.plist" "com.charles.nightly-backup.plist" "com.charles.caffeinate.plist")
 
 mkdir -p "$DST_DIR"
 
