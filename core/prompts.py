@@ -60,11 +60,16 @@ def _grounding() -> str:
   the abbreviation is normalized for John's preference."""
 
 
+def _read_or_empty(path) -> str:
+    return path.read_text().strip() if path.exists() else ""
+
+
 def build_system_prompt() -> str:
-    soul_path = WORKSPACE / "SOUL.md"
-    identity_path = WORKSPACE / "IDENTITY.md"
-    soul = soul_path.read_text().strip() if soul_path.exists() else ""
-    identity = identity_path.read_text().strip() if identity_path.exists() else ""
+    # Auto-load: SOUL.md (character) + IDENTITY.md (vibe). These together stay <600 tokens.
+    # NOT auto-loaded (Charles reads on first-turn-after-restart per AGENTS.md instruction):
+    # AGENTS.md, USER.md, TOOLS.md, MASTER_OPERATING_MANUAL.md.
+    soul = _read_or_empty(WORKSPACE / "SOUL.md")
+    identity = _read_or_empty(WORKSPACE / "IDENTITY.md")
 
     if soul and identity:
         persona = f"{soul}\n\n{identity}"
