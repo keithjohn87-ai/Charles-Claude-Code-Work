@@ -548,6 +548,14 @@ def _humanize_seconds(s: int) -> str:
 
 
 def intervene_response_loop(incident: dict) -> Action | None:
+    """Trim a real loop — but ONLY if memory.trim_repeating_replies confirms it.
+
+    Earlier versions fell through to memory.reset_conversation when the trim
+    found nothing. That was destructive: if the watchdog's loose detector
+    flagged a conv but the strict trim disagreed, we'd nuke the entire conv
+    history. Lost 199 turns of John's Telegram conv this way once. Never
+    again — disagreement means "no action, log warning."
+    """
     conv_id = incident["conv_id"]
     try:
         deleted = memory_mod.trim_repeating_replies(conv_id)
@@ -555,17 +563,17 @@ def intervene_response_loop(incident: dict) -> Action | None:
         log.exception("trim_repeating_replies failed for %s: %s", conv_id, e)
         return None
     if not deleted:
-        try:
-            deleted = memory_mod.reset_conversation(conv_id, keep_last_user_turn=True)
-        except Exception as e:  # noqa: BLE001
-            log.exception("reset_conversation failed for %s: %s", conv_id, e)
-            return None
-        action_kind = "reset_conversation"
-    else:
-        action_kind = "trim_repeating_replies"
+        # Detector and strict trim disagreed — likely a borderline case.
+        # Do NOT touch the conv. Log a warning so we can tune thresholds later.
+        log.warning(
+            "response_loop incident on conv=%s but trim_repeating_replies "
+            "found nothing to trim — skipping intervention. Sample: %r",
+            conv_id, (incident.get("sample") or "")[:120],
+        )
+        return None
 
     where = _conv_friendly(conv_id)
-    technical = f"loop in conv={conv_id}: {action_kind} removed {deleted} turn(s)"
+    technical = f"loop in conv={conv_id}: trim_repeating_replies removed {deleted} turn(s)"
     friendly = (
         f"Charles got stuck repeating himself in {where}. "
         f"I broke him out — he should answer normally next time."
@@ -573,7 +581,7 @@ def intervene_response_loop(incident: dict) -> Action | None:
     _audit_fact(
         f"Behavioral watchdog intervention: {technical}. Sample of looped text: "
         f"{incident.get('sample', '')[:200]}",
-        tags=f"intervention,auto,response_loop,{action_kind}",
+        tags="intervention,auto,response_loop,trim_repeating_replies",
     )
     log.warning(technical)
     return Action(technical=technical, friendly=friendly)
