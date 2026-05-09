@@ -50,6 +50,7 @@ import subprocess
 import sys
 import time
 from collections import defaultdict
+from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -492,6 +493,18 @@ def _kickstart_charles() -> bool:
 # Intervention
 # ---------------------------------------------------------------------------
 
+@dataclass
+class Action:
+    """Two-faced intervention record: technical for logs, friendly for John.
+
+    `technical` ends up in long_term_facts (audit) + watchdog log — preserves
+    every detail a debugger would want. `friendly` is the iMessage to John
+    in plain English, no jargon.
+    """
+    technical: str
+    friendly: str
+
+
 def _audit_fact(text: str, tags: str) -> None:
     """Log the action to long_term_facts for audit. Never raises."""
     try:
@@ -500,7 +513,41 @@ def _audit_fact(text: str, tags: str) -> None:
         log.warning("audit fact failed: %s", e)
 
 
-def intervene_response_loop(incident: dict) -> str | None:
+def _conv_friendly(conv_id: str) -> str:
+    """Translate a conv_id into something John recognises."""
+    if conv_id == "8455750177":
+        return "your Telegram chat"
+    if conv_id.startswith("goal:"):
+        try:
+            gid = int(conv_id.split(":", 1)[1])
+            g = goals_mod.get_goal(gid)
+            if g:
+                desc = (g.get("description") or "").strip()
+                if desc:
+                    return f"his work on goal '{desc[:60]}'"
+            return f"his work on goal #{gid}"
+        except Exception:  # noqa: BLE001
+            return f"his work on goal {conv_id.split(':', 1)[1]}"
+    if conv_id.startswith("heartbeat:"):
+        return "a scheduled task"
+    if conv_id.startswith("warroom-"):
+        return "your War Room session"
+    return "one of his conversations"
+
+
+def _humanize_seconds(s: int) -> str:
+    if s < 90:
+        return f"{s} seconds"
+    if s < 3600:
+        return f"{s // 60} minutes"
+    if s < 86400:
+        h = s // 3600
+        return "1 hour" if h == 1 else f"{h} hours"
+    d = s // 86400
+    return "1 day" if d == 1 else f"{d} days"
+
+
+def intervene_response_loop(incident: dict) -> Action | None:
     conv_id = incident["conv_id"]
     try:
         deleted = memory_mod.trim_repeating_replies(conv_id)
@@ -508,30 +555,33 @@ def intervene_response_loop(incident: dict) -> str | None:
         log.exception("trim_repeating_replies failed for %s: %s", conv_id, e)
         return None
     if not deleted:
-        # If trim didn't grab it (e.g., similarity below the agent's stricter
-        # threshold), force a reset of the conv tail so next message starts clean.
         try:
             deleted = memory_mod.reset_conversation(conv_id, keep_last_user_turn=True)
         except Exception as e:  # noqa: BLE001
             log.exception("reset_conversation failed for %s: %s", conv_id, e)
             return None
-        action = "reset_conversation"
+        action_kind = "reset_conversation"
     else:
-        action = "trim_repeating_replies"
-    msg = f"loop in conv={conv_id}: {action} removed {deleted} turn(s)"
-    _audit_fact(
-        f"Behavioral watchdog intervention: {msg}. Sample of looped text: "
-        f"{incident.get('sample', '')[:200]}",
-        tags=f"intervention,auto,response_loop,{action}",
+        action_kind = "trim_repeating_replies"
+
+    where = _conv_friendly(conv_id)
+    technical = f"loop in conv={conv_id}: {action_kind} removed {deleted} turn(s)"
+    friendly = (
+        f"Charles got stuck repeating himself in {where}. "
+        f"I broke him out — he should answer normally next time."
     )
-    log.warning(msg)
-    return msg
+    _audit_fact(
+        f"Behavioral watchdog intervention: {technical}. Sample of looped text: "
+        f"{incident.get('sample', '')[:200]}",
+        tags=f"intervention,auto,response_loop,{action_kind}",
+    )
+    log.warning(technical)
+    return Action(technical=technical, friendly=friendly)
 
 
-def intervene_narration_stall(incident: dict) -> str | None:
+def intervene_narration_stall(incident: dict) -> Action | None:
     gid = incident["goal_id"]
-    # First sting: append a directive note. If the goal still stalls next sweep,
-    # cancel it on the second hit (state-tracked).
+    desc = incident.get("description") or f"goal #{gid}"
     state = _load_state()
     seen = state.setdefault("narration_stalls", {})
     seen_count = int(seen.get(str(gid), 0)) + 1
@@ -539,7 +589,7 @@ def intervene_narration_stall(incident: dict) -> str | None:
     _save_state(state)
 
     if seen_count == 1:
-        # Drop a strong directive note on the goal so heartbeat sees it next tick.
+        # First hit — inject a directive note so heartbeat sees it next tick.
         try:
             goals_mod.append_note(
                 gid,
@@ -552,7 +602,11 @@ def intervene_narration_stall(incident: dict) -> str | None:
         except Exception as e:  # noqa: BLE001
             log.exception("append_note failed for goal %d: %s", gid, e)
             return None
-        msg = f"goal #{gid} narration stall: directive injected (1st hit)"
+        technical = f"goal #{gid} narration stall: directive injected (1st hit)"
+        friendly = (
+            f"Charles is talking about doing something instead of doing it on "
+            f"'{desc}'. I told him to take action or quit. Watching for next time."
+        )
     else:
         # Repeat offender — cancel the goal.
         try:
@@ -562,13 +616,17 @@ def intervene_narration_stall(incident: dict) -> str | None:
             return None
         if not ok:
             return None
-        msg = f"goal #{gid} narration stall: CANCELLED ({seen_count}x stall)"
-        # Also surface as a task so John knows
+        technical = f"goal #{gid} narration stall: CANCELLED ({seen_count}x stall)"
+        friendly = (
+            f"Charles was stuck talking about '{desc}' without doing anything "
+            f"(told him once already). I cancelled the goal. Re-add it with a "
+            f"tighter scope if you still want it done."
+        )
         try:
             memory_mod.add_task(
                 title=f"Re-plan cancelled goal #{gid}",
                 description=(
-                    f"Watchdog cancelled goal #{gid} ({incident['description']}) "
+                    f"Watchdog cancelled goal #{gid} ({desc}) "
                     f"after {seen_count} narration-stall sweeps. Decide whether "
                     f"to recreate it with tighter scope or drop it."
                 ),
@@ -581,18 +639,17 @@ def intervene_narration_stall(incident: dict) -> str | None:
         _save_state(state)
 
     _audit_fact(
-        f"Behavioral watchdog intervention: {msg}. Goal: {incident['description']}",
+        f"Behavioral watchdog intervention: {technical}. Goal: {desc}",
         tags="intervention,auto,narration_stall",
     )
-    log.warning(msg)
-    return msg
+    log.warning(technical)
+    return Action(technical=technical, friendly=friendly)
 
 
-def intervene_hallucination(incident: dict) -> str | None:
+def intervene_hallucination(incident: dict) -> Action | None:
     gid = incident["goal_id"]
     term = incident["term"]
-    # Wipe the contaminated notes — heartbeat's hallucination guard will then
-    # see clean notes next tick. Conservative: only wipe if active.
+    desc = incident.get("description") or f"goal #{gid}"
     g = goals_mod.get_goal(gid)
     if not g or g.get("status") != "active":
         return None
@@ -611,30 +668,33 @@ def intervene_hallucination(incident: dict) -> str | None:
     except Exception as e:  # noqa: BLE001
         log.exception("wipe goal %d notes failed: %s", gid, e)
         return None
-    msg = f"goal #{gid} hallucination ({term!r}): notes wiped"
+    technical = f"goal #{gid} hallucination ({term!r}): notes wiped"
+    friendly = (
+        f"Charles invented something that wasn't real (\"{term}\") while working "
+        f"on '{desc}'. I cleared his notes so he restarts from real sources next tick."
+    )
     _audit_fact(
-        f"Behavioral watchdog intervention: {msg}. Goal: {incident['description']}",
+        f"Behavioral watchdog intervention: {technical}. Goal: {desc}",
         tags="intervention,auto,hallucination",
     )
-    log.warning(msg)
-    return msg
+    log.warning(technical)
+    return Action(technical=technical, friendly=friendly)
 
 
-def intervene_goal_idleness(incident: dict) -> str | None:
-    # Don't auto-cancel here — could be legitimate (Charles waiting on John).
-    # Just surface as a Task so John sees it. Track per-goal so we don't spam.
+def intervene_goal_idleness(incident: dict) -> Action | None:
     gid = incident["goal_id"]
+    desc = incident.get("description") or f"goal #{gid}"
     state = _load_state()
     seen = state.setdefault("idle_alerts", {})
     last_alert = float(seen.get(str(gid), 0))
     now = time.time()
-    if now - last_alert < IMSG_COOLDOWN_SECONDS * 4:  # rarer surface
+    if now - last_alert < IMSG_COOLDOWN_SECONDS * 4:
         return None
     seen[str(gid)] = now
     _save_state(state)
     try:
         memory_mod.add_task(
-            title=f"Goal #{gid} idle: {incident['description']}",
+            title=f"Goal #{gid} idle: {desc}",
             description=(
                 f"No advance for {incident['idle_seconds']} sec. "
                 f"Decide whether to nudge it, cancel, or re-scope."
@@ -645,19 +705,23 @@ def intervene_goal_idleness(incident: dict) -> str | None:
     except Exception as e:  # noqa: BLE001
         log.warning("add_task for idle goal failed: %s", e)
         return None
-    msg = f"goal #{gid} idle {incident['idle_seconds']}s: surfaced as task"
+    idle_human = _humanize_seconds(int(incident["idle_seconds"]))
+    technical = f"goal #{gid} idle {incident['idle_seconds']}s: surfaced as task"
+    friendly = (
+        f"Goal '{desc}' has been sitting untouched for {idle_human}. "
+        f"I added it to your Tasks tab — decide if you want to nudge it, "
+        f"cancel it, or shrink it."
+    )
     _audit_fact(
-        f"Behavioral watchdog: surfaced goal idleness as task. {msg}",
+        f"Behavioral watchdog: surfaced goal idleness as task. {technical}",
         tags="intervention,auto,goal_idle",
     )
-    log.info(msg)
-    return msg
+    log.info(technical)
+    return Action(technical=technical, friendly=friendly)
 
 
-def intervene_tool_error_storm(incident: dict) -> str | None:
+def intervene_tool_error_storm(incident: dict) -> Action | None:
     conv_id = incident["conv_id"]
-    # Trim recent assistant tail so the model doesn't keep pattern-locking on
-    # the broken arg shape.
     try:
         deleted = memory_mod.trim_repeating_replies(
             conv_id, n_check=3, threshold=0.5,
@@ -665,16 +729,21 @@ def intervene_tool_error_storm(incident: dict) -> str | None:
     except Exception as e:  # noqa: BLE001
         log.exception("trim during error storm failed: %s", e)
         return None
-    msg = f"tool-error storm in conv={conv_id} (n={incident['count']}): trimmed {deleted}"
+    where = _conv_friendly(conv_id)
+    technical = f"tool-error storm in conv={conv_id} (n={incident['count']}): trimmed {deleted}"
+    friendly = (
+        f"Charles was calling one of his tools wrong over and over in {where}. "
+        f"I cleaned up the bad attempts so he can try fresh next round."
+    )
     _audit_fact(
-        f"Behavioral watchdog intervention: {msg}. Sample: {incident.get('sample', '')[:200]}",
+        f"Behavioral watchdog intervention: {technical}. Sample: {incident.get('sample', '')[:200]}",
         tags="intervention,auto,tool_error_storm",
     )
-    log.warning(msg)
-    return msg
+    log.warning(technical)
+    return Action(technical=technical, friendly=friendly)
 
 
-def intervene_hung_respond(incident: dict) -> str | None:
+def intervene_hung_respond(incident: dict) -> Action | None:
     """Heartbeat log frozen while pid alive: the agent is wedged. Kickstart."""
     state = _load_state()
     last_kick = float(state.get("last_kickstart", 0))
@@ -685,13 +754,18 @@ def intervene_hung_respond(incident: dict) -> str | None:
         return None
     state["last_kickstart"] = now
     _save_state(state)
-    msg = f"hung respond() detected (log stale {incident['log_stale_seconds']}s) — kickstarted"
+    stale_human = _humanize_seconds(int(incident['log_stale_seconds']))
+    technical = f"hung respond() detected (log stale {incident['log_stale_seconds']}s) — kickstarted"
+    friendly = (
+        f"Charles was wedged — hadn't moved in {stale_human}. I restarted him. "
+        f"He should be answering again now."
+    )
     _audit_fact(
-        f"Behavioral watchdog intervention: {msg}. Pid was {incident['pid']}.",
+        f"Behavioral watchdog intervention: {technical}. Pid was {incident['pid']}.",
         tags="intervention,auto,hung_respond,kickstart",
     )
-    log.warning(msg)
-    return msg
+    log.warning(technical)
+    return Action(technical=technical, friendly=friendly)
 
 
 # ---------------------------------------------------------------------------
@@ -893,9 +967,8 @@ def run_full_prune() -> dict:
 def _alert_john(category: str, message: str) -> bool:
     """Send iMessage to John at most once per category per IMSG_COOLDOWN_SECONDS.
 
-    Categories: "intervention" (routine self-heal — normally suppressed unless
-    repeated), "system_crisis" (resource/connectivity), "kickstart" (had to
-    restart agent).
+    Categories are internal (routing/cooldown only). The message itself is
+    always plain English — never echoed to the user with the category tag.
     """
     state = _load_state()
     cooldowns = state.setdefault("imsg_cooldowns", {})
@@ -907,7 +980,7 @@ def _alert_john(category: str, message: str) -> bool:
     cooldowns[category] = now
     _save_state(state)
 
-    msg_full = f"[Charles watchdog | {category}] {message}"
+    msg_full = f"Charles watchdog: {message}"
     msg_esc = msg_full.replace("\\", "\\\\").replace('"', '\\"')
     target_esc = JOHN_IMESSAGE.replace("\\", "\\\\").replace('"', '\\"')
     script = (
@@ -969,7 +1042,7 @@ def tick() -> None:
     system_incidents = [i for i in incidents if i["kind"] not in _INTERVENORS]
 
     # Behavioral remediation
-    actions: list[str] = []
+    actions: list[Action] = []
     for inc in behavioral_incidents:
         fn = _INTERVENORS.get(inc["kind"])
         if fn is None:
@@ -981,17 +1054,36 @@ def tick() -> None:
         except Exception as e:  # noqa: BLE001
             log.exception("intervenor for %s failed: %s", inc["kind"], e)
 
-    # System crises — alert John (rate-limited per category)
+    # System crises — alert John (rate-limited per category, plain English)
     for inc in system_incidents:
         kind = inc["kind"]
         if kind == "env_missing":
-            _alert_john("system_crisis", f".env missing at {inc['path']}. Charles can't load secrets.")
+            _alert_john(
+                "system_crisis",
+                "Charles's secrets file is gone (.env). He can't log in to "
+                "Telegram, Gmail, Stripe, or anything else until you restore it.",
+            )
         elif kind == "disk_low":
-            _alert_john("system_crisis", f"disk free {inc['free_gb']} GB — below {DISK_FREE_MIN_GB} GB threshold.")
+            _alert_john(
+                "system_crisis",
+                f"Your hard drive is running low — only {inc['free_gb']} GB free. "
+                f"Free some space when you can; under a couple GB and things start "
+                f"breaking.",
+            )
         elif kind == "mlx_unreachable":
-            _alert_john("system_crisis", f"MLX server unreachable at {MLX_BASE_URL}. Charles can't think.")
+            _alert_john(
+                "system_crisis",
+                "Charles can't reach his AI brain (the local model server is down). "
+                "He's offline until it comes back up. On the Mac Studio: check that "
+                "MLX-LM is running on port 8080.",
+            )
         elif kind == "conv_table_pressure":
-            _alert_john("system_crisis", f"conversations table at {inc['count']} rows (ceiling {CONV_TABLE_HARD_CEILING}).")
+            _alert_john(
+                "system_crisis",
+                f"Charles's chat history is getting big — {inc['count']:,} messages "
+                f"stored, ceiling is {CONV_TABLE_HARD_CEILING:,}. I'm pruning "
+                f"automatically but worth a heads-up in case he's looping.",
+            )
 
     # Consecutive-loop escalation: if behavioral fires N ticks in a row, kickstart agent.
     if behavioral_incidents and _agent_loaded():
@@ -1007,18 +1099,23 @@ def tick() -> None:
                     _audit_fact(
                         f"Behavioral watchdog escalation: kickstarted Charles after "
                         f"{consec} consecutive intervention ticks. Last actions: "
-                        f"{'; '.join(actions[-3:])}",
+                        f"{'; '.join(a.technical for a in actions[-3:])}",
                         tags="intervention,auto,kickstart,escalation",
                     )
+                    last_friendly = actions[-1].friendly if actions else "(no detail)"
                     _alert_john(
                         "kickstart",
-                        f"kickstarted Charles after {consec} consecutive behavioral "
-                        f"interventions. Last: {actions[-1] if actions else '?'}",
+                        f"Charles was struggling — I had to soft-fix him "
+                        f"{consec} times in a row, so I just restarted him fresh. "
+                        f"He should be answering normally again. "
+                        f"Last issue before restart: {last_friendly}",
                     )
                 else:
                     _alert_john(
                         "system_crisis",
-                        f"kickstart FAILED after {consec} bad ticks. Manual intervention needed.",
+                        f"I tried to restart Charles {consec} times and it failed. "
+                        f"He needs your hands — open Terminal and run "
+                        f"'launchctl kickstart -k gui/$(id -u)/com.charles.agent'.",
                     )
     else:
         state["consec_intervention_ticks"] = 0
@@ -1038,7 +1135,11 @@ def tick() -> None:
     _save_state(state)
 
     if actions:
-        log.warning("tick interventions (%d): %s", len(actions), " | ".join(actions))
+        log.warning(
+            "tick interventions (%d): %s",
+            len(actions),
+            " | ".join(a.technical for a in actions),
+        )
     elif behavioral_incidents or system_incidents:
         log.info(
             "tick observed: behavioral=%d system=%d (no action)",
