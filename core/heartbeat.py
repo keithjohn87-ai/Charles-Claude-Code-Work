@@ -7,16 +7,17 @@ Two responsibilities every tick:
 Both produce a synthetic prompt routed through the full agent. Charles
 decides what concrete action to take and only notifies John when warranted.
 
-Conversation ids:
-  - scheduled task firings → `heartbeat:<task_id>`
-  - goal advancements      → `goal:<goal_id>`  (stable across ticks for that goal)
+All synthetic ticks (heartbeat tasks + goal advances) log into CHARLES_LOG —
+the operational/autonomous channel. The goal_id / task_id is preserved in the
+message body so Charles knows which scheduling event fired. Per-goal continuity
+is preserved via the goals table's `notes` column, NOT a separate conv_id.
 """
 from __future__ import annotations
 
 import asyncio
 import logging
 
-from core import goals, scheduler
+from core import channels, goals, scheduler
 
 log = logging.getLogger("charles.heartbeat")
 
@@ -46,7 +47,7 @@ async def _fire_due_tasks() -> None:
             f"This is an autonomous tick — not John talking. Decide if this "
             f"requires action. Use notify_john ONLY if John actually needs to know."
         )
-        ok, result = await _run_blocking(prompt, f"heartbeat:{task['id']}")
+        ok, result = await _run_blocking(prompt, channels.CHARLES_LOG)
         if ok:
             scheduler.mark_done(task["id"], result, task.get("cadence_seconds"))
         else:
@@ -179,7 +180,7 @@ async def _advance_one_goal() -> None:
 
     prompt = base_prompt + action_prompt
     goals.mark_advanced(goal["id"])  # mark before running so a slow run doesn't double-fire
-    ok, reply = await _run_blocking(prompt, f"goal:{goal['id']}")
+    ok, reply = await _run_blocking(prompt, channels.CHARLES_LOG)
 
     # Auto-append the final reply as a progress note so progress survives even if
     # Charles forgets to call append_goal_note. Skip if the goal got completed/cancelled

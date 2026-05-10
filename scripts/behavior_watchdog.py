@@ -143,6 +143,13 @@ MLX_BASE_URL = os.environ.get("MLX_BASE_URL", "http://127.0.0.1:8080/v1")
 # diagnostic / synthetic (the stress test seeds these on purpose).
 CONV_PREFIX_SKIP = ("stress_", "smoketest", "sunday_test_")
 
+# CHARLES_LOG aggregates all goal-tick + heartbeat work into one conv. Tool
+# errors get spread across multiple goals there, so the per-conv error-storm
+# threshold is meaningless. The in-process tool_guards module already
+# dedupes same-call retries and blocks dead URLs — the storm detector's
+# redundant signal here just generates false positives every tick.
+ERROR_STORM_SKIP_CONV_IDS = ("charles_log",)
+
 # ---------------------------------------------------------------------------
 # Logging
 # ---------------------------------------------------------------------------
@@ -411,13 +418,18 @@ def detect_tool_error_storms() -> list[dict]:
         if cid not in samples:
             samples[cid] = content[:160]
     for cid, n in counts.items():
-        if n >= ERROR_STORM_MIN and not any(cid.startswith(p) for p in CONV_PREFIX_SKIP):
-            incidents.append({
-                "kind": "tool_error_storm",
-                "conv_id": cid,
-                "count": n,
-                "sample": samples.get(cid, ""),
-            })
+        if n < ERROR_STORM_MIN:
+            continue
+        if any(cid.startswith(p) for p in CONV_PREFIX_SKIP):
+            continue
+        if cid in ERROR_STORM_SKIP_CONV_IDS:
+            continue
+        incidents.append({
+            "kind": "tool_error_storm",
+            "conv_id": cid,
+            "count": n,
+            "sample": samples.get(cid, ""),
+        })
     return incidents
 
 
@@ -518,9 +530,12 @@ def _charles_pid() -> int | None:
 def _kickstart_charles() -> bool:
     try:
         uid = os.getuid()
+        # 45s timeout: kickstart -k blocks until the new instance is up,
+        # and Charles's startup imports MLX/telegram/etc which can take
+        # 20-30s on a cold disk cache. 15s was too tight and false-failed.
         subprocess.run(
             ["launchctl", "kickstart", "-k", f"gui/{uid}/{CHARLES_LABEL}"],
-            check=True, capture_output=True, timeout=15,
+            check=True, capture_output=True, timeout=45,
         )
         log.warning("kickstarted %s", CHARLES_LABEL)
         return True
@@ -1337,8 +1352,14 @@ def tick() -> None:
                 f"but figured you should know in case Charles is loopin'.",
             )
 
-    # Consecutive-loop escalation: if behavioral fires N ticks in a row, kickstart agent.
-    if behavioral_incidents and _agent_loaded():
+    # Consecutive-loop escalation: if intervenors ACTUALLY ACT N ticks in a
+    # row (not just observe an incident), kickstart the agent.
+    # Was: incremented on any behavioral_incidents — but if the intervenor
+    # decided "no-op" (e.g. response_loop where trim found nothing to trim),
+    # the incident gets re-detected next tick and the counter falsely climbs
+    # to 3, triggering an unwanted kickstart. Fix: gate on `actions` so only
+    # *attempted remediations* escalate.
+    if actions and _agent_loaded():
         consec = int(state.get("consec_intervention_ticks", 0)) + 1
         state["consec_intervention_ticks"] = consec
         if consec >= KICKSTART_AFTER_N_LOOPS:

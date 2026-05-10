@@ -19,8 +19,8 @@ struct ActivityView: View {
                 HStack {
                     Text(e.role.uppercased())
                         .font(.caption2.bold())
-                    Text(e.convId)
-                        .font(.caption2.monospaced())
+                    Text(displayChannelName(e.convId))
+                        .font(.caption2)
                         .foregroundStyle(Color.bronzeIvoryDim)
                     Spacer()
                     Text(e.createdAt.prefix(19))
@@ -59,8 +59,21 @@ struct ActivityView: View {
     }
 
     private func load() async {
-        do { entries = try await CharlesAPI.shared.activity(limit: 100) }
+        // Filter to CHARLES_LOG so this tab is the operational/Boss-Hog stream
+        // — Charles's autonomous work, separate from John's relational thread.
+        do { entries = try await CharlesAPI.shared.activity(limit: 100, convId: "charles_log") }
         catch { self.error = error.localizedDescription }
+    }
+}
+
+/// Human-readable label for a conversation_id. Two channels post-migration:
+/// "8455750177" (John ↔ Charles) and "charles_log" (Boss Hog). Anything else
+/// passes through with the raw id.
+fileprivate func displayChannelName(_ convId: String) -> String {
+    switch convId {
+    case "8455750177": return "John ↔ Charles"
+    case "charles_log": return "Charles Log"
+    default: return convId
     }
 }
 

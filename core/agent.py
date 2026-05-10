@@ -4,6 +4,16 @@ M2: every turn loads the last few user/assistant exchanges for the same
 conversation_id from SQLite and prepends them to the prompt. Each user
 message and final assistant reply is also persisted, so Charles is
 continuous across Telegram messages — not a goldfish.
+
+INVARIANT (cemented 2026-05-10): JOHN_CHARLES is a clean dialog channel.
+Only `role='user'` and `role='assistant'` (final replies) persist there.
+Tool calls, tool results, and mid-chain "let me X" assistant turns are
+NOT logged in JOHN_CHARLES — only in CHARLES_LOG. The chain's in-memory
+`history` keeps full plumbing for the model. See:
+  - memory: feedback_john_charles_clean_dialog.md
+  - architecture: project_two_channel_architecture.md
+JOHN_CHARLES tool-round budget is also tighter (5 vs 25) — relational
+chat doesn't need 25 tool rounds to answer "how's it going?".
 """
 from __future__ import annotations
 
@@ -11,10 +21,12 @@ import json
 import logging
 import re
 import threading
+from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 
 import tools  # noqa: F401  — import side-effect: registers all tools
 
-from core import memory
+from core import channels, memory
 from core.inference import complete
 from core.prompts import build_system_prompt
 from core.tools import REGISTRY, dispatch  # select_tools still in core.tools, kept for future
@@ -52,6 +64,12 @@ def is_stop_pending(conversation_id: str | None) -> bool:
     return bool(ev and ev.is_set())
 
 MAX_TOOL_ROUNDS = 25
+
+# JOHN_CHARLES (the relational chat) caps tool rounds tighter than the
+# autonomous side — answering "how's it going?" should not take 20 tool
+# rounds. Charles's autonomous goal work runs in CHARLES_LOG and has the
+# full 25-round budget for actual heavy work.
+MAX_TOOL_ROUNDS_RELATIONAL = 5
 HISTORY_CHAR_BUDGET = 4000
 
 # Intra-call repetition guard: if the assistant emits substantially identical
@@ -139,7 +157,12 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
     # you where the file is" frustration). Cannot insert a separate
     # system message later in history — MLX-LM rejects "system message
     # must be at the beginning" if any non-system message comes first.
-    if conversation_id and not conversation_id.startswith(("goal:", "heartbeat:")):
+    # Auto-recall fires on the relational channel (JOHN_CHARLES) only.
+    # On CHARLES_LOG, the synthetic tick message already carries enough
+    # context (goal_id, task_id, etc.) and the goals.notes column gives
+    # per-goal continuity — running auto-recall there would just bloat the
+    # prompt with off-topic facts.
+    if conversation_id == channels.JOHN_CHARLES:
         try:
             auto_recall_note = _build_auto_recall_note(message)
         except Exception as e:  # noqa: BLE001
@@ -148,6 +171,17 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
         if auto_recall_note:
             # Merge into the leading system prompt (history[0])
             history[0]["content"] = history[0]["content"] + "\n\n" + auto_recall_note
+
+        # Cross-channel context: surface what Charles has been doing in
+        # CHARLES_LOG since John last spoke, so when John pings him he
+        # has fresh awareness of his own autonomous activity. Capped tight.
+        try:
+            log_note = _build_charles_log_summary()
+        except Exception as e:  # noqa: BLE001
+            log.warning("charles_log summary failed (non-fatal): %s", e)
+            log_note = ""
+        if log_note:
+            history[0]["content"] = history[0]["content"] + "\n\n" + log_note
 
     history.append({"role": "user", "content": message})
 
@@ -180,7 +214,12 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
 
     final_text = ""
     recent_assistant_texts: list[str] = []  # for intra-call loop detection
-    for round_n in range(MAX_TOOL_ROUNDS):
+    max_rounds = (
+        MAX_TOOL_ROUNDS_RELATIONAL
+        if conversation_id == channels.JOHN_CHARLES
+        else MAX_TOOL_ROUNDS
+    )
+    for round_n in range(max_rounds):
         # User-initiated stop check — fires between rounds (covers multi-tool chains).
         if stop_event and stop_event.is_set():
             log.warning("respond() stopped by user request at round %d (conv=%s)", round_n, conversation_id)
@@ -267,7 +306,13 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
             "content": msg.content or "",
             "tool_calls": tool_calls_payload,
         })
-        if conversation_id:
+        # Persistence policy: in JOHN_CHARLES (the relational chat), the user
+        # only wants to see his own messages and Charles's FINAL reply — not
+        # the tool plumbing or "let me X" intermediate narration. So skip
+        # logging mid-chain assistant turns + tool calls for that channel.
+        # The chain's in-memory `history` still has them for the model.
+        # CHARLES_LOG keeps the full record (it's the operational stream).
+        if conversation_id and conversation_id != channels.JOHN_CHARLES:
             memory.log_assistant_tool_calls(conversation_id, msg.content or "", tool_calls_payload)
 
         for tc in msg.tool_calls:
@@ -295,7 +340,9 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
                 "tool_call_id": tc.id,
                 "content": result,
             })
-            if conversation_id:
+            # Same persistence policy as the assistant-turn log above: don't
+            # pollute JOHN_CHARLES with tool result rows.
+            if conversation_id and conversation_id != channels.JOHN_CHARLES:
                 memory.log_tool_result(conversation_id, tc.id, result)
                 # Update the ticker with the OUTCOME so the next round can
                 # overwrite with its own present-tense action.
@@ -313,7 +360,7 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
         # MUST emit text. This gives John a real summary every time instead
         # of leaving the conv hanging mid-tool-chain. Also caps max_tokens
         # tightly since we just want a synthesis, not more action.
-        log.warning("hit MAX_TOOL_ROUNDS=%d, forcing final summary", MAX_TOOL_ROUNDS)
+        log.warning("hit max_rounds=%d, forcing final summary", max_rounds)
         history.append({
             "role": "user",
             "content": (
@@ -375,6 +422,18 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
         except Exception as e:  # noqa: BLE001
             log.warning("narration-stall recovery failed: %s", e)
 
+    # Welcome-back prefix — first reply after a >6h gap from John gets a
+    # brief "Mornin', John." / "Afternoon, John." / "Evenin', John." prefix.
+    # Computed BEFORE we log the assistant reply (else the prefix double-logs
+    # if anything fails downstream). Human convs only — never on goal:/
+    # heartbeat:/sunday_test_ ticks.
+    try:
+        prefix = _welcome_back_prefix(conversation_id)
+        if prefix and final_text and not final_text.startswith("(stopped"):
+            final_text = prefix + final_text
+    except Exception as e:  # noqa: BLE001
+        log.warning("welcome-back prefix failed (non-fatal): %s", e)
+
     if conversation_id:
         memory.log_turn(conversation_id, "assistant", final_text)
         # Drop the progress ticker now that we have a real reply — keeps the
@@ -429,6 +488,18 @@ _RECALL_STOPWORDS = {
     "please", "again", "thanks", "thank", "now", "okay", "ok", "yes",
     "yeah", "no", "should", "would", "could", "want", "need", "ill",
     "let", "lets", "us", "lemme", "gonna", "going",
+    # John's conversational fillers (observed 2026-05-10) — common short
+    # verbs/adverbs that aren't actually distinctive
+    "all", "through", "few", "minutes", "minute", "any", "some", "more",
+    "really", "actually", "kind", "sort", "stuff", "thing", "things",
+    "give", "tell", "show", "ask", "see", "got", "getting", "doing",
+    "started", "start", "ready", "good", "great", "fine", "fire", "still",
+    "back", "much", "many", "very", "much", "even", "well", "right",
+    "every", "ever", "next", "last", "first", "best", "better", "less",
+    "lot", "lots", "way", "ways", "around", "above", "below", "before",
+    "after", "since", "while", "during", "until", "yet", "between",
+    "without", "within", "off", "over", "under", "than", "much",
+    "ys", "sir", "yo", "hey", "hi", "hello", "lol", "haha",
 }
 
 
@@ -534,9 +605,13 @@ def _autoremember_findings(reply_text: str, conversation_id: str) -> int:
     each as a fact tagged 'auto_finding' so future auto-recall surfaces
     them. Returns count of facts saved.
 
-    Fires on user-channel convs AND goal-tick convs (goal: prefix) since
-    autonomous goal work also produces findings worth remembering. Skips
-    only heartbeat/sunday_test which are scheduled-task / harness convs.
+    Fires on BOTH channels (JOHN_CHARLES + CHARLES_LOG) — both produce
+    findings worth remembering (Charles's replies to John often contain
+    URL/path/decision content; goal-tick narration in CHARLES_LOG produces
+    most of the autonomous research findings).
+
+    Skips legacy `heartbeat:` / `sunday_test_` rows that may still arrive
+    while migration is in flight.
     """
     if any(conversation_id.startswith(p) for p in ("heartbeat:", "sunday_test_")):
         return 0
@@ -557,7 +632,7 @@ def _autoremember_findings(reply_text: str, conversation_id: str) -> int:
             try:
                 memory.add_fact(
                     f"FINDING (auto-extracted from conv {conversation_id}): {phrase[:280]}",
-                    tags="auto_finding,extracted_from_reply",
+                    tags=_with_john_vocab_tags("auto_finding,extracted_from_reply"),
                 )
                 saved += 1
             except Exception:  # noqa: BLE001
@@ -754,16 +829,13 @@ _TASK_PATTERNS = [
     # "Waiting on you to X" / "Waiting for you to X"
     re.compile(r"[Ww]aiting\s+(?:on|for)\s+you\s+(?:to\s+)?([^\.!\?\n]{6,140})", re.MULTILINE),
 ]
-# Convs where auto-extract is allowed. Heuristic: human-named conv ids (numeric
-# Telegram IDs, or anything not starting with goal:/heartbeat:/sunday_test_/
-# warroom-).
-_AUTOEXTRACT_SKIP_PREFIXES = ("goal:", "heartbeat:", "sunday_test_", "warroom-", "stress_", "smoketest", "post_patch")
-
-
+# Convs where auto-extract is allowed: JOHN_CHARLES only. Charles's autonomous
+# narration in CHARLES_LOG shouldn't auto-create tasks for John — those are
+# meant to be Charles's own work, not John's todo list.
 def _autoextract_tasks(reply_text: str, conversation_id: str) -> int:
     """Scan a final assistant reply for task-language; create tasks for matches.
-    Returns the count of tasks created. No-ops on goal/heartbeat conv_ids."""
-    if any(conversation_id.startswith(p) for p in _AUTOEXTRACT_SKIP_PREFIXES):
+    Returns the count of tasks created. JOHN_CHARLES only."""
+    if conversation_id != channels.JOHN_CHARLES:
         return 0
     if not reply_text or len(reply_text) < 6:
         return 0
@@ -794,3 +866,195 @@ def _autoextract_tasks(reply_text: str, conversation_id: str) -> int:
     if created:
         log.info("auto-extracted %d task(s) from reply in conv=%s", created, conversation_id)
     return created
+
+
+# ---------------------------------------------------------------------------
+# Welcome-back greeting — first reply after a >6h gap from John gets a brief
+# "Mornin'/Afternoon/Evenin', John." prefix in voice.
+#
+# "First reply only" is enforced naturally: by the second reply in a session,
+# the gap between successive user turns will be small (seconds to minutes),
+# so the prefix won't fire again.
+# ---------------------------------------------------------------------------
+
+_WELCOME_BACK_GAP_HOURS = 6.0
+
+
+def _welcome_back_prefix(conversation_id: str | None) -> str:
+    """Return 'Mornin'/Afternoon/Evenin', John. ' if it's been >6h since the
+    PREVIOUS user turn in this conv. Otherwise empty string.
+
+    JOHN_CHARLES channel only — never on operational ticks.
+    """
+    if conversation_id != channels.JOHN_CHARLES:
+        return ""
+
+    # Pull the two most-recent user turns in this conv. The most-recent is
+    # the one we just logged at respond-start; the second is the previous
+    # user message — that's the one we measure the gap from. If only one
+    # exists (first message ever in this conv), no prefix.
+    with memory._conn() as c:
+        rows = c.execute(
+            "SELECT created_at FROM conversations "
+            "WHERE conversation_id=? AND role='user' "
+            "ORDER BY id DESC LIMIT 2",
+            (conversation_id,),
+        ).fetchall()
+    if len(rows) < 2:
+        return ""
+
+    prev_at = rows[1]["created_at"]
+    try:
+        prev = datetime.fromisoformat(prev_at.replace("Z", "+00:00"))
+    except ValueError:
+        return ""
+    now = datetime.now(timezone.utc)
+    hours = (now - prev).total_seconds() / 3600
+    if hours < _WELCOME_BACK_GAP_HOURS:
+        return ""
+
+    # Time-of-day in John's wall clock (America/New_York). EST label is
+    # forced via memory rules elsewhere — for the greeting we just need
+    # local hour to pick which form.
+    local = datetime.now(ZoneInfo("America/New_York"))
+    h = local.hour
+    if 4 <= h < 12:
+        greeting = "Mornin', John."
+    elif 12 <= h < 18:
+        greeting = "Afternoon, John."
+    else:
+        greeting = "Evenin', John."
+    return greeting + " "
+
+
+# ---------------------------------------------------------------------------
+# Cross-channel context — when John speaks in JOHN_CHARLES, surface a tight
+# summary of what Charles has been doing autonomously in CHARLES_LOG since
+# John's previous turn. Closes the "what were you up to?" gap without forcing
+# John to ask.
+# ---------------------------------------------------------------------------
+
+_CHARLES_LOG_SUMMARY_MAX_LINES = 8
+_CHARLES_LOG_SUMMARY_MAX_CHARS = 1200
+_CHARLES_LOG_LOOKBACK_HOURS = 24
+
+
+def _build_charles_log_summary() -> str:
+    """Return a system-note string with recent CHARLES_LOG activity, or empty.
+
+    Pulls assistant turns from CHARLES_LOG within the last 24h, dedups
+    near-duplicates, caps to a small bullet list. Designed to merge into the
+    leading system prompt when John speaks, so Charles has fresh awareness
+    of his own autonomous work without re-reading the full log.
+    """
+    cutoff = (datetime.now(timezone.utc) - timedelta(hours=_CHARLES_LOG_LOOKBACK_HOURS)).isoformat(
+        timespec="milliseconds"
+    ).replace("+00:00", "Z")
+    with memory._conn() as c:
+        rows = c.execute(
+            "SELECT content FROM conversations "
+            "WHERE conversation_id=? AND role='assistant' AND created_at >= ? "
+            "ORDER BY id DESC LIMIT 25",
+            (channels.CHARLES_LOG, cutoff),
+        ).fetchall()
+    if not rows:
+        return ""
+
+    seen_keys: set[str] = set()
+    bullets: list[str] = []
+    for row in rows:
+        content = (row["content"] or "").strip()
+        if not content or content.startswith("(stopped"):
+            continue
+        # Take just the first sentence/line of each assistant turn — the goal
+        # tick narration is structured "I did X. Next step is Y." Keep the
+        # past-tense action, drop the forward-looking part.
+        first = content.split("\n", 1)[0].strip()
+        first = first.split(". ", 1)[0].strip().rstrip(".") + "."
+        if len(first) < 12 or len(first) > 220:
+            continue
+        # Dedup on lowercased prefix — goal ticks often repeat themes
+        key = first.lower()[:60]
+        if key in seen_keys:
+            continue
+        seen_keys.add(key)
+        bullets.append(f"- {first}")
+        if len(bullets) >= _CHARLES_LOG_SUMMARY_MAX_LINES:
+            break
+
+    if not bullets:
+        return ""
+
+    # IMPORTANT framing: John is asking you a question NOW. The bullets below
+    # are background context about what your autonomous side (CHARLES_LOG)
+    # has been doing — they are NOT instructions to continue that work.
+    # Answer John's actual message. If he asks for a status, ONE plain-text
+    # reply summarizing what you've done. Don't run 20 rounds of tool calls
+    # to "verify" or "continue" — your goal-tick chain is doing that work
+    # in the background. This conversation is the relational thread.
+    out = (
+        "Background — what your autonomous side has been doing in CHARLES_LOG since "
+        "John last messaged. Reference only; do NOT continue this work in this "
+        "reply. Answer John's actual message in one direct response.\n"
+        + "\n".join(bullets)
+    )
+    if len(out) > _CHARLES_LOG_SUMMARY_MAX_CHARS:
+        out = out[: _CHARLES_LOG_SUMMARY_MAX_CHARS - 1] + "…"
+    return out
+
+
+# ---------------------------------------------------------------------------
+# John-vocab tagging — the recall index is built around how JOHN talks, not
+# how Charles labels things. Every time a fact is auto-saved, we look at
+# John's most recent message in JOHN_CHARLES, extract simple keywords, and
+# attach them as `john:<kw>` tags so future recall pulls the fact when John
+# uses the same phrasing — even if Charles internally tagged it differently.
+#
+# John's register: blue-collar, simple, non-tech, direct. Three months in,
+# beating it into submission. The vocab index reflects that — short
+# concrete nouns and verbs, not jargon.
+# ---------------------------------------------------------------------------
+
+_JOHN_VOCAB_MAX_KEYWORDS = 5
+_JOHN_VOCAB_LOOKBACK = 3  # how many recent John messages to pool keywords from
+
+
+def _recent_john_keywords() -> list[str]:
+    """Pull keywords from John's most recent N messages in JOHN_CHARLES.
+
+    Used to build the John-vocab tag set for facts being saved RIGHT NOW.
+    Pooling several recent messages helps when John's first message kicks
+    off work and the keyword-relevant phrasing was a few turns back.
+    """
+    try:
+        with memory._conn() as c:
+            rows = c.execute(
+                "SELECT content FROM conversations "
+                "WHERE conversation_id=? AND role='user' "
+                "ORDER BY id DESC LIMIT ?",
+                (channels.JOHN_CHARLES, _JOHN_VOCAB_LOOKBACK),
+            ).fetchall()
+    except Exception:  # noqa: BLE001
+        return []
+    pool: list[str] = []
+    seen: set[str] = set()
+    for row in rows:
+        content = (row["content"] or "").strip()
+        if not content:
+            continue
+        for kw in _extract_keywords(content, max_kw=_JOHN_VOCAB_MAX_KEYWORDS):
+            if kw not in seen:
+                seen.add(kw)
+                pool.append(kw)
+    return pool[:_JOHN_VOCAB_MAX_KEYWORDS]
+
+
+def _with_john_vocab_tags(base_tags: str) -> str:
+    """Append `john:<kw>` tags to a base tag string. Returns base_tags
+    unchanged if no John keywords are available right now (cold start, or
+    John hasn't said anything yet)."""
+    kws = _recent_john_keywords()
+    if not kws:
+        return base_tags
+    extra = ",".join(f"john:{kw}" for kw in kws)
+    return f"{base_tags},{extra}" if base_tags else extra

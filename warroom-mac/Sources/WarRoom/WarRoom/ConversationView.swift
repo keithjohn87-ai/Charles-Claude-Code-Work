@@ -88,8 +88,8 @@ struct ConversationView: View {
                     .padding()
                 List(conversations, selection: $selectedConvId) { c in
                     VStack(alignment: .leading, spacing: 2) {
-                        Text(c.conversationId)
-                            .font(.system(.body, design: .monospaced))
+                        Text(displayName(for: c.conversationId))
+                            .font(.system(.body, design: .default).weight(.semibold))
                             .foregroundStyle(Color.bronzeIvory)
                             .lineLimit(1)
                         if let last = c.lastUserMsg {
@@ -135,7 +135,25 @@ struct ConversationView: View {
                         }
                     }
                     Divider()
-                    composer(convId: convId)
+                    if convId == "charles_log" {
+                        // Charles Log is READ-ONLY — Boss Hog's operational
+                        // narration. John dictates to Boss Hog via iMessage,
+                        // not by typing here.
+                        HStack(spacing: 6) {
+                            Image(systemName: "ear")
+                                .foregroundStyle(Color.bronzeIvoryFaint)
+                            Text("Read-only — Boss Hog's log. Talk to him via iMessage.")
+                                .font(.callout)
+                                .foregroundStyle(Color.bronzeIvoryDim)
+                                .italic()
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 10)
+                        .background(Color.bronzeSurface)
+                    } else {
+                        composer(convId: convId)
+                    }
                 } else {
                     VStack(spacing: 12) {
                         Image(systemName: "gearshape.2.fill")
@@ -182,6 +200,18 @@ struct ConversationView: View {
             }
         }
         .bronzeTheme()
+    }
+
+    /// Human-readable label for a conversation_id. Two channels exist:
+    /// - "8455750177" — John ↔ Charles (the relational thread)
+    /// - "charles_log" — Charles's autonomous/operational stream (Boss Hog)
+    /// Anything else falls through with the raw id (shouldn't happen post-migration).
+    private func displayName(for convId: String) -> String {
+        switch convId {
+        case "8455750177": return "John ↔ Charles"
+        case "charles_log": return "Charles Log (Boss Hog)"
+        default: return convId
+        }
     }
 
     private func composer(convId: String) -> some View {
@@ -260,9 +290,26 @@ struct ConversationView: View {
 
     private func loadConversations() async {
         do {
-            conversations = try await CharlesAPI.shared.conversationsIndex()
-            if selectedConvId == nil, let first = conversations.first {
-                selectedConvId = first.conversationId
+            var list = try await CharlesAPI.shared.conversationsIndex()
+            // Pin JOHN_CHARLES to the top, CHARLES_LOG second, then anything
+            // else by recency. This keeps John's chat visually anchored even
+            // when CHARLES_LOG has more recent activity from heartbeat ticks.
+            list.sort { lhs, rhs in
+                func rank(_ c: ConversationIndexEntry) -> Int {
+                    if c.conversationId == "8455750177" { return 0 }
+                    if c.conversationId == "charles_log" { return 1 }
+                    return 2
+                }
+                let a = rank(lhs), b = rank(rhs)
+                if a != b { return a < b }
+                return lhs.lastAt > rhs.lastAt
+            }
+            conversations = list
+            // Default selection: JOHN_CHARLES on first load, so John lands
+            // on his own chat instead of whatever's most recent.
+            if selectedConvId == nil {
+                selectedConvId = list.first(where: { $0.conversationId == "8455750177" })?.conversationId
+                    ?? list.first?.conversationId
             }
         } catch {
             self.error = error.localizedDescription

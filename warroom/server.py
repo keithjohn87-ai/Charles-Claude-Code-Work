@@ -54,44 +54,15 @@ from warroom import auth, state
 
 log = logging.getLogger("warroom.server")
 
-# John's unified user-conversation id — the single thread shared by UI and
-# Telegram so memory continuity survives switching between channels.
-_OWNER_USER_CONV = "8455750177"
-
-# Conv_id prefixes that represent autonomous (non-user) work and should be
-# left alone by the user-channel reroute. Everything else gets pinned to
-# _OWNER_USER_CONV so John never accidentally fragments his own memory by
-# clicking on a stale conv in the Mac UI sidebar.
-_AUTONOMOUS_PREFIXES = (
-    "goal:",        # goal-tick respond chains (heartbeat-driven)
-    "heartbeat:",   # scheduled-task firings
-    "sunday_test",  # the periodic Sunday Test harness
-)
+# Two-channel routing — everything collapses into either JOHN_CHARLES (the
+# relational thread) or CHARLES_LOG (the operational/autonomous stream).
+# See core/channels.py for the full doctrine.
+from core import channels
 
 
 def _normalize_user_conv_id(conv_id: str) -> str:
-    """Reroute everything that isn't autonomous work to the owner's unified
-    user thread. The Mac UI's sidebar sometimes auto-selects whichever conv
-    is most recent (often a leftover test conv from earlier debugging),
-    causing John's actual messages to land in the wrong thread and Charles
-    to lose memory continuity. This function makes that impossible.
-
-    Pass-through:
-      - "goal:42"        → "goal:42"           (autonomous goal work)
-      - "heartbeat:7"    → "heartbeat:7"       (scheduled task)
-      - "sunday_test_x"  → "sunday_test_x"     (test harness)
-      - "8455750177"     → "8455750177"        (already the right thread)
-
-    Reroute (everything else):
-      - "async_test"     → "8455750177"
-      - "ticker_test_2"  → "8455750177"
-      - any UI-selected leftover → "8455750177"
-    """
-    if conv_id == _OWNER_USER_CONV:
-        return conv_id
-    if conv_id.startswith(_AUTONOMOUS_PREFIXES):
-        return conv_id
-    return _OWNER_USER_CONV
+    """Thin wrapper around channels.normalize() for existing call sites."""
+    return channels.normalize(conv_id)
 
 
 app = FastAPI(title="Charles War Room", version="0.1.0")
@@ -306,8 +277,8 @@ async def tasks_dismiss(req: Request):
 
 
 @app.get("/api/state/activity")
-async def state_activity(limit: int = 50):
-    return state.activity_feed(limit=limit)
+async def state_activity(limit: int = 50, conv_id: str | None = None):
+    return state.activity_feed(limit=limit, conv_id=conv_id)
 
 
 @app.get("/api/state/system")
@@ -346,7 +317,12 @@ async def cmd_message(req: Request):
     text = body.get("text")
     if not conv_id or not text:
         raise HTTPException(400, "conv_id and text required")
-    normalized = _normalize_user_conv_id(str(conv_id))
+    # User-typed messages ALWAYS go to JOHN_CHARLES — the relational thread —
+    # regardless of which conv the UI sidebar had selected. CHARLES_LOG is
+    # read-only from the UI (Charles's autonomous narration). If the UI ever
+    # surfaces a different conv selection, that's a sidebar viewing concern,
+    # not where John's typed words should land.
+    normalized = channels.JOHN_CHARLES
 
     # Sync mode (existing callers like Telegram channel and stress tests still
     # want the reply in the response body) is opt-in via ?sync=1 query param,

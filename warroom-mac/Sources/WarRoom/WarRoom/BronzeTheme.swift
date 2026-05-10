@@ -48,8 +48,8 @@ struct GearWatermark: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 360, height: 360)
-                    .foregroundStyle(Color.bronzeDeep)
-                    .opacity(0.045)
+                    .foregroundStyle(Color.bronzeCopper)
+                    .opacity(0.035)
                     .rotationEffect(.degrees(15))
                     .position(x: geo.size.width - 100, y: geo.size.height - 60)
 
@@ -58,8 +58,8 @@ struct GearWatermark: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 140, height: 140)
-                    .foregroundStyle(Color.bronzePrimary)
-                    .opacity(0.035)
+                    .foregroundStyle(Color.bronzeBrass)
+                    .opacity(0.030)
                     .rotationEffect(.degrees(-22))
                     .position(x: 80, y: 90)
 
@@ -90,8 +90,14 @@ struct BronzeBackgroundModifier: ViewModifier {
     func body(content: Content) -> some View {
         ZStack {
             Color.bronzeBackground.ignoresSafeArea()
-            GearWatermark().ignoresSafeArea()
             content
+            // Watermark sits ABOVE content, not behind. Internal containers
+            // (List/Form/ScrollView) paint their own opaque backgrounds, so
+            // a behind-layer watermark gets covered. Hit-testing is off so
+            // clicks pass through to whatever's underneath.
+            GearWatermark()
+                .ignoresSafeArea()
+                .allowsHitTesting(false)
         }
         .preferredColorScheme(.dark)
         .tint(Color.bronzeCopper)
