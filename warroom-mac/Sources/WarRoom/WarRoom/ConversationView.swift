@@ -203,9 +203,7 @@ struct ConversationView: View {
                 Spacer()
 
                 if sending {
-                    ProgressView()
-                        .scaleEffect(0.5)
-                        .tint(Color.bronzeCopper)
+                    PulsatingGear(size: 16)
                     Text("Charles is workin'…")
                         .font(.caption2.italic())
                         .foregroundStyle(Color.bronzeProgress)
@@ -365,9 +363,15 @@ struct TurnRow: View {
         }
     }
 
+    @ViewBuilder
     private var roleIcon: some View {
-        Image(systemName: roleIconName)
-            .foregroundStyle(roleColor)
+        if turn.role == "progress" {
+            // Live pulsating gear so the ticker looks alive while Charles is working.
+            PulsatingGear(size: 18)
+        } else {
+            Image(systemName: roleIconName)
+                .foregroundStyle(roleColor)
+        }
     }
 
     private var roleIconName: String {

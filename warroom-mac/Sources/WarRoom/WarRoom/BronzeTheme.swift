@@ -113,3 +113,34 @@ struct BronzeHairline: View {
             .frame(height: 0.5)
     }
 }
+
+
+// MARK: - Pulsating gear (Charles's "thinking" indicator)
+
+/// A bronze gear that rotates continuously and pulses brightness/scale —
+/// the visual equivalent of Charles thinking. Replaces the system
+/// ProgressView() in any "is working" indicator. Echoes the app icon.
+struct PulsatingGear: View {
+    var size: CGFloat = 16
+    @State private var rotation: Double = 0
+    @State private var pulse: Bool = false
+
+    var body: some View {
+        Image(systemName: "gearshape.2.fill")
+            .resizable()
+            .scaledToFit()
+            .frame(width: size, height: size)
+            .foregroundStyle(Color.bronzeCopper)
+            .opacity(pulse ? 1.0 : 0.55)
+            .scaleEffect(pulse ? 1.05 : 0.95)
+            .rotationEffect(.degrees(rotation))
+            .onAppear {
+                withAnimation(.linear(duration: 4).repeatForever(autoreverses: false)) {
+                    rotation = 360
+                }
+                withAnimation(.easeInOut(duration: 1.2).repeatForever(autoreverses: true)) {
+                    pulse = true
+                }
+            }
+    }
+}
