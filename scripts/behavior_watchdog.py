@@ -158,6 +158,13 @@ log = logging.getLogger("behavior_watchdog")
 # State (consecutive loop counter, alert cooldowns, last prune timestamp)
 # ---------------------------------------------------------------------------
 
+# In-memory cooldown for "skipped intervention" log spam suppression.
+# Not persisted — process-local. tick() races us on the state file so this
+# avoids the lost-write hazard and we're OK losing a 10-min cooldown across
+# restarts (worst case: one extra warning logged after a restart).
+_LOOP_SKIP_COOLDOWNS: dict[str, float] = {}
+
+
 def _load_state() -> dict:
     if STATE_PATH.exists():
         try:
@@ -596,9 +603,11 @@ def intervene_response_loop(incident: dict) -> Action | None:
         # Skip the intervention. Log only ONCE per conv per 10 min so the
         # 30-min sliding-window detector doesn't spam the log every tick
         # while borderline rows age out.
-        state = _load_state()
-        cooldown = state.setdefault("loop_skip_cooldowns", {})
-        last_skip = float(cooldown.get(conv_id, 0))
+        # Uses an in-memory cooldown dict (not the state file) because
+        # tick() races us on state saves — its later _save_state overwrites
+        # whatever we wrote here. Process-local is fine; on restart we
+        # log once per conv then go quiet again.
+        last_skip = _LOOP_SKIP_COOLDOWNS.get(conv_id, 0.0)
         now = time.time()
         if now - last_skip >= 600:
             log.warning(
@@ -606,8 +615,7 @@ def intervene_response_loop(incident: dict) -> Action | None:
                 "found nothing to trim — skipping intervention. Sample: %r",
                 conv_id, (incident.get("sample") or "")[:120],
             )
-            cooldown[conv_id] = now
-            _save_state(state)
+            _LOOP_SKIP_COOLDOWNS[conv_id] = now
         return None
 
     where = _conv_friendly(conv_id)
