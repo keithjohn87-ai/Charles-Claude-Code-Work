@@ -64,7 +64,7 @@ struct ContentView: View {
                 NavigationLink(value: item) {
                     Label(item.rawValue, systemImage: item.systemImage)
                         .badge(badgeFor(item))
-                        .foregroundStyle(.bronzeIvory)
+                        .foregroundStyle(Color.bronzeIvory)
                 }
             }
             .listStyle(.sidebar)

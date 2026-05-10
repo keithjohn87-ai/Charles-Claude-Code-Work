@@ -84,23 +84,23 @@ struct ConversationView: View {
                 Text("CONVERSATIONS")
                     .font(.caption.bold())
                     .tracking(1.5)
-                    .foregroundStyle(.bronzeCopper)
+                    .foregroundStyle(Color.bronzeCopper)
                     .padding()
                 List(conversations, selection: $selectedConvId) { c in
                     VStack(alignment: .leading, spacing: 2) {
                         Text(c.conversationId)
                             .font(.system(.body, design: .monospaced))
-                            .foregroundStyle(.bronzeIvory)
+                            .foregroundStyle(Color.bronzeIvory)
                             .lineLimit(1)
                         if let last = c.lastUserMsg {
                             Text(last)
                                 .font(.caption)
-                                .foregroundStyle(.bronzeIvoryDim)
+                                .foregroundStyle(Color.bronzeIvoryDim)
                                 .lineLimit(2)
                         }
                         Text("\(c.turnCount) turns • \(c.lastAt.prefix(19))")
                             .font(.caption2)
-                            .foregroundStyle(.bronzeIvoryFaint)
+                            .foregroundStyle(Color.bronzeIvoryFaint)
                     }
                     .padding(.vertical, 4)
                     .tag(c.conversationId)
@@ -140,10 +140,10 @@ struct ConversationView: View {
                     VStack(spacing: 12) {
                         Image(systemName: "gearshape.2.fill")
                             .font(.system(size: 48))
-                            .foregroundStyle(.bronzeDeep)
+                            .foregroundStyle(Color.bronzeDeep)
                         Text("Pick a conversation.")
                             .font(.callout)
-                            .foregroundStyle(.bronzeIvoryFaint)
+                            .foregroundStyle(Color.bronzeIvoryFaint)
                             .tracking(0.5)
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -176,7 +176,7 @@ struct ConversationView: View {
                     }
                 }) {
                     Image(systemName: "arrow.clockwise")
-                        .foregroundStyle(.bronzeCopper)
+                        .foregroundStyle(Color.bronzeCopper)
                 }
                 .help("Refresh conversations + turns")
             }
@@ -205,10 +205,10 @@ struct ConversationView: View {
                 if sending {
                     ProgressView()
                         .scaleEffect(0.5)
-                        .tint(.bronzeCopper)
+                        .tint(Color.bronzeCopper)
                     Text("Charles is workin'…")
                         .font(.caption2.italic())
-                        .foregroundStyle(.bronzeProgress)
+                        .foregroundStyle(Color.bronzeProgress)
                 }
 
                 // Stop — cancel the in-flight response
@@ -325,7 +325,7 @@ struct TurnRow: View {
                         .tracking(1.0)  // letter-spacing for industrial feel
                     Text(turn.createdAt.prefix(19))
                         .font(.caption2)
-                        .foregroundStyle(.bronzeIvoryFaint)
+                        .foregroundStyle(Color.bronzeIvoryFaint)
                     Spacer()
                 }
                 if let c = turn.content, !c.isEmpty {
@@ -334,10 +334,10 @@ struct TurnRow: View {
                         Text(stripBracketingItalics(c))
                             .italic()
                             .font(.system(.callout, design: .monospaced))
-                            .foregroundStyle(.bronzeProgress)
+                            .foregroundStyle(Color.bronzeProgress)
                     } else {
                         Text(c)
-                            .foregroundStyle(.bronzeIvory)
+                            .foregroundStyle(Color.bronzeIvory)
                             .textSelection(.enabled)
                     }
                 }
