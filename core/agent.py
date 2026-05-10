@@ -161,9 +161,15 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
             if conversation_id:
                 memory.log_turn(conversation_id, "assistant", final_text)
             return final_text
-        # max_tokens=4000: tool_call args can carry long write_file content
-        # (e.g., a multi-page analysis). 800 was truncating Charles mid-write.
-        text, msg, usage = complete(history, tools=api_tools, max_tokens=4000)
+        # max_tokens budget: keep the FIRST round modest so a glitchy
+        # whitespace runaway can't burn ~100 seconds of MLX time and trip
+        # the UI's HTTP timeout. Forensic 2026-05-09 evening: 6/105 calls
+        # hit 4000-token cap with zero tool_calls and empty stripped text
+        # — that's the timeout pattern John was hitting.
+        # Subsequent rounds get more headroom because tool_call arguments
+        # (e.g., a long write_file content) legitimately need it.
+        round_max_tokens = 1500 if round_n == 0 else 4000
+        text, msg, usage = complete(history, tools=api_tools, max_tokens=round_max_tokens)
         log.info(
             "round=%d usage=%s tool_calls=%d",
             round_n,
@@ -255,7 +261,21 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
     else:
         final_text = text or "(this tick used the full tool budget — work continues next tick)"
 
-    if conversation_id and final_text:
+    # If the model emitted whitespace-only content + zero tool_calls (the
+    # "4000-token runaway" Qwen failure mode), final_text ends up empty
+    # after .strip(). Don't silently drop — return a marker so the user
+    # sees SOMETHING in their UI and the DB has a row to anchor history
+    # against. Forensic 2026-05-09 showed this pattern caused UI timeouts
+    # because empty replies weren't being recorded and the HTTP call
+    # dragged on through MLX's full max_tokens generation.
+    if not (final_text or "").strip():
+        final_text = (
+            "(I drew a blank on that one — the model generated empty text. "
+            "Try rephrasing or asking again.)"
+        )
+        log.warning("respond() emitted empty content for conv=%s — using fallback marker", conversation_id)
+
+    if conversation_id:
         memory.log_turn(conversation_id, "assistant", final_text)
         # Auto-extract tasks from the reply so they surface in the Tasks tab.
         # Only fires for human-conv replies (not goal: or heartbeat: ticks).
