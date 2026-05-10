@@ -64,6 +64,23 @@ CREATE TABLE IF NOT EXISTS daily_log (
     created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 CREATE INDEX IF NOT EXISTS idx_daily_log_created ON daily_log(created_at);
+
+-- Charles-authored tasks for John (added 2026-05-09 night). Distinct from
+-- approval-pending facts (which are Tier-2 governance) and from open_requests
+-- (which are time-tracked follow-ups). This is the general "I need you to do
+-- X" surface that lands in the Tasks tab.
+CREATE TABLE IF NOT EXISTS tasks (
+    id           INTEGER PRIMARY KEY AUTOINCREMENT,
+    title        TEXT    NOT NULL,
+    description  TEXT    NOT NULL DEFAULT '',
+    urgency      TEXT    NOT NULL DEFAULT 'normal',  -- low | normal | high | blocking
+    status       TEXT    NOT NULL DEFAULT 'open',    -- open | done | dismissed
+    source       TEXT    NOT NULL DEFAULT 'charles', -- charles | auto_extracted | john | watchdog
+    source_conv  TEXT,                               -- conv_id where this came from (if any)
+    created_at   TEXT    NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+    completed_at TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_tasks_status ON tasks(status, id DESC);
 """
 
 
@@ -167,6 +184,121 @@ def recent_history(conversation_id: str, max_chars: int = 4000, max_turns: int =
     return out
 
 
+# ---------------- Behavioral health (loop detection) ----------------
+
+
+def _similarity(a: str, b: str) -> float:
+    """Quick similarity ratio without importing difflib (which is slow on long strs)."""
+    if not a or not b:
+        return 0.0
+    a_norm = a.strip().lower()
+    b_norm = b.strip().lower()
+    if a_norm == b_norm:
+        return 1.0
+    # First-50-chars match is a strong duplicate signal in our context
+    if a_norm[:50] == b_norm[:50] and a_norm[:50]:
+        return 0.95
+    # Fall back to set-of-words Jaccard — cheap, good enough for "Charles repeated himself"
+    sa, sb = set(a_norm.split()), set(b_norm.split())
+    if not sa or not sb:
+        return 0.0
+    return len(sa & sb) / len(sa | sb)
+
+
+def trim_repeating_replies(
+    conversation_id: str,
+    n_check: int = 3,
+    threshold: float = 0.7,
+) -> int:
+    """Detect & delete a poisoned tail of near-identical assistant turns.
+
+    Looks at the last `n_check` assistant turns in the conversation. If they're
+    all >= `threshold` similar to each other, deletes them (plus any user/tool
+    turns interleaved between them) so the next prompt isn't loaded with a
+    pattern-locking history. Returns the number of rows deleted.
+
+    Called by agent.respond() before adding a new user turn. Conservative on
+    purpose — only nukes if the tail is actually broken.
+    """
+    with _conn() as c:
+        rows = c.execute(
+            "SELECT id, role, content FROM conversations "
+            "WHERE conversation_id = ? AND role = 'assistant' "
+            "ORDER BY id DESC LIMIT ?",
+            (conversation_id, n_check),
+        ).fetchall()
+        if len(rows) < n_check:
+            return 0
+        # All pairwise similarities must clear threshold
+        contents = [r["content"] or "" for r in rows]
+        for i in range(len(contents)):
+            for j in range(i + 1, len(contents)):
+                if _similarity(contents[i], contents[j]) < threshold:
+                    return 0
+        # Find the oldest poisoned id, delete everything from there forward in this conv
+        oldest_poisoned_id = min(r["id"] for r in rows)
+        deleted = c.execute(
+            "DELETE FROM conversations WHERE conversation_id = ? AND id >= ?",
+            (conversation_id, oldest_poisoned_id),
+        ).rowcount
+        log.warning(
+            "loop detected in conv=%s — deleted %d turns starting at id=%d (last 3 assistant similarity above %.2f)",
+            conversation_id, deleted, oldest_poisoned_id, threshold,
+        )
+        # Save audit trail
+        c.execute(
+            "INSERT INTO long_term_facts (fact, tags) VALUES (?, ?)",
+            (
+                f"Auto-recovery from response loop in conv {conversation_id}: "
+                f"deleted {deleted} turns from id {oldest_poisoned_id} onward. "
+                f"Pattern locked into a {len(rows)}-turn near-identical reply tail.",
+                "incident,loop_recovery,auto",
+            ),
+        )
+        return deleted
+
+
+def reset_conversation(conversation_id: str, keep_last_user_turn: bool = True) -> int:
+    """Manual nuclear option: wipe a conversation's recent tail.
+
+    If keep_last_user_turn=True, leaves only the most recent user turn (so the
+    next agent.respond reads it fresh). Otherwise deletes everything.
+    Returns rows deleted.
+    """
+    with _conn() as c:
+        if keep_last_user_turn:
+            row = c.execute(
+                "SELECT id FROM conversations WHERE conversation_id=? AND role='user' ORDER BY id DESC LIMIT 1",
+                (conversation_id,),
+            ).fetchone()
+            keep_id = row["id"] if row else 0
+            deleted = c.execute(
+                "DELETE FROM conversations WHERE conversation_id=? AND id != ?",
+                (conversation_id, keep_id),
+            ).rowcount
+        else:
+            deleted = c.execute(
+                "DELETE FROM conversations WHERE conversation_id=?",
+                (conversation_id,),
+            ).rowcount
+        log.warning("manual reset of conv=%s — deleted %d turns", conversation_id, deleted)
+        c.execute(
+            "INSERT INTO long_term_facts (fact, tags) VALUES (?, ?)",
+            (
+                f"Manual conversation reset on {conversation_id}: deleted {deleted} turns "
+                f"(keep_last_user={keep_last_user_turn}).",
+                "incident,manual_reset",
+            ),
+        )
+    # Drop the URL block-list for this conv so a fresh start really IS fresh.
+    try:
+        from core import tool_guards
+        tool_guards.clear_blocked_urls(conversation_id)
+    except Exception:  # noqa: BLE001 — never fail a reset for a guard cleanup issue
+        pass
+    return deleted
+
+
 # ---------------- Long-term facts ----------------
 
 
@@ -235,6 +367,90 @@ def daily_log_for(date_iso: str | None = None) -> list[dict]:
             (date_iso,),
         ).fetchall()
     return [dict(r) for r in rows]
+
+
+# ---------------- Tasks (Charles → John, surfaces in Tasks tab) ----------------
+
+
+def add_task(
+    title: str,
+    description: str = "",
+    urgency: str = "normal",
+    source: str = "charles",
+    source_conv: str | None = None,
+) -> int:
+    """Create a task — appears in WarRoom 'Tasks' tab + iOS Tasks badge.
+
+    `urgency`: low | normal | high | blocking
+    `source`: charles (he made it) | auto_extracted (from his chat reply) |
+              john (added in UI) | watchdog (the immune system flagged it)
+    Returns the new task id.
+    """
+    title = (title or "").strip()
+    if not title:
+        raise ValueError("task title required")
+    if urgency not in ("low", "normal", "high", "blocking"):
+        urgency = "normal"
+    with _conn() as c:
+        cur = c.execute(
+            "INSERT INTO tasks (title, description, urgency, source, source_conv) VALUES (?, ?, ?, ?, ?)",
+            (title, description.strip(), urgency, source, source_conv),
+        )
+        c.execute(
+            "INSERT INTO daily_log (kind, text) VALUES (?, ?)",
+            ("task_added", f"[{urgency}] {title}"),
+        )
+        return cur.lastrowid or 0
+
+
+def list_tasks(status: str | None = "open", limit: int = 50) -> list[dict]:
+    with _conn() as c:
+        if status:
+            rows = c.execute(
+                "SELECT id, title, description, urgency, status, source, source_conv, "
+                "       created_at, completed_at "
+                "FROM tasks WHERE status=? ORDER BY "
+                "  CASE urgency WHEN 'blocking' THEN 0 WHEN 'high' THEN 1 "
+                "               WHEN 'normal' THEN 2 ELSE 3 END, id DESC LIMIT ?",
+                (status, limit),
+            ).fetchall()
+        else:
+            rows = c.execute(
+                "SELECT id, title, description, urgency, status, source, source_conv, "
+                "       created_at, completed_at FROM tasks ORDER BY id DESC LIMIT ?",
+                (limit,),
+            ).fetchall()
+    return [dict(r) for r in rows]
+
+
+def complete_task(task_id: int, note: str = "") -> bool:
+    with _conn() as c:
+        cur = c.execute(
+            "UPDATE tasks SET status='done', completed_at=strftime('%Y-%m-%dT%H:%M:%fZ', 'now') "
+            "WHERE id=? AND status='open'",
+            (task_id,),
+        )
+        if note and cur.rowcount:
+            c.execute(
+                "INSERT INTO daily_log (kind, text) VALUES (?, ?)",
+                ("task_done", f"#{task_id}: {note[:200]}"),
+            )
+        return cur.rowcount > 0
+
+
+def dismiss_task(task_id: int, reason: str = "") -> bool:
+    with _conn() as c:
+        cur = c.execute(
+            "UPDATE tasks SET status='dismissed', completed_at=strftime('%Y-%m-%dT%H:%M:%fZ', 'now') "
+            "WHERE id=? AND status='open'",
+            (task_id,),
+        )
+        if cur.rowcount:
+            c.execute(
+                "INSERT INTO daily_log (kind, text) VALUES (?, ?)",
+                ("task_dismissed", f"#{task_id}: {reason[:200] or '(no reason given)'}"),
+            )
+        return cur.rowcount > 0
 
 
 # ---------------- Lifecycle ----------------
