@@ -346,6 +346,35 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
         )
         log.warning("respond() emitted empty content for conv=%s — using fallback marker", conversation_id)
 
+    # Narration-stall recovery: if the chain ended on a "let me X" / "now I'll
+    # Y" / "let me save..." final reply (no tool calls + intent-only text),
+    # the model bailed on actually doing the work. Force one more round with
+    # tools=None to extract a real synthesis. Forensic 2026-05-09 22:45:
+    # Charles emitted "Now let me save... continue to Part 2" as final after
+    # 19 rounds of real scraping, leaving the work mid-thought.
+    elif _is_narration_stall(final_text):
+        log.warning(
+            "respond() ended on narration stall for conv=%s — forcing synthesis. text=%r",
+            conversation_id, final_text[:120],
+        )
+        history.append({"role": "user", "content": (
+            "You ended your last reply with a 'let me X' / 'now I'll Y' "
+            "intent statement instead of actually doing or summarizing. Stop "
+            "narrating intent. Either:\n"
+            "  (a) write a SHORT summary (under 200 words, past tense) of what "
+            "you actually accomplished in this chain, OR\n"
+            "  (b) write the file/data you said you'd save (use write_file).\n"
+            "No more 'let me' phrases. No more tool-only turns — emit text or "
+            "a single concrete tool call."
+        )})
+        try:
+            recovered_text, _msg, _usage = complete(history, tools=api_tools, max_tokens=600)
+            recovered = (recovered_text or "").strip()
+            if recovered and not _is_narration_stall(recovered):
+                final_text = recovered
+        except Exception as e:  # noqa: BLE001
+            log.warning("narration-stall recovery failed: %s", e)
+
     if conversation_id:
         memory.log_turn(conversation_id, "assistant", final_text)
         # Drop the progress ticker now that we have a real reply — keeps the
@@ -656,6 +685,45 @@ def _format_progress(tool_name: str, args_json: str, result: str | None = None) 
     if head.startswith("[cached"):
         return f"*{base} → cached, skipping re-read*"
     return f"*{base} → {len(result):,} chars*"
+
+
+# Phrases that mean "I'm declaring intent, not actually doing it." When a
+# final reply (chain end, no tool calls) consists primarily of these, the
+# narration-stall recovery fires. Tuned to be specific enough not to
+# false-positive on legitimate replies that contain incidental "let me"
+# or "I'll" mentions.
+_NARRATION_STALL_LEADS = (
+    "now let me",
+    "let me save",
+    "let me continue",
+    "let me start",
+    "let me get",
+    "let me check",
+    "now i'll",
+    "now i will",
+    "i'll save",
+    "i'll continue",
+    "i'll start",
+)
+
+
+def _is_narration_stall(text: str) -> bool:
+    """True if a final reply is just intent narration without action.
+    Catches the post-reasoning-leak pattern where Charles announces what
+    he'll do next instead of summarizing what he did."""
+    if not text:
+        return False
+    s = text.strip().lower()
+    if len(s) > 400:
+        # Long replies usually contain real content; only catch short narration
+        return False
+    starts = any(s.startswith(p) for p in _NARRATION_STALL_LEADS)
+    if not starts:
+        return False
+    # Must NOT contain a real path, code block, or list — those are content
+    if any(marker in s for marker in ("```", "/users/", "1.", "**1**", "##")):
+        return False
+    return True
 
 
 # Patterns that indicate Charles is asking John to do something concrete.
