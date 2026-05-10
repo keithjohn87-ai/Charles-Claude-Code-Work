@@ -621,8 +621,8 @@ def intervene_response_loop(incident: dict) -> Action | None:
     where = _conv_friendly(conv_id)
     technical = f"loop in conv={conv_id}: trim_repeating_replies removed {deleted} turn(s)"
     friendly = (
-        f"Charles got stuck repeating himself in {where}. "
-        f"I broke him out — he should answer normally next time."
+        f"Caught Charles loopin' again, boss — sayin' the same shit over and "
+        f"over in {where}. Slapped him out of it. Back to normal."
     )
     _audit_fact(
         f"Behavioral watchdog intervention: {technical}. Sample of looped text: "
@@ -658,8 +658,8 @@ def intervene_narration_stall(incident: dict) -> Action | None:
             return None
         technical = f"goal #{gid} narration stall: directive injected (1st hit)"
         friendly = (
-            f"Charles is talking about doing something instead of doing it on "
-            f"'{desc}'. I told him to take action or quit. Watching for next time."
+            f"Charles is jawin' about the work instead of doin' it on '{desc}'. "
+            f"Told him to either move on it or kill the goal. Watchin' him close."
         )
     else:
         # Repeat offender — cancel the goal.
@@ -672,8 +672,8 @@ def intervene_narration_stall(incident: dict) -> Action | None:
             return None
         technical = f"goal #{gid} narration stall: CANCELLED ({seen_count}x stall)"
         friendly = (
-            f"Charles was stuck talking about '{desc}' without doing anything "
-            f"(told him once already). I cancelled the goal. Re-add it with a "
+            f"Charles wouldn't shut up and start workin' on '{desc}' "
+            f"even after I warned him once. Killed the goal. Re-add with "
             f"tighter scope if you still want it done."
         )
         try:
@@ -724,8 +724,9 @@ def intervene_hallucination(incident: dict) -> Action | None:
         return None
     technical = f"goal #{gid} hallucination ({term!r}): notes wiped"
     friendly = (
-        f"Charles invented something that wasn't real (\"{term}\") while working "
-        f"on '{desc}'. I cleared his notes so he restarts from real sources next tick."
+        f"Charles is just makin' shit up — pulled \"{term}\" out of his ass "
+        f"while workin' on '{desc}'. Wiped his notes. He's startin' from real "
+        f"sources next tick or I'm pullin' the goal."
     )
     _audit_fact(
         f"Behavioral watchdog intervention: {technical}. Goal: {desc}",
@@ -762,9 +763,9 @@ def intervene_goal_idleness(incident: dict) -> Action | None:
     idle_human = _humanize_seconds(int(incident["idle_seconds"]))
     technical = f"goal #{gid} idle {incident['idle_seconds']}s: surfaced as task"
     friendly = (
-        f"Goal '{desc}' has been sitting untouched for {idle_human}. "
-        f"I added it to your Tasks tab — decide if you want to nudge it, "
-        f"cancel it, or shrink it."
+        f"Goal '{desc}' has been sittin' for {idle_human} with nobody touchin' it. "
+        f"Pinned it to your Tasks tab — figure out if you wanna nudge it, "
+        f"kill it, or shrink the scope."
     )
     _audit_fact(
         f"Behavioral watchdog: surfaced goal idleness as task. {technical}",
@@ -786,8 +787,8 @@ def intervene_tool_error_storm(incident: dict) -> Action | None:
     where = _conv_friendly(conv_id)
     technical = f"tool-error storm in conv={conv_id} (n={incident['count']}): trimmed {deleted}"
     friendly = (
-        f"Charles was calling one of his tools wrong over and over in {where}. "
-        f"I cleaned up the bad attempts so he can try fresh next round."
+        f"Charles keeps swingin' at the same tool wrong over and over in "
+        f"{where}. Wiped his bad attempts so he can swing fresh."
     )
     _audit_fact(
         f"Behavioral watchdog intervention: {technical}. Sample: {incident.get('sample', '')[:200]}",
@@ -811,8 +812,8 @@ def intervene_hung_respond(incident: dict) -> Action | None:
     stale_human = _humanize_seconds(int(incident['log_stale_seconds']))
     technical = f"hung respond() detected (log stale {incident['log_stale_seconds']}s) — kickstarted"
     friendly = (
-        f"Charles was wedged — hadn't moved in {stale_human}. I restarted him. "
-        f"He should be answering again now."
+        f"Charles froze up, boss — ain't moved in {stale_human}. Kicked him. "
+        f"Should be back to work now."
     )
     _audit_fact(
         f"Behavioral watchdog intervention: {technical}. Pid was {incident['pid']}.",
@@ -1108,35 +1109,36 @@ def tick() -> None:
         except Exception as e:  # noqa: BLE001
             log.exception("intervenor for %s failed: %s", inc["kind"], e)
 
-    # System crises — alert John (rate-limited per category, plain English)
+    # System crises — alert John (rate-limited per category, Boss Hog voice)
     for inc in system_incidents:
         kind = inc["kind"]
         if kind == "env_missing":
             _alert_john(
                 "system_crisis",
-                "Charles's secrets file is gone (.env). He can't log in to "
-                "Telegram, Gmail, Stripe, or anything else until you restore it.",
+                "Charles can't get into the secrets file (.env's gone). He's "
+                "locked out — Telegram, Gmail, Stripe, none of it. Need you "
+                "to put it back, boss.",
             )
         elif kind == "disk_low":
             _alert_john(
                 "system_crisis",
-                f"Your hard drive is running low — only {inc['free_gb']} GB free. "
-                f"Free some space when you can; under a couple GB and things start "
-                f"breaking.",
+                f"Hard drive's tight, boss — only {inc['free_gb']} GB free. "
+                f"Free up some room. Under a couple GB and shit'll start "
+                f"breakin'.",
             )
         elif kind == "mlx_unreachable":
             _alert_john(
                 "system_crisis",
-                "Charles can't reach his AI brain (the local model server is down). "
-                "He's offline until it comes back up. On the Mac Studio: check that "
-                "MLX-LM is running on port 8080.",
+                "Charles's brain ain't answerin'. MLX server's down. He's "
+                "offline 'til you bring it back. On the Mac Studio: check "
+                "MLX-LM is runnin' on port 8080.",
             )
         elif kind == "conv_table_pressure":
             _alert_john(
                 "system_crisis",
-                f"Charles's chat history is getting big — {inc['count']:,} messages "
-                f"stored, ceiling is {CONV_TABLE_HARD_CEILING:,}. I'm pruning "
-                f"automatically but worth a heads-up in case he's looping.",
+                f"Chat history's gettin' fat, boss — {inc['count']:,} rows, "
+                f"ceiling's {CONV_TABLE_HARD_CEILING:,}. I'm prunin' as we go "
+                f"but figured you should know in case Charles is loopin'.",
             )
 
     # Consecutive-loop escalation: if behavioral fires N ticks in a row, kickstart agent.
@@ -1159,16 +1161,15 @@ def tick() -> None:
                     last_friendly = actions[-1].friendly if actions else "(no detail)"
                     _alert_john(
                         "kickstart",
-                        f"Charles was struggling — I had to soft-fix him "
-                        f"{consec} times in a row, so I just restarted him fresh. "
-                        f"He should be answering normally again. "
-                        f"Last issue before restart: {last_friendly}",
+                        f"Had to fix Charles {consec} times in a row, boss, so I "
+                        f"rebooted the dumb bastard. Should be back to work. "
+                        f"Last shit he was doin': {last_friendly}",
                     )
                 else:
                     _alert_john(
                         "system_crisis",
-                        f"I tried to restart Charles {consec} times and it failed. "
-                        f"He needs your hands — open Terminal and run "
+                        f"Tried to kick Charles back online {consec} times — "
+                        f"didn't take. Need you on this, boss. Open Terminal: "
                         f"'launchctl kickstart -k gui/$(id -u)/com.charles.agent'.",
                     )
     else:
