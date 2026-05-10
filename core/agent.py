@@ -134,13 +134,15 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
 
     history.append({"role": "user", "content": message})
 
+    progress_id: int = 0  # row id of the single ticker line — updated as work advances
     if conversation_id:
         memory.log_turn(conversation_id, "user", message)
-        # Immediate "thinking..." liveness note so the UI shows something
-        # within milliseconds of John pressing Send. Subsequent per-round
-        # progress notes overwrite this in the user's perception.
+        # Single ticker row that gets UPDATED in place each tool round, so the
+        # UI shows one mutating line ("Browsing wikipedia.org…" → "Reading
+        # foo.txt…") instead of a stack. Inserted now with a generic
+        # "thinking…" placeholder that the first tool round will overwrite.
         try:
-            memory.log_turn(conversation_id, "progress", "*thinking…*")
+            progress_id = memory.insert_progress(conversation_id, "*thinking…*")
         except Exception:  # noqa: BLE001
             pass
 
@@ -252,6 +254,18 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
             memory.log_assistant_tool_calls(conversation_id, msg.content or "", tool_calls_payload)
 
         for tc in msg.tool_calls:
+            # Update the ticker BEFORE dispatch fires so John sees what
+            # Charles is about to do (in present tense) rather than only
+            # learning after each finishes.
+            if progress_id:
+                try:
+                    memory.update_progress(
+                        progress_id,
+                        _format_progress(tc.function.name, tc.function.arguments, None),
+                    )
+                except Exception:  # noqa: BLE001
+                    pass
+
             result = dispatch(tc.function.name, tc.function.arguments)
             log.info(
                 "tool=%s args=%r result_chars=%d",
@@ -266,18 +280,16 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
             })
             if conversation_id:
                 memory.log_tool_result(conversation_id, tc.id, result)
-                # Push a one-line "still working" progress note so the UI's
-                # conversation polling shows John what Charles just did.
-                # Filtered out of recent_history so it doesn't bloat the prompt.
-                try:
-                    memory.log_turn(
-                        conversation_id,
-                        "progress",
-                        _format_progress(round_n, tc.function.name,
-                                         tc.function.arguments, result),
-                    )
-                except Exception as e:  # noqa: BLE001
-                    log.warning("progress note failed (non-fatal): %s", e)
+                # Update the ticker with the OUTCOME so the next round can
+                # overwrite with its own present-tense action.
+                if progress_id:
+                    try:
+                        memory.update_progress(
+                            progress_id,
+                            _format_progress(tc.function.name, tc.function.arguments, result),
+                        )
+                    except Exception:  # noqa: BLE001
+                        pass
     else:
         # Hit MAX_TOOL_ROUNDS without breaking — model never settled into a
         # final text reply. Force one more round with tools=None so the model
@@ -319,6 +331,13 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
 
     if conversation_id:
         memory.log_turn(conversation_id, "assistant", final_text)
+        # Drop the progress ticker now that we have a real reply — keeps the
+        # UI's conv view clean (one user → one assistant per exchange).
+        if progress_id:
+            try:
+                memory.delete_progress(progress_id)
+            except Exception:  # noqa: BLE001
+                pass
         # Auto-extract tasks from the reply so they surface in the Tasks tab.
         # Only fires for human-conv replies (not goal: or heartbeat: ticks).
         try:
@@ -331,70 +350,128 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
 
 # ---------------------------------------------------------------------------
 # Progress notes — the "Charles is still working" liveness indicator.
-# Each tool round writes one of these into the conversation table with
-# role='progress'. The UI's conversation-history polling picks them up and
-# displays them as small italic messages between user/assistant turns. They
-# are filtered out of memory.recent_history so they don't bloat the prompt.
+#
+# At respond start, agent.respond inserts a SINGLE role='progress' row in the
+# conversation. As Charles works through tool rounds, that row's content gets
+# UPDATED in place ("*Browsing wikipedia.org…*" → "*Reading file foo.txt…*").
+# The UI sees one ticker line that mutates rather than a stack of new rows —
+# matching the "Editing tool_guards.py" style John has in his Claude Code
+# session. Filtered out of memory.recent_history so it never enters the prompt.
 # ---------------------------------------------------------------------------
 
-def _short_args(name: str, args_json: str) -> str:
-    """Compact, UI-friendly arg summary for the progress lane."""
+# Map each tool to a present-tense verb phrase. The action shows what Charles
+# is *currently* doing — UI-renderable in a single italic line.
+_TOOL_VERBS = {
+    "browse_url": "Browsing",
+    "browser_screenshot": "Screenshotting",
+    "read_file": "Reading",
+    "write_file": "Writing",
+    "exec_shell": "Running shell:",
+    "search_web": "Searching web:",
+    "search_facts": "Searching memory:",
+    "recall": "Recalling:",
+    "remember": "Remembering",
+    "send_imessage": "Texting John:",
+    "send_email": "Sending email:",
+    "list_emails": "Checking email",
+    "read_email": "Reading email",
+    "archive_email": "Archiving email",
+    "set_goal": "Setting goal:",
+    "list_goals": "Reviewing goals",
+    "append_goal_note": "Logging goal note",
+    "complete_goal": "Completing goal:",
+    "cancel_goal": "Cancelling goal:",
+    "schedule_task": "Scheduling task:",
+    "list_scheduled_tasks": "Reviewing schedule",
+    "current_time": "Checking the clock",
+    "get_weather": "Checking weather:",
+    "system_status": "Checking system status",
+    "self_modify": "Modifying my own code:",
+    "self_patch": "Patching my own code:",
+    "analyze_sentiment": "Reading the room:",
+    "request_approval": "Asking John:",
+    "resolve_approval": "Resolving approval",
+    "notify_john": "Pinging John:",
+    "add_task": "Adding a task:",
+    "list_open_tasks": "Reviewing open tasks",
+    "reset_my_conversation": "Resetting context",
+    "solve_recaptcha": "Solving captcha",
+}
+
+
+def _short_target(name: str, args_json: str) -> str:
+    """Extract the most user-meaningful arg as a single short string."""
     try:
         args = json.loads(args_json)
     except Exception:  # noqa: BLE001
-        return args_json[:60]
+        return ""
     if name in ("browse_url", "browser_screenshot"):
         url = args.get("url", "")
-        # Keep host + first path segment so John can recognise the site
         m = re.match(r"https?://([^/]+)(/[^?]*)?", url)
         if m:
             host = m.group(1).replace("www.", "")
             path = (m.group(2) or "").rstrip("/")
-            tail = path.rsplit("/", 1)[-1][:40] if path else ""
+            tail = path.rsplit("/", 1)[-1][:36] if path else ""
             return f"{host}{('/' + tail) if tail else ''}"
-        return url[:60]
+        return url[:50]
     if name == "exec_shell":
-        cmd = (args.get("command") or "").strip()
-        first_word = cmd.split(maxsplit=1)[0] if cmd else "?"
-        return f"{first_word} ..." if len(cmd) > 30 else cmd
-    if name == "read_file" or name == "write_file":
+        cmd = (args.get("command") or "").strip().replace("\n", " ")
+        return cmd[:60] + ("…" if len(cmd) > 60 else "")
+    if name in ("read_file", "write_file"):
         path = args.get("path", "")
-        return path.rsplit("/", 1)[-1][:50] or path[:50]
+        return path.rsplit("/", 1)[-1][:48] or path[:48]
     if name in ("recall", "search_facts", "search_web"):
-        q = args.get("query", "")
-        return f"{q[:50]!r}" if q else ""
-    # Generic: first arg value or arg keys
+        return (args.get("query") or "")[:48]
+    if name in ("remember", "append_goal_note"):
+        text = args.get("fact") or args.get("note") or args.get("content", "")
+        return (str(text)[:48] + "…") if len(str(text)) > 48 else str(text)
+    if name in ("send_imessage", "send_email", "notify_john"):
+        msg = args.get("message") or args.get("body") or args.get("text", "")
+        return (str(msg)[:40] + "…") if len(str(msg)) > 40 else str(msg)
+    if name in ("complete_goal", "cancel_goal", "set_goal"):
+        return str(args.get("description") or args.get("summary") or args.get("goal_id", ""))[:48]
     if args:
         first_key, first_val = next(iter(args.items()))
-        return f"{first_key}={str(first_val)[:50]}"
+        return f"{first_key}={str(first_val)[:40]}"
     return ""
 
 
-def _format_progress(round_n: int, tool_name: str, args_json: str, result: str) -> str:
-    """One-line *italic* progress message visible in the UI's conv view."""
-    args_short = _short_args(tool_name, args_json)
+def _format_progress(tool_name: str, args_json: str, result: str | None = None) -> str:
+    """Build a single-line italic action note. If `result` is None, this is
+    the IN-PROGRESS form ('Browsing wikipedia.org…'). If `result` is given,
+    this is the JUST-FINISHED form (briefly shows outcome before next round
+    overwrites it)."""
+    verb = _TOOL_VERBS.get(tool_name, tool_name)
+    target = _short_target(tool_name, args_json)
+    base = f"{verb} {target}".strip().rstrip(":")
+
+    # In-progress (no result yet)
+    if result is None:
+        return f"*{base}…*"
+
+    # Finished — append a short outcome
     head = result[:140] if result else ""
     if head.startswith("[BLOCKED"):
-        # Pull reason from the structured header
         m = re.search(r"reason=(\S+)", head)
-        reason = m.group(1) if m else "blocked"
-        return f"*[round {round_n + 1}] {tool_name} {args_short} → {reason}, moving on*"
+        reason = (m.group(1) if m else "blocked").replace("_", " ")
+        return f"*{base} → {reason}, moving on*"
     if head.startswith("[error]"):
-        # Cheap classifier for common error types
-        if "you already called" in head:
+        if "STOP. You have now called" in head:
+            label = "looping — stop signal sent"
+        elif "you already called" in head:
             label = "already tried — moving on"
         elif "you already tried this URL" in head:
             label = "URL on block-list — skipping"
         elif "missing required argument" in head:
-            label = "bad call shape (missing arg)"
+            label = "bad call shape — retrying"
         elif "your own memory database" in head:
-            label = "redirected: use recall() instead"
+            label = "redirected to recall()"
         else:
-            label = head[7:80].strip().lstrip(":") or "error"
-        return f"*[round {round_n + 1}] {tool_name} → {label}*"
+            label = "error"
+        return f"*{base} → {label}*"
     if head.startswith("[cached"):
-        return f"*[round {round_n + 1}] {tool_name} {args_short} → cached*"
-    return f"*[round {round_n + 1}] {tool_name} {args_short} → {len(result):,} chars*"
+        return f"*{base} → cached, skipping re-read*"
+    return f"*{base} → {len(result):,} chars*"
 
 
 # Patterns that indicate Charles is asking John to do something concrete.

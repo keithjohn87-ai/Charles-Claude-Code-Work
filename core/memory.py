@@ -119,10 +119,58 @@ def log_turn(conversation_id: str, role: str, content: str) -> None:
             "INSERT INTO conversations (conversation_id, role, content) VALUES (?, ?, ?)",
             (conversation_id, role, content),
         )
-        c.execute(
-            "INSERT INTO daily_log (kind, text) VALUES (?, ?)",
-            (f"turn:{role}", f"[{conversation_id}] {content[:500]}"),
+        # Skip daily_log noise for progress rows — they're transient liveness pings
+        if role != "progress":
+            c.execute(
+                "INSERT INTO daily_log (kind, text) VALUES (?, ?)",
+                (f"turn:{role}", f"[{conversation_id}] {content[:500]}"),
+            )
+
+
+def insert_progress(conversation_id: str, content: str) -> int:
+    """Insert a fresh role='progress' row and return its id.
+
+    The progress row is meant to be UPDATED (via update_progress) as work
+    advances, so the UI sees one ticker line that mutates in place rather
+    than a stack of new rows. Used by agent.respond.
+    """
+    with _conn() as c:
+        cur = c.execute(
+            "INSERT INTO conversations (conversation_id, role, content) "
+            "VALUES (?, 'progress', ?)",
+            (conversation_id, content),
         )
+        return cur.lastrowid or 0
+
+
+def update_progress(row_id: int, content: str) -> bool:
+    """Replace the content of an existing progress row.
+
+    Returns True if the row was updated (i.e., it still exists and is
+    a progress row). False if not found — caller should fall back to
+    inserting a fresh row.
+    """
+    if not row_id:
+        return False
+    with _conn() as c:
+        cur = c.execute(
+            "UPDATE conversations SET content=? WHERE id=? AND role='progress'",
+            (content, row_id),
+        )
+        return cur.rowcount > 0
+
+
+def delete_progress(row_id: int) -> bool:
+    """Remove a progress ticker row once the respond chain is done.
+    Keeps the UI's conv view clean (no stale ticker lines after the reply)."""
+    if not row_id:
+        return False
+    with _conn() as c:
+        cur = c.execute(
+            "DELETE FROM conversations WHERE id=? AND role='progress'",
+            (row_id,),
+        )
+        return cur.rowcount > 0
 
 
 def log_assistant_tool_calls(
