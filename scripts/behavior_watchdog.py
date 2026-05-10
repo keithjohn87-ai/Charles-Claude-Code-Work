@@ -350,10 +350,25 @@ def detect_goal_idleness() -> list[dict]:
 
 
 _TOOL_ERROR_RE = re.compile(r"^\[error\]", re.IGNORECASE)
+# Errors emitted by the dispatcher's own guards — these aren't a real
+# "storm" of model misbehavior, they're the guards working as designed.
+# Filter them out of detect_tool_error_storms.
+_GUARD_ERROR_PHRASES = (
+    "you already called",
+    "you already tried this URL",
+    "your own memory database",
+    "STOP. You have now called",
+    "Re-emit your tool_call",
+)
 
 
 def detect_tool_error_storms() -> list[dict]:
-    """Conversations with >= 5 tool [error] results in 5 minutes."""
+    """Conversations with >= 5 tool [error] results in 5 minutes.
+
+    Excludes guard-issued errors (already-called dedup, blocked-URL retries,
+    sqlite3-redirect) since those are the guards working correctly, not
+    Charles malfunctioning.
+    """
     cutoff = _ago_iso(ERROR_STORM_WINDOW_SECONDS)
     incidents: list[dict] = []
     with _ro_conn() as c:
@@ -365,11 +380,16 @@ def detect_tool_error_storms() -> list[dict]:
     counts: dict[str, int] = defaultdict(int)
     samples: dict[str, str] = {}
     for r in rows:
-        if _TOOL_ERROR_RE.match((r["content"] or "").strip()):
-            cid = r["conversation_id"]
-            counts[cid] += 1
-            if cid not in samples:
-                samples[cid] = (r["content"] or "")[:160]
+        content = (r["content"] or "").strip()
+        if not _TOOL_ERROR_RE.match(content):
+            continue
+        # Skip guard-issued errors — those are by design
+        if any(phrase in content[:300] for phrase in _GUARD_ERROR_PHRASES):
+            continue
+        cid = r["conversation_id"]
+        counts[cid] += 1
+        if cid not in samples:
+            samples[cid] = content[:160]
     for cid, n in counts.items():
         if n >= ERROR_STORM_MIN and not any(cid.startswith(p) for p in CONV_PREFIX_SKIP):
             incidents.append({

@@ -54,7 +54,7 @@ _BLOCKED_URLS: dict[str, dict[str, str]] = defaultdict(dict)  # conv → {url: r
 # other's in-flight tracking.
 # ---------------------------------------------------------------------------
 
-_in_flight: contextvars.ContextVar[set[str] | None] = contextvars.ContextVar(
+_in_flight: contextvars.ContextVar[dict[str, int] | None] = contextvars.ContextVar(
     "tool_guards_in_flight", default=None,
 )
 _recent_reads: contextvars.ContextVar[dict[str, str] | None] = contextvars.ContextVar(
@@ -67,7 +67,7 @@ _current_conv: contextvars.ContextVar[str | None] = contextvars.ContextVar(
 
 def respond_started(conv_id: str | None) -> None:
     """Called by agent.respond() at the start of every call."""
-    _in_flight.set(set())
+    _in_flight.set({})
     _recent_reads.set({})
     _current_conv.set(conv_id)
 
@@ -142,15 +142,32 @@ def check_pre_call(name: str, args: dict[str, Any]) -> str | None:
                 )
 
     # 3) In-flight duplicate (same tool + same args within ONE respond chain).
+    # Count how many times we've seen this exact call so we can escalate the
+    # error message — Qwen sometimes ignores the first "you already called"
+    # error and retries the same call. After 2 blocks we make it impossible
+    # to misread.
     in_flight = _in_flight.get()
     if in_flight is not None:
         sig = _signature(name, args)
-        if sig in in_flight:
+        prior_attempts = in_flight.get(sig, 0)
+        if prior_attempts >= 1:
+            # Track this attempt too so the escalation count keeps climbing
+            in_flight[sig] = prior_attempts + 1
+            attempt_n = prior_attempts + 1  # this is now the Nth attempt
+            if attempt_n >= 3:
+                return (
+                    f"[error] STOP. You have now called {name}() with these "
+                    f"exact arguments {attempt_n} TIMES in this response chain. "
+                    f"The result will not change. You are looping — pick a "
+                    f"DIFFERENT tool or call complete_goal/cancel_goal if you're "
+                    f"done. Do NOT call {name}() with these arguments again."
+                )
             return (
                 f"[error] you already called {name}() with these exact "
-                f"arguments earlier in this same response chain. Calling it "
-                f"twice in one round won't change the result. Use the result "
-                f"you already have, or call a different tool."
+                f"arguments earlier in this same response chain (attempt #{attempt_n}). "
+                f"Calling it again won't change the result. Use the result "
+                f"you already have, or call a DIFFERENT tool with DIFFERENT args. "
+                f"Continuing to retry this same call will exhaust your tool budget."
             )
         # Will mark this signature as seen AFTER pre-checks pass — see mark_in_flight().
 
@@ -177,7 +194,8 @@ def mark_in_flight(name: str, args: dict[str, Any]) -> None:
     """Record a successful pre-check pass so the next call with same sig short-circuits."""
     in_flight = _in_flight.get()
     if in_flight is not None:
-        in_flight.add(_signature(name, args))
+        sig = _signature(name, args)
+        in_flight[sig] = in_flight.get(sig, 0) + 1
 
 
 # ---------------------------------------------------------------------------

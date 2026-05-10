@@ -7,6 +7,7 @@ continuous across Telegram messages — not a goldfish.
 """
 from __future__ import annotations
 
+import json
 import logging
 import re
 import threading
@@ -135,6 +136,13 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
 
     if conversation_id:
         memory.log_turn(conversation_id, "user", message)
+        # Immediate "thinking..." liveness note so the UI shows something
+        # within milliseconds of John pressing Send. Subsequent per-round
+        # progress notes overwrite this in the user's perception.
+        try:
+            memory.log_turn(conversation_id, "progress", "*thinking…*")
+        except Exception:  # noqa: BLE001
+            pass
 
     # Send all registered tool schemas every turn. Total schema cost at M2 is
     # ~200 tokens — worth it to eliminate the "tool present but not loaded"
@@ -258,8 +266,42 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
             })
             if conversation_id:
                 memory.log_tool_result(conversation_id, tc.id, result)
+                # Push a one-line "still working" progress note so the UI's
+                # conversation polling shows John what Charles just did.
+                # Filtered out of recent_history so it doesn't bloat the prompt.
+                try:
+                    memory.log_turn(
+                        conversation_id,
+                        "progress",
+                        _format_progress(round_n, tc.function.name,
+                                         tc.function.arguments, result),
+                    )
+                except Exception as e:  # noqa: BLE001
+                    log.warning("progress note failed (non-fatal): %s", e)
     else:
-        final_text = text or "(this tick used the full tool budget — work continues next tick)"
+        # Hit MAX_TOOL_ROUNDS without breaking — model never settled into a
+        # final text reply. Force one more round with tools=None so the model
+        # MUST emit text. This gives John a real summary every time instead
+        # of leaving the conv hanging mid-tool-chain. Also caps max_tokens
+        # tightly since we just want a synthesis, not more action.
+        log.warning("hit MAX_TOOL_ROUNDS=%d, forcing final summary", MAX_TOOL_ROUNDS)
+        history.append({
+            "role": "user",
+            "content": (
+                "You've used your tool budget for this tick. Stop calling tools "
+                "and write a SHORT summary (under 200 words) of what you found "
+                "and what you'd recommend doing next. Past tense. No more tool "
+                "calls — just plain text."
+            ),
+        })
+        try:
+            forced_text, _msg, _usage = complete(history, tools=None, max_tokens=600)
+            final_text = (forced_text or "").strip() or (
+                text or "(tool budget used; couldn't synthesize a summary)"
+            )
+        except Exception as e:  # noqa: BLE001
+            log.exception("forced summary failed: %s", e)
+            final_text = text or "(this tick used the full tool budget — work continues next tick)"
 
     # If the model emitted whitespace-only content + zero tool_calls (the
     # "4000-token runaway" Qwen failure mode), final_text ends up empty
@@ -285,6 +327,74 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
             log.warning("task auto-extract failed (non-fatal): %s", e)
 
     return final_text
+
+
+# ---------------------------------------------------------------------------
+# Progress notes — the "Charles is still working" liveness indicator.
+# Each tool round writes one of these into the conversation table with
+# role='progress'. The UI's conversation-history polling picks them up and
+# displays them as small italic messages between user/assistant turns. They
+# are filtered out of memory.recent_history so they don't bloat the prompt.
+# ---------------------------------------------------------------------------
+
+def _short_args(name: str, args_json: str) -> str:
+    """Compact, UI-friendly arg summary for the progress lane."""
+    try:
+        args = json.loads(args_json)
+    except Exception:  # noqa: BLE001
+        return args_json[:60]
+    if name in ("browse_url", "browser_screenshot"):
+        url = args.get("url", "")
+        # Keep host + first path segment so John can recognise the site
+        m = re.match(r"https?://([^/]+)(/[^?]*)?", url)
+        if m:
+            host = m.group(1).replace("www.", "")
+            path = (m.group(2) or "").rstrip("/")
+            tail = path.rsplit("/", 1)[-1][:40] if path else ""
+            return f"{host}{('/' + tail) if tail else ''}"
+        return url[:60]
+    if name == "exec_shell":
+        cmd = (args.get("command") or "").strip()
+        first_word = cmd.split(maxsplit=1)[0] if cmd else "?"
+        return f"{first_word} ..." if len(cmd) > 30 else cmd
+    if name == "read_file" or name == "write_file":
+        path = args.get("path", "")
+        return path.rsplit("/", 1)[-1][:50] or path[:50]
+    if name in ("recall", "search_facts", "search_web"):
+        q = args.get("query", "")
+        return f"{q[:50]!r}" if q else ""
+    # Generic: first arg value or arg keys
+    if args:
+        first_key, first_val = next(iter(args.items()))
+        return f"{first_key}={str(first_val)[:50]}"
+    return ""
+
+
+def _format_progress(round_n: int, tool_name: str, args_json: str, result: str) -> str:
+    """One-line *italic* progress message visible in the UI's conv view."""
+    args_short = _short_args(tool_name, args_json)
+    head = result[:140] if result else ""
+    if head.startswith("[BLOCKED"):
+        # Pull reason from the structured header
+        m = re.search(r"reason=(\S+)", head)
+        reason = m.group(1) if m else "blocked"
+        return f"*[round {round_n + 1}] {tool_name} {args_short} → {reason}, moving on*"
+    if head.startswith("[error]"):
+        # Cheap classifier for common error types
+        if "you already called" in head:
+            label = "already tried — moving on"
+        elif "you already tried this URL" in head:
+            label = "URL on block-list — skipping"
+        elif "missing required argument" in head:
+            label = "bad call shape (missing arg)"
+        elif "your own memory database" in head:
+            label = "redirected: use recall() instead"
+        else:
+            label = head[7:80].strip().lstrip(":") or "error"
+        return f"*[round {round_n + 1}] {tool_name} → {label}*"
+    if head.startswith("[cached"):
+        return f"*[round {round_n + 1}] {tool_name} {args_short} → cached*"
+    return f"*[round {round_n + 1}] {tool_name} {args_short} → {len(result):,} chars*"
 
 
 # Patterns that indicate Charles is asking John to do something concrete.

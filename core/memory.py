@@ -158,11 +158,14 @@ def recent_history(conversation_id: str, max_chars: int = 4000, max_turns: int =
 
     Reconstructs full OpenAI format including tool_calls and role=tool rows
     so the model sees the actual cause-effect of past tool use.
+    Filters out role='progress' rows — those are UI-only liveness pings
+    written by agent.respond after each tool round; they would confuse the
+    OpenAI API (unknown role) and bloat the prompt with redundant info.
     """
     with _conn() as c:
         rows = c.execute(
             "SELECT role, content, tool_calls_json, tool_call_id "
-            "FROM conversations WHERE conversation_id = ? "
+            "FROM conversations WHERE conversation_id = ? AND role != 'progress' "
             "ORDER BY id DESC LIMIT ?",
             (conversation_id, max_turns),
         ).fetchall()
