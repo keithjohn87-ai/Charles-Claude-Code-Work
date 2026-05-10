@@ -108,6 +108,35 @@ _OWN_DB_PATTERN = re.compile(
     re.IGNORECASE | re.DOTALL,
 )
 
+# Detects search-shaped shell commands so the dispatcher can nudge Charles
+# away from grep/find iteration loops (the "Beginner Coding URLs" pattern
+# from 2026-05-09 night).
+_SEARCH_CMD_PATTERN = re.compile(
+    r"^\s*(grep|find|rg|ag|locate)\b",
+    re.IGNORECASE | re.MULTILINE,
+)
+
+
+def _looks_like_search_command(cmd: str) -> bool:
+    """True if the command starts with a content-search tool. False otherwise."""
+    return bool(_SEARCH_CMD_PATTERN.match(cmd or ""))
+
+
+def _count_search_commands(in_flight: dict[str, int]) -> int:
+    """How many distinct search-shaped exec_shell calls are tracked in this
+    respond chain. Used to throttle keyword-fishing loops."""
+    n = 0
+    for sig in in_flight:
+        if not sig.startswith("exec_shell|"):
+            continue
+        try:
+            args = json.loads(sig.split("|", 1)[1])
+            if _looks_like_search_command(args.get("command", "")):
+                n += 1
+        except Exception:  # noqa: BLE001
+            pass
+    return n
+
 
 def check_pre_call(name: str, args: dict[str, Any]) -> str | None:
     """Return a short-circuit error string, or None to let the call proceed."""
@@ -125,6 +154,27 @@ def check_pre_call(name: str, args: dict[str, Any]) -> str | None:
                 "  - list_goals() / append_goal_note() for goal state\n"
                 "Re-emit your tool_call with one of those instead of sqlite3."
             )
+
+        # 1a) Search-loop nudge: if Charles has run 4+ exec_shell with grep/find
+        # in this respond chain, he's probably keyword-fishing instead of
+        # reading the source. Nudge him to pivot.
+        if _looks_like_search_command(cmd):
+            in_flight = _in_flight.get()
+            if in_flight is not None:
+                search_count = _count_search_commands(in_flight)
+                if search_count >= 4:
+                    return (
+                        "[error] you've run "
+                        f"{search_count} grep/find commands in this "
+                        "response chain. If they're not finding what you "
+                        "want, your KEYWORDS are probably wrong, not the "
+                        "PATHS. Stop iterating searches — instead:\n"
+                        "  1. read_file the most likely source directly "
+                        "(check long_term_facts via recall() for known paths)\n"
+                        "  2. OR ask the user to clarify what they're "
+                        "looking for\n"
+                        "Do NOT run another grep/find. Pivot now."
+                    )
 
     # 2) URL block-list (browse_url, browser_screenshot).
     conv_id = current_conv_id()

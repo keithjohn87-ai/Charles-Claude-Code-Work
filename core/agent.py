@@ -480,13 +480,22 @@ def _build_auto_recall_note(user_message: str) -> str:
 # becomes searchable in future sessions.
 # ---------------------------------------------------------------------------
 
-# Patterns that signal "Charles is reporting a finding worth remembering"
+# Patterns that signal "Charles is reporting a finding worth remembering".
+# Permissive on purpose — better to over-extract findings than miss them.
+# The auto-recall side filters by tag relevance + recency anyway.
 _FINDING_PATTERNS = (
-    re.compile(r"[Ff]ound\s+(?:the\s+|that\s+)?[`'\"]?([^`'\"\.\!\?\n]{8,200})", re.MULTILINE),
-    re.compile(r"[Ll]ocated\s+(?:at\s+|in\s+)[`'\"]?([^`'\"\.\!\?\n]{8,200})", re.MULTILINE),
-    re.compile(r"[Ss]aved\s+(?:to\s+|at\s+)[`'\"]?([^`'\"\.\!\?\n]{8,200})", re.MULTILINE),
-    re.compile(r"[Ww]rote\s+(?:to\s+|the\s+)[`'\"]?([^`'\"\.\!\?\n]{8,200})", re.MULTILINE),
-    re.compile(r"[Tt]he\s+\w+\s+(?:is|are)\s+(?:at\s+|in\s+)[`'\"]?([^`'\"\.\!\?\n]{8,200})", re.MULTILINE),
+    # Verb-led: found / located / saved / wrote / stored
+    re.compile(r"[Ff]ound\s+(?:the\s+|that\s+|it[:\s]+)?([^\.!\?\n]{8,250})", re.MULTILINE),
+    re.compile(r"[Ll]ocated\s+(?:at\s+|in\s+)([^\.!\?\n]{8,250})", re.MULTILINE),
+    re.compile(r"[Ss]aved\s+(?:to\s+|at\s+|the\s+)([^\.!\?\n]{8,250})", re.MULTILINE),
+    re.compile(r"[Ww]rote\s+(?:to\s+|the\s+|\d+\s+chars?\s+to\s+)([^\.!\?\n]{8,250})", re.MULTILINE),
+    re.compile(r"[Ss]tored\s+(?:in\s+|at\s+|to\s+)([^\.!\?\n]{8,250})", re.MULTILINE),
+    re.compile(r"[Cc]reated\s+(?:the\s+)?(?:file\s+|directory\s+)?([^\.!\?\n]{8,250})", re.MULTILINE),
+    # Existence: "the X is at / are in / lives in"
+    re.compile(r"[Tt]he\s+\w[\w\s]{0,30}\s+(?:is|are|lives|sits)\s+(?:at\s+|in\s+|on\s+)([^\.!\?\n]{8,250})", re.MULTILINE),
+    re.compile(r"[Ii]t.s\s+(?:at\s+|in\s+|on\s+|located\s+at\s+)([^\.!\?\n]{8,250})", re.MULTILINE),
+    # Any sentence containing a substantial absolute path is worth remembering
+    re.compile(r"([^\.!\?\n]*?(?:/Users/|~/|/tmp/|/var/|/etc/|/opt/)[^\s\)`'\"]{4,}[^\.!\?\n]{0,150})", re.MULTILINE),
 )
 
 
@@ -504,9 +513,12 @@ def _autoremember_findings(reply_text: str, conversation_id: str) -> int:
     for pattern in _FINDING_PATTERNS:
         for match in pattern.finditer(reply_text):
             phrase = match.group(0).strip().rstrip(",;:.")
-            if len(phrase) < 12 or phrase.lower() in seen:
+            # Dedup by first 50 chars (catches near-identical findings from
+            # multiple patterns matching the same sentence)
+            key = phrase.lower()[:50]
+            if len(phrase) < 12 or key in seen:
                 continue
-            seen.add(phrase.lower())
+            seen.add(key)
             try:
                 memory.add_fact(
                     f"FINDING (auto-extracted from conv {conversation_id}): {phrase[:280]}",
