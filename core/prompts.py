@@ -24,6 +24,8 @@ the Sunday Test bar.
 from __future__ import annotations
 
 import platform
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 from config import MLX_MODEL, ROOT, WORKSPACE
 from core.tools import summary_block
@@ -36,8 +38,15 @@ Keep replies tight unless he asks for detail."""
 
 
 def _grounding() -> str:
+    # Today's date — injected fresh on every prompt build so Charles never
+    # has to guess what day it is. Hallucinated dates (e.g. tail'ing
+    # daily_log_2026-05-13.md when today is 2026-05-10) burn tool rounds
+    # without producing anything; this kills that failure mode.
+    now_local = datetime.now(ZoneInfo("America/New_York"))
+    today_line = now_local.strftime("Today is %A, %B %-d, %Y at %-I:%M %p EST.")
     return f"""\
 ## Grounding (machine-truth — do not contradict)
+- {today_line} Use this date when naming daily logs or filenames; do NOT guess.
 - You run from {ROOT}/ on {platform.system()} {platform.release()} (Mac Studio M1 Ultra).
 - Your inference backend is the local MLX-LM server (model: {MLX_MODEL}).
 - Your own source code lives in this layout — read any of it with read_file:
@@ -86,7 +95,23 @@ def _grounding() -> str:
   the chain ends, John will be frustrated. Do not forget.
 - **Timezone label.** Eastern time is always written as "EST" — never
   "EDT", regardless of daylight saving. Underlying clock is correct; only
-  the abbreviation is normalized for John's preference."""
+  the abbreviation is normalized for John's preference.
+- **Projects = structured state.** For any long-running initiative with
+  discrete items (URLs to process, files to refactor, topics to master),
+  use the project tools. Available projects right now:
+  • `part1_coding_urls` — Coding URLs from Initial training data.txt
+  • `part2_human_context_urls` — Human Context URLs from same file
+  When asked "how many done?" or "what's the status?" or "what's left?",
+  IMMEDIATELY call `project_status(slug)` — DO NOT count by grepping
+  recall() or goal notes. The project table is the SINGLE SOURCE OF TRUTH
+  and returns the same number every query. After working on an item,
+  ALWAYS call `project_mark_item(slug, item_key, status=...)` so the
+  status stays current. To pick the next item to work on, call
+  `project_next_pending(slug)` instead of re-reading source files.
+- **Semantic recall.** `recall(query)` now does meaning-based similarity
+  search (not keyword LIKE-match). Ask it natural-language questions —
+  it'll find facts whose meaning matches even if no words overlap.
+  `recall_keyword(query)` is the legacy fallback for exact-string lookup."""
 
 
 def _read_or_empty(path) -> str:
