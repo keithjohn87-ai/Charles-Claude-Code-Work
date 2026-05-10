@@ -363,9 +363,11 @@ _GUARD_ERROR_PHRASES = (
     "your own memory database",
     "STOP. You have now called",
     "Re-emit your tool_call",
-    "you've run 4 grep/find",     # search-loop nudge (any count >=4 starts with this)
+    "you've run 4 grep/find",      # search-loop nudge (legacy phrasing)
     "grep/find commands in this response",
-    "[cached read_file]",          # read_file dedup signal
+    "[cached read_file]",           # read_file dedup signal
+    "you've made",                  # fuzzy-recall nudge ("you've made N recall() calls...")
+    "Your tag schema assumption",   # ditto
 )
 
 
