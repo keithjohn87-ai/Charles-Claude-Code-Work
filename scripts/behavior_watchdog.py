@@ -43,7 +43,9 @@ from __future__ import annotations
 import json
 import logging
 import os
+import random
 import re
+import shlex
 import shutil
 import sqlite3
 import subprocess
@@ -369,12 +371,14 @@ _GUARD_ERROR_PHRASES = (
     "you already tried this URL",
     "your own memory database",
     "STOP. You have now called",
-    "Re-emit your tool_call",
-    "you've run 4 grep/find",      # search-loop nudge (legacy phrasing)
+    "Re-emit the tool_call",        # missing-arg dispatcher message (actual wording)
+    "Re-emit your tool_call",       # legacy phrasing — kept for backward compat
+    "missing required argument",    # generic missing-arg dispatcher errors (Qwen schema mismatches)
+    "you've run 4 grep/find",       # search-loop nudge (legacy phrasing)
     "grep/find commands in this response",
-    "[cached read_file]",           # read_file dedup signal
-    "you've made",                  # fuzzy-recall nudge ("you've made N recall() calls...")
-    "Your tag schema assumption",   # ditto
+    "[cached read_file]",            # read_file dedup signal
+    "you've made",                   # fuzzy-recall nudge ("you've made N recall() calls...")
+    "Your tag schema assumption",    # ditto
 )
 
 
@@ -1058,6 +1062,188 @@ def _alert_john(category: str, message: str) -> bool:
 
 
 # ---------------------------------------------------------------------------
+# Boss Hog inbound iMessage — John dictates, Boss Hog acks in voice
+#
+# John types iMessages to the Mac's number. Boss Hog polls chat.db each tick
+# for unread messages from John, sends a one-line acknowledgment in voice,
+# and logs both sides into CHARLES_LOG so it shows up in the Mac UI's
+# Activity tab.
+#
+# Phase 1 (current): ack-only. No command parsing, no agent invocation.
+# Phase 2 (future): parse "kill goal #5", "what's status?", route to actions.
+# ---------------------------------------------------------------------------
+
+_BOSS_HOG_ACKS = (
+    "10-4, boss. Got it.",
+    "Heard ya, boss. On the case.",
+    "Copy that. Workin' on it.",
+    "Roger. Won't drop the ball.",
+    "Aight, boss. Noted.",
+    "Loud and clear, boss.",
+    "Got it. Won't forget.",
+    "Heard. Movin' on it.",
+)
+
+
+def _read_new_imessages_from_john(last_rowid: int) -> list[tuple[int, str]]:
+    """Query chat.db for new iMessages from John since last_rowid.
+    Returns [(rowid, text), ...] in ascending rowid order."""
+    handles = "'+16156637932','16156637932','+1 6156637932'"
+    sql = (
+        "SELECT m.ROWID, COALESCE(m.text, '') "
+        "FROM message m JOIN handle h ON m.handle_id = h.ROWID "
+        f"WHERE h.id IN ({handles}) AND m.is_from_me = 0 "
+        f"AND m.ROWID > {last_rowid} "
+        f"ORDER BY m.ROWID ASC LIMIT 20;"
+    )
+    cmd = f"sqlite3 -separator '|' ~/Library/Messages/chat.db {shlex.quote(sql)}"
+    osa = f"do shell script {json.dumps(cmd)}"
+    try:
+        r = subprocess.run(
+            ["osascript", "-e", osa],
+            capture_output=True, text=True, timeout=15,
+        )
+        if r.returncode != 0:
+            return []
+        out = r.stdout.strip()
+    except Exception:  # noqa: BLE001
+        return []
+
+    msgs: list[tuple[int, str]] = []
+    for line in out.split("\n"):
+        if not line.strip():
+            continue
+        parts = line.split("|", 1)
+        if len(parts) != 2:
+            continue
+        try:
+            rowid = int(parts[0])
+        except ValueError:
+            continue
+        text = parts[1].strip()
+        if not text:
+            continue
+        # Skip our own outbound that bounced back via attribution quirks
+        if text.startswith(("Boss Hog:", "Charles watchdog:")):
+            continue
+        msgs.append((rowid, text))
+    return msgs
+
+
+def _seed_imsg_high_water_mark() -> int:
+    """First-run only: read the current max iMessage rowid from John so we
+    don't ack 1000 historical messages on first poll."""
+    handles = "'+16156637932','16156637932','+1 6156637932'"
+    sql = (
+        "SELECT COALESCE(MAX(m.ROWID), 0) FROM message m "
+        "JOIN handle h ON m.handle_id = h.ROWID "
+        f"WHERE h.id IN ({handles}) AND m.is_from_me = 0;"
+    )
+    cmd = f"sqlite3 ~/Library/Messages/chat.db {shlex.quote(sql)}"
+    osa = f"do shell script {json.dumps(cmd)}"
+    try:
+        r = subprocess.run(
+            ["osascript", "-e", osa],
+            capture_output=True, text=True, timeout=15,
+        )
+        if r.returncode == 0:
+            return int(r.stdout.strip() or 0)
+    except Exception:  # noqa: BLE001
+        pass
+    return 0
+
+
+def _send_boss_hog_ack(text: str) -> bool:
+    """Send a one-line ack to John as Boss Hog."""
+    target_esc = JOHN_IMESSAGE.replace("\\", "\\\\").replace('"', '\\"')
+    full = f"Boss Hog: {text}"
+    msg_esc = full.replace("\\", "\\\\").replace('"', '\\"')
+    script = (
+        'tell application "Messages"\n'
+        '    set targetService to 1st service whose service type = iMessage\n'
+        f'    set targetBuddy to buddy "{target_esc}" of targetService\n'
+        f'    send "{msg_esc}" to targetBuddy\n'
+        'end tell'
+    )
+    try:
+        subprocess.run(
+            ["osascript", "-e", script],
+            capture_output=True, text=True, timeout=15, check=True,
+        )
+        return True
+    except Exception as e:  # noqa: BLE001
+        log.error("Boss Hog ack send failed: %s", e)
+        return False
+
+
+def _log_boss_hog_exchange(john_text: str, ack_text: str) -> None:
+    """Log the inbound iMessage + ack into CHARLES_LOG so the UI shows it."""
+    try:
+        with sqlite3.connect(str(DB_PATH)) as c:
+            c.execute(
+                "INSERT INTO conversations (conversation_id, role, content, created_at) "
+                "VALUES ('charles_log', 'user', ?, strftime('%Y-%m-%dT%H:%M:%fZ','now'))",
+                (f"[John → Boss Hog (iMessage)]: {john_text}",),
+            )
+            c.execute(
+                "INSERT INTO conversations (conversation_id, role, content, created_at) "
+                "VALUES ('charles_log', 'assistant', ?, strftime('%Y-%m-%dT%H:%M:%fZ','now'))",
+                (f"[Boss Hog → John (iMessage)]: {ack_text}",),
+            )
+            c.commit()
+    except Exception as e:  # noqa: BLE001
+        log.warning("imsg log to charles_log failed: %s", e)
+
+
+def poll_john_imessages(state: dict) -> int:
+    """Read new iMessages from John, ack each in Boss Hog voice, log to
+    CHARLES_LOG. Returns the count of new messages processed.
+
+    Mutates `state` in place — caller is responsible for `_save_state(state)`.
+    This avoids a race where tick()'s outer save would overwrite our changes.
+
+    First-run protection: seeds the high-water mark to current max rowid so
+    Boss Hog doesn't ack the entire iMessage history on first poll.
+    """
+    last_seen = state.get("last_imsg_rowid_seen")
+
+    if last_seen is None:
+        # First run — seed and skip processing
+        seeded = _seed_imsg_high_water_mark()
+        state["last_imsg_rowid_seen"] = seeded
+        log.info("Boss Hog imsg poll seeded high-water mark at rowid=%d", seeded)
+        return 0
+
+    new = _read_new_imessages_from_john(int(last_seen))
+    if not new:
+        return 0
+
+    # Cap acks per tick — if John sends 10 messages in a burst, ack the
+    # first three normally and a single summary for the rest. Avoids spam.
+    max_acks = 3
+    processed = 0
+    last_rowid = int(last_seen)
+    for rowid, text in new[:max_acks]:
+        ack = random.choice(_BOSS_HOG_ACKS)
+        if _send_boss_hog_ack(ack):
+            _log_boss_hog_exchange(text, ack)
+        last_rowid = max(last_rowid, rowid)
+        processed += 1
+
+    if len(new) > max_acks:
+        rest = len(new) - max_acks
+        summary_ack = f"Got the rest, boss — {rest} more queued up."
+        if _send_boss_hog_ack(summary_ack):
+            _log_boss_hog_exchange(
+                f"({rest} more messages from John this tick)", summary_ack,
+            )
+        last_rowid = max(last_rowid, max(r for r, _ in new))
+
+    state["last_imsg_rowid_seen"] = last_rowid
+    return processed
+
+
+# ---------------------------------------------------------------------------
 # Tick orchestration
 # ---------------------------------------------------------------------------
 
@@ -1091,6 +1277,16 @@ _INTERVENORS = {
 
 def tick() -> None:
     state = _load_state()
+
+    # Boss Hog inbound iMessage poll — runs every tick (~30s).
+    # Mutates `state` in place; the outer _save_state(state) at the bottom of
+    # tick() persists the high-water-mark update.
+    try:
+        n = poll_john_imessages(state)
+        if n:
+            log.info("Boss Hog: acked %d iMessage(s) from John", n)
+    except Exception as e:  # noqa: BLE001
+        log.exception("Boss Hog imsg poll failed: %s", e)
 
     incidents = detect_all()
     behavioral_incidents = [i for i in incidents if i["kind"] in _INTERVENORS]
