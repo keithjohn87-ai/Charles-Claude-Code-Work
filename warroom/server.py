@@ -54,28 +54,44 @@ from warroom import auth, state
 
 log = logging.getLogger("warroom.server")
 
-# John's unified user-conversation id — same id Telegram uses, so context
-# survives switching between UI and phone. If a UI client sends a stale or
-# stress-test conv_id, we reroute it here so John always lands in one thread.
+# John's unified user-conversation id — the single thread shared by UI and
+# Telegram so memory continuity survives switching between channels.
 _OWNER_USER_CONV = "8455750177"
-_REROUTE_PREFIXES = (
-    "stress_", "smoketest", "wd_test_", "stop_test_",
-    "ticker_test", "guard_diag", "guard_smoke",
-    "progress_smoke", "post_patch", "smoke_test",
+
+# Conv_id prefixes that represent autonomous (non-user) work and should be
+# left alone by the user-channel reroute. Everything else gets pinned to
+# _OWNER_USER_CONV so John never accidentally fragments his own memory by
+# clicking on a stale conv in the Mac UI sidebar.
+_AUTONOMOUS_PREFIXES = (
+    "goal:",        # goal-tick respond chains (heartbeat-driven)
+    "heartbeat:",   # scheduled-task firings
+    "sunday_test",  # the periodic Sunday Test harness
 )
 
 
 def _normalize_user_conv_id(conv_id: str) -> str:
-    """Reroute stale/test conv_ids to the owner's unified user thread.
+    """Reroute everything that isn't autonomous work to the owner's unified
+    user thread. The Mac UI's sidebar sometimes auto-selects whichever conv
+    is most recent (often a leftover test conv from earlier debugging),
+    causing John's actual messages to land in the wrong thread and Charles
+    to lose memory continuity. This function makes that impossible.
 
-    UI clients have historically gotten stuck pointing at leftover stress-test
-    conv_ids (e.g., 'stress_stop_test'). Any conv_id matching a known test
-    prefix gets routed to John's primary thread so context stays unified.
-    Goal/heartbeat conv_ids (autonomous work) pass through unchanged.
+    Pass-through:
+      - "goal:42"        → "goal:42"           (autonomous goal work)
+      - "heartbeat:7"    → "heartbeat:7"       (scheduled task)
+      - "sunday_test_x"  → "sunday_test_x"     (test harness)
+      - "8455750177"     → "8455750177"        (already the right thread)
+
+    Reroute (everything else):
+      - "async_test"     → "8455750177"
+      - "ticker_test_2"  → "8455750177"
+      - any UI-selected leftover → "8455750177"
     """
-    if conv_id.startswith(_REROUTE_PREFIXES):
-        return _OWNER_USER_CONV
-    return conv_id
+    if conv_id == _OWNER_USER_CONV:
+        return conv_id
+    if conv_id.startswith(_AUTONOMOUS_PREFIXES):
+        return conv_id
+    return _OWNER_USER_CONV
 
 
 app = FastAPI(title="Charles War Room", version="0.1.0")

@@ -132,6 +132,23 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
         history.extend(prior)
         log.info("loaded %d prior turns for conv=%s", len(prior), conversation_id)
 
+    # Auto-recall: before letting the model see the user message, run a
+    # cheap keyword search over long_term_facts. If past sessions saved
+    # relevant findings, MERGE them into the leading system prompt so
+    # Charles doesn't have to be reminded by John (the "I already told
+    # you where the file is" frustration). Cannot insert a separate
+    # system message later in history — MLX-LM rejects "system message
+    # must be at the beginning" if any non-system message comes first.
+    if conversation_id and not conversation_id.startswith(("goal:", "heartbeat:")):
+        try:
+            auto_recall_note = _build_auto_recall_note(message)
+        except Exception as e:  # noqa: BLE001
+            log.warning("auto-recall failed (non-fatal): %s", e)
+            auto_recall_note = ""
+        if auto_recall_note:
+            # Merge into the leading system prompt (history[0])
+            history[0]["content"] = history[0]["content"] + "\n\n" + auto_recall_note
+
     history.append({"role": "user", "content": message})
 
     progress_id: int = 0  # row id of the single ticker line — updated as work advances
@@ -344,8 +361,163 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
             _autoextract_tasks(final_text, conversation_id)
         except Exception as e:  # noqa: BLE001
             log.warning("task auto-extract failed (non-fatal): %s", e)
+        # Auto-remember substantive findings as facts so future user-message
+        # auto-recall surfaces them. Closes the loop on memory continuity.
+        try:
+            n = _autoremember_findings(final_text, conversation_id)
+            if n:
+                log.info("auto-remembered %d finding(s) from reply in conv=%s", n, conversation_id)
+        except Exception as e:  # noqa: BLE001
+            log.warning("auto-remember failed (non-fatal): %s", e)
 
     return final_text
+
+
+# ---------------------------------------------------------------------------
+# Auto-recall — prepend relevant past findings as context.
+#
+# Built 2026-05-09 night after John's frustration: "I had to point to the
+# specific file and what part of the file. That's annoying." Charles had
+# found the answer 30 min earlier but didn't remember it because the
+# previous reply lived in a different conv (channel fragmentation) AND
+# even within one conv, his rolling history is short (4000 chars). This
+# function makes memory continuity automatic: every user message
+# triggers a quick keyword search over long_term_facts and any matches
+# get injected as a system note before the model sees the user message.
+# ---------------------------------------------------------------------------
+
+# Stopwords removed before keyword extraction. Tuned for John's actual
+# message style (terse, action-oriented) — not a general English list.
+_RECALL_STOPWORDS = {
+    "a", "an", "and", "are", "as", "at", "be", "been", "but", "by", "can",
+    "did", "do", "does", "for", "from", "get", "go", "had", "has", "have",
+    "he", "her", "him", "his", "how", "i", "if", "in", "into", "is", "it",
+    "its", "just", "like", "me", "my", "no", "not", "of", "on", "one", "or",
+    "our", "out", "she", "so", "that", "the", "their", "them", "then",
+    "there", "these", "they", "this", "those", "to", "up", "us", "was",
+    "we", "were", "what", "when", "where", "which", "who", "why", "will",
+    "with", "you", "your", "charles", "use", "run", "make", "find",
+    "please", "again", "thanks", "thank", "now", "okay", "ok", "yes",
+    "yeah", "no", "should", "would", "could", "want", "need", "ill",
+    "let", "lets", "us", "lemme", "gonna", "going",
+}
+
+
+def _extract_keywords(text: str, max_kw: int = 5) -> list[str]:
+    """Pull 3-5 distinctive keywords from a user message for fact lookup."""
+    if not text:
+        return []
+    # Lowercase, split on non-word chars, drop stopwords + 1-2 char tokens
+    raw = re.findall(r"[A-Za-z][A-Za-z0-9_-]{2,}", text.lower())
+    seen: set[str] = set()
+    out: list[str] = []
+    for w in raw:
+        if w in _RECALL_STOPWORDS or w in seen:
+            continue
+        seen.add(w)
+        out.append(w)
+        if len(out) >= max_kw:
+            break
+    return out
+
+
+def _build_auto_recall_note(user_message: str) -> str:
+    """Search long_term_facts for keywords from the user's message and return
+    a system-note string with the top matches. Empty string if nothing
+    relevant was found."""
+    keywords = _extract_keywords(user_message)
+    if not keywords:
+        return ""
+
+    # Search facts for each keyword; collect top hits, dedup by id
+    seen_ids: set[int] = set()
+    hits: list[dict] = []
+    for kw in keywords:
+        try:
+            results = memory.search_facts(kw, limit=3)
+        except Exception:  # noqa: BLE001
+            continue
+        for r in results:
+            if r["id"] in seen_ids:
+                continue
+            seen_ids.add(r["id"])
+            # Skip noisy auto-generated facts that wouldn't help John
+            tags = (r.get("tags") or "").lower()
+            if any(t in tags for t in ("superseded", "intervention,auto", "prune,auto", "credential_scrub")):
+                continue
+            hits.append(r)
+            if len(hits) >= 5:
+                break
+        if len(hits) >= 5:
+            break
+
+    if not hits:
+        return ""
+
+    lines = [
+        "## Relevant memory from past sessions (auto-recalled):",
+        "Search keywords used: " + ", ".join(keywords),
+        "",
+    ]
+    for r in hits:
+        fact = (r["fact"] or "").strip()[:300]
+        tags = (r.get("tags") or "").strip()
+        when = (r.get("created_at") or "")[:10]
+        lines.append(f"- [{when}] {fact}" + (f"  _(tags: {tags})_" if tags else ""))
+    lines.append("")
+    lines.append(
+        "If any of the above is relevant to the user's request, USE IT — "
+        "don't re-do work that's already done. Mention what you remembered "
+        "and only do fresh exploration if the prior finding is incomplete "
+        "or the user explicitly asks you to redo it."
+    )
+    return "\n".join(lines)
+
+
+# ---------------------------------------------------------------------------
+# Auto-remember — extract substantive findings from final replies and persist
+# them as facts. Closes the loop with auto-recall: every confirmed finding
+# becomes searchable in future sessions.
+# ---------------------------------------------------------------------------
+
+# Patterns that signal "Charles is reporting a finding worth remembering"
+_FINDING_PATTERNS = (
+    re.compile(r"[Ff]ound\s+(?:the\s+|that\s+)?[`'\"]?([^`'\"\.\!\?\n]{8,200})", re.MULTILINE),
+    re.compile(r"[Ll]ocated\s+(?:at\s+|in\s+)[`'\"]?([^`'\"\.\!\?\n]{8,200})", re.MULTILINE),
+    re.compile(r"[Ss]aved\s+(?:to\s+|at\s+)[`'\"]?([^`'\"\.\!\?\n]{8,200})", re.MULTILINE),
+    re.compile(r"[Ww]rote\s+(?:to\s+|the\s+)[`'\"]?([^`'\"\.\!\?\n]{8,200})", re.MULTILINE),
+    re.compile(r"[Tt]he\s+\w+\s+(?:is|are)\s+(?:at\s+|in\s+)[`'\"]?([^`'\"\.\!\?\n]{8,200})", re.MULTILINE),
+)
+
+
+def _autoremember_findings(reply_text: str, conversation_id: str) -> int:
+    """Scan a final assistant reply for finding-shaped statements; persist
+    each as a fact tagged 'auto_finding' so future auto-recall surfaces
+    them. Returns count of facts saved. No-ops on goal:/heartbeat: convs."""
+    if any(conversation_id.startswith(p) for p in ("goal:", "heartbeat:", "sunday_test_")):
+        return 0
+    if not reply_text or len(reply_text) < 30:
+        return 0
+
+    saved = 0
+    seen: set[str] = set()
+    for pattern in _FINDING_PATTERNS:
+        for match in pattern.finditer(reply_text):
+            phrase = match.group(0).strip().rstrip(",;:.")
+            if len(phrase) < 12 or phrase.lower() in seen:
+                continue
+            seen.add(phrase.lower())
+            try:
+                memory.add_fact(
+                    f"FINDING (auto-extracted from conv {conversation_id}): {phrase[:280]}",
+                    tags="auto_finding,extracted_from_reply",
+                )
+                saved += 1
+            except Exception:  # noqa: BLE001
+                pass
+            if saved >= 4:
+                return saved
+    return saved
 
 
 # ---------------------------------------------------------------------------
