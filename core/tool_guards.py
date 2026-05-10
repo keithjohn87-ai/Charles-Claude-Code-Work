@@ -463,3 +463,4 @@ def reset_all() -> None:
     _in_flight.set(None)
     _recent_reads.set(None)
     _current_conv.set(None)
+    _recall_history.set(None)

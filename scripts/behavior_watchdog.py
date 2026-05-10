@@ -593,12 +593,21 @@ def intervene_response_loop(incident: dict) -> Action | None:
         return None
     if not deleted:
         # Detector and strict trim disagreed — likely a borderline case.
-        # Do NOT touch the conv. Log a warning so we can tune thresholds later.
-        log.warning(
-            "response_loop incident on conv=%s but trim_repeating_replies "
-            "found nothing to trim — skipping intervention. Sample: %r",
-            conv_id, (incident.get("sample") or "")[:120],
-        )
+        # Skip the intervention. Log only ONCE per conv per 10 min so the
+        # 30-min sliding-window detector doesn't spam the log every tick
+        # while borderline rows age out.
+        state = _load_state()
+        cooldown = state.setdefault("loop_skip_cooldowns", {})
+        last_skip = float(cooldown.get(conv_id, 0))
+        now = time.time()
+        if now - last_skip >= 600:
+            log.warning(
+                "response_loop incident on conv=%s but trim_repeating_replies "
+                "found nothing to trim — skipping intervention. Sample: %r",
+                conv_id, (incident.get("sample") or "")[:120],
+            )
+            cooldown[conv_id] = now
+            _save_state(state)
         return None
 
     where = _conv_friendly(conv_id)
