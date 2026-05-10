@@ -159,7 +159,7 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
         # foo.txt…") instead of a stack. Inserted now with a generic
         # "thinking…" placeholder that the first tool round will overwrite.
         try:
-            progress_id = memory.insert_progress(conversation_id, "*thinking…*")
+            progress_id = memory.insert_progress(conversation_id, "*workin' on it…*")
         except Exception:  # noqa: BLE001
             pass
 
@@ -580,41 +580,44 @@ def _autoremember_findings(reply_text: str, conversation_id: str) -> int:
 
 # Map each tool to a present-tense verb phrase. The action shows what Charles
 # is *currently* doing — UI-renderable in a single italic line.
+# Voice: subtle g-dropping + casual phrasing, in line with Charles's
+# Southern-Black-blue-collar-sophisticated-with-whiskey-warmth doctrine.
+# Light flavor, not minstrel — the goal is "feels like Charles", not caricature.
 _TOOL_VERBS = {
-    "browse_url": "Browsing",
-    "browser_screenshot": "Screenshotting",
-    "read_file": "Reading",
-    "write_file": "Writing",
-    "exec_shell": "Running shell:",
-    "search_web": "Searching web:",
-    "search_facts": "Searching memory:",
-    "recall": "Recalling:",
-    "remember": "Remembering",
-    "send_imessage": "Texting John:",
-    "send_email": "Sending email:",
-    "list_emails": "Checking email",
-    "read_email": "Reading email",
-    "archive_email": "Archiving email",
-    "set_goal": "Setting goal:",
-    "list_goals": "Reviewing goals",
-    "append_goal_note": "Logging goal note",
-    "complete_goal": "Completing goal:",
-    "cancel_goal": "Cancelling goal:",
-    "schedule_task": "Scheduling task:",
-    "list_scheduled_tasks": "Reviewing schedule",
-    "current_time": "Checking the clock",
-    "get_weather": "Checking weather:",
-    "system_status": "Checking system status",
-    "self_modify": "Modifying my own code:",
-    "self_patch": "Patching my own code:",
-    "analyze_sentiment": "Reading the room:",
-    "request_approval": "Asking John:",
-    "resolve_approval": "Resolving approval",
-    "notify_john": "Pinging John:",
-    "add_task": "Adding a task:",
-    "list_open_tasks": "Reviewing open tasks",
-    "reset_my_conversation": "Resetting context",
-    "solve_recaptcha": "Solving captcha",
+    "browse_url": "Pullin' up",
+    "browser_screenshot": "Snappin' a pic of",
+    "read_file": "Crackin' open",
+    "write_file": "Layin' down",
+    "exec_shell": "Runnin' shell:",
+    "search_web": "Hittin' the web for",
+    "search_facts": "Diggin' through memory for",
+    "recall": "Pullin' from memory:",
+    "remember": "Tuckin' away",
+    "send_imessage": "Textin' John:",
+    "send_email": "Sendin' an email:",
+    "list_emails": "Checkin' the inbox",
+    "read_email": "Readin' an email",
+    "archive_email": "Filin' that one away",
+    "set_goal": "Lockin' in a goal:",
+    "list_goals": "Lookin' over my goals",
+    "append_goal_note": "Loggin' a note",
+    "complete_goal": "Wrappin' up:",
+    "cancel_goal": "Killin' that goal:",
+    "schedule_task": "Pencilin' in a task:",
+    "list_scheduled_tasks": "Checkin' the schedule",
+    "current_time": "Glancin' at the clock",
+    "get_weather": "Checkin' the weather for",
+    "system_status": "Pulse check on the box",
+    "self_modify": "Tweakin' my own code:",
+    "self_patch": "Patchin' myself:",
+    "analyze_sentiment": "Readin' the room:",
+    "request_approval": "Askin' John:",
+    "resolve_approval": "Closin' an approval",
+    "notify_john": "Pingin' John:",
+    "add_task": "Pinnin' a task:",
+    "list_open_tasks": "Checkin' open tasks",
+    "reset_my_conversation": "Wipin' the slate",
+    "solve_recaptcha": "Crackin' a captcha",
 }
 
 
@@ -657,9 +660,9 @@ def _short_target(name: str, args_json: str) -> str:
 
 def _format_progress(tool_name: str, args_json: str, result: str | None = None) -> str:
     """Build a single-line italic action note. If `result` is None, this is
-    the IN-PROGRESS form ('Browsing wikipedia.org…'). If `result` is given,
-    this is the JUST-FINISHED form (briefly shows outcome before next round
-    overwrites it)."""
+    the IN-PROGRESS form ('Pullin' up wikipedia.org…'). If `result` is
+    given, this is the JUST-FINISHED form (briefly shows outcome before
+    next round overwrites it). Voice-aligned with Charles's doctrine."""
     verb = _TOOL_VERBS.get(tool_name, tool_name)
     target = _short_target(tool_name, args_json)
     base = f"{verb} {target}".strip().rstrip(":")
@@ -668,28 +671,30 @@ def _format_progress(tool_name: str, args_json: str, result: str | None = None) 
     if result is None:
         return f"*{base}…*"
 
-    # Finished — append a short outcome
+    # Finished — append a short outcome with light Charles flavor
     head = result[:140] if result else ""
     if head.startswith("[BLOCKED"):
         m = re.search(r"reason=(\S+)", head)
         reason = (m.group(1) if m else "blocked").replace("_", " ")
-        return f"*{base} → {reason}, moving on*"
+        return f"*{base} → {reason}, on to the next*"
     if head.startswith("[error]"):
         if "STOP. You have now called" in head:
-            label = "looping — stop signal sent"
+            label = "got the stop signal — pivotin'"
         elif "you already called" in head:
-            label = "already tried — moving on"
+            label = "been there — movin' on"
         elif "you already tried this URL" in head:
-            label = "URL on block-list — skipping"
+            label = "URL's dead — skippin'"
         elif "missing required argument" in head:
-            label = "bad call shape — retrying"
+            label = "swung at that one wrong, retryin'"
         elif "your own memory database" in head:
             label = "redirected to recall()"
+        elif "you've made" in head and "recall" in head:
+            label = "wrong tag schema — broadenin' the query"
         else:
-            label = "error"
+            label = "hit an error"
         return f"*{base} → {label}*"
     if head.startswith("[cached"):
-        return f"*{base} → cached, skipping re-read*"
+        return f"*{base} → already got that one*"
     return f"*{base} → {len(result):,} chars*"
 
 
