@@ -359,6 +359,9 @@ _GUARD_ERROR_PHRASES = (
     "your own memory database",
     "STOP. You have now called",
     "Re-emit your tool_call",
+    "you've run 4 grep/find",     # search-loop nudge (any count >=4 starts with this)
+    "grep/find commands in this response",
+    "[cached read_file]",          # read_file dedup signal
 )
 
 
