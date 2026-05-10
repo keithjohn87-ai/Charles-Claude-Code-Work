@@ -57,6 +57,9 @@ _NARRATION_PHRASES = (
     "let me", "i'll", "i will", "i need to", "i'm going to",
     "going to write", "going to create", "going to start",
     "now i need", "now i'll", "writing the", "creating the",
+    "ok, so", "alright, so", "now i have", "now let me",
+    "let me check", "let me think", "let me extract", "let me try",
+    "let me start by", "let me get",
 )
 
 
@@ -64,12 +67,13 @@ def _count_narration_loop(notes: str) -> int:
     """Count how many recent notes look like 'I'll do X' without action.
 
     Only checks notes from the LAST 6 entries — older history doesn't matter.
-    Used to detect when Charles is stuck saying 'let me write the file' over
-    and over without ever calling write_file.
+    Lines marked with the GUARD_NOTICE marker are excluded so the guard
+    doesn't trigger on its own warning text (2026-05-09 forensic showed the
+    'HALLUCINATION GUARD tripped' string itself becoming a 56x loop pattern).
     """
     if not notes:
         return 0
-    lines = [ln for ln in notes.split("\n") if ln.strip().startswith("[")]
+    lines = [ln for ln in notes.split("\n") if ln.strip().startswith("[") and GUARD_NOTICE_MARKER not in ln]
     recent = lines[-6:]
     count = 0
     for line in recent:
@@ -77,6 +81,36 @@ def _count_narration_loop(notes: str) -> int:
         if any(phrase in lower for phrase in _NARRATION_PHRASES):
             count += 1
     return count
+
+
+# Hallucination guard — known-bad terms Charles fabricates. Same logic as the
+# 2026-05-08 patch but with self-marking so the guard's own prompt text
+# doesn't re-trigger detection on next tick.
+_HALLUCINATED_TERMS = (
+    # Specific fabricated entities Charles invented in 2026-05-09 loop
+    # episodes. NOT generic words like "ford" or "luxury car" — those
+    # were dropped 2026-05-10 morning after a false positive on
+    # legitimate psychology research mentioning the Ford Foundation.
+    "tesla", "bugatti", "rivian", "larsonjuis", "larson juis",
+)
+GUARD_NOTICE_MARKER = "<<GUARD_NOTICE>>"
+
+
+def _hallucinated_in_notes(notes: str) -> str | None:
+    """Return the matched bad term if present in goal notes, ignoring guard text.
+
+    Guard-issued lines (containing GUARD_NOTICE_MARKER) are skipped so we
+    don't loop on the guard's own warning. Only checks Charles-authored notes.
+    """
+    if not notes:
+        return None
+    # Only inspect lines NOT issued by the guard itself
+    lines = [ln for ln in notes.split("\n") if GUARD_NOTICE_MARKER not in ln]
+    text = "\n".join(lines).lower()
+    for term in _HALLUCINATED_TERMS:
+        if term in text:
+            return term
+    return None
 
 
 async def _advance_one_goal() -> None:
@@ -94,14 +128,33 @@ async def _advance_one_goal() -> None:
         f"## Your job this tick\n"
     )
 
-    if narration_count >= 3:
+    hallucinated_term = _hallucinated_in_notes(goal["notes"] or "")
+
+    if hallucinated_term:
+        # Charles's own goal notes contain a known-bad term he keeps inventing.
+        # Force a single-action tick: read source, log result, exit.
+        log.warning("goal #%d hallucination detected (term=%r) — single-action guard tick",
+                    goal["id"], hallucinated_term)
+        action_prompt = (
+            f"{GUARD_NOTICE_MARKER} HALLUCINATION GUARD: your goal notes contain "
+            f"'{hallucinated_term}', which is NOT in any source file. This tick is "
+            f"SINGLE-ACTION ONLY:\n"
+            f"  Step 1: read_file the actual source path in your goal description.\n"
+            f"  Step 2: pick one real numbered URL/item from that file.\n"
+            f"  Step 3: process it OR log a real failure note.\n"
+            f"  STOP after step 3. Do not chain 5 more tool calls. Do not say "
+            f"'HALLUCINATION GUARD tripped' as your reply — just do the work and "
+            f"summarize what you did in past tense (one sentence). Mention "
+            f"{hallucinated_term} at your own peril; the guard re-triggers on it."
+        )
+    elif narration_count >= 3:
         # Charles is stuck saying "let me X" without doing X. Force the issue.
         log.warning("goal #%d narration loop detected (count=%d) — injecting strong-action prompt",
                     goal["id"], narration_count)
         action_prompt = (
-            f"⚠️ NARRATION LOOP DETECTED: your last {narration_count} notes are all "
-            f"'I'll do X' or 'let me write Y' WITHOUT actually doing it. This is the "
-            f"failure mode John warned about. THREE OPTIONS — pick one this tick:\n"
+            f"{GUARD_NOTICE_MARKER} NARRATION LOOP DETECTED: your last "
+            f"{narration_count} notes are all 'I'll do X' or 'let me write Y' "
+            f"WITHOUT actually doing it. THREE OPTIONS — pick one this tick:\n"
             f"  1. ACTUALLY DO IT NOW: call write_file/exec_shell/etc with the real content. "
             f"     If you have the content in your head, write it. If you don't, you're not "
             f"     ready to write — go to option 2 or 3.\n"

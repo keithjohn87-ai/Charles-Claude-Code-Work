@@ -83,10 +83,14 @@ NARRATION_PHRASES = (
     "let me get", "let me extract", "let me write",
 )
 
-# Hallucination terms — same set as core/heartbeat.py, kept in sync by hand
+# Hallucination terms — fabricated entities Charles invented in 2026-05-09
+# loop episodes. Tuned to be SPECIFIC enough not to false-positive on
+# legitimate research mentions. "ford" + "luxury car" + "company about page"
+# were dropped on 2026-05-10 morning after a false positive on legitimate
+# psychology/business references. If Tesla/Bugatti/Rivian show up
+# legitimately too, narrow further or require 2+ terms to co-occur.
 HALLUCINATION_TERMS = (
-    "tesla", "bugatti", "rivian", "larsonjuis", "larson juis", "ford",
-    "luxury car", "company about page",
+    "tesla", "bugatti", "rivian", "larsonjuis", "larson juis",
 )
 GUARD_NOTICE_MARKER = "<<GUARD_NOTICE>>"  # heartbeat-issued lines, ignore
 
