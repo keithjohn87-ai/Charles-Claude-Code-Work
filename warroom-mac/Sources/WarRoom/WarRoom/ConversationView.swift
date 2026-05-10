@@ -81,30 +81,36 @@ struct ConversationView: View {
         HSplitView {
             // Left: list of conversations
             VStack(alignment: .leading, spacing: 0) {
-                Text("Conversations")
-                    .font(.headline)
+                Text("CONVERSATIONS")
+                    .font(.caption.bold())
+                    .tracking(1.5)
+                    .foregroundStyle(.bronzeCopper)
                     .padding()
                 List(conversations, selection: $selectedConvId) { c in
                     VStack(alignment: .leading, spacing: 2) {
                         Text(c.conversationId)
                             .font(.system(.body, design: .monospaced))
+                            .foregroundStyle(.bronzeIvory)
                             .lineLimit(1)
                         if let last = c.lastUserMsg {
                             Text(last)
                                 .font(.caption)
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(.bronzeIvoryDim)
                                 .lineLimit(2)
                         }
                         Text("\(c.turnCount) turns • \(c.lastAt.prefix(19))")
                             .font(.caption2)
-                            .foregroundStyle(.tertiary)
+                            .foregroundStyle(.bronzeIvoryFaint)
                     }
                     .padding(.vertical, 4)
                     .tag(c.conversationId)
                 }
                 .listStyle(.sidebar)
+                .scrollContentBackground(.hidden)
+                .background(Color.bronzeSurface)
             }
             .frame(minWidth: 250, idealWidth: 280, maxWidth: 350)
+            .background(Color.bronzeSurface)
 
             // Right: turns + composer
             VStack(spacing: 0) {
@@ -131,9 +137,17 @@ struct ConversationView: View {
                     Divider()
                     composer(convId: convId)
                 } else {
-                    Text("Pick a conversation.")
-                        .foregroundStyle(.secondary)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    VStack(spacing: 12) {
+                        Image(systemName: "gearshape.2.fill")
+                            .font(.system(size: 48))
+                            .foregroundStyle(.bronzeDeep)
+                        Text("Pick a conversation.")
+                            .font(.callout)
+                            .foregroundStyle(.bronzeIvoryFaint)
+                            .tracking(0.5)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color.bronzeBackground)
                 }
             }
         }
@@ -162,10 +176,12 @@ struct ConversationView: View {
                     }
                 }) {
                     Image(systemName: "arrow.clockwise")
+                        .foregroundStyle(.bronzeCopper)
                 }
                 .help("Refresh conversations + turns")
             }
         }
+        .bronzeTheme()
     }
 
     private func composer(convId: String) -> some View {
@@ -187,8 +203,12 @@ struct ConversationView: View {
                 Spacer()
 
                 if sending {
-                    ProgressView().scaleEffect(0.5)
-                    Text("Charles is working…").font(.caption2).foregroundStyle(.secondary)
+                    ProgressView()
+                        .scaleEffect(0.5)
+                        .tint(.bronzeCopper)
+                    Text("Charles is workin'…")
+                        .font(.caption2.italic())
+                        .foregroundStyle(.bronzeProgress)
                 }
 
                 // Stop — cancel the in-flight response
@@ -302,26 +322,46 @@ struct TurnRow: View {
                     Text(turn.role.uppercased())
                         .font(.caption2.bold())
                         .foregroundStyle(roleColor)
+                        .tracking(1.0)  // letter-spacing for industrial feel
                     Text(turn.createdAt.prefix(19))
                         .font(.caption2)
-                        .foregroundStyle(.tertiary)
+                        .foregroundStyle(.bronzeIvoryFaint)
                     Spacer()
                 }
                 if let c = turn.content, !c.isEmpty {
-                    Text(c)
-                        .textSelection(.enabled)
+                    if turn.role == "progress" {
+                        // Single-row mutating ticker — italic, dim, faint
+                        Text(stripBracketingItalics(c))
+                            .italic()
+                            .font(.system(.callout, design: .monospaced))
+                            .foregroundStyle(.bronzeProgress)
+                    } else {
+                        Text(c)
+                            .foregroundStyle(.bronzeIvory)
+                            .textSelection(.enabled)
+                    }
                 }
             }
         }
     }
 
+    /// Strip `*…*` markdown italics — we apply italic styling natively.
+    private func stripBracketingItalics(_ s: String) -> String {
+        let trimmed = s.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmed.hasPrefix("*") && trimmed.hasSuffix("*") && trimmed.count > 2 {
+            return String(trimmed.dropFirst().dropLast())
+        }
+        return s
+    }
+
     private var roleColor: Color {
         switch turn.role {
-        case "user": return .blue
-        case "assistant": return .purple
-        case "tool": return .orange
-        case "system": return .gray
-        default: return .secondary
+        case "user":      return .bronzeUser
+        case "assistant": return .bronzeAssistant
+        case "tool":      return .bronzeTool
+        case "progress":  return .bronzeProgress
+        case "system":    return .bronzeIvoryDim
+        default:          return .bronzeIvoryFaint
         }
     }
 
@@ -332,11 +372,12 @@ struct TurnRow: View {
 
     private var roleIconName: String {
         switch turn.role {
-        case "user": return "person.fill"
-        case "assistant": return "brain"
-        case "tool": return "wrench.fill"
-        case "system": return "gear"
-        default: return "circle"
+        case "user":      return "person.fill"
+        case "assistant": return "gearshape.2.fill"   // mechanical, matches the icon
+        case "tool":      return "wrench.adjustable"
+        case "progress":  return "ellipsis.circle"    // mid-action ticker
+        case "system":    return "gear"
+        default:          return "circle"
         }
     }
 }
