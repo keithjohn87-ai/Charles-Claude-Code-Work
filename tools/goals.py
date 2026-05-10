@@ -111,3 +111,22 @@ def cancel_goal(goal_id: int) -> str:
     if not _goals.cancel(goal_id):
         return f"[error] goal #{goal_id} not found or not active"
     return f"goal #{goal_id} cancelled"
+
+
+@tool(
+    name="update_goal_status",
+    summary="Update a goal's status and reset last_advanced_at. Use to flip a paused goal to active (e.g. activating Round 2 when Round 1 completes).",
+    triggers=("update goal status", "flip goal", "activate goal"),
+    schema={
+        "type": "object",
+        "properties": {
+            "goal_id": {"type": "integer"},
+            "new_status": {"type": "string", "description": "active|paused|done|cancelled"},
+        },
+        "required": ["goal_id", "new_status"],
+    },
+)
+def update_goal_status(goal_id: int, new_status: str) -> str:
+    if not _goals.update_status(goal_id, new_status):
+        return f"[error] goal #{goal_id} not found"
+    return f"goal #{goal_id} status updated to {new_status}"
