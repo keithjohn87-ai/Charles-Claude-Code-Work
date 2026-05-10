@@ -678,6 +678,7 @@ _TOOL_VERBS = {
     "append_goal_note": "Loggin' a note",
     "complete_goal": "Wrappin' up:",
     "cancel_goal": "Killin' that goal:",
+    "update_goal_status": "Flippin' that goal's status:",
     "schedule_task": "Pencilin' in a task:",
     "list_scheduled_tasks": "Checkin' the schedule",
     "current_time": "Glancin' at the clock",
