@@ -58,7 +58,11 @@ log = logging.getLogger("warroom.server")
 # survives switching between UI and phone. If a UI client sends a stale or
 # stress-test conv_id, we reroute it here so John always lands in one thread.
 _OWNER_USER_CONV = "8455750177"
-_REROUTE_PREFIXES = ("stress_", "smoketest", "wd_test_", "stop_test_")
+_REROUTE_PREFIXES = (
+    "stress_", "smoketest", "wd_test_", "stop_test_",
+    "ticker_test", "guard_diag", "guard_smoke",
+    "progress_smoke", "post_patch", "smoke_test",
+)
 
 
 def _normalize_user_conv_id(conv_id: str) -> str:
@@ -304,15 +308,61 @@ async def state_tools():
 
 @app.post("/api/command/message")
 async def cmd_message(req: Request):
+    """Send a message to Charles. Runs agent.respond in the background and
+    returns immediately so the UI never sees an HTTP timeout, regardless of
+    how many tool rounds Charles needs.
+
+    The background task writes:
+      - the user's message (immediately, from this handler)
+      - Charles's progress ticker rows (mutating in place during work)
+      - Charles's final assistant reply (when the chain completes)
+    The UI's existing GET /api/state/conversations/{id} polling picks all of
+    these up. No long-lived HTTP connection required.
+
+    Behaviour change from prior versions: previous shape was synchronous —
+    the POST blocked until Charles finished, which timed out the UI when
+    respond took >60 sec. The new shape returns 202 with a status payload
+    while respond runs detached; UI sees the actual reply via subsequent
+    conversation refreshes.
+    """
     body: dict[str, Any] = await req.json()
     conv_id = body.get("conv_id") or body.get("conversation_id")
     text = body.get("text")
     if not conv_id or not text:
         raise HTTPException(400, "conv_id and text required")
     normalized = _normalize_user_conv_id(str(conv_id))
+
+    # Sync mode (existing callers like Telegram channel and stress tests still
+    # want the reply in the response body) is opt-in via ?sync=1 query param,
+    # default is async.
+    sync = req.query_params.get("sync") == "1"
     from core import agent
-    reply = await asyncio.to_thread(agent.respond, text, normalized)
-    return {"reply": reply, "conv_id": normalized}
+    if sync:
+        reply = await asyncio.to_thread(agent.respond, text, normalized)
+        return {"reply": reply, "conv_id": normalized, "mode": "sync"}
+
+    # Async path — launch respond in a background task and return immediately.
+    # The text gets persisted by agent.respond's first action (memory.log_turn
+    # at the top of _respond_impl), so refreshing the conv right away will
+    # show the user message + the *thinking…* progress row.
+    async def _bg() -> None:
+        try:
+            await asyncio.to_thread(agent.respond, text, normalized)
+        except Exception as e:  # noqa: BLE001
+            log.exception("background respond failed for %s: %s", normalized, e)
+
+    asyncio.create_task(_bg())
+    # Return a string for `reply` (not null) so existing Mac UI Swift
+    # Codable decoder doesn't choke on a missing field. The UI ignores
+    # this value (uses loadTurns to refresh), so the placeholder is fine.
+    return JSONResponse(
+        {
+            "reply": "(Charles is working — refresh the conversation to see his progress and reply.)",
+            "conv_id": normalized,
+            "mode": "async",
+        },
+        status_code=200,
+    )
 
 
 # ---- Secrets channel — write to ~/charles/.env safely from the app --------
