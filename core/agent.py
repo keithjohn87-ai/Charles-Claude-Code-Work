@@ -146,9 +146,33 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
         except Exception as e:  # noqa: BLE001
             log.exception("loop-recovery check failed (continuing): %s", e)
 
-        prior = memory.recent_history(conversation_id, max_chars=HISTORY_CHAR_BUDGET)
+        # Adaptive context window — short user messages (greetings, single-line
+        # acks) get a slim history slice. The 2026-05-11 "Are you awake → 800-
+        # word CC report" failure was Charles overfitting on prior CC chatter
+        # surrounding a fresh greeting. Strip the noise; let him answer the
+        # actual message at face value.
+        _msg_stripped = (message or "").strip()
+        _is_short_msg = len(_msg_stripped) < 30
+        _looks_like_greeting = bool(_msg_stripped) and any(
+            _msg_stripped.lower().startswith(p)
+            for p in (
+                "hi", "hey", "hello", "yo", "sup", "morning", "afternoon",
+                "evening", "you up", "you there", "are you", "still there",
+                "still up", "you awake", "thanks", "thank you", "ty", "ok",
+                "okay", "k", "got it", "cool", "nice",
+            )
+        )
+        if _is_short_msg or _looks_like_greeting:
+            adaptive_budget = max(2000, HISTORY_CHAR_BUDGET // 8)
+            prior = memory.recent_history(conversation_id, max_chars=adaptive_budget)
+            log.info(
+                "loaded %d prior turns for conv=%s (ADAPTIVE: short/greeting msg, budget=%d chars)",
+                len(prior), conversation_id, adaptive_budget,
+            )
+        else:
+            prior = memory.recent_history(conversation_id, max_chars=HISTORY_CHAR_BUDGET)
+            log.info("loaded %d prior turns for conv=%s", len(prior), conversation_id)
         history.extend(prior)
-        log.info("loaded %d prior turns for conv=%s", len(prior), conversation_id)
 
     # Auto-recall: before letting the model see the user message, run a
     # cheap keyword search over long_term_facts. If past sessions saved
