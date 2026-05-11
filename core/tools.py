@@ -80,6 +80,8 @@ CORE_TOOLS: set[str] = {
     "skill_log_use",
     # System status + vibe
     "system_status", "vibe_check", "current_time",
+    # Common Crawl build (2026-05-11) — John will ask Charles to run/check it
+    "run_cc_build", "cc_status",
 }
 
 SYSTEM_ONLY_TOOLS: set[str] = {

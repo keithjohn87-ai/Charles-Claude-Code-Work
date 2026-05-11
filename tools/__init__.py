@@ -8,6 +8,7 @@ open_requests), losing 8 tools Charles already had source for.
 from . import (  # noqa: F401
     browser,
     calendar,
+    cc_build,
     documents,
     email_triage,
     filesystem,
