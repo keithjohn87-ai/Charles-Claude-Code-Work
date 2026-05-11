@@ -29,7 +29,7 @@ import tools  # noqa: F401  — import side-effect: registers all tools
 from core import channels, memory
 from core.inference import complete
 from core.prompts import build_system_prompt
-from core.tools import REGISTRY, dispatch  # select_tools still in core.tools, kept for future
+from core.tools import REGISTRY, core_tools, dispatch, select_tools, tool_tier
 
 log = logging.getLogger("charles.agent")
 
@@ -197,19 +197,31 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
         except Exception:  # noqa: BLE001
             pass
 
-    # Send all registered tool schemas every turn. Total schema cost at M2 is
-    # ~200 tokens — worth it to eliminate the "tool present but not loaded"
-    # failure mode where the model narrates a call as text instead of emitting
-    # a real tool_call. When the toolset grows past ~10, reintroduce
-    # select_tools gating.
-    api_tools = [t.openai_schema() for t in REGISTRY.values()] or None
+    # Tool tiering (audit 2026-05-11): with 70+ registered tools, sending
+    # every schema every turn was burning ~5k tokens. Now:
+    #   - CORE tools (~25): always sent, stable across turns → MLX cache hits
+    #   - ON_DEMAND: selected per-turn by trigger match against the latest
+    #     user message; only loaded on the first round of a chain so
+    #     mid-chain rounds keep the cache warm
+    #   - SYSTEM_ONLY: never sent (called by scheduler/heartbeat directly)
+    last_user_msg = ""
+    for m in reversed(history):
+        if m.get("role") == "user":
+            last_user_msg = m.get("content") or ""
+            break
+    selected_on_demand = select_tools(last_user_msg, max_tools=5) if last_user_msg else []
+    selected_names: set[str] = {t.name for t in selected_on_demand}
+    api_tools_list = list(core_tools()) + selected_on_demand
+    api_tools = [t.openai_schema() for t in api_tools_list] or None
 
     total_chars = sum(len(m.get("content") or "") for m in history)
     log.info(
-        "respond start: prompt_chars=%d turns_in_prompt=%d tools=%s",
+        "respond start: prompt_chars=%d turns_in_prompt=%d core=%d on_demand=%d tools=%s",
         total_chars,
         len(history) - 1,
-        [t.name for t in REGISTRY.values()],
+        len(core_tools()),
+        len(selected_on_demand),
+        [t.name for t in api_tools_list],
     )
 
     final_text = ""
@@ -235,7 +247,14 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
         # Subsequent rounds get more headroom because tool_call arguments
         # (e.g., a long write_file content) legitimately need it.
         round_max_tokens = 1500 if round_n == 0 else 4000
-        text, msg, usage = complete(history, tools=api_tools, max_tokens=round_max_tokens)
+        # Mid-chain rounds (after the first) drop on_demand schemas — they
+        # were either consumed in round 0 or won't be needed. Keeping CORE
+        # only on subsequent rounds preserves the MLX prompt cache prefix
+        # since the tool list stops changing between rounds.
+        round_tools = api_tools if round_n == 0 else (
+            [t.openai_schema() for t in core_tools()] or None
+        )
+        text, msg, usage = complete(history, tools=round_tools, max_tokens=round_max_tokens)
         log.info(
             "round=%d usage=%s tool_calls=%d",
             round_n,

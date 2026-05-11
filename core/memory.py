@@ -1376,6 +1376,7 @@ def reflect_daily() -> dict:
     day_ago = (now - timedelta(hours=24)).isoformat(timespec="milliseconds").replace("+00:00", "Z")
     two_weeks_ago = (now - timedelta(days=14)).isoformat(timespec="milliseconds").replace("+00:00", "Z")
     thirty_days_ago = (now - timedelta(days=30)).isoformat(timespec="milliseconds").replace("+00:00", "Z")
+    seven_days_ago = (now - timedelta(days=7)).isoformat(timespec="milliseconds").replace("+00:00", "Z")
 
     with _conn() as c:
         # New facts in last 24h, grouped by topic
@@ -1403,7 +1404,8 @@ def reflect_daily() -> dict:
         ).fetchall()
         thin_topics = [r["name"] for r in thin_rows]
 
-        # Auto-supersede facts not used in 30+ days AND created over 30 days ago
+        # Auto-supersede general facts not used in 30+ days AND created over 30 days ago.
+        # Skip facts under leaf-of-system_health topics — those get the aggressive 7d sweep below.
         cold_facts_marked = c.execute(
             "UPDATE long_term_facts SET tags = tags || ',superseded,superseded_by:age_30d' "
             "WHERE (last_used_at IS NULL OR last_used_at < ?) "
@@ -1412,6 +1414,19 @@ def reflect_daily() -> dict:
             "AND topic NOT IN (SELECT name FROM topics WHERE parent_topic_id IS NOT NULL "
             "                  OR fact_count > 50)",  # don't mark facts under big or hierarchical topics
             (thirty_days_ago, thirty_days_ago),
+        ).rowcount
+
+        # Aggressive 7-day prune for housekeeping topics under system_health.
+        # These topics (intra_call_loop, tool_error_storm, kickstart, manual_reset, etc.)
+        # accumulate operational noise that has no long-term value past a week.
+        cold_facts_marked += c.execute(
+            "UPDATE long_term_facts SET tags = tags || ',superseded,superseded_by:age_7d_sysh' "
+            "WHERE (last_used_at IS NULL OR last_used_at < ?) "
+            "AND created_at < ? "
+            "AND tags NOT LIKE '%superseded%' "
+            "AND topic IN (SELECT t.name FROM topics t JOIN topics p ON t.parent_topic_id=p.id "
+            "              WHERE p.name='system_health')",
+            (seven_days_ago, seven_days_ago),
         ).rowcount
 
     # Recompute summaries for topics with > 3 new facts

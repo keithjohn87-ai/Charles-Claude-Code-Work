@@ -44,6 +44,58 @@ _SMART_QUOTES = str.maketrans({
     "“": '"', "”": '"', "„": '"', "‟": '"',
 })
 
+# ─────────────────────────────────────────────────────────────────────────────
+# Tool tiering (added 2026-05-11 audit). Three tiers control where a tool's
+# schema and summary appear in the LLM context, so prompt cost stays bounded
+# as the toolset grows past ~10:
+#
+#   CORE        — always sent every turn. Stable across all calls so the MLX
+#                 prompt cache stays warm. The set Charles uses in normal
+#                 conversation + critical safety + frequent project ops.
+#   ON_DEMAND   — sent only when the user message OR recent CHARLES_LOG
+#                 chatter triggers a keyword in the tool's `triggers` field.
+#                 Loaded on top of CORE on the first round of a chain.
+#   SYSTEM_ONLY — never sent to the LLM. Called by scheduler / heartbeat /
+#                 watchdog code paths only. The handler is registered for
+#                 dispatch but the schema and summary are excluded from
+#                 prompts entirely.
+#
+# A tool name not listed in CORE_TOOLS or SYSTEM_ONLY_TOOLS defaults to
+# ON_DEMAND.
+# ─────────────────────────────────────────────────────────────────────────────
+
+CORE_TOOLS: set[str] = {
+    # Top 10 actually-invoked via LLM (per audit 2026-05-11)
+    "project_mark_item", "browse_url", "project_next_pending", "exec_shell",
+    "project_list_items", "recall", "project_status", "read_file",
+    "remember", "complete_goal",
+    # Critical safety / state-management (must always be available)
+    "reset_my_conversation", "recall_keyword",
+    # Proactive iMessage to John (legacy notify_john lives in on_demand)
+    "send_imessage", "recent_imessages",
+    # Goal + task ops Charles needs in normal chat
+    "list_goals", "append_goal_note", "list_open_tasks", "add_task",
+    # New learning-tree surfaces (Charles is gradually adopting them)
+    "recall_topic", "topic_list", "john_says", "john_pref_categories",
+    "skill_log_use",
+    # System status + vibe
+    "system_status", "vibe_check", "current_time",
+}
+
+SYSTEM_ONLY_TOOLS: set[str] = {
+    # Scheduler-invoked, not LLM-facing
+    "consolidate_memory", "reflect_now", "get_weather", "notify_john",
+}
+
+
+def tool_tier(name: str) -> str:
+    """Return 'core', 'system', or 'on_demand' for a registered tool name."""
+    if name in CORE_TOOLS:
+        return "core"
+    if name in SYSTEM_ONLY_TOOLS:
+        return "system"
+    return "on_demand"
+
 
 def tool(*, name: str, summary: str, schema: dict, triggers: tuple[str, ...] = ()):
     def decorator(fn: Callable[..., str]) -> Callable[..., str]:
@@ -62,30 +114,49 @@ def tool(*, name: str, summary: str, schema: dict, triggers: tuple[str, ...] = (
 
 
 def summary_block() -> str:
-    """One-line summary per tool, for the lean default prompt."""
+    """One-line summary per tool — CORE tier only.
+
+    On-demand tool summaries are NOT included in the always-on system prompt;
+    they're surfaced as schemas via select_tools() when their triggers fire.
+    System-only tools never appear in the prompt. This caps the always-on
+    summary block at ~25-30 entries regardless of total registry size.
+    """
     if not REGISTRY:
         return ""
-    lines = [f"- {t.name}: {t.summary}" for t in REGISTRY.values()]
-    return "Tools you can call:\n" + "\n".join(lines)
+    lines = [f"- {t.name}: {t.summary}" for t in REGISTRY.values() if tool_tier(t.name) == "core"]
+    if not lines:
+        return ""
+    return "Tools you can call (core; more available on-demand via triggers):\n" + "\n".join(lines)
 
 
-def select_tools(message: str, max_tools: int = 3) -> list[Tool]:
-    """Pick up to N tools whose triggers appear in the message.
+def select_tools(message: str, max_tools: int = 5) -> list[Tool]:
+    """Pick up to N on-demand tools whose triggers appear in the message.
+
+    Only ON_DEMAND tier is selectable — CORE is always sent (no need to
+    select), SYSTEM_ONLY is never sent.
 
     v0 classifier: case-insensitive substring match on registered triggers.
-    Score = number of distinct triggers that hit. Ties broken by registration order.
+    Score = number of distinct triggers that hit. Ties broken by registration
+    order.
     """
     text = (message or "").lower().translate(_SMART_QUOTES)
     scored: list[tuple[int, int, Tool]] = []
     for idx, t in enumerate(REGISTRY.values()):
+        if tool_tier(t.name) != "on_demand":
+            continue
         hits = sum(1 for trig in t.triggers if trig in text)
         if hits:
             scored.append((-hits, idx, t))
     scored.sort()
     selected = [t for _, _, t in scored[:max_tools]]
     if selected:
-        log.info("classifier selected: %s", [t.name for t in selected])
+        log.info("classifier selected on-demand: %s", [t.name for t in selected])
     return selected
+
+
+def core_tools() -> list[Tool]:
+    """Return all CORE-tier tools. Always-on for every LLM call."""
+    return [t for t in REGISTRY.values() if tool_tier(t.name) == "core"]
 
 
 def dispatch(name: str, arguments_json: str) -> str:
