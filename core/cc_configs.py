@@ -8,6 +8,19 @@ Sequencing per directive section 9:
   Phase 1 order: business_corpus → human_context → training_corpus → external
   Phase 2 order: qwen36 → mlx → agent_architecture
   Each branch/config completes fully before the next starts.
+
+Phase 1 rewrite 2026-05-12: original configs had mismatched domain↔keyword
+pairings (e.g. business_corpus domains were github/anthropic/openai but the
+keywords were construction/contractor/trade — those keywords don't appear on
+those domains, so the per-record keyword filter rejected most fetches). This
+rewrite splits Phase 1 by the actual vertical:
+
+  business_corpus  → running a trade business (construction PM, field
+                     service software, AGC/NAHB doctrine, sales pipeline)
+  training_corpus  → trade-vertical CONTENT (NEC, ASHRAE, HVAC technique,
+                     electrical code, plumbing methods)
+  human_context    → philosophy, ethics, language, communication, history
+  external         → catch-all (programming forums, HN, lobste.rs)
 """
 from __future__ import annotations
 
@@ -31,14 +44,40 @@ PHASE_1_CONFIGS = [
         "name": "p1_business_corpus",
         "branch": "business_corpus",
         "domains": [
-            # Charles self / Apprentice Accelerator / ContractorPro / RV Park
-            # Seeded — runner unions with URL-sprint history at startup
-            "github.com", "anthropic.com", "openai.com",
+            # Construction project / field-service management software
+            "procore.com", "servicetitan.com", "buildertrend.com",
+            "coconstruct.com", "jobnimbus.com", "knowify.com",
+            "contractorforeman.com",
+            # Industry publications + forums
+            "enr.com",                       # Engineering News-Record
+            "constructiondive.com",
+            "forconstructionpros.com",
+            "constructconnect.com",
+            "contractortalk.com",
+            "jlconline.com",                 # Journal of Light Construction
+            "thisoldhouse.com",
+            "finehomebuilding.com",
+            # Trade associations / doctrine
+            "agc.org",                       # Associated General Contractors
+            "abc.org",                       # Associated Builders and Contractors
+            "nahb.org",                      # National Association of Home Builders
+            # B2B sales motion (Charles's apprentice-accelerator / ContractorPro
+            # ventures sit on these patterns)
+            "hubspot.com", "saastr.com", "close.com", "intercom.com",
+            "saleshacker.com", "gong.io", "chorus.ai",
         ],
         "path_patterns": ["*"],
         "required_keywords": [
-            "construction", "contractor", "trade", "training", "apprentice",
-            "RV", "park", "campground", "ServiceTitan", "Procore", "BuilderTrend",
+            # Trade-business operations
+            "construction", "contractor", "subcontractor", "general contractor",
+            "trade", "tradesperson", "apprentice", "journeyman",
+            "project management", "field service", "scheduling", "estimating",
+            "bid", "RFP", "change order", "punch list", "permit", "inspection",
+            "ServiceTitan", "Procore", "BuilderTrend", "CoConstruct",
+            # Sales motion
+            "pipeline", "objection", "demo", "cold call", "outbound",
+            "discovery call", "qualification", "BANT", "MEDDIC",
+            "close rate", "ACV", "ARR",
         ],
         "min_keyword_hits": 1,
         "routing_tag": "phase1/business_corpus",
@@ -49,17 +88,24 @@ PHASE_1_CONFIGS = [
         "name": "p1_human_context",
         "branch": "human_context",
         "domains": [
-            # Philosophy/Doctrine, Family, History, Health, Work/Trade
+            # Philosophy / ethics / doctrine
             "plato.stanford.edu", "iep.utm.edu", "philpapers.org",
+            # General reference + history
             "en.wikipedia.org", "history.com",
-            "mayoclinic.org", "nih.gov",
-            "linguisticsociety.org", "studylib.net",
+            # Health (where construction overlaps: ergonomics, jobsite safety)
+            "mayoclinic.org", "nih.gov", "cdc.gov", "osha.gov",
+            # Language + communication
+            "linguisticsociety.org", "psychologytoday.com", "hbr.org",
+            # Trade-skill humanity: the people who do the work
+            "mikeroweworks.org",
         ],
         "path_patterns": ["*"],
         "required_keywords": [
-            "philosophy", "ethics", "doctrine", "history", "family",
+            "philosophy", "ethics", "stoic", "doctrine",
+            "history", "family", "culture",
             "communication", "language", "pragmatics", "rhetoric",
-            "health", "medicine", "construction", "trade",
+            "psychology", "leadership", "trust", "negotiation",
+            "health", "safety", "ergonomics", "jobsite",
         ],
         "min_keyword_hits": 1,
         "routing_tag": "phase1/human_context",
@@ -70,17 +116,42 @@ PHASE_1_CONFIGS = [
         "name": "p1_training_corpus",
         "branch": "training_corpus",
         "domains": [
-            # Sales/Demo material, Electrical vertical, HVAC vertical
-            "salesforce.com/blog", "hubspot.com",
-            "ecmweb.com", "electricalcontractor.net",
-            "achrnews.com", "contractingbusiness.com",
-            "ieee.org", "nfpa.org",
+            # Electrical — code, training, industry pubs
+            "ecmweb.com",                    # Electrical Construction & Maintenance
+            "electricalcontractor.net",      # NECA's pub
+            "mikeholt.com",                  # NEC training (the standard)
+            "necanet.org",                   # National Electrical Contractors Assoc
+            "ewweb.com",                     # Electrical Wholesaling
+            "ieee.org", "nfpa.org",          # academic + code authority
+            # HVAC — code, technique, industry pubs
+            "achrnews.com",                  # Air Conditioning Heating & Refrigeration News
+            "contractingbusiness.com",       # HVAC contractor business pub
+            "ashrae.org",                    # ASHRAE (the standard body)
+            "esmagazine.com",                # Engineered Systems
+            "hvac-talk.com",                 # practitioner forum
+            "rsesjournal.com",               # Refrigeration Service Engineers Society
+            # Plumbing
+            "phcppros.com",                  # Plumbing, Hydronics, Heating, Cooling pub
+            "plumbermag.com",
+            "iapmo.org",                     # plumbing code body
+            # Trade-school + apprenticeship content
+            "skillsusa.org",
         ],
         "path_patterns": ["*"],
         "required_keywords": [
-            "sales", "demo", "pitch", "objection",
-            "electrical", "wiring", "voltage", "NEC", "code",
-            "HVAC", "refrigerant", "duct", "ASHRAE",
+            # Electrical
+            "electrical", "wiring", "voltage", "amperage", "circuit",
+            "NEC", "National Electrical Code", "panel", "breaker", "GFCI",
+            "AFCI", "grounding", "conduit",
+            # HVAC
+            "HVAC", "refrigerant", "duct", "ductwork", "ASHRAE",
+            "compressor", "condenser", "evaporator", "BTU", "load calculation",
+            "Manual J", "Manual D", "thermostat", "heat pump", "VAV",
+            # Plumbing
+            "plumbing", "fixture", "drain", "vent", "DWV", "supply line",
+            "UPC", "IPC", "backflow",
+            # Cross-cutting
+            "code compliance", "inspection", "license", "journeyman",
         ],
         "min_keyword_hits": 1,
         "routing_tag": "phase1/training_corpus",
@@ -91,7 +162,6 @@ PHASE_1_CONFIGS = [
         "name": "p1_external",
         "branch": "external",
         "domains": [
-            # URL Corpus, Business URLs — broad
             "github.com", "stackoverflow.com",
             "news.ycombinator.com", "lobste.rs",
         ],
