@@ -169,8 +169,26 @@ def core_tools() -> list[Tool]:
     return [t for t in REGISTRY.values() if tool_tier(t.name) == "core"]
 
 
-def dispatch(name: str, arguments_json: str) -> str:
+def dispatch(
+    name: str,
+    arguments_json: str,
+    cancel_event: threading.Event | None = None,
+) -> str:
     """Run a tool by name with JSON-string arguments. Always returns a string.
+
+    cancel_event (optional): a threading.Event that, when set, signals the
+    user clicked Stop in the WarRoom UI mid-call. Behavior:
+      - Pre-flight: if already set when dispatch is entered, returns a
+        synthetic "[cancelled by user]" string WITHOUT calling the handler.
+        Used to short-circuit a tool that was queued while the Stop click
+        was still in flight.
+      - Mid-tool: if the handler's signature accepts a `cancel_event` kwarg,
+        the same event is passed through so the handler can honor it at
+        its own checkpoints (exec_shell, browse_url, run_cc_build, etc.).
+      - If the handler does NOT accept cancel_event, the dispatcher still
+        runs it synchronously; the Stop click will fire on the NEXT round
+        check inside agent.respond. Same behavior as before this parameter
+        existed — additive, no regression.
 
     Hardened 2026-05-09 after forensic showed Charles repeatedly emitting
     tool_calls with missing required args (exec_shell() / self_patch() /
@@ -190,6 +208,12 @@ def dispatch(name: str, arguments_json: str) -> str:
     See core/tool_guards.py for the full guard set.
     """
     from core import tool_guards  # late import — avoids circular at module load
+
+    # Pre-flight stop check — user clicked Stop while this tool call was in
+    # the LLM's just-emitted message but before we got here. Short-circuit
+    # without running the handler at all.
+    if cancel_event is not None and cancel_event.is_set():
+        return f"[cancelled by user] {name} was not run."
 
     t = REGISTRY.get(name)
     if t is None:
@@ -227,6 +251,14 @@ def dispatch(name: str, arguments_json: str) -> str:
         log.info("guard short-circuit on %s: %s", name, guard_msg[:120])
         return guard_msg
     tool_guards.mark_in_flight(name, kwargs)
+
+    # If the handler accepts a `cancel_event` parameter, plumb the caller's
+    # event through. Handlers that don't accept it are unaffected — the
+    # Stop click will fire on the next between-rounds check in agent.respond.
+    if cancel_event is not None:
+        handler_sig = inspect.signature(t.handler)
+        if "cancel_event" in handler_sig.parameters and "cancel_event" not in kwargs:
+            kwargs["cancel_event"] = cancel_event
 
     try:
         result = t.handler(**kwargs)

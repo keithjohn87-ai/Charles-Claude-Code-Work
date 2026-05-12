@@ -371,7 +371,7 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
                 except Exception:  # noqa: BLE001
                     pass
 
-            result = dispatch(tc.function.name, tc.function.arguments)
+            result = dispatch(tc.function.name, tc.function.arguments, cancel_event=stop_event)
             log.info(
                 "tool=%s args=%r result_chars=%d",
                 tc.function.name,
