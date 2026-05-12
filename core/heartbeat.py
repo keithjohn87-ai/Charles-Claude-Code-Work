@@ -1,27 +1,36 @@
 """Autonomous heartbeat loop.
 
-Two responsibilities every tick:
+Three responsibilities every tick:
   1. Fire any due `scheduled_tasks` (one-shot or recurring time-based work).
   2. Advance one ripe `goal` (open-ended long-burn objectives).
+  3. Poll the CLAUDE_CODE channel for builder dev-notes (throttled to 60s).
 
-Both produce a synthetic prompt routed through the full agent. Charles
+All three produce a synthetic prompt routed through the full agent. Charles
 decides what concrete action to take and only notifies John when warranted.
 
-All synthetic ticks (heartbeat tasks + goal advances) log into CHARLES_LOG —
-the operational/autonomous channel. The goal_id / task_id is preserved in the
-message body so Charles knows which scheduling event fired. Per-goal continuity
-is preserved via the goals table's `notes` column, NOT a separate conv_id.
+Synthetic ticks (heartbeat tasks + goal advances) log into CHARLES_LOG —
+the operational/autonomous channel. Builder dev-notes log into CLAUDE_CODE.
+The goal_id / task_id is preserved in the message body so Charles knows which
+scheduling event fired. Per-goal continuity is preserved via the goals table's
+`notes` column, NOT a separate conv_id.
 """
 from __future__ import annotations
 
 import asyncio
 import logging
+import time
 
 from core import channels, goals, scheduler
 
 log = logging.getLogger("charles.heartbeat")
 
 DEFAULT_TICK_SECONDS = 15
+
+# Builder-note polling: every 60s, not every tick. Heartbeat default is 15s
+# so without throttling we'd hammer the conversations table every tick for a
+# channel that's quiet 99% of the time.
+CLAUDE_CODE_POLL_SECONDS = 60
+_last_claude_code_poll: float = 0.0
 
 
 async def _run_blocking(prompt: str, conv_id: str) -> tuple[bool, str]:
@@ -194,9 +203,84 @@ async def _advance_one_goal() -> None:
             goals.append_note(goal["id"], note)
 
 
+def _unanswered_claude_code_turns(limit: int = 5) -> list[dict]:
+    """Return user-role turns on the CLAUDE_CODE channel with no later assistant turn.
+
+    A turn is "unanswered" if its id is greater than the most recent assistant
+    turn on the same conv_id. This means after agent.respond fires on a note
+    and appends an assistant turn, that note drops out of the result set
+    automatically — no separate state file needed.
+
+    Returned oldest-first so Charles processes builder notes in dispatch order.
+    """
+    from core.memory import _conn
+    with _conn() as c:
+        rows = c.execute(
+            """
+            SELECT id, content
+              FROM conversations
+             WHERE conversation_id = ?
+               AND role = 'user'
+               AND id > COALESCE(
+                   (SELECT MAX(id) FROM conversations
+                     WHERE conversation_id = ? AND role = 'assistant'),
+                   0
+               )
+             ORDER BY id ASC
+             LIMIT ?
+            """,
+            (channels.CLAUDE_CODE, channels.CLAUDE_CODE, limit),
+        ).fetchall()
+    return [{"id": r["id"], "content": r["content"]} for r in rows]
+
+
+async def _poll_claude_code() -> None:
+    """Dispatch any unread builder dev-notes on the CLAUDE_CODE channel.
+
+    Throttled to CLAUDE_CODE_POLL_SECONDS so this query runs at most once a
+    minute, even though the heartbeat ticks every 15s. Processes up to 5 notes
+    per poll — if Claude Code stacked more, the next poll handles them.
+    """
+    global _last_claude_code_poll
+    now = time.monotonic()
+    if now - _last_claude_code_poll < CLAUDE_CODE_POLL_SECONDS:
+        return
+    _last_claude_code_poll = now
+
+    try:
+        pending = _unanswered_claude_code_turns(limit=5)
+    except Exception:  # noqa: BLE001
+        log.exception("claude_code poll: db query failed")
+        return
+
+    if not pending:
+        return
+
+    log.info("claude_code: processing %d builder note(s)", len(pending))
+    for note in pending:
+        prompt = (
+            f"[builder dev-note from Claude Code, id={note['id']}]\n\n"
+            f"{note['content']}\n\n"
+            f"This is NOT John talking. It's a technical hand-off from Claude "
+            f"Code (the harness AI that helps John build YOU). Read it, "
+            f"integrate anything actionable (a memory fact, a behavior tweak, "
+            f"a retry of something that failed), and reply with a SHORT "
+            f"acknowledgment of what you took from it. Do NOT notify John "
+            f"unless the note explicitly asks you to. Do NOT speak in voice "
+            f"— this channel is silent."
+        )
+        ok, _result = await _run_blocking(prompt, channels.CLAUDE_CODE)
+        if not ok:
+            # Don't keep retrying the same note in a tight loop — stop the
+            # batch and let the next poll re-attempt after 60s.
+            log.warning("claude_code: respond failed on note id=%d; stopping batch", note["id"])
+            break
+
+
 async def _tick() -> None:
     await _fire_due_tasks()
     await _advance_one_goal()
+    await _poll_claude_code()
 
 
 async def loop(period_seconds: int = DEFAULT_TICK_SECONDS) -> None:
