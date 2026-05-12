@@ -25,8 +25,6 @@ between each branch/config completion.
 """
 from __future__ import annotations
 
-import gzip
-import hashlib
 import io
 import logging
 from dataclasses import dataclass, field
@@ -215,10 +213,16 @@ def fetch_warc_main(record: CDXRecord) -> str | None:
 
 
 def fetch_text(record: CDXRecord) -> str | None:
-    """Top-level fetch: try WET, fall back to WARC+trafilatura."""
-    text = fetch_wet(record)
-    if text and len(text) >= 500 and not _is_mostly_boilerplate(text):
-        return text
+    """Top-level fetch: WARC + trafilatura main-content extraction.
+
+    Earlier versions tried fetch_wet first, but the CDX index only has WARC
+    offsets — WET files have their own (different) offsets which aren't
+    indexed. Range-requesting WET with WARC offsets returns HTTP 416
+    "Requested Range Not Satisfiable" on every page. Bug fixed 2026-05-11.
+
+    WARC + trafilatura is slightly slower per page but always correct —
+    the byte range matches what the CDX index advertised.
+    """
     return fetch_warc_main(record)
 
 

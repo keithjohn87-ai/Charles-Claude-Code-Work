@@ -179,7 +179,27 @@ def check_pre_call(name: str, args: dict[str, Any]) -> str | None:
                 "Re-emit your tool_call with one of those instead of sqlite3."
             )
 
-        # 1a) Search-loop nudge: if Charles has run 4+ exec_shell with grep/find
+        # 1a-cc) Common Crawl runner via shell — redirect to dedicated tool.
+        # Charles keeps reaching for `python -m core.cc_runner` via exec_shell
+        # because John's prompt literally says "use exec_shell". exec_shell has
+        # a 60-300s timeout and no progress visibility — wrong shape for this
+        # operation. The dedicated `run_cc_build` tool runs in a background
+        # thread, returns immediately, and pairs with `cc_status` for polling.
+        if "core.cc_runner" in cmd or "cc_runner" in cmd:
+            return (
+                "[error] you tried to run the Common Crawl ingester via "
+                "exec_shell. That's the wrong tool — exec_shell has a "
+                "subprocess timeout (60-300s) and the cc_runner takes hours. "
+                "Use the dedicated tool instead:\n"
+                "  run_cc_build(config_name='p2_qwen36', max_batches=2)\n"
+                "It spawns a background thread and returns immediately. Then "
+                "call cc_status() to poll progress. The user named exec_shell "
+                "in their prompt, but the dedicated tool is the right shape — "
+                "John's directive is about the OUTCOME (run the smoke test), "
+                "not the literal tool name."
+            )
+
+        # 1b) Search-loop nudge: if Charles has run 4+ exec_shell with grep/find
         # in this respond chain, he's probably keyword-fishing instead of
         # reading the source. Nudge him to pivot.
         if _looks_like_search_command(cmd):
@@ -397,11 +417,14 @@ def _persist_blocked_url(conv_id: str, url: str, reason: str) -> None:
 
 
 def _rehydrate_block_list(conv_id: str) -> None:
-    """On respond_started, load any persisted blocked URLs for this conv from
-    long_term_facts back into _BLOCKED_URLS so the in-memory check_pre_call
-    short-circuits work after a process restart."""
+    """On respond_started, load all persisted blocked URLs (from any conv) into
+    this conv's _BLOCKED_URLS. Cross-channel: a dead URL discovered in
+    JOHN_CHARLES is also dead in CHARLES_LOG and vice versa — no point letting
+    Charles re-burn the time on the same 404 just because the prior hit
+    happened in the other channel.
+    """
     from core import memory as _mem
-    facts = _mem.search_facts(f"conv:{conv_id[:30]}", limit=100)
+    facts = _mem.search_facts("BLOCKED_URL", limit=500)
     n = 0
     for f in facts:
         tags = (f.get("tags") or "").lower()
@@ -414,10 +437,12 @@ def _rehydrate_block_list(conv_id: str) -> None:
             continue
         url = m.group(2)
         reason = m.group(3)
+        if url in _BLOCKED_URLS[conv_id]:
+            continue
         _BLOCKED_URLS[conv_id][url] = reason
         n += 1
     if n:
-        log.info("rehydrated %d blocked URLs for conv=%s", n, conv_id)
+        log.info("rehydrated %d blocked URLs (cross-channel) for conv=%s", n, conv_id)
 
 
 # ---------------------------------------------------------------------------

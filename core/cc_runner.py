@@ -188,6 +188,74 @@ def _ingest_one_config(config: dict, *, max_batches: int | None) -> dict:
     return summary
 
 
+def run_in_background(
+    *,
+    config_name: str | None = None,
+    max_batches: int | None = None,
+    skip_backup: bool = False,
+) -> dict:
+    """Spawn run() in a daemon thread + return immediately.
+
+    For LLM-tool callers (Charles via run_cc_build) so the agent's respond()
+    loop doesn't block for the full ingestion duration. Caller polls
+    `status()` to track progress.
+
+    Returns: {"started": True, "pid": int, "started_at": iso, "state_path": str}
+    or {"started": False, "reason": "..."} if a runner is already in flight.
+    """
+    import os
+    import threading
+    from core.cc_configs import all_configs, by_name
+
+    # Pre-validate config_name before spawning, so caller gets a useful error
+    # synchronously instead of the thread silently no-op'ing on bad input.
+    if config_name:
+        cfg = by_name(config_name)
+        if cfg is None:
+            valid = [c["name"] for c in all_configs()]
+            base = config_name.replace("p1_", "").replace("p2_", "")
+            suggestions = [n for n in valid if base and base in n]
+            return {
+                "started": False,
+                "reason": (
+                    f"no config matched name={config_name!r}. "
+                    f"Valid: {valid}. "
+                    + (f"Did you mean {suggestions}?" if suggestions else "")
+                ),
+                "valid_configs": valid,
+            }
+
+    # Don't double-fire — check if a runner is already in this Python process
+    if any(t.name == "cc_runner_bg" and t.is_alive() for t in threading.enumerate()):
+        return {
+            "started": False,
+            "reason": "cc_runner already running in this process — call cc_status to check progress",
+        }
+
+    def _wrapper():
+        try:
+            run(
+                config_name=config_name,
+                max_batches=max_batches,
+                skip_backup=skip_backup,
+            )
+        except Exception as e:  # noqa: BLE001
+            log.exception("cc_runner background thread crashed: %s", e)
+
+    t = threading.Thread(target=_wrapper, name="cc_runner_bg", daemon=True)
+    t.start()
+    log.info("cc_runner spawned in background thread (config=%s, max_batches=%s)",
+             config_name, max_batches)
+    return {
+        "started": True,
+        "thread": t.name,
+        "pid": os.getpid(),
+        "started_at": _now_iso(),
+        "state_path": str(STATE_PATH),
+        "note": "Runner is async. Call cc_status periodically to track progress.",
+    }
+
+
 def run(
     *,
     config_name: str | None = None,
@@ -195,6 +263,10 @@ def run(
     skip_backup: bool = False,
 ) -> dict:
     """Run the Common Crawl build — the directive's top-level entry.
+
+    SYNCHRONOUS — blocks until all configs finish or a hard stop fires.
+    For LLM-tool callers, prefer run_in_background() so the agent's
+    respond() loop doesn't block.
 
     `config_name` — run only this one config (for debug / partial reruns).
                     Default: run all in order (Phase 1 → Phase 2).
@@ -209,10 +281,27 @@ def run(
         state["tree_backup_path"] = str(backup)
         _save_state(state)
 
-    configs = [by_name(config_name)] if config_name else all_configs()
+    if config_name:
+        cfg = by_name(config_name)
+        if cfg is None:
+            valid = [c["name"] for c in all_configs()]
+            # Fuzzy suggest — common confusion is p1_/p2_ prefix
+            base = config_name.replace("p1_", "").replace("p2_", "")
+            suggestions = [n for n in valid if base and base in n]
+            return {
+                "error": (
+                    f"no config matched name={config_name!r}. "
+                    f"Valid names: {valid}. "
+                    + (f"Did you mean {suggestions}?" if suggestions else "")
+                ),
+                "valid_configs": valid,
+            }
+        configs = [cfg]
+    else:
+        configs = all_configs()
     configs = [c for c in configs if c]
     if not configs:
-        return {"error": f"no config matched name={config_name!r}"}
+        return {"error": "no configs available — check core/cc_configs.py"}
 
     for cfg in configs:
         if cfg["name"] in state["configs"] and state["configs"][cfg["name"]].get("ingested", 0) >= cfg["target_records"]:

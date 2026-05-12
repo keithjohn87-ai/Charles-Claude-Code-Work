@@ -24,15 +24,17 @@ log = logging.getLogger("charles.cc_build_tool")
 @tool(
     name="run_cc_build",
     summary=(
-        "Run a Common Crawl ingestion build. Replaces the live-web URL sprint "
-        "with archived/frozen Common Crawl as the upstream source. Phase 1 "
-        "re-runs 4 existing tree branches (business/human/training/external). "
+        "Kick off a Common Crawl ingestion build IN THE BACKGROUND. Returns "
+        "immediately with a 'started' confirmation — does NOT block. The runner "
+        "ingests in a background thread; call `cc_status` to poll progress. "
+        "Replaces the live-web URL sprint with archived/frozen Common Crawl. "
+        "Phase 1 re-runs 4 existing branches (business/human/training/external). "
         "Phase 2 adds 3 stack-specific configs (qwen36, mlx, agent_architecture). "
         "Serial only — branch by branch, config by config. tree_validator runs "
-        "between each branch/config; pauses on threshold fail. Backs up "
-        "memory.db before Phase 1. Resumable across restarts via "
-        "workspace/cc_state.json. Idempotent — calling again continues from "
-        "where it left off. WARNING: long-running (hours per config at MLX speed)."
+        "between each. Backs up memory.db before Phase 1. Resumable across "
+        "restarts via workspace/cc_state.json. Idempotent — calling again continues "
+        "from where it left off. Long-running (hours per config at MLX speed) but "
+        "non-blocking from your perspective."
     ),
     triggers=(
         "common crawl", "cc build", "run cc", "ingest cc",
@@ -65,27 +67,21 @@ def run_cc_build(
     skip_backup: bool = False,
 ) -> str:
     from core import cc_runner
-    state = cc_runner.run(
+    result = cc_runner.run_in_background(
         config_name=config_name,
         max_batches=max_batches,
         skip_backup=skip_backup,
     )
-    # Summarize for chat — full state is huge
-    summary_lines = []
-    for name, cfg_state in state.get("configs", {}).items():
-        ingested = cfg_state.get("ingested", 0)
-        target = cfg_state.get("target_records", 0)
-        validation = cfg_state.get("validation", {}).get("passed", "?")
-        stop = cfg_state.get("stopped_reason") or "target"
-        summary_lines.append(
-            f"  {name}: {ingested:,}/{target:,} (validation={validation}, stop={stop})"
-        )
+    if not result.get("started"):
+        return f"CC runner did NOT start. Reason: {result.get('reason', 'unknown')}"
     return (
-        "CC build run finished.\n"
-        f"Started: {state.get('started_at')}\n"
-        f"Finished: {state.get('finished_at')}\n"
-        f"Tree backup: {state.get('tree_backup_path', '(skipped)')}\n"
-        + "\n".join(summary_lines)
+        "CC runner started in background thread.\n"
+        f"  Thread: {result['thread']}\n"
+        f"  Started at: {result['started_at']}\n"
+        f"  State file: {result['state_path']}\n"
+        f"  Note: {result['note']}\n"
+        "Call cc_status periodically to track progress. Runner takes hours "
+        "per config; first batch usually shows ingest counts within 5-15 min."
     )
 
 
