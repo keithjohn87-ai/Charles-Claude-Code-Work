@@ -12,7 +12,11 @@ import difflib
 import inspect
 import json
 import logging
+import threading
+import time
+import uuid
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
 from typing import Any, Callable
 
 log = logging.getLogger("charles.tools")
@@ -78,6 +82,10 @@ CORE_TOOLS: set[str] = {
     # New learning-tree surfaces (Charles is gradually adopting them)
     "recall_topic", "topic_list", "john_says", "john_pref_categories",
     "skill_log_use",
+    # Async-tool plumbing — Charles always needs to be able to check on or
+    # cancel a job he kicked off. The async-tool handlers themselves are
+    # ON_DEMAND by default (they declare their own triggers).
+    "async_tool_status", "async_tool_cancel",
     # System status + vibe
     "system_status", "vibe_check", "current_time",
     # Common Crawl build (2026-05-11) — John will ask Charles to run/check it
@@ -243,3 +251,227 @@ def _missing_required_args(t: Tool, kwargs: dict[str, Any]) -> list[str]:
     """Return the names of required args the model didn't supply."""
     required = t.schema.get("required") or []
     return [r for r in required if r not in kwargs]
+
+
+# ---------------------------------------------------------------------------
+# @async_tool — fire-and-forget primitive.
+#
+# Generalizes the cc_runner background-thread pattern: a tool whose handler
+# might take minutes to hours (CC ingest, long browse sweeps, multi-file
+# refactors) shouldn't block agent.respond. The wrapped function runs in a
+# daemon thread; the tool call returns a job_id immediately. Charles polls
+# `async_tool_status` to check progress.
+#
+# Handler contract:
+#   - Must accept the same kwargs as a regular @tool.
+#   - MAY accept an optional `cancel_event: threading.Event` kwarg — if
+#     present, the wrapper passes one in and the handler is expected to
+#     check `cancel_event.is_set()` at safe checkpoints to bail early.
+#   - Return value is captured into job.result. Exceptions are captured
+#     into job.error and the job marked 'failed'.
+#
+# Jobs live in-process. After a process restart they're gone. Charles should
+# treat job_ids as session-scoped, not durable across kickstarts.
+# ---------------------------------------------------------------------------
+
+
+@dataclass
+class AsyncJob:
+    job_id: str
+    tool_name: str
+    started_at: str
+    status: str  # 'running' | 'done' | 'failed' | 'cancelled'
+    result: str | None = None
+    error: str | None = None
+    finished_at: str | None = None
+    cancel_event: threading.Event = field(default_factory=threading.Event)
+
+
+_ASYNC_JOBS: dict[str, AsyncJob] = {}
+_ASYNC_JOBS_LOCK = threading.Lock()
+_ASYNC_JOB_TTL_SECONDS = 86400  # finished jobs reaped after 24h
+
+
+def _now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
+
+
+def _reap_old_jobs() -> int:
+    """Drop finished jobs whose started_at is older than the TTL."""
+    cutoff = time.time() - _ASYNC_JOB_TTL_SECONDS
+    dropped = 0
+    with _ASYNC_JOBS_LOCK:
+        for job_id, job in list(_ASYNC_JOBS.items()):
+            if job.status == "running":
+                continue
+            try:
+                started_ts = datetime.fromisoformat(
+                    job.started_at.replace("Z", "+00:00")
+                ).timestamp()
+            except ValueError:
+                continue
+            if started_ts < cutoff:
+                del _ASYNC_JOBS[job_id]
+                dropped += 1
+    return dropped
+
+
+def list_async_jobs() -> list[AsyncJob]:
+    """Snapshot of all known async jobs. Used by the WarRoom UI."""
+    with _ASYNC_JOBS_LOCK:
+        return list(_ASYNC_JOBS.values())
+
+
+def async_tool(*, name: str, summary: str, schema: dict, triggers: tuple[str, ...] = ()):
+    """Register a fire-and-forget tool.
+
+    Same parameters as @tool. The wrapped function will run in a daemon
+    thread; the tool call itself returns a short "started, job_id=..."
+    string. Use async_tool_status to poll progress.
+
+    Augmented summary: the registered summary is prefixed with
+    "[ASYNC, returns job_id]" so Charles knows from the system prompt that
+    the call won't block — he should expect a job_id back and poll, not
+    wait for the result inline.
+    """
+    augmented_summary = f"[ASYNC, returns job_id] {summary.strip()}"
+
+    def decorator(fn: Callable[..., str]) -> Callable[..., str]:
+        sig = inspect.signature(fn)
+        accepts_cancel = "cancel_event" in sig.parameters
+
+        def wrapper(**kwargs: Any) -> str:
+            _reap_old_jobs()
+            job = AsyncJob(
+                job_id=uuid.uuid4().hex[:8],
+                tool_name=name,
+                started_at=_now_iso(),
+                status="running",
+            )
+            with _ASYNC_JOBS_LOCK:
+                _ASYNC_JOBS[job.job_id] = job
+
+            def _runner() -> None:
+                call_kwargs = dict(kwargs)
+                if accepts_cancel:
+                    call_kwargs["cancel_event"] = job.cancel_event
+                try:
+                    out = fn(**call_kwargs)
+                    text = out if isinstance(out, str) else json.dumps(out, default=str)
+                    with _ASYNC_JOBS_LOCK:
+                        # If cancel was requested mid-run, prefer that status
+                        # over 'done' so the UI shows the user's intent.
+                        if job.cancel_event.is_set():
+                            job.status = "cancelled"
+                            job.result = text
+                        else:
+                            job.status = "done"
+                            job.result = text
+                        job.finished_at = _now_iso()
+                except Exception as e:  # noqa: BLE001
+                    log.exception("async tool %s (job=%s) crashed", name, job.job_id)
+                    with _ASYNC_JOBS_LOCK:
+                        job.status = "failed"
+                        job.error = f"{type(e).__name__}: {e}"
+                        job.finished_at = _now_iso()
+
+            t = threading.Thread(
+                target=_runner,
+                name=f"async-{name}-{job.job_id}",
+                daemon=True,
+            )
+            t.start()
+            return (
+                f"started async tool {name!r}, job_id={job.job_id}. "
+                f"Poll with async_tool_status(job_id='{job.job_id}'); "
+                f"cancel with async_tool_cancel(job_id='{job.job_id}')."
+            )
+
+        # Mirror @tool's registration so dispatch routes through wrapper.
+        return tool(
+            name=name,
+            summary=augmented_summary,
+            schema=schema,
+            triggers=triggers,
+        )(wrapper)
+
+    return decorator
+
+
+@tool(
+    name="async_tool_status",
+    summary=(
+        "Check the status of an async tool job. Returns running/done/failed/"
+        "cancelled, the started/finished timestamps, and the result or error. "
+        "Pass job_id from the original async tool call."
+    ),
+    schema={
+        "type": "object",
+        "properties": {
+            "job_id": {"type": "string", "description": "The job_id returned by an async tool."},
+        },
+        "required": ["job_id"],
+    },
+    triggers=("job status", "async status", "check job", "is it done"),
+)
+def async_tool_status(job_id: str) -> str:
+    with _ASYNC_JOBS_LOCK:
+        job = _ASYNC_JOBS.get(job_id)
+    if job is None:
+        # Older job that aged out, or wrong id — surface known ids so Charles
+        # can recover instead of looping with a stale handle.
+        with _ASYNC_JOBS_LOCK:
+            known = sorted(_ASYNC_JOBS.keys())[-5:]
+        return (
+            f"[error] no async job with id={job_id!r}. "
+            f"Recent jobs in this process: {known or '(none)'}. "
+            f"Jobs older than 24h are reaped, and a kickstart wipes the table."
+        )
+    parts = [
+        f"job_id: {job.job_id}",
+        f"tool: {job.tool_name}",
+        f"status: {job.status}",
+        f"started: {job.started_at}",
+    ]
+    if job.finished_at:
+        parts.append(f"finished: {job.finished_at}")
+    if job.error:
+        parts.append(f"error: {job.error}")
+    elif job.result is not None:
+        snippet = job.result if len(job.result) < 800 else job.result[:800] + "…(truncated)"
+        parts.append(f"result: {snippet}")
+    return "\n".join(parts)
+
+
+@tool(
+    name="async_tool_cancel",
+    summary=(
+        "Request cancellation of a running async tool job. Sets the cancel "
+        "flag; the job will stop at its next checkpoint IF the underlying "
+        "handler honors cancel_event. If the handler doesn't check, this "
+        "marks intent but the work runs to completion. Idempotent — calling "
+        "twice is harmless."
+    ),
+    schema={
+        "type": "object",
+        "properties": {
+            "job_id": {"type": "string", "description": "The job_id to cancel."},
+        },
+        "required": ["job_id"],
+    },
+    triggers=("cancel job", "stop job", "abort tool", "kill task"),
+)
+def async_tool_cancel(job_id: str) -> str:
+    with _ASYNC_JOBS_LOCK:
+        job = _ASYNC_JOBS.get(job_id)
+    if job is None:
+        return f"[error] no async job with id={job_id!r}."
+    if job.status != "running":
+        return f"job {job_id} is already {job.status} — nothing to cancel."
+    job.cancel_event.set()
+    return (
+        f"cancellation flag set on job {job_id}. The handler will stop at "
+        f"its next checkpoint if it honors cancel_event; otherwise the "
+        f"thread runs to completion but will be marked 'cancelled'."
+    )
+
