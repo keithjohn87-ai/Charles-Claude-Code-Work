@@ -111,6 +111,13 @@ PHASE_1_CONFIGS = [
         "routing_tag": "phase1/human_context",
         "target_records": 5000,
         "topic": None,
+        # John's directive 2026-05-12: "replace the URL information with what
+        # the common crawl picked up." When CC ingest succeeds, the URL-sprint
+        # facts get marked superseded so CC content wins. Conservative filter
+        # (only auto_finding / url_corpus / part:human_context tags qualify) —
+        # doctrine + John-curated facts are NOT touched. Rolls back on failure
+        # or zero-ingest so originals stay live.
+        "supersede_existing": True,
     },
     {
         "name": "p1_training_corpus",

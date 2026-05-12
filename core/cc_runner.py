@@ -101,6 +101,87 @@ def _backup_tree() -> Path:
     return backup
 
 
+def _mark_pending_supersede(config: dict, stamp: str) -> int:
+    """Pre-ingest pass: mark existing non-CC facts in this config's branch as
+    `pending_supersede:<stamp>` so we know which ones to commit/rollback later.
+
+    Conservative: only touches facts whose tags include the config's `branch`
+    name AND whose source is from the URL sprint (auto_finding / url_corpus
+    / part:<branch>). Doctrine, John-curated, watchdog, and CC-sourced facts
+    are NOT touched.
+
+    Returns the number of facts marked.
+    """
+    from core.memory import _conn
+    branch = config.get("branch") or ""
+    if not branch:
+        return 0
+    pending_tag = f"pending_supersede:{stamp}"
+    routing_tag = config.get("routing_tag") or f"phase1/{branch}"
+    # Match facts that:
+    #   - have the branch name in tags (e.g. "human_context")
+    #   - look URL-sprint-sourced (auto_finding / url_corpus / "part:<branch>")
+    #   - are NOT already CC-sourced (routing_tag absent)
+    #   - are NOT already pending_supersede / superseded
+    sql = """
+        UPDATE long_term_facts
+           SET tags = tags || ',' || ?
+         WHERE tags LIKE ?
+           AND (tags LIKE '%auto_finding%' OR tags LIKE '%url_corpus%' OR tags LIKE ?)
+           AND tags NOT LIKE ?
+           AND tags NOT LIKE '%pending_supersede:%'
+           AND tags NOT LIKE '%superseded%'
+    """
+    branch_like = f"%{branch}%"
+    part_like = f"%part:{branch}%"
+    routing_like = f"%{routing_tag}%"
+    with _conn() as c:
+        cur = c.execute(sql, (pending_tag, branch_like, part_like, routing_like))
+        n = cur.rowcount
+    log.info("supersede: marked %d existing facts in branch=%s as %s",
+             n, branch, pending_tag)
+    return n
+
+
+def _commit_supersede(stamp: str) -> int:
+    """Post-ingest success: promote `pending_supersede:<stamp>` → `superseded`
+    + a final `superseded_by:cc_<stamp>` marker so the audit trail shows when
+    and why. The pending tag is removed.
+    """
+    from core.memory import _conn
+    pending_tag = f"pending_supersede:{stamp}"
+    final_tag = f"superseded,superseded_by:cc_{stamp}"
+    sql = """
+        UPDATE long_term_facts
+           SET tags = REPLACE(tags, ?, ?)
+         WHERE tags LIKE ?
+    """
+    with _conn() as c:
+        cur = c.execute(sql, (pending_tag, final_tag, f"%{pending_tag}%"))
+        n = cur.rowcount
+    log.info("supersede: committed %d facts → superseded (stamp=%s)", n, stamp)
+    return n
+
+
+def _rollback_supersede(stamp: str) -> int:
+    """Post-ingest failure: undo the pending tag so the originals stay active.
+    Called when the CC run hard-stops dirty or tree_validator fails.
+    """
+    from core.memory import _conn
+    pending_tag = f"pending_supersede:{stamp}"
+    # Strip the pending tag (and the comma in front, if any) cleanly.
+    sql = """
+        UPDATE long_term_facts
+           SET tags = REPLACE(REPLACE(tags, ',' || ?, ''), ?, '')
+         WHERE tags LIKE ?
+    """
+    with _conn() as c:
+        cur = c.execute(sql, (pending_tag, pending_tag, f"%{pending_tag}%"))
+        n = cur.rowcount
+    log.info("supersede: rolled back %d pending tags (stamp=%s)", n, stamp)
+    return n
+
+
 def _ingest_one_config(config: dict, *, max_batches: int | None) -> dict:
     """Run a single config until target_records hit OR hard-stop fires.
     Returns a per-config summary dict that goes into cc_state.json."""
@@ -112,6 +193,13 @@ def _ingest_one_config(config: dict, *, max_batches: int | None) -> dict:
              name, config["target_records"])
 
     branch_started = _now_iso()
+    # Stamp for supersede correlation — short, file-safe.
+    supersede_stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
+    supersede_enabled = bool(config.get("supersede_existing"))
+    pending_marked = 0
+    if supersede_enabled:
+        pending_marked = _mark_pending_supersede(config, supersede_stamp)
+
     cdx_state: dict = {"seen_urls": set(), "domain_cursor": 0}
     summary = {
         "name": name,
@@ -123,6 +211,10 @@ def _ingest_one_config(config: dict, *, max_batches: int | None) -> dict:
         "failures": 0,
         "skipped_dedup": 0,
         "stopped_reason": None,
+        "supersede_enabled": supersede_enabled,
+        "supersede_stamp": supersede_stamp if supersede_enabled else None,
+        "supersede_pending_marked": pending_marked,
+        "supersede_committed": 0,
     }
 
     stats_window: list = []
@@ -185,6 +277,25 @@ def _ingest_one_config(config: dict, *, max_batches: int | None) -> dict:
             (summary["stopped_reason"] or "")
             + f"|tree_validation_fail:{report.failures}"
         ).strip("|")
+
+    # Supersede commit/rollback. Only fires if the config opted in.
+    # Commit when: validation passed AND we actually ingested SOMETHING new
+    # (a 0-ingest run shouldn't supersede anything — that's a CC failure, not
+    # a real replacement). Otherwise: roll back so originals stay live.
+    if supersede_enabled and pending_marked > 0:
+        ingested_real_records = summary["ingested"] > 0
+        if report.passed and ingested_real_records:
+            committed = _commit_supersede(supersede_stamp)
+            summary["supersede_committed"] = committed
+        else:
+            rolled = _rollback_supersede(supersede_stamp)
+            summary["supersede_rolled_back"] = rolled
+            reason = []
+            if not report.passed:
+                reason.append("validation_failed")
+            if not ingested_real_records:
+                reason.append("no_records_ingested")
+            summary["supersede_skip_reason"] = ",".join(reason) or "unknown"
     return summary
 
 
