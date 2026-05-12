@@ -104,6 +104,14 @@ ERROR_STORM_WINDOW_SECONDS = 300
 GOAL_IDLE_MULTIPLIER = 3                 # last_advanced > 3x advance_seconds = idle
 GOAL_IDLE_FLOOR_SECONDS = 1800           # never flag earlier than 30 min
 
+# Loop-close (milestone-ping) pathology — goal is advancing but Charles isn't
+# reporting milestones to John. The cure is to call notify_john on every
+# milestone, not only at final completion. John's complaint 2026-05-10:
+# "He only pings me when the WHOLE thing is done. By then I've already lost
+# visibility for hours."
+LOOP_CLOSE_WINDOW_SECONDS = 1800         # look at last 30 min of advances
+LOOP_CLOSE_MIN_ADVANCES = 3              # 3+ silent advances in window = pathology
+
 # Hung respond()
 HEARTBEAT_LOG_STALE_SECONDS = 600        # log unchanged 10+ min while pid alive
 
@@ -365,6 +373,84 @@ def detect_goal_idleness() -> list[dict]:
                 "goal_id": g["id"],
                 "idle_seconds": int((now - last_dt).total_seconds()),
                 "description": g["description"][:80],
+            })
+    return incidents
+
+
+_GOAL_NOTE_TS_RE = re.compile(r"^\[(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})\]")
+
+
+def detect_loop_close_missing() -> list[dict]:
+    """Active goals making progress but missing milestone closure pings.
+
+    Pathology: Charles has appended LOOP_CLOSE_MIN_ADVANCES+ progress notes
+    to an active goal in the last LOOP_CLOSE_WINDOW_SECONDS, but hasn't
+    called any user-facing notification tool (notify_john / send_imessage)
+    in the same window. The goal is advancing in silence — John has no
+    visibility until final completion, which by then is hours late.
+
+    The detector is intentionally narrow: only fires when Charles is BOTH
+    actively working (multiple advances) AND silent. A truly idle goal is
+    handled by detect_goal_idleness; a goal that already pinged once in
+    the window is fine.
+    """
+    if not _agent_loaded():
+        return []
+    incidents: list[dict] = []
+    cutoff_iso = _ago_iso(LOOP_CLOSE_WINDOW_SECONDS)
+
+    # Has Charles called any user-facing notification tool in the window? If
+    # yes, no pathology — he's keeping John in the loop. Looking at the raw
+    # tool_calls_json column on assistant turns; both notify_john (Telegram)
+    # and send_imessage (Boss Hog channel) count as a milestone ping.
+    try:
+        with _ro_conn() as c:
+            ping_row = c.execute(
+                "SELECT COUNT(*) FROM conversations "
+                "WHERE role='assistant' AND tool_calls_json IS NOT NULL "
+                "  AND (tool_calls_json LIKE '%notify_john%' "
+                "    OR tool_calls_json LIKE '%send_imessage%') "
+                "  AND created_at >= ?",
+                (cutoff_iso,),
+            ).fetchone()
+        ping_count = int(ping_row[0]) if ping_row else 0
+    except Exception as e:  # noqa: BLE001
+        log.exception("loop_close: ping-count query failed: %s", e)
+        return incidents
+    if ping_count > 0:
+        return incidents
+
+    # Quiet window — check each active goal for "advancing but silent."
+    try:
+        active = goals_mod.list_goals(status="active")
+    except Exception as e:  # noqa: BLE001
+        log.exception("loop_close: goals.list_goals failed: %s", e)
+        return incidents
+
+    try:
+        cutoff_dt = datetime.fromisoformat(cutoff_iso.replace("Z", "+00:00"))
+    except ValueError:
+        return incidents
+
+    for g in active:
+        notes = g.get("notes") or ""
+        recent = 0
+        for ln in notes.split("\n"):
+            m = _GOAL_NOTE_TS_RE.match(ln)
+            if not m:
+                continue
+            try:
+                ts = datetime.fromisoformat(m.group(1)).replace(tzinfo=timezone.utc)
+            except ValueError:
+                continue
+            if ts >= cutoff_dt:
+                recent += 1
+        if recent >= LOOP_CLOSE_MIN_ADVANCES:
+            incidents.append({
+                "kind": "loop_close_missing",
+                "goal_id": g["id"],
+                "description": g["description"][:80],
+                "advances_in_window": recent,
             })
     return incidents
 
@@ -789,6 +875,64 @@ def intervene_goal_idleness(incident: dict) -> Action | None:
     _audit_fact(
         f"Behavioral watchdog: surfaced goal idleness as task. {technical}",
         tags="intervention,auto,goal_idle",
+    )
+    log.info(technical)
+    return Action(technical=technical, friendly=friendly)
+
+
+def intervene_loop_close_missing(incident: dict) -> Action | None:
+    """Inject a milestone-ping directive into the goal's notes.
+
+    The directive uses GUARD_NOTICE_MARKER so it's filtered out of the
+    narration-stall + hallucination scans (otherwise the directive itself
+    would count as a "let me X" line). Charles reads it on the next advance
+    and the framing prompt nudges him to call notify_john before doing
+    more work.
+
+    Cooldown is per-goal so a chatty goal doesn't get re-poked every tick.
+    """
+    gid = incident["goal_id"]
+    desc = incident.get("description") or f"goal #{gid}"
+    n_advances = incident.get("advances_in_window", 0)
+
+    state = _load_state()
+    seen = state.setdefault("loop_close_alerts", {})
+    last_alert = float(seen.get(str(gid), 0))
+    now = time.time()
+    if now - last_alert < IMSG_COOLDOWN_SECONDS:
+        return None
+    seen[str(gid)] = now
+    _save_state(state)
+
+    directive = (
+        f"{GUARD_NOTICE_MARKER} MILESTONE PING MISSING: you've made "
+        f"{n_advances} advances on this goal in the last 30 min and haven't "
+        f"pinged John once. On THIS advance, before any other tool call: "
+        f"call notify_john with a ONE-SENTENCE past-tense status — what "
+        f"you did, where you are in the goal, biggest blocker if any. "
+        f"Then continue working. Milestone pings every ~30 min of active "
+        f"progress, not just at final completion. If this goal is genuinely "
+        f"low-signal (system_health, etc.), ping once acknowledging that "
+        f"and the directive will quiet down."
+    )
+    try:
+        goals_mod.append_note(gid, directive)
+    except Exception as e:  # noqa: BLE001
+        log.exception("loop_close: append_note for goal #%d failed: %s", gid, e)
+        return None
+
+    technical = (
+        f"goal #{gid} loop-close missing ({n_advances} silent advances in "
+        f"30 min): injected milestone-ping directive into notes"
+    )
+    friendly = (
+        f"Charles has been chewin' on '{desc}' for half an hour without a "
+        f"peep. Told him to call you with a one-line status update on his "
+        f"next move."
+    )
+    _audit_fact(
+        f"Behavioral watchdog: {technical}",
+        tags="intervention,auto,loop_close_missing",
     )
     log.info(technical)
     return Action(technical=technical, friendly=friendly)
@@ -1290,6 +1434,7 @@ def detect_all() -> list[dict]:
         detect_narration_stalls,
         detect_hallucinations,
         detect_goal_idleness,
+        detect_loop_close_missing,
         detect_tool_error_storms,
         detect_system_health,
         detect_hung_respond,
@@ -1306,6 +1451,7 @@ _INTERVENORS = {
     "narration_stall": intervene_narration_stall,
     "hallucination": intervene_hallucination,
     "goal_idle": intervene_goal_idleness,
+    "loop_close_missing": intervene_loop_close_missing,
     "tool_error_storm": intervene_tool_error_storm,
     "hung_respond": intervene_hung_respond,
 }
