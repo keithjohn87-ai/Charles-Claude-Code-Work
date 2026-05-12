@@ -5,14 +5,25 @@ conversation_id from SQLite and prepends them to the prompt. Each user
 message and final assistant reply is also persisted, so Charles is
 continuous across Telegram messages — not a goldfish.
 
-INVARIANT (cemented 2026-05-10): JOHN_CHARLES is a clean dialog channel.
-Only `role='user'` and `role='assistant'` (final replies) persist there.
-Tool calls, tool results, and mid-chain "let me X" assistant turns are
-NOT logged in JOHN_CHARLES — only in CHARLES_LOG. The chain's in-memory
-`history` keeps full plumbing for the model. See:
-  - memory: feedback_john_charles_clean_dialog.md
-  - architecture: project_two_channel_architecture.md
-JOHN_CHARLES tool-round budget is also tighter (5 vs 25) — relational
+JOHN_CHARLES UI cleanliness (revised 2026-05-12): the relational channel
+appears as a clean dialog (user message → assistant final reply) in John's
+UI, but the underlying DB now keeps the FULL plumbing — tool_call
+assistant rows, tool result rows, every mid-chain text. The clean-up is
+done at READ time by warroom/state.conversation_history(), which filters
+out role='tool', role='progress', and content-less tool-call stubs.
+
+The 2026-05-10 invariant ("strip at write time") had a fatal side effect:
+Charles couldn't see his own tool history on follow-up turns. He'd take
+his prior text claim ("Kicked off CC, 2 batches") at face value, find no
+tool_call evidence in his loaded history, conclude he must have
+hallucinated, and report to John "no crawl started" — even when the run
+had actually succeeded. The 2026-05-12 CC incident exposed it.
+
+The model still sees the full chain on every respond() via
+memory.recent_history(), which only filters role='progress'. UI stays
+clean. Charles stops gaslighting himself. Best of both.
+
+JOHN_CHARLES tool-round budget is still tighter (5 vs 25) — relational
 chat doesn't need 25 tool rounds to answer "how's it going?".
 """
 from __future__ import annotations
@@ -349,13 +360,22 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
             "content": msg.content or "",
             "tool_calls": tool_calls_payload,
         })
-        # Persistence policy: in JOHN_CHARLES (the relational chat), the user
-        # only wants to see his own messages and Charles's FINAL reply — not
-        # the tool plumbing or "let me X" intermediate narration. So skip
-        # logging mid-chain assistant turns + tool calls for that channel.
-        # The chain's in-memory `history` still has them for the model.
-        # CHARLES_LOG keeps the full record (it's the operational stream).
-        if conversation_id and conversation_id != channels.JOHN_CHARLES:
+        # Persistence policy (revised 2026-05-12): always log mid-chain
+        # tool_call assistant turns + tool result turns, even on JOHN_CHARLES.
+        # The original policy stripped them so John's UI stayed clean — but
+        # the side effect was that Charles, on the NEXT follow-up question
+        # from John, couldn't see his own prior tool actions. He'd look at
+        # his last turn ("Kicked off CC, 2 batches…"), find no tool_call
+        # backing it up in his history view, conclude he must have
+        # hallucinated, and report back to John "no crawl was started" —
+        # even though the run had actually succeeded. 2026-05-12 incident.
+        #
+        # Cleanliness for John's UI is now enforced at READ time in
+        # warroom/state.conversation_history() — it filters out role='tool'
+        # and content-less assistant tool-call turns. Charles still sees
+        # the full chain via memory.recent_history(), which only excludes
+        # role='progress'.
+        if conversation_id:
             memory.log_assistant_tool_calls(conversation_id, msg.content or "", tool_calls_payload)
 
         for tc in msg.tool_calls:
@@ -383,9 +403,12 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
                 "tool_call_id": tc.id,
                 "content": result,
             })
-            # Same persistence policy as the assistant-turn log above: don't
-            # pollute JOHN_CHARLES with tool result rows.
-            if conversation_id and conversation_id != channels.JOHN_CHARLES:
+            # Persist tool results on every channel including JOHN_CHARLES —
+            # Charles needs to see his own prior tool outcomes when answering
+            # follow-up questions. UI cleanliness handled at read-time in
+            # warroom/state.conversation_history(). See the long comment
+            # above the assistant-turn persist for the 2026-05-12 reasoning.
+            if conversation_id:
                 memory.log_tool_result(conversation_id, tc.id, result)
                 # Update the ticker with the OUTCOME so the next round can
                 # overwrite with its own present-tense action.

@@ -97,31 +97,63 @@ def conversations_index(limit: int = 30) -> list[dict[str, Any]]:
 
 
 def conversation_history(conv_id: str, limit: int = 50) -> list[dict[str, Any]]:
-    """Full turns for a conversation. Newest last."""
+    """User-facing turns for a conversation. Newest last.
+
+    Filters applied so the UI shows a clean dialog:
+      - role='tool' rows hidden (intermediate tool results)
+      - role='assistant' rows with no content but pending tool_calls hidden
+        (the model emitted only a tool call, no text)
+      - role='progress' rows hidden (UI tickers — old policy)
+
+    Charles's own respond loop still sees the full chain via
+    memory.recent_history() so he can answer follow-up questions about
+    his prior tool actions. Cleanliness lives here, in the read path,
+    not in the write path. (2026-05-12: prior policy stripped tool turns
+    at write-time, which made Charles forget his own actions on the next
+    turn and gaslight John about a CC run that had actually succeeded.)
+    """
     con = _conn()
     rows = con.execute(
         "SELECT id, role, content, tool_calls_json, tool_call_id, created_at "
         "FROM conversations WHERE conversation_id=? "
         "ORDER BY id DESC LIMIT ?",
-        (conv_id, limit),
+        (conv_id, limit * 4),  # over-fetch to compensate for filter
     ).fetchall()
     con.close()
-    out = []
-    for r in reversed(rows):
+    # Walk newest-first, collect filtered entries until we have `limit`,
+    # then reverse so callers get oldest-first (consistent with prior API).
+    collected: list[dict[str, Any]] = []
+    for r in rows:
+        role = r["role"]
+        # Drop tool result rows + progress ticker rows
+        if role in ("tool", "progress"):
+            continue
+        # Drop content-less assistant tool-call stubs (model emitted only
+        # a tool call, no human-facing text — that text comes on the
+        # NEXT assistant turn after the tool round)
+        content = r["content"] or ""
+        if role == "assistant" and not content.strip() and r["tool_calls_json"]:
+            continue
         entry: dict[str, Any] = {
             "id": r["id"],
-            "role": r["role"],
-            "content": r["content"],
+            "role": role,
+            "content": content,
             "tool_call_id": r["tool_call_id"],
             "created_at": r["created_at"],
         }
+        # Tool_calls metadata is still useful to the UI for "actions taken"
+        # displays even if we hide the tool-only stubs themselves. Include
+        # it on assistant turns that ALSO have human-facing content.
         if r["tool_calls_json"]:
             try:
                 entry["tool_calls"] = json.loads(r["tool_calls_json"])
             except json.JSONDecodeError:
                 entry["tool_calls"] = []
-        out.append(entry)
-    return out
+        collected.append(entry)
+        if len(collected) >= limit:
+            break
+    collected.reverse()
+    return collected
 
 
 def goals_state(status: str = "active") -> list[dict[str, Any]]:
