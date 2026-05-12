@@ -1,0 +1,9 @@
+- name: openai/mlx-community/Qwen3.6-35B-A3B-4bit
+  edit_format: whole
+  use_repo_map: false
+  send_undo_reply: false
+  examples_as_sys_msg: true
+  extra_params:
+    extra_body:
+      chat_template_kwargs:
+        enable_thinking: false

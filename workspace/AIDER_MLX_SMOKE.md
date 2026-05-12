@@ -26,7 +26,8 @@ hardcoded mapping for `mlx-community/Qwen3.6-35B-A3B-4bit`, so Aider
 defaults `max_tokens = 0` and refuses to send the assistant reply.
 
 **Fix:** pass `--model-metadata-file` with explicit limits.
-Stored at `workspace/aider_smoke/.aider.model.metadata.json`:
+Stored at `workspace/aider_smoke/aider_model_metadata.json`
+(name avoids Aider's auto-added `.aider*` gitignore line):
 
 ```json
 {
@@ -54,7 +55,7 @@ limit".
 **Fix:** disable thinking via `chat_template_kwargs.enable_thinking =
 false`, passed through Aider's `extra_params.extra_body`.
 
-Stored at `workspace/aider_smoke/.aider.model.settings.yml`:
+Stored at `workspace/aider_smoke/aider_model_settings.yml`:
 
 ```yaml
 - name: openai/mlx-community/Qwen3.6-35B-A3B-4bit
@@ -80,8 +81,8 @@ OPENAI_API_BASE=http://127.0.0.1:8080/v1 \
 OPENAI_API_KEY=mlx-local \
 /Users/home/charles/.venv/bin/aider \
   --model openai/mlx-community/Qwen3.6-35B-A3B-4bit \
-  --model-metadata-file workspace/aider_smoke/.aider.model.metadata.json \
-  --model-settings-file  workspace/aider_smoke/.aider.model.settings.yml \
+  --model-metadata-file workspace/aider_smoke/aider_model_metadata.json \
+  --model-settings-file  workspace/aider_smoke/aider_model_settings.yml \
   --no-show-model-warnings \
   --no-auto-commits \
   --no-pretty \
