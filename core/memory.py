@@ -185,9 +185,34 @@ CREATE INDEX IF NOT EXISTS idx_john_prefs_category ON john_prefs(category);
 
 @contextmanager
 def _conn() -> Iterator[sqlite3.Connection]:
+    """Open a connection to memory.db.
+
+    Per-connection PRAGMAs applied:
+      - journal_mode=WAL  → readers don't block writers (and vice versa).
+                            Set on every connection but only takes effect
+                            on the FIRST connection that can grab an
+                            exclusive lock. Persists in the DB file.
+      - busy_timeout=30000 (30s) → wait this long for a writer's lock
+                            before raising "database is locked". Default
+                            is 5s, which is too short with 3 live
+                            processes (warroom + agent + behavior_watchdog)
+                            doing concurrent work. 2026-05-12: a 4h CC
+                            run died at the supersede pre-mark step when
+                            the watchdog held a write lock for ~11s
+                            during auto-consolidation.
+    """
     Path(DB_PATH).parent.mkdir(parents=True, exist_ok=True)
-    c = sqlite3.connect(DB_PATH)
+    c = sqlite3.connect(DB_PATH, timeout=30.0)
     c.row_factory = sqlite3.Row
+    # PRAGMA journal_mode=WAL — sticky setting on the DB file. The first
+    # connection that can promote sets it; subsequent connections inherit.
+    # If we can't get the exclusive lock right now, it's already WAL or
+    # the next connection will pick it up — non-fatal either way.
+    try:
+        c.execute("PRAGMA journal_mode=WAL")
+    except sqlite3.OperationalError:
+        pass
+    c.execute("PRAGMA busy_timeout=30000")
     try:
         yield c
         c.commit()
