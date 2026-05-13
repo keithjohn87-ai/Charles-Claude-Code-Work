@@ -117,6 +117,72 @@ def _intra_call_loop_detected(recent_assistant_texts: list[str]) -> str | None:
     return f"intra-call repetition: {pairs_above}/{len(window)} pairs near-identical" if pairs_above >= 1 else None
 
 
+# Dispatch-guard (2026-05-12 — two Charles hallucinations of run_cc_build):
+# When the model emits text claiming to have just performed an action
+# ("kicked off X", "ran X", "called X") but no tool_call was actually
+# emitted across the chain, the claim is false. Force a synthetic retry
+# that names the lie explicitly and gives the model one more chance to
+# either ACTUALLY call the tool OR revise the text. Cap at MAX_GUARD_RETRIES
+# per chain so we never spin forever.
+
+_VERB_GROUP = (
+    r"kicked\s+off|kicked\s+it\s+off|"
+    r"fired|fired\s+off|"
+    r"ran|i\s+ran|"
+    r"called|invoked|"
+    r"executed|"
+    r"started|spawned|dispatched|triggered|"
+    r"sent|saved|stored|wrote|updated|posted|published|"
+    r"scheduled|launched"
+)
+
+# Match a past-tense action verb either:
+#   - at the very start of the message (after optional markdown markers), OR
+#   - immediately after a sentence-end (. ! ? : ;) + whitespace, optionally
+#     wrapped in markdown emphasis chars
+# (?=...) lookahead is used for the trailing terminator so markdown like
+# `_called_` (where _ is a regex word char and \b fails) still matches.
+_PAST_TENSE_ACTION = re.compile(
+    r"(?:^|[.!?:;]\s+|^\s+)"          # start-of-text OR after sentence break
+    r"[*_`]*\s*"                       # optional markdown emphasis
+    r"(?P<verb>" + _VERB_GROUP + r")"
+    r"(?=[\s*_`,.;:!?'\"\)\]]|$)",     # terminator: whitespace, markdown, punct, or end
+    re.IGNORECASE | re.MULTILINE,
+)
+
+# Tools that wouldn't be silently faked — those that need a clear external
+# effect AND that we've actually seen hallucinated. Adding to this list is
+# how to make the guard stricter for a specific tool that's been spoofed.
+_DISPATCH_GUARD_RETRIES = 2
+
+
+def _hallucinated_tool_action(content: str, chain_tool_call_count: int) -> str | None:
+    """If the assistant text leads with a past-tense action verb AND the
+    entire chain so far has produced zero tool_calls, return the matched
+    verb. The caller forces a synthetic retry.
+
+    False-positive guard rails:
+      - Only fires when the WHOLE chain has zero tool_calls. If any prior
+        round actually called a tool, the claim is at worst stale, not
+        invented.
+      - Only inspects the first ~120 chars of the reply (the lead). A reply
+        that opens with narration first then talks about a past action
+        wouldn't be a false claim.
+    """
+    if chain_tool_call_count > 0:
+        return None
+    text = (content or "").strip()
+    if not text:
+        return None
+    # Inspect the first ~200 chars — the lead is where the action claim
+    # would be. .search not .match because the verb can come after a
+    # short preamble ("Mornin', John. Kicked off...").
+    m = _PAST_TENSE_ACTION.search(text[:200])
+    if not m:
+        return None
+    return m.group("verb").lower()
+
+
 def respond(message: str, conversation_id: str | None = None) -> str:
     # Register a stop event for this conv so request_stop() can cancel us
     stop_event: threading.Event | None = None
@@ -261,6 +327,8 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
 
     final_text = ""
     recent_assistant_texts: list[str] = []  # for intra-call loop detection
+    chain_tool_call_count = 0  # dispatch-guard: total tool_calls across rounds
+    dispatch_guard_retries = 0  # dispatch-guard: synthetic retries used so far
     max_rounds = (
         MAX_TOOL_ROUNDS_RELATIONAL
         if conversation_id == channels.JOHN_CHARLES
@@ -316,8 +384,67 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
         round_text = (msg.content or "").strip()
         if round_text:
             recent_assistant_texts.append(round_text)
+        chain_tool_call_count += len(msg.tool_calls or [])
 
         if not msg.tool_calls:
+            # Dispatch-guard: catch "I kicked off / ran / called X" claims
+            # when the model never actually emitted a tool_call for X.
+            # Twice on 2026-05-12 Charles claimed to have run run_cc_build
+            # without doing so, gaslighting John about CC progress. Force
+            # one synthetic retry per chain (up to _DISPATCH_GUARD_RETRIES)
+            # that names the lie and demands either a real tool_call or a
+            # corrected reply. Fires only when the WHOLE chain has had
+            # zero tool_calls — a stale claim about an earlier successful
+            # call is not flagged.
+            hallucinated_verb = _hallucinated_tool_action(
+                msg.content or "", chain_tool_call_count
+            )
+            if hallucinated_verb and dispatch_guard_retries < _DISPATCH_GUARD_RETRIES:
+                dispatch_guard_retries += 1
+                log.warning(
+                    "DISPATCH GUARD: round=%d conv=%s claimed action %r without "
+                    "any tool_call. Forcing retry %d/%d. Text head=%r",
+                    round_n, conversation_id, hallucinated_verb,
+                    dispatch_guard_retries, _DISPATCH_GUARD_RETRIES,
+                    round_text[:120],
+                )
+                # Keep the bad assistant turn in the in-memory chain only —
+                # the model needs to see what it just said to revise it,
+                # but the user shouldn't see this gaslight in JOHN_CHARLES.
+                history.append({
+                    "role": "assistant",
+                    "content": msg.content or "",
+                })
+                history.append({
+                    "role": "user",
+                    "content": (
+                        f"STOP. Your last reply opened with {hallucinated_verb!r} "
+                        f"— you described an ACTION you performed. But no "
+                        f"tool_call was emitted in this entire chain. The claim "
+                        f"is therefore false.\n\n"
+                        f"Two options for this turn:\n"
+                        f"  (a) Actually call the tool now. Emit a real "
+                        f"tool_call this turn. If you don't know which tool, "
+                        f"check the available tool list and pick the right one.\n"
+                        f"  (b) If no action was actually needed, rewrite your "
+                        f"reply to remove the false action claim. State what "
+                        f"you DID do (read context, etc.) and what's blocking, "
+                        f"in past tense, accurately.\n\n"
+                        f"Do NOT apologize. Do NOT narrate intent. Either emit "
+                        f"the tool_call or emit the corrected text."
+                    ),
+                })
+                # Audit the incident so we can see how often this fires
+                # and what triggered it. Tag for watchdog observability.
+                try:
+                    memory.add_fact(
+                        f"Dispatch guard fired: conv={conversation_id} round={round_n} "
+                        f"verb={hallucinated_verb!r} text_head={round_text[:200]!r}",
+                        tags="incident,dispatch_guard,auto,tool_hallucination",
+                    )
+                except Exception:  # noqa: BLE001
+                    pass
+                continue  # retry — next round of complete()
             final_text = text
             break
 
