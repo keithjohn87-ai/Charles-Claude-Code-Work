@@ -355,6 +355,14 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
     recent_assistant_texts: list[str] = []  # for intra-call loop detection
     chain_tool_call_count = 0  # dispatch-guard: total tool_calls across rounds
     dispatch_guard_retries = 0  # dispatch-guard: synthetic retries used so far
+    # 2026-05-15: track set_goal across the chain so we can nudge mid-chain
+    # in JOHN_CHARLES when an engineering ask escalates past a few rounds
+    # without a goal having been created. The MANDATORY rule in prompts.py
+    # is supposed to make Charles call set_goal FIRST, but he often starts
+    # on what looks like a status query that escalates to multi-step work
+    # mid-chain without recognizing the escalation. This catches that case.
+    chain_set_goal_called = False
+    chain_nudged_set_goal = False
     max_rounds = (
         MAX_TOOL_ROUNDS_RELATIONAL
         if conversation_id == channels.JOHN_CHARLES
@@ -548,6 +556,10 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
             memory.log_assistant_tool_calls(conversation_id, msg.content or "", tool_calls_payload)
 
         for tc in msg.tool_calls:
+            # 2026-05-15: track set_goal calls in the chain so the goal-
+            # creation nudge below knows whether to fire.
+            if tc.function.name == "set_goal":
+                chain_set_goal_called = True
             # Update the ticker BEFORE dispatch fires so John sees what
             # Charles is about to do (in present tense) rather than only
             # learning after each finishes.
@@ -600,6 +612,60 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
                         )
                     except Exception:  # noqa: BLE001
                         pass
+
+        # 2026-05-15: GOAL-CREATION NUDGE. After tool dispatch in JOHN_CHARLES,
+        # if Charles has crossed several rounds with several tool calls but
+        # never created a goal, inject a one-time reminder before the next
+        # round's complete(). Forensic: conv 8455750177 on 2026-05-15 — Charles
+        # spent 6+ rounds debugging cc_runner state without ever calling
+        # set_goal, so when his chain ended the work died with it. The
+        # MANDATORY rule in prompts.py wasn't enough — Charles started on
+        # what looked like a status query and never recognized the mid-chain
+        # escalation to multi-step engineering. This nudge catches that.
+        _NUDGE_AFTER_ROUND = 4  # i.e., before round 5's complete()
+        _NUDGE_TOOL_CALL_THRESHOLD = 3
+        if (
+            conversation_id == channels.JOHN_CHARLES
+            and round_n >= _NUDGE_AFTER_ROUND
+            and chain_tool_call_count >= _NUDGE_TOOL_CALL_THRESHOLD
+            and not chain_set_goal_called
+            and not chain_nudged_set_goal
+        ):
+            chain_nudged_set_goal = True
+            log.warning(
+                "set_goal NUDGE conv=%s round=%d tool_calls=%d — injecting reminder",
+                conversation_id, round_n, chain_tool_call_count,
+            )
+            history.append({
+                "role": "user",
+                "content": (
+                    "[harness reminder — not from John] You're now several "
+                    "tool calls into a multi-step task in this chat without "
+                    "having called set_goal. If this work won't finish in this "
+                    "single respond chain, your FIRST action this round MUST "
+                    "be set_goal — otherwise the work dies when the chain ends "
+                    "and the heartbeat has nothing to advance. John's directive "
+                    "lives or dies based on whether you set the goal.\n\n"
+                    "Two acceptable next moves:\n"
+                    "  (a) Call set_goal NOW with the current ask as the goal "
+                    "description (include source files / target / stop "
+                    "condition), then continue the work in this same chain.\n"
+                    "  (b) If you're confident the work will complete in 1–3 "
+                    "more rounds without needing the heartbeat, skip set_goal "
+                    "and finish the work in this chain.\n\n"
+                    "Do NOT acknowledge this reminder in your reply to John. "
+                    "Just act on it."
+                ),
+            })
+            # Audit so we can see how often this fires and adjust thresholds.
+            try:
+                memory.add_fact(
+                    f"set_goal nudge fired: conv={conversation_id} round={round_n} "
+                    f"tool_calls={chain_tool_call_count}",
+                    tags="incident,set_goal_nudge,auto",
+                )
+            except Exception:  # noqa: BLE001
+                pass
     else:
         # Hit MAX_TOOL_ROUNDS without breaking — model never settled into a
         # final text reply. Force one more round with tools=None so the model
