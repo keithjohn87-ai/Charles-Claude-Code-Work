@@ -202,9 +202,22 @@ def check_pre_call(name: str, args: dict[str, Any]) -> tuple[str, str] | None:
         # a 60-300s timeout and no progress visibility — wrong shape for this
         # operation. The dedicated `run_cc_build` tool runs in a background
         # thread, returns immediately, and pairs with `cc_status` for polling.
-        if "core.cc_runner" in cmd or "cc_runner" in cmd:
+        #
+        # 2026-05-15: tightened from substring match to actual EXECUTE-pattern
+        # match. Old substring rule false-positive'd on `grep "X" core/cc_runner.py`,
+        # `git log core/cc_runner.py`, `cat core/cc_runner.py`, etc. — Charles
+        # was just reading/inspecting the file, not running it, but the guard
+        # barked anyway and he ended up looking looped on legit operations.
+        # Forensic conv 8455750177 turns 18238–18247.
+        if re.search(
+            r"(^|[\s;&|`])"                 # start or shell separator
+            r"(?:python\d?(?:\.\d+)?|/\S*python\d?(?:\.\d+)?|\.venv/bin/python\d?)"  # any python invocation
+            r"(?:\s+-\w+)*"                  # optional flags like -m, -u, -B
+            r"\s+(?:-m\s+core\.cc_runner|\S*core/cc_runner\.py|cc_runner\.py)\b",
+            cmd,
+        ):
             return (
-                "[error] you tried to run the Common Crawl ingester via "
+                "[error] you tried to RUN the Common Crawl ingester via "
                 "exec_shell. That's the wrong tool — exec_shell has a "
                 "subprocess timeout (60-300s) and the cc_runner takes hours. "
                 "Use the dedicated tool instead:\n"
@@ -213,7 +226,8 @@ def check_pre_call(name: str, args: dict[str, Any]) -> tuple[str, str] | None:
                 "call cc_status() to poll progress. The user named exec_shell "
                 "in their prompt, but the dedicated tool is the right shape — "
                 "John's directive is about the OUTCOME (run the smoke test), "
-                "not the literal tool name.",
+                "not the literal tool name. (Reading the file with grep/cat/git "
+                "is fine — only running it via shell is blocked.)",
                 "blocked",
             )
 
