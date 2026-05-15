@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFI Log &middot; Submittal Log &middot; Transmittal — GC Daily-Use Templates</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.55; max-width: 880px; margin: 40px auto; padding: 20px; color: #222; }
+        .header { text-align: center; border-bottom: 3px double #1e3a5f; padding-bottom: 20px; margin-bottom: 30px; }
+        .form-title { font-size: 26px; font-weight: bold; color: #1e3a5f; margin-bottom: 6px; }
+        .form-subtitle { font-size: 15px; color: #444; font-weight: 600; }
+        .doc-meta { font-size: 13px; color: #666; margin-top: 8px; }
+        .field { background: #f0f0f0; padding: 2px 8px; border-radius: 3px; font-style: italic; color: #555; }
+        .section { margin: 28px 0; page-break-inside: avoid; }
+        .section-title { font-weight: bold; color: #1e3a5f; font-size: 16px; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+        .sub-title { font-weight: bold; color: #1e3a5f; font-size: 14px; margin: 14px 0 6px 0; }
+        .warning { background: #f8d7da; border-left: 4px solid #dc3545; padding: 14px 16px; margin: 18px 0; }
+        .warning strong { color: #721c24; }
+        .notice { background: #d1ecf1; border-left: 4px solid #0c5460; padding: 14px 16px; margin: 18px 0; }
+        .practice-note { background: #fdf6e3; border-left: 4px solid #b58900; padding: 14px 16px; margin: 14px 0; font-size: 13.5px; }
+        .practice-note .label { font-weight: bold; color: #1e3a5f; font-size: 14px; display: block; margin-bottom: 6px; }
+        .form-frame { border: 2px solid #1e3a5f; padding: 20px 22px; margin: 18px 0 24px 0; background: #fafbfc; page-break-inside: avoid; }
+        .form-frame .form-frame-title { font-size: 18px; font-weight: bold; color: #1e3a5f; text-align: center; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 4px; }
+        .form-frame .form-frame-sub { font-size: 13px; color: #555; text-align: center; margin-bottom: 16px; font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        td, th { padding: 7px 8px; vertical-align: top; }
+        th { background: #1e3a5f; color: #fff; text-align: left; font-size: 12.5px; }
+        .data-table td { border: 1px solid #ccc; font-size: 13px; }
+        .data-table td.label { font-weight: 600; background: #f9f9f9; width: 30%; }
+        .log-table th, .log-table td { border: 1px solid #ccc; padding: 5px 6px; font-size: 11px; vertical-align: top; }
+        .log-table th { font-size: 10px; text-transform: uppercase; line-height: 1.3; }
+        .log-table tr.header-row td { background: #fdf6e3; font-weight: bold; font-size: 11.5px; }
+        .log-table tr.example-row td { background: #f0f4f8; font-style: italic; color: #555; }
+        .log-table td.center { text-align: center; }
+        .log-table td.status-open { background: #fff3cd; }
+        .log-table td.status-closed { background: #d4edda; }
+        .checklist { background: #f9f9f9; border: 1px solid #ddd; padding: 16px 20px; border-radius: 6px; }
+        .checklist ol { margin: 0; padding-left: 22px; }
+        .checklist li { margin-bottom: 6px; font-size: 13.5px; }
+        .toc { background: #f4f6f9; border: 1px solid #c0cad8; padding: 16px 22px; margin: 20px 0 28px 0; border-radius: 6px; }
+        .toc-title { font-weight: bold; color: #1e3a5f; font-size: 14px; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+        .toc ol { margin: 0; padding-left: 22px; }
+        .toc li { margin-bottom: 4px; font-size: 13.5px; }
+        .toc a { color: #1e3a5f; text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+        .footnote { font-size: 11.5px; color: #666; font-style: italic; }
+        .signature-line { border-top: 1px solid #000; width: 320px; margin-top: 40px; padding-top: 5px; font-size: 12.5px; }
+        .page-break { page-break-before: always; }
+        @media print {
+            .no-print { display: none; }
+            body { margin: 0; max-width: 100%; }
+            .section, .form-frame { page-break-inside: avoid; }
+            .log-table { font-size: 9.5px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+         NON-PRINT INTRODUCTION
+         ============================================================ -->
+    <div class="no-print" style="background: #fff3cd; border: 2px solid #856404; padding: 18px; border-radius: 8px; margin-bottom: 24px;">
+        <strong style="color: #856404; font-size: 16px;">DAILY-USE PROJECT INSTRUMENTS</strong>
+        <p style="margin: 8px 0 0 0; font-size: 13.5px;">
+            These three templates — the RFI Log, the Submittal Log, and the Transmittal — are the daily working instruments of every commercial GC project. Together they manage the flow of drawings, questions, answers, shop drawings, product data, and document delivery between subcontractor, GC, architect, and owner. Keeping all three current and well-organized is the difference between a project that runs and a project that hemorrhages cost from missed answers, late submittals, and undelivered documents. Each template includes the form, the use-case framing, sample entries showing how to fill it out, and the discipline rules that separate the projects that hit the schedule from the ones that don't.
+        </p>
+    </div>
+
+    <!-- ============================================================
+         HEADER
+         ============================================================ -->
+    <div class="header">
+        <div class="form-title">RFI LOG &middot; SUBMITTAL LOG &middot; TRANSMITTAL</div>
+        <div class="form-subtitle">Three Daily-Use Project Instruments for the Commercial GC</div>
+        <div class="doc-meta">
+            Project: <span class="field">[Project Name]</span> &nbsp;|&nbsp;
+            GC: <span class="field">[Company]</span> &nbsp;|&nbsp;
+            Last updated: <span class="field">[Date]</span>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         TABLE OF CONTENTS
+         ============================================================ -->
+    <div class="toc">
+        <div class="toc-title">Table of Contents</div>
+        <ol>
+            <li><a href="#sec-intro">How These Three Documents Work Together</a></li>
+            <li><a href="#sec-rfi">RFI Log — Requests for Information</a>
+                <ol type="a">
+                    <li><a href="#sec-rfi-when">When to issue an RFI (and when NOT to)</a></li>
+                    <li><a href="#sec-rfi-form">Single RFI form</a></li>
+                    <li><a href="#sec-rfi-log">Project RFI Log (running register)</a></li>
+                </ol>
+            </li>
+            <li><a href="#sec-submittal">Submittal Log — Shop Drawings, Product Data, Samples</a>
+                <ol type="a">
+                    <li><a href="#sec-submittal-types">Submittal types and what each means</a></li>
+                    <li><a href="#sec-submittal-cover">Single submittal cover sheet</a></li>
+                    <li><a href="#sec-submittal-log">Project Submittal Log (running register)</a></li>
+                </ol>
+            </li>
+            <li><a href="#sec-transmittal">Transmittal — Document Delivery</a>
+                <ol type="a">
+                    <li><a href="#sec-transmittal-when">When to use a transmittal</a></li>
+                    <li><a href="#sec-transmittal-form">Transmittal form</a></li>
+                </ol>
+            </li>
+            <li><a href="#sec-discipline">The 10 Discipline Rules That Make These Templates Work</a></li>
+        </ol>
+    </div>
+
+    <!-- ============================================================
+         INTRO
+         ============================================================ -->
+    <div class="section" id="sec-intro">
+        <div class="section-title">1. How These Three Documents Work Together</div>
+        <p>The three documents in this package each handle a different flow:</p>
+        <ul>
+            <li><strong>RFI (Request for Information):</strong> a question from the GC (or a sub through the GC) to the architect or owner about an ambiguity, conflict, or missing detail in the contract documents. The architect's response becomes part of the contract record.</li>
+            <li><strong>Submittal:</strong> a document, sample, or drawing the GC submits to the architect for review and approval before fabrication or installation. Examples: shop drawings, product data sheets, color samples, mock-ups.</li>
+            <li><strong>Transmittal:</strong> the cover sheet that accompanies any document delivery between parties. Establishes a clear record of what was sent, when, and to whom — the project paper trail.</li>
+        </ul>
+
+        <p>The flow on a typical project: the GC discovers an ambiguity in the drawings → issues an RFI to the architect → receives a response → that response affects what gets submitted (a sub now knows which fixture model to specify in the Division 26 lighting submittal) → the sub prepares a shop drawing or product data submittal → the GC reviews, transmits to the architect with a Transmittal cover → the architect returns the submittal with action (approved / approved-as-noted / revise &amp; resubmit / rejected) → the GC re-transmits to the sub. Repeat for every detail of the project.</p>
+
+        <p>A typical commercial project has 50–500 RFIs, 100–1,000 submittals, and a daily flow of transmittals through the entire construction phase. Tracking discipline is what keeps the project from drowning.</p>
+    </div>
+
+    <!-- ============================================================
+         RFI SECTION
+         ============================================================ -->
+    <div class="section" id="sec-rfi">
+        <div class="section-title">2. RFI Log — Requests for Information</div>
+
+        <div class="sub-title" id="sec-rfi-when">2a. When to issue an RFI (and when NOT to)</div>
+        <p style="font-size: 13.5px;">A Request for Information is appropriate when the contract documents are ambiguous, internally conflicting, missing a needed detail, or when site conditions reveal a discrepancy from the drawings that requires architect or owner input to resolve. The architect's RFI response is part of the contract record and modifies the design intent — it is binding.</p>
+
+        <table class="data-table">
+            <tr>
+                <th>Use an RFI when…</th>
+                <th>Do NOT use an RFI when…</th>
+            </tr>
+            <tr>
+                <td>Drawings conflict with specifications (e.g., spec calls for stainless steel hardware, drawings show satin chrome)</td>
+                <td>The information is in the documents but you didn't read them carefully — read first, ask second</td>
+            </tr>
+            <tr>
+                <td>A detail is missing (e.g., flashing detail at unusual roof penetration not shown on drawings)</td>
+                <td>You disagree with a design decision — disagreement is not ambiguity; raise it as a value engineering proposal or accept the design</td>
+            </tr>
+            <tr>
+                <td>Site conditions differ from drawings (e.g., concealed piping discovered during demo not shown on as-builts)</td>
+                <td>The question is purely a sub-to-GC scope question — handle in subcontractor coordination, not RFI</td>
+            </tr>
+            <tr>
+                <td>Two specs sections conflict (e.g., Division 09 paint spec calls out a paint that contradicts Division 03 concrete sealer compatibility)</td>
+                <td>You're trying to manufacture a change order — RFIs that read like "we noticed an opportunity to upgrade…" telegraph the agenda and tank credibility</td>
+            </tr>
+            <tr>
+                <td>Owner-furnished item requirements are unclear (e.g., owner-supplied appliances — who installs, what's the rough-in)</td>
+                <td>The architect is on-site this week and the question can be resolved in a 30-second conversation — talk first, RFI only for the record if needed</td>
+            </tr>
+        </table>
+
+        <div class="practice-note">
+            <span class="label">RFI Quality = Project Reputation.</span>
+            Architects develop a reputation for each GC based on RFI quality. A GC that submits 15 well-researched, specific RFIs over a 12-month project gets prompt thoughtful responses. A GC that submits 75 RFIs that could have been answered by reading the spec gets slower responses, more "see drawings" non-answers, and a strained relationship that hurts when a real contentious issue emerges. Discipline: every RFI is reviewed by the GC project manager before submission. If the answer is in the documents, the answer goes back to the asker (usually a sub) with a citation, not out as an RFI.
+        </div>
+
+        <div class="sub-title" id="sec-rfi-form">2b. Single RFI Form</div>
+
+        <div class="form-frame">
+            <div class="form-frame-title">Request for Information (RFI)</div>
+            <div class="form-frame-sub">For ambiguity, conflict, missing detail, or differing condition resolution</div>
+
+            <table class="data-table">
+                <tr><td class="label">RFI Number:</td><td><span class="field">[Sequential per project — e.g., 2026-0042]</span></td></tr>
+                <tr><td class="label">Date Submitted:</td><td><span class="field">[Date]</span></td></tr>
+                <tr><td class="label">Project:</td><td><span class="field">[Project name]</span></td></tr>
+                <tr><td class="label">From (GC):</td><td><span class="field">[GC company]</span> — <span class="field">[Project manager name]</span></td></tr>
+                <tr><td class="label">To (Architect):</td><td><span class="field">[Architect firm]</span> — <span class="field">[Project architect name]</span></td></tr>
+                <tr><td class="label">CC:</td><td><span class="field">[Owner, owner's rep, affected sub PM, other relevant parties]</span></td></tr>
+                <tr><td class="label">Originating Sub (if any):</td><td><span class="field">[Sub company name]</span></td></tr>
+                <tr><td class="label">Discipline / CSI Section:</td><td><span class="field">[Division / section reference]</span></td></tr>
+                <tr><td class="label">Drawing Reference:</td><td><span class="field">[Sheet number(s) and detail]</span></td></tr>
+                <tr><td class="label">Specification Reference:</td><td><span class="field">[Section and paragraph]</span></td></tr>
+                <tr><td class="label">Required Response Date:</td><td><span class="field">[Date — minimum 7 days after submission unless schedule-critical]</span></td></tr>
+                <tr><td class="label">Cost Impact (if known):</td><td>☐ None &nbsp; ☐ Possible — TBD &nbsp; ☐ Estimated $<span class="field">[Amount]</span></td></tr>
+                <tr><td class="label">Schedule Impact (if known):</td><td>☐ None &nbsp; ☐ Possible — TBD &nbsp; ☐ Estimated <span class="field">[Days]</span> days</td></tr>
+            </table>
+
+            <div class="sub-title" style="margin-top: 18px;">Question / Issue</div>
+            <p style="font-size: 13px; padding: 10px; background: #fff; border: 1px solid #ddd; min-height: 80px;">
+                <span class="field">[State the question precisely. Include: what is ambiguous or conflicting; specific reference to drawings/specs; what alternatives are being considered; any field condition or sample observation. Be specific — vague questions get vague answers.]</span>
+            </p>
+
+            <div class="sub-title">Contractor's Suggested Resolution (optional but recommended)</div>
+            <p style="font-size: 13px; padding: 10px; background: #fff; border: 1px solid #ddd; min-height: 60px;">
+                <span class="field">[Propose a resolution if the GC has one. The architect can accept, modify, or reject. Including a suggested resolution accelerates response 2-3x because the architect can often just confirm rather than design from scratch.]</span>
+            </p>
+
+            <div class="sub-title">Architect's Response</div>
+            <p style="font-size: 13px; padding: 10px; background: #fff3cd; border: 1px solid #ffc107; min-height: 80px;">
+                <span class="field">[Architect to complete. Date of response: ______. Signed by: ______. The response is a contract document modification when received and acknowledged.]</span>
+            </p>
+
+            <table class="data-table" style="margin-top: 12px;">
+                <tr><td class="label">Status:</td><td>☐ Open &nbsp; ☐ Responded — In Review by GC &nbsp; ☐ Closed &nbsp; ☐ Generates Change Order — pending CO #<span class="field">[#]</span></td></tr>
+                <tr><td class="label">Date Closed:</td><td><span class="field">[Date]</span></td></tr>
+            </table>
+        </div>
+
+        <div class="sub-title" id="sec-rfi-log">2c. Project RFI Log (Running Register)</div>
+        <p style="font-size: 13.5px;">The Log captures every RFI on the Project at a glance. Updated daily. Open RFIs older than 14 days get escalated.</p>
+
+        <div class="form-frame">
+            <div class="form-frame-title">Project RFI Log</div>
+            <div class="form-frame-sub">Project: <span class="field">[Project name]</span> &middot; Last update: <span class="field">[Date]</span></div>
+
+            <table class="log-table">
+                <tr>
+                    <th width="50">RFI #</th>
+                    <th width="60">Date Submitted</th>
+                    <th width="100">From / Originating Sub</th>
+                    <th>Subject (1-line summary)</th>
+                    <th width="60">Drawing / Spec Ref</th>
+                    <th width="60">Response Due</th>
+                    <th width="60">Date Responded</th>
+                    <th width="50">Cost Impact</th>
+                    <th width="50">Schedule Impact</th>
+                    <th width="60">Status</th>
+                    <th width="50">CO #</th>
+                </tr>
+                <tr class="header-row">
+                    <td colspan="11">— SAMPLE ENTRIES (showing format; replace with project entries) —</td>
+                </tr>
+                <tr class="example-row">
+                    <td class="center">2026-0001</td>
+                    <td>2026-03-15</td>
+                    <td>GC / N/A</td>
+                    <td>Foundation rebar size at column line C-3 — drawings show #6, spec calls #5</td>
+                    <td>S-101 / Spec 03 20 00</td>
+                    <td>2026-03-22</td>
+                    <td>2026-03-19</td>
+                    <td class="center">$0</td>
+                    <td class="center">0</td>
+                    <td class="center status-closed">Closed</td>
+                    <td class="center">—</td>
+                </tr>
+                <tr class="example-row">
+                    <td class="center">2026-0042</td>
+                    <td>2026-04-22</td>
+                    <td>ABC Mech (Div 23 sub)</td>
+                    <td>Concealed conditions: existing piping not on as-builts blocks ductwork at 2nd floor mech room</td>
+                    <td>M-201 / Spec 23 31 00</td>
+                    <td>2026-04-29</td>
+                    <td>2026-04-26</td>
+                    <td class="center">~$8,500</td>
+                    <td class="center">3</td>
+                    <td class="center status-closed">Closed</td>
+                    <td class="center">CO-007</td>
+                </tr>
+                <tr class="example-row">
+                    <td class="center">2026-0043</td>
+                    <td>2026-04-22</td>
+                    <td>XYZ Elec (Div 26 sub)</td>
+                    <td>Lighting fixture model spec'd is discontinued by manufacturer — substitute requested</td>
+                    <td>E-401 / Spec 26 51 00</td>
+                    <td>2026-04-29</td>
+                    <td>—</td>
+                    <td class="center">TBD</td>
+                    <td class="center">TBD</td>
+                    <td class="center status-open">Open</td>
+                    <td class="center">—</td>
+                </tr>
+                <tr class="example-row">
+                    <td class="center">2026-0044</td>
+                    <td>2026-04-25</td>
+                    <td>GC / N/A</td>
+                    <td>Storefront sill detail at main entrance — no flashing detail provided; rain-leak risk</td>
+                    <td>A-501 / Spec 08 41 00</td>
+                    <td>2026-05-02</td>
+                    <td>—</td>
+                    <td class="center">TBD</td>
+                    <td class="center">TBD</td>
+                    <td class="center status-open">Open</td>
+                    <td class="center">—</td>
+                </tr>
+                <tr>
+                    <td class="center"><span class="field">[#]</span></td>
+                    <td><span class="field">[Date]</span></td>
+                    <td><span class="field">[Origin]</span></td>
+                    <td><span class="field">[Subject]</span></td>
+                    <td><span class="field">[Ref]</span></td>
+                    <td><span class="field">[Due]</span></td>
+                    <td><span class="field">[Resp]</span></td>
+                    <td class="center"><span class="field">[$]</span></td>
+                    <td class="center"><span class="field">[Days]</span></td>
+                    <td class="center"><span class="field">[Status]</span></td>
+                    <td class="center"><span class="field">[CO]</span></td>
+                </tr>
+            </table>
+
+            <p class="footnote" style="margin-top: 10px;">Color code: yellow = open; green = closed; pink = overdue (response date passed without response). Escalate any open RFI with response date past 7 days to the architect's principal in writing.</p>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         SUBMITTAL SECTION
+         ============================================================ -->
+    <div class="section page-break" id="sec-submittal">
+        <div class="section-title">3. Submittal Log — Shop Drawings, Product Data, Samples</div>
+
+        <div class="sub-title" id="sec-submittal-types">3a. Submittal Types and What Each Means</div>
+
+        <table class="data-table">
+            <tr>
+                <th>Type</th>
+                <th>What It Is</th>
+                <th>When Submitted</th>
+                <th>Architect Action</th>
+            </tr>
+            <tr>
+                <td><strong>Shop Drawing</strong></td>
+                <td>Detailed fabrication drawing prepared by sub or fabricator showing dimensions, materials, connections beyond what's shown on contract drawings (e.g., structural steel shop drawings, millwork shop drawings, glazing shop drawings)</td>
+                <td>Before fabrication begins; typically 30–60 days before installation</td>
+                <td>Approved / Approved as Noted / Revise &amp; Resubmit / Rejected</td>
+            </tr>
+            <tr>
+                <td><strong>Product Data</strong></td>
+                <td>Manufacturer's catalog cuts, technical data sheets, performance specifications for equipment or materials specified by name (e.g., HVAC unit cut sheet, light fixture spec, paint product data)</td>
+                <td>Before procurement; typically 30–45 days before delivery</td>
+                <td>Approved / Approved as Noted / Revise &amp; Resubmit / Rejected</td>
+            </tr>
+            <tr>
+                <td><strong>Sample</strong></td>
+                <td>Physical sample of material for visual approval (paint chip, tile sample, brick sample, fabric swatch, finish sample)</td>
+                <td>Before procurement; typically 60+ days before installation for color/finish-sensitive items</td>
+                <td>Approved / Sample for selection / Resubmit</td>
+            </tr>
+            <tr>
+                <td><strong>Mock-up</strong></td>
+                <td>Full-scale physical assembly of a representative portion of the work for review (typical: 8' x 8' exterior wall mock-up, 4' x 4' restroom mock-up, single guestroom mock-up)</td>
+                <td>Before bulk fabrication or installation; typically 60–90 days ahead of schedule</td>
+                <td>Approved / Approved with modifications / Revise &amp; resubmit</td>
+            </tr>
+            <tr>
+                <td><strong>Certificate</strong></td>
+                <td>Manufacturer's or installer's certificate (compliance with code, third-party testing, installer training certification)</td>
+                <td>Before installation; some required at closeout</td>
+                <td>Reviewed / On file</td>
+            </tr>
+            <tr>
+                <td><strong>Test Report</strong></td>
+                <td>Third-party laboratory test report (concrete cylinder breaks, asphalt density tests, weld tests, water-tightness tests)</td>
+                <td>Throughout construction as testing occurs</td>
+                <td>Reviewed / On file</td>
+            </tr>
+            <tr>
+                <td><strong>Operations &amp; Maintenance (O&amp;M) Manual</strong></td>
+                <td>Manufacturer's maintenance procedures, parts lists, warranties for installed equipment (HVAC, plumbing fixtures, electrical equipment, fire/life safety systems)</td>
+                <td>Closeout — before substantial completion</td>
+                <td>Reviewed / Accepted</td>
+            </tr>
+        </table>
+
+        <div class="sub-title" id="sec-submittal-cover">3b. Single Submittal Cover Sheet</div>
+
+        <div class="form-frame">
+            <div class="form-frame-title">Submittal Cover Sheet</div>
+            <div class="form-frame-sub">Attach to every submittal package routed from sub through GC to architect</div>
+
+            <table class="data-table">
+                <tr><td class="label">Submittal Number:</td><td><span class="field">[Spec Section]-<span class="field">[Sequential within section, e.g., 23 31 00-001]</span></span></td></tr>
+                <tr><td class="label">Date Submitted by Sub:</td><td><span class="field">[Date]</span></td></tr>
+                <tr><td class="label">Date Forwarded by GC:</td><td><span class="field">[Date]</span></td></tr>
+                <tr><td class="label">Project:</td><td><span class="field">[Project name]</span></td></tr>
+                <tr><td class="label">Submitting Subcontractor:</td><td><span class="field">[Sub name + PM]</span></td></tr>
+                <tr><td class="label">CSI Specification Section:</td><td><span class="field">[e.g., 23 31 00 — HVAC Ducts and Casings]</span></td></tr>
+                <tr><td class="label">Submittal Type:</td><td>☐ Shop Drawing &nbsp; ☐ Product Data &nbsp; ☐ Sample &nbsp; ☐ Mock-up &nbsp; ☐ Certificate &nbsp; ☐ Test Report &nbsp; ☐ O&amp;M Manual &nbsp; ☐ Other: <span class="field">[Type]</span></td></tr>
+                <tr><td class="label">Description of Submittal:</td><td><span class="field">[Brief description — e.g., "Galvanized rectangular ductwork shop drawings, Levels 1-3"]</span></td></tr>
+                <tr><td class="label">Number of Pages / Sheets:</td><td><span class="field">[#]</span></td></tr>
+                <tr><td class="label">Drawings/Specs Referenced:</td><td><span class="field">[Sheet numbers and spec sections]</span></td></tr>
+                <tr><td class="label">Substitution from Spec'd Product?</td><td>☐ No &nbsp; ☐ Yes — substitution request attached (separate form per spec section requirements)</td></tr>
+                <tr><td class="label">Required Approval Date:</td><td><span class="field">[Date — typically 14-21 days after submission; allow 21+ for shop drawings]</span></td></tr>
+                <tr><td class="label">Required for Procurement By:</td><td><span class="field">[Date]</span></td></tr>
+            </table>
+
+            <div class="sub-title" style="margin-top: 18px;">Sub's Statement</div>
+            <p style="font-size: 13px;">The undersigned has reviewed this submittal for compliance with the Contract Documents and certifies that the materials, dimensions, and methods shown are in accordance with the project specifications. Deviations from the specifications, if any, are clearly identified and explained on a separate substitution request form attached hereto.</p>
+            <div class="signature-line">
+                Sub Signature: <span class="field">[Signature]</span><br>
+                Title / Date: <span class="field">[Title]</span> / <span class="field">[Date]</span>
+            </div>
+
+            <div class="sub-title" style="margin-top: 22px;">GC's Review</div>
+            <p style="font-size: 13px;">The undersigned has reviewed this submittal for general conformance with the Contract Documents, coordination with other trades, and dimensional consistency. This review does not relieve the Subcontractor of responsibility for compliance with the Contract Documents.</p>
+            <div class="signature-line">
+                GC Signature: <span class="field">[Signature]</span><br>
+                Title / Date: <span class="field">[Title]</span> / <span class="field">[Date]</span>
+            </div>
+            <p style="margin-top: 8px; font-size: 13px;">GC Action: ☐ Forwarded as submitted &nbsp; ☐ Forwarded with GC comments attached &nbsp; ☐ Returned to Sub for correction (not forwarded) &nbsp; ☐ Other: <span class="field">[Action]</span></p>
+
+            <div class="sub-title" style="margin-top: 22px;">Architect's Action</div>
+            <p style="font-size: 13px; padding: 10px; background: #fff3cd; border: 1px solid #ffc107;">
+                Date Returned: <span class="field">[Date]</span><br><br>
+                ☐ <strong>Approved</strong> — proceed with fabrication / procurement<br>
+                ☐ <strong>Approved as Noted</strong> — proceed incorporating noted comments; resubmittal NOT required<br>
+                ☐ <strong>Revise &amp; Resubmit</strong> — corrections required; do NOT proceed; resubmit incorporating corrections<br>
+                ☐ <strong>Rejected</strong> — does not comply with Contract Documents; resubmit with corrected/different product<br>
+                ☐ <strong>Submit Specified Item</strong> — substitution rejected; submit the originally specified product<br><br>
+                Comments: <span class="field">[Architect comments]</span><br><br>
+                Architect Signature: <span class="field">[Signature]</span> &middot; Date: <span class="field">[Date]</span>
+            </p>
+        </div>
+
+        <div class="sub-title" id="sec-submittal-log">3c. Project Submittal Log (Running Register)</div>
+        <p style="font-size: 13.5px;">The Submittal Log is the running register of all submittals on the Project. The architect, GC, and subs share visibility into status. Late submittals (under-review > 21 days) are escalated to the architect's principal.</p>
+
+        <div class="form-frame">
+            <div class="form-frame-title">Project Submittal Log</div>
+            <div class="form-frame-sub">Project: <span class="field">[Project name]</span> &middot; Last update: <span class="field">[Date]</span></div>
+
+            <table class="log-table">
+                <tr>
+                    <th width="80">Submittal #</th>
+                    <th width="55">Spec Section</th>
+                    <th width="50">Type</th>
+                    <th>Description</th>
+                    <th width="70">Sub</th>
+                    <th width="55">Date Sub'd</th>
+                    <th width="55">Date Fwd</th>
+                    <th width="55">Date Returned</th>
+                    <th width="55">Action</th>
+                    <th width="55">Status</th>
+                    <th width="55">Required for Procurement</th>
+                </tr>
+
+                <tr class="header-row">
+                    <td colspan="11">— SAMPLE ENTRIES —</td>
+                </tr>
+                <tr class="example-row">
+                    <td class="center">03 30 00-001</td>
+                    <td class="center">03 30 00</td>
+                    <td>Mix Design</td>
+                    <td>Concrete mix design — 4,000 psi structural slab</td>
+                    <td>ABC Concrete</td>
+                    <td>2026-03-10</td>
+                    <td>2026-03-12</td>
+                    <td>2026-03-18</td>
+                    <td class="center">Appr</td>
+                    <td class="center status-closed">Closed</td>
+                    <td>2026-04-01</td>
+                </tr>
+                <tr class="example-row">
+                    <td class="center">05 12 00-001</td>
+                    <td class="center">05 12 00</td>
+                    <td>Shop Dwg</td>
+                    <td>Structural steel shop drawings — Levels 1-3</td>
+                    <td>XYZ Steel</td>
+                    <td>2026-03-15</td>
+                    <td>2026-03-16</td>
+                    <td>2026-04-05</td>
+                    <td class="center">A/N</td>
+                    <td class="center status-closed">Closed</td>
+                    <td>2026-04-25</td>
+                </tr>
+                <tr class="example-row">
+                    <td class="center">23 31 00-002</td>
+                    <td class="center">23 31 00</td>
+                    <td>Shop Dwg</td>
+                    <td>Galvanized rect. ductwork shop drawings — Levels 1-3</td>
+                    <td>ABC Mech</td>
+                    <td>2026-04-22</td>
+                    <td>2026-04-23</td>
+                    <td>—</td>
+                    <td class="center">—</td>
+                    <td class="center status-open">In Review</td>
+                    <td>2026-05-15</td>
+                </tr>
+                <tr class="example-row">
+                    <td class="center">26 51 00-003</td>
+                    <td class="center">26 51 00</td>
+                    <td>Prod Data</td>
+                    <td>Lighting fixture substitution — discontinued by mfr per RFI 0043</td>
+                    <td>XYZ Elec</td>
+                    <td>2026-04-28</td>
+                    <td>2026-04-29</td>
+                    <td>—</td>
+                    <td class="center">—</td>
+                    <td class="center status-open">In Review</td>
+                    <td>2026-05-22</td>
+                </tr>
+                <tr>
+                    <td class="center"><span class="field">[#]</span></td>
+                    <td class="center"><span class="field">[Sec]</span></td>
+                    <td><span class="field">[Type]</span></td>
+                    <td><span class="field">[Description]</span></td>
+                    <td><span class="field">[Sub]</span></td>
+                    <td><span class="field">[Date]</span></td>
+                    <td><span class="field">[Date]</span></td>
+                    <td><span class="field">[Date]</span></td>
+                    <td class="center"><span class="field">[Action]</span></td>
+                    <td class="center"><span class="field">[Status]</span></td>
+                    <td><span class="field">[Date]</span></td>
+                </tr>
+            </table>
+
+            <p class="footnote" style="margin-top: 10px;">Action codes: Appr = Approved &middot; A/N = Approved as Noted &middot; R&amp;R = Revise &amp; Resubmit &middot; Rej = Rejected &middot; SSI = Submit Specified Item. Status: In Review (with architect) &middot; In Revision (returned to sub) &middot; Resubmitted &middot; Closed.</p>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         TRANSMITTAL SECTION
+         ============================================================ -->
+    <div class="section page-break" id="sec-transmittal">
+        <div class="section-title">4. Transmittal — Document Delivery</div>
+
+        <div class="sub-title" id="sec-transmittal-when">4a. When to Use a Transmittal</div>
+        <p style="font-size: 13.5px;">A Transmittal is the cover sheet that accompanies any document delivery between project parties. It establishes a clean record of what was sent, when, by whom, to whom, and what action is requested. The Transmittal becomes the project's paper trail.</p>
+
+        <p style="font-size: 13.5px;"><strong>Use a Transmittal when delivering:</strong></p>
+        <ul style="font-size: 13.5px;">
+            <li>Drawings (revised drawings, addenda, ASIs — Architect's Supplemental Instructions)</li>
+            <li>Specifications (revised sections, supplementary specs)</li>
+            <li>Submittal packages (with the Submittal Cover Sheet attached)</li>
+            <li>RFI responses (with the original RFI attached)</li>
+            <li>Change orders, change order proposals, and CCDs</li>
+            <li>Project correspondence with project-affecting content (meeting minutes, design clarifications, schedule updates)</li>
+            <li>Closeout documents (warranties, O&amp;M manuals, as-built drawings, certificates)</li>
+            <li>Test reports, inspection reports</li>
+            <li>Pay applications, lien waivers, COIs</li>
+        </ul>
+
+        <p style="font-size: 13.5px;"><strong>Do NOT use a Transmittal for:</strong></p>
+        <ul style="font-size: 13.5px;">
+            <li>Routine email correspondence with no project-affecting content (the email IS the transmittal in that case)</li>
+            <li>Internal-only documents not crossing party lines</li>
+            <li>Items routed through dedicated forms (an RFI Response is delivered as part of the RFI Form workflow, not via Transmittal)</li>
+        </ul>
+
+        <div class="practice-note">
+            <span class="label">Email transmittals are valid — but archive separately.</span>
+            Modern practice is to deliver documents via email with a Transmittal cover (PDF) attached, rather than physical hand delivery or courier. This is fine and preferred. Keep transmittals indexed in the project's Procore, Sage, JobTread, or comparable system; never let the project's transmittal record live only in the project manager's email inbox.
+        </div>
+
+        <div class="sub-title" id="sec-transmittal-form">4b. Transmittal Form</div>
+
+        <div class="form-frame">
+            <div class="form-frame-title">Transmittal</div>
+            <div class="form-frame-sub">Cover sheet for project document delivery</div>
+
+            <table class="data-table">
+                <tr><td class="label">Transmittal Number:</td><td><span class="field">[Sequential — e.g., 2026-T-0157]</span></td></tr>
+                <tr><td class="label">Date:</td><td><span class="field">[Date]</span></td></tr>
+                <tr><td class="label">Project:</td><td><span class="field">[Project name + project no.]</span></td></tr>
+                <tr><td class="label">From:</td><td><span class="field">[Sending party — Company / Name / Title]</span><br><span class="field">[Address / Phone / Email]</span></td></tr>
+                <tr><td class="label">To:</td><td><span class="field">[Receiving party — Company / Name / Title]</span><br><span class="field">[Address / Phone / Email]</span></td></tr>
+                <tr><td class="label">CC:</td><td><span class="field">[Other recipients]</span></td></tr>
+                <tr><td class="label">Re:</td><td><span class="field">[Brief subject line]</span></td></tr>
+                <tr><td class="label">Delivery Method:</td><td>☐ Email &nbsp; ☐ Courier &nbsp; ☐ Hand Delivery &nbsp; ☐ Mail &nbsp; ☐ Online Portal — <span class="field">[Platform]</span></td></tr>
+            </table>
+
+            <div class="sub-title" style="margin-top: 18px;">Items Transmitted</div>
+            <table class="data-table">
+                <tr>
+                    <th width="40">Qty</th>
+                    <th width="80">Date</th>
+                    <th width="80">Doc Type</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td class="center"><span class="field">[1]</span></td>
+                    <td><span class="field">[2026-05-15]</span></td>
+                    <td><span class="field">[ASI-007]</span></td>
+                    <td><span class="field">[Architect's Supplemental Instruction No. 7 — revised storefront sill detail per RFI 2026-0044]</span></td>
+                </tr>
+                <tr>
+                    <td class="center"><span class="field">[1]</span></td>
+                    <td><span class="field">[2026-05-15]</span></td>
+                    <td><span class="field">[Drawing]</span></td>
+                    <td><span class="field">[Sheet A-501-R1 — revised entry sill detail (replaces A-501)]</span></td>
+                </tr>
+                <tr>
+                    <td class="center"><span class="field">[Qty]</span></td>
+                    <td><span class="field">[Date]</span></td>
+                    <td><span class="field">[Type]</span></td>
+                    <td><span class="field">[Description]</span></td>
+                </tr>
+                <tr>
+                    <td class="center"><span class="field">[Qty]</span></td>
+                    <td><span class="field">[Date]</span></td>
+                    <td><span class="field">[Type]</span></td>
+                    <td><span class="field">[Description]</span></td>
+                </tr>
+                <tr>
+                    <td class="center"><span class="field">[Qty]</span></td>
+                    <td><span class="field">[Date]</span></td>
+                    <td><span class="field">[Type]</span></td>
+                    <td><span class="field">[Description]</span></td>
+                </tr>
+            </table>
+
+            <div class="sub-title" style="margin-top: 18px;">Action Requested</div>
+            <p style="font-size: 13px;">
+                ☐ For your records / no action required<br>
+                ☐ For your review and comment by <span class="field">[Date]</span><br>
+                ☐ For your review and signature, return one signed copy by <span class="field">[Date]</span><br>
+                ☐ For your information — please distribute to <span class="field">[Distribution]</span><br>
+                ☐ Forward to your subcontractors as applicable<br>
+                ☐ Approval requested by <span class="field">[Date]</span><br>
+                ☐ Other: <span class="field">[Action]</span>
+            </p>
+
+            <div class="sub-title" style="margin-top: 18px;">Notes</div>
+            <p style="font-size: 13px; padding: 10px; background: #fff; border: 1px solid #ddd; min-height: 50px;">
+                <span class="field">[Brief notes — e.g., "Drawing A-501-R1 supersedes A-501. Please incorporate into your sub-distribution by 2026-05-22 and confirm receipt."]</span>
+            </p>
+
+            <div class="signature-line" style="margin-top: 30px;">
+                Sent by: <span class="field">[Name]</span><br>
+                Title / Date: <span class="field">[Title]</span> / <span class="field">[Date]</span>
+            </div>
+            <p style="margin-top: 12px; font-size: 12px; font-style: italic;">Recipient acknowledgment requested: please reply confirming receipt and indicating any items not received in good order.</p>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         DISCIPLINE RULES
+         ============================================================ -->
+    <div class="section" id="sec-discipline">
+        <div class="section-title">5. The 10 Discipline Rules That Make These Templates Work</div>
+        <p>The templates above are universally available — every commercial GC has access to similar forms. The difference between a project where these tools work and a project where they don't is discipline. The 10 rules:</p>
+
+        <div class="checklist">
+            <ol>
+                <li><strong>Sequential numbering, no gaps, no duplicates.</strong> Every RFI, submittal, and transmittal gets the next sequential number. No "I'll come back and number this." Skipped or duplicated numbers signal disorganization to the architect and erode trust.</li>
+                <li><strong>One subject per RFI, one trade per RFI.</strong> Don't combine 3 questions in 1 RFI. Each gets its own — easier to track, easier for the architect to respond to, easier to reference in change orders later.</li>
+                <li><strong>Read first, ask second.</strong> Every RFI gets reviewed by the GC project manager before submission. If the answer is in the documents, the answer goes back to the asker (usually a sub) with a citation. The submitted RFI count should be 50–60% of what the field asks for, after PM filtering.</li>
+                <li><strong>Suggested resolution on every RFI.</strong> Including the GC's suggested resolution accelerates response 2-3x because the architect can confirm rather than design from scratch. Even a "we propose to install per detail X with the modification of Y" beats a question with no proposed answer.</li>
+                <li><strong>Update the logs daily.</strong> Not weekly, not at the end of the month. Every new RFI, submittal, transmittal goes into the log the same day. Stale logs lose data and credibility.</li>
+                <li><strong>Escalate at the deadline, not after.</strong> RFIs over 7 days unanswered: written escalation to the architect's principal with copy to owner. Submittals over 21 days unreviewed: same. Don't wait three weeks "to be polite" — schedule slips compound.</li>
+                <li><strong>Every transmittal gets an acknowledgment.</strong> A transmittal sent and unacknowledged is the start of a "you never sent us that" dispute. Reply requested in every transmittal; second nudge at 5 days; written escalation at 10.</li>
+                <li><strong>No verbal RFIs in the field.</strong> If the architect or owner gives a verbal directive on a walk-through, the GC immediately writes an RFI ("Per our walk on X date you directed Y; please confirm in writing for the record"). If they direct a change in the work, the GC writes a CCD or change order proposal — not just memory.</li>
+                <li><strong>Submittal log includes the procurement-by date.</strong> Submittals approved late mean materials ordered late mean schedule slips. The procurement-by column on the submittal log is the leading indicator. Any submittal in review past its required-for-procurement date is a schedule risk that goes on the project status report.</li>
+                <li><strong>The project closeout binder is the submittal log + transmittal log + RFI log.</strong> At project closeout, the architect typically wants a closeout binder (or electronic equivalent) that includes every approved submittal, every responded RFI, every transmittal that delivered ASIs or revised drawings. If the logs were maintained correctly, the closeout binder builds itself in a day. If not, closeout takes weeks of forensic work.</li>
+            </ol>
+        </div>
+
+        <div class="practice-note">
+            <span class="label">Use a project management platform — but the discipline still has to be there.</span>
+            Procore, Sage Construction Management, Autodesk Construction Cloud, BuilderTrend, JobTread, e-Builder all have RFI / Submittal / Transmittal modules. They automate sequential numbering, status tracking, escalation reminders, and closeout binder generation. They are NOT a substitute for the discipline rules above — they are an enabler. A team that doesn't read first / read carefully / number sequentially / log daily will produce a disorganized Procore as easily as they'll produce a disorganized paper file. Templates and software work when the people using them are disciplined.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         CLOSING
+         ============================================================ -->
+    <div class="section">
+        <div class="warning">
+            <strong>Closing reminder.</strong> These three templates are intended for use on commercial projects where the contract permits the GC's standard project-management forms. <strong>Where the prime contract specifies particular forms (e.g., AIA G716 for ASIs, AIA G710 for Architect's Supplemental Instructions, owner's proprietary forms on institutional projects), use the contract-specified forms.</strong> The structural framework (sequential numbering, status tracking, escalation discipline, closeout-binder consolidation) applies regardless of which specific form is used. On federal projects and large institutional projects, additional submittal categories may apply (CMRs — Construction Management Reports, IRFAs — Information Requests for Architect, RWPs — Request for Work Permits) — verify against the specifications.
+        </p>
+
+        <p class="footnote">Document version: 2026-05-15 (v1.0). Industry-standard project-management forms; structural framework parallels widely-adopted commercial practice (AIA G716 / G710 / G809 / G811 conventions) without reproducing AIA copyrighted forms verbatim. Maintained as part of the ContrPro Complete tier — General Contractor suite.</p>
+    </div>
+
+</body>
+</html>
