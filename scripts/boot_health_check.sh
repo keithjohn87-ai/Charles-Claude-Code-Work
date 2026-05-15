@@ -12,6 +12,7 @@
 set -uo pipefail
 
 LOG="/Users/home/charles/logs/boot_health_check.log"
+OFFLINE_FLAG="/Users/home/charles/workspace/offline_mode.flag"
 JOHN_NUMBER="+16156637932"
 WAIT_SECONDS=90
 WEBHOOK_URL="http://localhost:8090/health"
@@ -149,7 +150,14 @@ fi
     echo "---"
 } >> "$LOG"
 
-# Send iMessage to John (use AppleScript via the existing send-imessage script)
+# Send iMessage to John — suppressed during intentional offline mode so we
+# don't bombard him with a "Mac back up" message every time the offline-
+# scheduled boot fires. Boot status is still logged to disk for review on return.
+if [ -f "$OFFLINE_FLAG" ]; then
+    echo "iMessage SUPPRESSED — offline_mode flag present at $OFFLINE_FLAG" >> "$LOG"
+    exit 0
+fi
+
 osascript <<APPLESCRIPT
 tell application "Messages"
     set targetService to 1st service whose service type = iMessage

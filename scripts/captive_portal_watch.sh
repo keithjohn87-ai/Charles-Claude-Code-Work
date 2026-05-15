@@ -19,11 +19,20 @@ set -uo pipefail
 
 LOG="/Users/home/charles/logs/captive_portal_watch.log"
 STATE_FILE="/Users/home/charles/workspace/captive_portal_state.txt"
+OFFLINE_FLAG="/Users/home/charles/workspace/offline_mode.flag"
 JOHN_NUMBER="+16156637932"
 ALERT_COOLDOWN_SECONDS=3600  # 1 hour between alerts
 
 mkdir -p "$(dirname "$LOG")"
 mkdir -p "$(dirname "$STATE_FILE")"
+
+# Suppress alerts entirely when intentionally in offline mode (e.g., John
+# traveling and hotel WiFi off). Still log the probe result so we have a
+# record of when WiFi actually came back.
+OFFLINE_MODE_ACTIVE=0
+if [ -f "$OFFLINE_FLAG" ]; then
+    OFFLINE_MODE_ACTIVE=1
+fi
 
 NOW=$(date +%s)
 TIMESTAMP=$(TZ=America/New_York date '+%Y-%m-%d %H:%M EST')
@@ -105,8 +114,8 @@ WiFi captive portal still intercepting. HTTP probe: ${http_code}. Re-flagging ho
     fi
 fi
 
-# Send iMessage if needed
-if [ "$should_alert" = "1" ]; then
+# Send iMessage if needed (suppressed during intentional offline mode)
+if [ "$should_alert" = "1" ] && [ "$OFFLINE_MODE_ACTIVE" = "0" ]; then
     osascript <<APPLESCRIPT 2>>"$LOG"
 tell application "Messages"
     set targetService to 1st service whose service type = iMessage
@@ -116,6 +125,8 @@ end tell
 APPLESCRIPT
     last_alert=$NOW
     echo "[$TIMESTAMP] ALERT SENT — state=${prior_state}→${new_state} http=${http_code}" >> "$LOG"
+elif [ "$should_alert" = "1" ] && [ "$OFFLINE_MODE_ACTIVE" = "1" ]; then
+    echo "[$TIMESTAMP] ALERT SUPPRESSED (offline_mode active) — state=${prior_state}→${new_state} http=${http_code}" >> "$LOG"
 else
     # Quiet log — just record the probe
     echo "[$TIMESTAMP] state=${new_state} http=${http_code} (no alert)" >> "$LOG"
