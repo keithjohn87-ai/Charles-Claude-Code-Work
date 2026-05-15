@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Closeout Suite — Substantial Completion Certificate, Punch List, Closeout Checklist</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.55; max-width: 880px; margin: 40px auto; padding: 20px; color: #222; }
+        .header { text-align: center; border-bottom: 3px double #1e3a5f; padding-bottom: 20px; margin-bottom: 30px; }
+        .form-title { font-size: 26px; font-weight: bold; color: #1e3a5f; margin-bottom: 6px; }
+        .form-subtitle { font-size: 15px; color: #444; font-weight: 600; }
+        .doc-meta { font-size: 13px; color: #666; margin-top: 8px; }
+        .field { background: #f0f0f0; padding: 2px 8px; border-radius: 3px; font-style: italic; color: #555; }
+        .section { margin: 28px 0; page-break-inside: avoid; }
+        .section-title { font-weight: bold; color: #1e3a5f; font-size: 16px; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+        .sub-title { font-weight: bold; color: #1e3a5f; font-size: 14px; margin: 14px 0 6px 0; }
+        .warning { background: #f8d7da; border-left: 4px solid #dc3545; padding: 14px 16px; margin: 18px 0; }
+        .warning strong { color: #721c24; }
+        .notice { background: #d1ecf1; border-left: 4px solid #0c5460; padding: 14px 16px; margin: 18px 0; }
+        .practice-note { background: #fdf6e3; border-left: 4px solid #b58900; padding: 14px 16px; margin: 14px 0; font-size: 13.5px; }
+        .practice-note .label { font-weight: bold; color: #1e3a5f; font-size: 14px; display: block; margin-bottom: 6px; }
+        .form-frame { border: 2px solid #1e3a5f; padding: 20px 22px; margin: 18px 0 24px 0; background: #fafbfc; page-break-inside: avoid; }
+        .form-frame .form-frame-title { font-size: 18px; font-weight: bold; color: #1e3a5f; text-align: center; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 4px; }
+        .form-frame .form-frame-sub { font-size: 13px; color: #555; text-align: center; margin-bottom: 16px; font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        td, th { padding: 7px 8px; vertical-align: top; }
+        th { background: #1e3a5f; color: #fff; text-align: left; font-size: 12.5px; }
+        .data-table td { border: 1px solid #ccc; font-size: 13px; }
+        .data-table td.label { font-weight: 600; background: #f9f9f9; width: 32%; }
+        .punch-table th, .punch-table td { border: 1px solid #ccc; padding: 6px 7px; font-size: 11.5px; vertical-align: top; }
+        .punch-table th { font-size: 10.5px; text-transform: uppercase; line-height: 1.3; }
+        .punch-table tr.header-row td { background: #fdf6e3; font-weight: bold; }
+        .punch-table tr.example-row td { background: #f0f4f8; font-style: italic; color: #555; }
+        .punch-table td.center { text-align: center; }
+        .punch-table td.status-open { background: #fff3cd; }
+        .punch-table td.status-closed { background: #d4edda; }
+        .checklist { background: #f9f9f9; border: 1px solid #ddd; padding: 16px 20px; border-radius: 6px; }
+        .checklist ol { margin: 0; padding-left: 22px; }
+        .checklist li { margin-bottom: 6px; font-size: 13.5px; }
+        .deep-checklist { background: #f9f9f9; border: 1px solid #ddd; padding: 12px 18px; border-radius: 4px; margin: 8px 0; }
+        .deep-checklist h4 { margin: 6px 0 4px 0; color: #1e3a5f; font-size: 13.5px; }
+        .deep-checklist ul { margin: 4px 0 8px 22px; padding: 0; }
+        .deep-checklist li { font-size: 12.5px; margin-bottom: 3px; }
+        .toc { background: #f4f6f9; border: 1px solid #c0cad8; padding: 16px 22px; margin: 20px 0 28px 0; border-radius: 6px; }
+        .toc-title { font-weight: bold; color: #1e3a5f; font-size: 14px; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+        .toc ol { margin: 0; padding-left: 22px; }
+        .toc li { margin-bottom: 4px; font-size: 13.5px; }
+        .toc a { color: #1e3a5f; text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+        .footnote { font-size: 11.5px; color: #666; font-style: italic; }
+        .signature-line { border-top: 1px solid #000; width: 320px; margin-top: 40px; padding-top: 5px; font-size: 12.5px; }
+        .page-break { page-break-before: always; }
+        @media print {
+            .no-print { display: none; }
+            body { margin: 0; max-width: 100%; }
+            .section, .form-frame { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="no-print" style="background: #fff3cd; border: 2px solid #856404; padding: 18px; border-radius: 8px; margin-bottom: 24px;">
+        <strong style="color: #856404; font-size: 16px;">CLOSEOUT IS WHERE PROJECTS LEAK MARGIN</strong>
+        <p style="margin: 8px 0 0 0; font-size: 13.5px;">
+            More commercial projects lose money in closeout than in construction. Substantial completion is delayed by punch list disputes; final retainage release is delayed by missing closeout documents; warranty period starts late because the substantial completion certificate is never executed. This package addresses the three closeout instruments in sequence: (1) the Substantial Completion Certificate that triggers warranty start and partial retainage release; (2) the Punch List that itemizes residual work; and (3) the Closeout Document Checklist that captures everything required for final acceptance and final retainage release. Run all three rigorously and final payment lands in 30–60 days. Run them loosely and final payment drags 6+ months.
+        </p>
+    </div>
+
+    <div class="header">
+        <div class="form-title">CLOSEOUT SUITE</div>
+        <div class="form-subtitle">Substantial Completion Certificate &middot; Punch List &middot; Closeout Document Checklist</div>
+        <div class="doc-meta">
+            Project: <span class="field">[Project Name]</span> &nbsp;|&nbsp;
+            Date: <span class="field">[Date]</span>
+        </div>
+    </div>
+
+    <div class="toc">
+        <div class="toc-title">Table of Contents</div>
+        <ol>
+            <li><a href="#sec-overview">Closeout Sequence — Substantial Completion → Punch List → Final Acceptance</a></li>
+            <li><a href="#sec-substantial">Certificate of Substantial Completion</a></li>
+            <li><a href="#sec-punch">Punch List Form + Project Punch Register</a></li>
+            <li><a href="#sec-checklist">Closeout Document Checklist (40+ items)</a></li>
+            <li><a href="#sec-final">Certificate of Final Completion + Final Acceptance</a></li>
+            <li><a href="#sec-retainage">Retainage Release Sequence</a></li>
+        </ol>
+    </div>
+
+    <!-- ============================================================
+         OVERVIEW
+         ============================================================ -->
+    <div class="section" id="sec-overview">
+        <div class="section-title">1. Closeout Sequence</div>
+
+        <p>The standard closeout sequence on a commercial project:</p>
+
+        <table class="data-table">
+            <tr>
+                <th>Step</th>
+                <th>Event</th>
+                <th>Effect</th>
+                <th>Typical Timing</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Contractor declares substantial completion</td>
+                <td>Triggers architect's punch list walk</td>
+                <td>When work is sufficiently complete that owner can occupy / use</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Architect punch list walk</td>
+                <td>Generates the punch list — itemized list of remaining incomplete or non-conforming work</td>
+                <td>Within 7–14 days of contractor's substantial completion declaration</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Architect issues Certificate of Substantial Completion</td>
+                <td>Establishes substantial completion date; warranty period starts; partial retainage released; punch list deadline established</td>
+                <td>Once architect agrees substantial completion has been achieved (typically with punch list attached)</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Contractor completes punch list</td>
+                <td>Each item completed and re-inspected</td>
+                <td>30 days from substantial completion (typical)</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Contractor delivers closeout document package</td>
+                <td>All required closeout documents (warranties, O&amp;M manuals, as-built drawings, attic stock, certificates, lien waivers)</td>
+                <td>Concurrent with punch list completion</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Architect issues Certificate of Final Completion</td>
+                <td>Final acceptance; final retainage released; final payment due per contract</td>
+                <td>After punch list completion + closeout document acceptance</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>Owner makes final payment</td>
+                <td>Last payment in cycle; project financially closed</td>
+                <td>30–60 days from Certificate of Final Completion per contract</td>
+            </tr>
+        </table>
+
+        <div class="practice-note">
+            <span class="label">Substantial completion is a contractor-driven declaration.</span>
+            Substantial completion does not happen on a date the architect picks; it happens when the contractor declares the work substantially complete and the architect agrees. The contract typically defines substantial completion as the stage when the work is sufficiently complete that the owner can occupy or utilize the work for its intended purpose. The contractor has the obligation to declare; the architect has the obligation to walk and either agree (issuing the Certificate) or disagree (identifying what's still required to reach substantial completion). Don't wait for the architect to "decide it's done" — declare it, walk it, get the Certificate.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         CERTIFICATE OF SUBSTANTIAL COMPLETION
+         ============================================================ -->
+    <div class="section" id="sec-substantial">
+        <div class="section-title">2. Certificate of Substantial Completion</div>
+
+        <div class="form-frame">
+            <div class="form-frame-title">Certificate of Substantial Completion</div>
+            <div class="form-frame-sub">Industry-standard equivalent of AIA G704</div>
+
+            <table class="data-table">
+                <tr><td class="label">Project:</td><td><span class="field">[Project name]</span></td></tr>
+                <tr><td class="label">Project Address:</td><td><span class="field">[Address]</span></td></tr>
+                <tr><td class="label">Owner:</td><td><span class="field">[Owner legal name]</span></td></tr>
+                <tr><td class="label">Contractor:</td><td><span class="field">[GC legal name]</span></td></tr>
+                <tr><td class="label">Architect:</td><td><span class="field">[Architect firm]</span></td></tr>
+                <tr><td class="label">Owner-Contractor Contract Dated:</td><td><span class="field">[Date]</span></td></tr>
+                <tr><td class="label">Original Contract Sum:</td><td>$<span class="field">[Original sum]</span></td></tr>
+                <tr><td class="label">Net Change by Change Orders Through Substantial Completion:</td><td>$<span class="field">[Net of COs]</span></td></tr>
+                <tr><td class="label">Adjusted Contract Sum:</td><td>$<span class="field">[Adjusted sum]</span></td></tr>
+                <tr><td class="label">Original Substantial Completion Date:</td><td><span class="field">[Original date]</span></td></tr>
+                <tr><td class="label">Adjusted Substantial Completion Date (per COs):</td><td><span class="field">[Adjusted date]</span></td></tr>
+            </table>
+
+            <div class="sub-title" style="margin-top: 18px;">Certification</div>
+            <p style="font-size: 13.5px;">The Work or designated portion thereof is hereby certified as substantially complete in accordance with the Contract Documents. The date of substantial completion is the date certified below, on which the Owner agrees to accept the Work, or designated portion thereof, for the purpose of taking possession or utilization for the use intended.</p>
+
+            <div class="sub-title">Date of Substantial Completion</div>
+            <p style="font-size: 14px; padding: 12px; background: #fff3cd; border: 1px solid #ffc107; text-align: center;">
+                <strong style="font-size: 16px;"><span class="field">[Substantial Completion Date]</span></strong>
+            </p>
+
+            <div class="sub-title">Designated Portion of the Work (if substantial completion is partial)</div>
+            <p style="font-size: 13px; padding: 8px; background: #fff; border: 1px solid #ddd; min-height: 40px;">
+                <span class="field">[Identify the portion(s) of the Work to which this Certificate applies. Leave blank or "N/A" if Certificate covers entire Project.]</span>
+            </p>
+
+            <div class="sub-title" style="margin-top: 18px;">Effects of Substantial Completion</div>
+            <p style="font-size: 13.5px;">The date of Substantial Completion certified above triggers the following:</p>
+            <ul style="font-size: 13.5px;">
+                <li><strong>Warranty period begins.</strong> The one-year general workmanship warranty (or such longer period as the Contract specifies) begins on the date of substantial completion.</li>
+                <li><strong>Owner takes possession (or designated portion thereof).</strong> Risk of loss for the Work shifts to Owner; insurance responsibility shifts to Owner per the Contract.</li>
+                <li><strong>Retainage reduces.</strong> Retainage withheld is reduced to <span class="field">[2x the dollar value of remaining punch list]</span> pending punch list completion (or such other amount as the Contract specifies).</li>
+                <li><strong>Punch list deadline begins.</strong> Contractor shall complete all items on the attached Punch List within <span class="field">[thirty (30) days]</span> from this date (or such other deadline as the Contract specifies).</li>
+                <li><strong>Liquidated damages stop accruing.</strong> Any contractual liquidated damages for delay stop accruing on the date of substantial completion.</li>
+                <li><strong>Owner-furnished services begin.</strong> Owner's responsibility for utilities, security, custodial services, and other operations begin on the date of substantial completion (per Contract).</li>
+                <li><strong>Statutory limitations periods begin.</strong> Statute of repose for construction defects in the project state begins on the date of substantial completion (typical: 4–10 years depending on state).</li>
+            </ul>
+
+            <div class="sub-title" style="margin-top: 18px;">Punch List</div>
+            <p style="font-size: 13px;">The Punch List of items remaining to be completed or corrected is attached hereto and made part of this Certificate. The estimated value of the Punch List items is $<span class="field">[Estimate]</span>.</p>
+
+            <div class="sub-title">Architect Certification</div>
+            <p style="font-size: 13px;">The undersigned Architect certifies that, based on inspection of the Work and the data submitted by the Contractor, the Work or designated portion thereof is substantially complete in accordance with the Contract Documents.</p>
+            <div class="signature-line">
+                ARCHITECT: <span class="field">[Architect firm]</span><br>
+                By: <span class="field">[Signature]</span> &middot; Date: <span class="field">[Date]</span>
+            </div>
+
+            <div class="sub-title" style="margin-top: 22px;">Contractor Acknowledgment</div>
+            <p style="font-size: 13px;">The Contractor acknowledges receipt of this Certificate and the attached Punch List, and agrees to complete the Punch List items within the period specified.</p>
+            <div class="signature-line">
+                CONTRACTOR: <span class="field">[GC name]</span><br>
+                By: <span class="field">[Signature]</span> &middot; Date: <span class="field">[Date]</span>
+            </div>
+
+            <div class="sub-title" style="margin-top: 22px;">Owner Acceptance</div>
+            <p style="font-size: 13px;">The Owner acknowledges substantial completion of the Work or designated portion thereof and accepts possession.</p>
+            <div class="signature-line">
+                OWNER: <span class="field">[Owner name]</span><br>
+                By: <span class="field">[Signature]</span> &middot; Date: <span class="field">[Date]</span>
+            </div>
+        </div>
+
+        <div class="warning">
+            <strong>Get the Certificate signed.</strong> Some owners and architects walk the punch list, hand the contractor a list, and never execute the Certificate. Without the Certificate, the warranty period hasn't formally started, the retainage release isn't triggered, and the date of substantial completion is contestable. Insist on getting the Certificate executed at the same walk where the punch list is generated. If the architect won't sign — write a letter to architect + owner asserting substantial completion and the date thereof, providing the proposed Certificate for execution. Silence past 14 days is, in many states, deemed acceptance.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         PUNCH LIST
+         ============================================================ -->
+    <div class="section page-break" id="sec-punch">
+        <div class="section-title">3. Punch List Form + Project Punch Register</div>
+
+        <p style="font-size: 13.5px;">The Punch List itemizes all incomplete or non-conforming work identified at the substantial completion walk. Each item identifies the location, the deficiency, the responsible trade, and the action required. The Punch List is attached to the Certificate of Substantial Completion and tracked through completion.</p>
+
+        <div class="form-frame">
+            <div class="form-frame-title">Project Punch List</div>
+            <div class="form-frame-sub">Project: <span class="field">[Project name]</span> &middot; Substantial Completion Date: <span class="field">[Date]</span></div>
+
+            <table class="punch-table">
+                <tr>
+                    <th width="40">Item #</th>
+                    <th width="80">Location</th>
+                    <th width="60">Trade / Sub</th>
+                    <th>Deficiency / Action Required</th>
+                    <th width="70">Date Identified</th>
+                    <th width="70">Target Completion</th>
+                    <th width="70">Date Completed</th>
+                    <th width="60">Status</th>
+                    <th width="50">Re-Inspect Date</th>
+                </tr>
+
+                <tr class="header-row">
+                    <td colspan="9">— SAMPLE ENTRIES (typical commercial punch list items) —</td>
+                </tr>
+                <tr class="example-row">
+                    <td class="center">001</td>
+                    <td>Lobby — east wall</td>
+                    <td>Painter (Div 09)</td>
+                    <td>Paint touch-up around switch plates; light scuffs at chair-rail height</td>
+                    <td>2026-05-15</td>
+                    <td>2026-05-22</td>
+                    <td>2026-05-20</td>
+                    <td class="center status-closed">Closed</td>
+                    <td>2026-05-21</td>
+                </tr>
+                <tr class="example-row">
+                    <td class="center">002</td>
+                    <td>Conf Rm 201 — door</td>
+                    <td>Door &amp; Hardware (Div 08)</td>
+                    <td>Door binds against frame at top; needs adjustment</td>
+                    <td>2026-05-15</td>
+                    <td>2026-05-22</td>
+                    <td>—</td>
+                    <td class="center status-open">Open</td>
+                    <td>—</td>
+                </tr>
+                <tr class="example-row">
+                    <td class="center">003</td>
+                    <td>Mechanical Rm 105 — VFD</td>
+                    <td>Mech (Div 23)</td>
+                    <td>Variable frequency drive on AHU-2 not commissioned; commissioning report missing</td>
+                    <td>2026-05-15</td>
+                    <td>2026-06-01</td>
+                    <td>—</td>
+                    <td class="center status-open">Open</td>
+                    <td>—</td>
+                </tr>
+                <tr class="example-row">
+                    <td class="center">004</td>
+                    <td>Restroom 1A — sink</td>
+                    <td>Plumbing (Div 22)</td>
+                    <td>Faucet drips; replace cartridge</td>
+                    <td>2026-05-15</td>
+                    <td>2026-05-22</td>
+                    <td>2026-05-19</td>
+                    <td class="center status-closed">Closed</td>
+                    <td>2026-05-21</td>
+                </tr>
+                <tr class="example-row">
+                    <td class="center">005</td>
+                    <td>Server Room 312</td>
+                    <td>Electrical (Div 26)</td>
+                    <td>Two unused conduit stubs not capped; capping required for fire-rating compliance</td>
+                    <td>2026-05-15</td>
+                    <td>2026-05-22</td>
+                    <td>—</td>
+                    <td class="center status-open">Open</td>
+                    <td>—</td>
+                </tr>
+                <tr class="example-row">
+                    <td class="center">006</td>
+                    <td>Exterior — main entrance</td>
+                    <td>Sealants (Div 07)</td>
+                    <td>Backer rod visible at storefront sill joint; recaulk full perimeter</td>
+                    <td>2026-05-15</td>
+                    <td>2026-05-22</td>
+                    <td>—</td>
+                    <td class="center status-open">Open</td>
+                    <td>—</td>
+                </tr>
+
+                <tr>
+                    <td class="center"><span class="field">[#]</span></td>
+                    <td><span class="field">[Loc]</span></td>
+                    <td><span class="field">[Sub]</span></td>
+                    <td><span class="field">[Description + action]</span></td>
+                    <td><span class="field">[Date]</span></td>
+                    <td><span class="field">[Target]</span></td>
+                    <td><span class="field">[Done]</span></td>
+                    <td class="center"><span class="field">[Status]</span></td>
+                    <td><span class="field">[Re-insp]</span></td>
+                </tr>
+            </table>
+
+            <p class="footnote" style="margin-top: 10px;">
+                <strong>Status codes:</strong> Open (work not yet done) &middot; In Progress (sub on site working) &middot; Awaiting Re-Inspect (sub claims complete; architect to verify) &middot; Closed (verified complete by architect) &middot; Disputed (sub claims out of scope; needs resolution).<br>
+                <strong>Source:</strong> column not shown but recommended for tracking who identified the item — Architect / Owner / GC / Sub self-identified.
+            </p>
+        </div>
+
+        <div class="practice-note">
+            <span class="label">Pre-walk the punch with your subs before the architect walks.</span>
+            Two days before the architect punch walk, the GC project manager walks the project with each affected sub trade. Identify and clear obvious defects (paint touch-ups, sealant repairs, misaligned hardware, missing escutcheons). The architect's walk should ideally find structural / functional / commissioning items, not the obvious cosmetic stuff that should have been cleaned up before they showed up. A pre-walked punch list comes out of the architect walk at 1/3 the size and the project closes 30+ days faster.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         CLOSEOUT DOCUMENT CHECKLIST
+         ============================================================ -->
+    <div class="section" id="sec-checklist">
+        <div class="section-title">4. Closeout Document Checklist (40+ Items)</div>
+
+        <p style="font-size: 13.5px;">The closeout document package is required by the Contract for final acceptance and final retainage release. Begin assembling at 80% project completion; deliver complete at substantial completion (latest). Any missing item delays final retainage release.</p>
+
+        <div class="deep-checklist">
+            <h4>A. Warranties &amp; Guarantees</h4>
+            <ul>
+                <li>☐ General workmanship warranty letter from Contractor (typical 1-year)</li>
+                <li>☐ Manufacturer warranties for all installed equipment, assigned to Owner (or directly issued to Owner where the manufacturer requires)</li>
+                <li>☐ Roofing manufacturer's extended warranty (typical 10–30 years for membrane systems)</li>
+                <li>☐ Window / curtain wall warranty (manufacturer + installer)</li>
+                <li>☐ HVAC equipment warranties (compressors typically 5-year, parts 1-year, labor 1-year)</li>
+                <li>☐ Plumbing fixture warranties (manufacturer)</li>
+                <li>☐ Specialty equipment warranties (kitchen equipment, lab equipment, AV equipment, etc.)</li>
+                <li>☐ Subcontractor warranty letters for trade-specific extended warranties</li>
+            </ul>
+        </div>
+
+        <div class="deep-checklist">
+            <h4>B. Operations &amp; Maintenance (O&amp;M) Manuals</h4>
+            <ul>
+                <li>☐ HVAC O&amp;M manual — equipment data sheets, filter replacement schedule, maintenance procedures, parts list, troubleshooting guide</li>
+                <li>☐ Plumbing O&amp;M manual — fixture data, valve diagrams, water quality reports</li>
+                <li>☐ Electrical O&amp;M manual — panel schedules, breaker labels, lighting controls, generator data</li>
+                <li>☐ Fire/Life Safety O&amp;M manual — fire alarm system, sprinkler system, emergency lighting, exit signs</li>
+                <li>☐ Building automation system (BAS) O&amp;M manual — system architecture, sequence of operations, alarm response</li>
+                <li>☐ Roof O&amp;M manual — roofing system data, maintenance schedule, snow removal procedures, manufacturer warranty conditions</li>
+                <li>☐ Landscape O&amp;M manual — plant lists, irrigation schedule, maintenance procedures</li>
+                <li>☐ Specialty system manuals (security, AV, kitchen, etc.)</li>
+                <li>☐ Master O&amp;M index with table of contents</li>
+            </ul>
+        </div>
+
+        <div class="deep-checklist">
+            <h4>C. As-Built Drawings + Record Documents</h4>
+            <ul>
+                <li>☐ Architectural as-built drawings — red-line markups reconciled into clean CAD/BIM drawings</li>
+                <li>☐ Structural as-built drawings</li>
+                <li>☐ MEP as-built drawings (mechanical / electrical / plumbing) — locations of concealed work</li>
+                <li>☐ Civil / site as-built drawings — utility tie-ins, paving, grading</li>
+                <li>☐ Fire protection as-built drawings — sprinkler heads, fire alarm devices</li>
+                <li>☐ Low-voltage as-built drawings — data, security, AV runs</li>
+                <li>☐ Submittal package (final approved set, organized by spec section)</li>
+                <li>☐ RFI log (final, all closed)</li>
+                <li>☐ Change order log (final)</li>
+                <li>☐ Project schedule (as-built schedule showing actual vs. baseline)</li>
+                <li>☐ Daily reports (consolidated)</li>
+            </ul>
+        </div>
+
+        <div class="deep-checklist">
+            <h4>D. Certificates &amp; Approvals</h4>
+            <ul>
+                <li>☐ Certificate of Occupancy (CO) from local building authority — typically conditioned on punch list complete</li>
+                <li>☐ Fire Marshal final acceptance</li>
+                <li>☐ Health Department final acceptance (if applicable)</li>
+                <li>☐ Elevator inspection certificate(s)</li>
+                <li>☐ Pressure vessel certificates (boilers, etc.)</li>
+                <li>☐ Backflow preventer test reports</li>
+                <li>☐ Fire alarm acceptance test report (NFPA 72)</li>
+                <li>☐ Sprinkler system flush + acceptance test report (NFPA 13)</li>
+                <li>☐ HVAC test, adjust, balance (TAB) report</li>
+                <li>☐ Building commissioning report (LEED projects + many institutional)</li>
+                <li>☐ Energy compliance certificate (if required by jurisdiction)</li>
+                <li>☐ Waterproofing inspection report</li>
+                <li>☐ Concrete cylinder break reports (project-end summary)</li>
+                <li>☐ Soil compaction test reports (project-end summary)</li>
+                <li>☐ Welding certifications (structural steel, pressure piping)</li>
+            </ul>
+        </div>
+
+        <div class="deep-checklist">
+            <h4>E. Lien Waivers + Final Payment Documents</h4>
+            <ul>
+                <li>☐ Unconditional Final Lien Waiver from Contractor</li>
+                <li>☐ Unconditional Final Lien Waivers from each Subcontractor</li>
+                <li>☐ Unconditional Final Lien Waivers from each Major Supplier (over contract-specified threshold)</li>
+                <li>☐ Consent of Surety to Final Payment (if bonded)</li>
+                <li>☐ Affidavit of Payment of Debts and Claims (Contractor's sworn statement that all subs/suppliers have been paid)</li>
+                <li>☐ Final Application for Payment (Pay App)</li>
+                <li>☐ Release of any retention bond (if used in lieu of cash retainage)</li>
+            </ul>
+        </div>
+
+        <div class="deep-checklist">
+            <h4>F. Attic Stock + Owner Training</h4>
+            <ul>
+                <li>☐ Attic stock delivered per spec (typical: 5% extra ceiling tile, 5% extra carpet/flooring, paint by color, roofing membrane patches, hardware)</li>
+                <li>☐ Attic stock receipt signed by Owner</li>
+                <li>☐ Owner training on HVAC controls (typical 4–8 hours; recorded video preferred)</li>
+                <li>☐ Owner training on building automation system</li>
+                <li>☐ Owner training on fire/life safety systems</li>
+                <li>☐ Owner training on specialty equipment (kitchen, AV, security)</li>
+                <li>☐ Training attendance log (signed by Owner's facility staff)</li>
+            </ul>
+        </div>
+
+        <div class="deep-checklist">
+            <h4>G. Project Photographs + Final Documentation</h4>
+            <ul>
+                <li>☐ Final project photographs (architectural quality, exterior + interior, suitable for marketing)</li>
+                <li>☐ Aerial / drone photography (if commissioned)</li>
+                <li>☐ Construction progress photo archive (summary set)</li>
+                <li>☐ Project closeout binder index</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         FINAL COMPLETION
+         ============================================================ -->
+    <div class="section page-break" id="sec-final">
+        <div class="section-title">5. Certificate of Final Completion + Final Acceptance</div>
+
+        <div class="form-frame">
+            <div class="form-frame-title">Certificate of Final Completion + Final Acceptance</div>
+            <div class="form-frame-sub">Industry-standard equivalent of the closing instrument that triggers final retainage release</div>
+
+            <table class="data-table">
+                <tr><td class="label">Project:</td><td><span class="field">[Project name]</span></td></tr>
+                <tr><td class="label">Owner:</td><td><span class="field">[Owner name]</span></td></tr>
+                <tr><td class="label">Contractor:</td><td><span class="field">[GC name]</span></td></tr>
+                <tr><td class="label">Architect:</td><td><span class="field">[Architect firm]</span></td></tr>
+                <tr><td class="label">Date of Substantial Completion:</td><td><span class="field">[Date from Cert of SC]</span></td></tr>
+                <tr><td class="label">Date of Final Completion (this Certificate):</td><td><span class="field">[Final completion date]</span></td></tr>
+                <tr><td class="label">Adjusted Contract Sum:</td><td>$<span class="field">[Final contract sum]</span></td></tr>
+                <tr><td class="label">Total Previously Certified for Payment:</td><td>$<span class="field">[Cumulative paid + retainage held]</span></td></tr>
+                <tr><td class="label">Retainage Released by This Certificate:</td><td>$<span class="field">[Final retainage]</span></td></tr>
+                <tr><td class="label">Final Payment Due Contractor:</td><td>$<span class="field">[Final payment]</span></td></tr>
+            </table>
+
+            <div class="sub-title" style="margin-top: 18px;">Certification</div>
+            <p style="font-size: 13.5px;">The undersigned Architect certifies that the Work has been completed in accordance with the Contract Documents, the Punch List items have been completed and verified, the closeout document package has been delivered and accepted, and the Project is finally complete. Final payment is due Contractor in the amount stated above.</p>
+
+            <div class="sub-title">Effects of Final Completion</div>
+            <ul style="font-size: 13.5px;">
+                <li>Final retainage released; final payment due per Contract</li>
+                <li>Statutory limitations period for construction defects begins (or continues from substantial completion, depending on state)</li>
+                <li>Contractor's general workmanship warranty continues per its term (started on substantial completion)</li>
+                <li>Manufacturer warranties continue per their respective terms (started on equipment installation or substantial completion, as applicable)</li>
+                <li>Claims by either party related to the Work are released except as expressly preserved in writing prior to or contemporaneous with this Certificate</li>
+            </ul>
+
+            <div class="signature-line" style="margin-top: 22px;">
+                ARCHITECT: <span class="field">[Architect firm]</span><br>
+                By: <span class="field">[Signature]</span> &middot; Date: <span class="field">[Date]</span>
+            </div>
+
+            <div class="signature-line" style="margin-top: 30px;">
+                CONTRACTOR: <span class="field">[GC name]</span><br>
+                By: <span class="field">[Signature]</span> &middot; Date: <span class="field">[Date]</span>
+            </div>
+
+            <div class="signature-line" style="margin-top: 30px;">
+                OWNER: <span class="field">[Owner name]</span><br>
+                By: <span class="field">[Signature]</span> &middot; Date: <span class="field">[Date]</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         RETAINAGE RELEASE SEQUENCE
+         ============================================================ -->
+    <div class="section" id="sec-retainage">
+        <div class="section-title">6. Retainage Release Sequence</div>
+
+        <table class="data-table">
+            <tr>
+                <th>Trigger</th>
+                <th>Retainage Action</th>
+                <th>Amount Released (typical)</th>
+            </tr>
+            <tr>
+                <td>50% project completion (if step-down structure)</td>
+                <td>Reduce withholding rate from 10% to 5% on subsequent billings</td>
+                <td>No release of accumulated retainage; just reduces forward withholding</td>
+            </tr>
+            <tr>
+                <td>Substantial Completion</td>
+                <td>Release retainage down to 2x the dollar value of the punch list</td>
+                <td>Typically 80–95% of accumulated retainage</td>
+            </tr>
+            <tr>
+                <td>Punch list completion + closeout document delivery</td>
+                <td>Release additional retainage; final balance held until Final Completion</td>
+                <td>Usually combined with Final Completion release</td>
+            </tr>
+            <tr>
+                <td>Certificate of Final Completion + final lien waivers + Consent of Surety</td>
+                <td>Release final retainage; final payment due per Contract</td>
+                <td>Remaining retainage balance</td>
+            </tr>
+        </table>
+
+        <div class="practice-note">
+            <span class="label">Final retainage is the most-disputed amount in any project.</span>
+            By the time the project reaches final completion, the contractor has done all the hard work; the final retainage (typically 2–5% of contract sum) is the contractor's profit. Owners and architects sometimes drag final retainage release to negotiate down disputed change orders, address late warranty issues, or just because the squeaky-wheel discipline is gone. Defense: complete the closeout document package thoroughly and on time; deliver final lien waivers from every sub and major supplier; maintain rigorous punch-list closure documentation; respond to architect/owner final-completion comments within 48 hours. Every day of unjustified delay is interest cost on what is already earned profit.
+        </div>
+
+        <div class="warning">
+            <strong>State prompt-payment statutes apply to final payment too.</strong> Most states have prompt-payment statutes for both private and public construction projects (e.g., CA Civ. Code § 8800 et seq. for private; CA Pub. Cont. Code § 7107 for public works; FL Stat. § 715.12; NY State Fin. Law § 139-f for public; many others). These statutes typically require final payment within 30–60 days of final acceptance, with statutory interest at 1–1.5% per month for late payment, and entitle the contractor to attorney's fees in some states. If final payment is being unreasonably delayed, send written demand citing the applicable prompt-payment statute and a demand for statutory interest. The demand often unsticks the payment within days; if not, the litigation has a clear statutory hook.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         CLOSING
+         ============================================================ -->
+    <div class="section">
+        <div class="warning">
+            <strong>Closing reminder.</strong> This Closeout Suite covers the universal closeout instruments — substantial completion, punch list, closeout documentation, and final completion. <strong>Where the prime contract specifies particular forms (e.g., AIA G704 Certificate of Substantial Completion, AIA G706 Affidavit of Payment of Debts and Claims, AIA G706A Affidavit of Release of Liens, AIA G707 Consent of Surety to Final Payment), use the contract-specified forms.</strong> For federal projects, additional closeout requirements apply (final SF-1413 Statement and Acknowledgment, FAR clauses on final payment) — verify against the prime contract. Have construction counsel review the closeout package on first project use of this template and on any project where final retainage is meaningfully disputed.
+        </div>
+
+        <p class="footnote">Document version: 2026-05-15 (v1.0). Industry-standard commercial closeout instruments; structural framework parallels widely-adopted commercial practice (AIA G704/G706/G706A/G707 conventions) without reproducing AIA copyrighted forms verbatim. Maintained as part of the ContrPro Complete tier — General Contractor suite.</p>
+    </div>
+
+</body>
+</html>
