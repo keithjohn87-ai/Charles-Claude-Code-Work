@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guaranteed Maximum Price (GMP) Agreement — Owner / Contractor</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.55; max-width: 880px; margin: 40px auto; padding: 20px; color: #222; }
+        .header { text-align: center; border-bottom: 3px double #1e3a5f; padding-bottom: 20px; margin-bottom: 30px; }
+        .form-title { font-size: 26px; font-weight: bold; color: #1e3a5f; margin-bottom: 6px; }
+        .form-subtitle { font-size: 15px; color: #444; font-weight: 600; }
+        .doc-meta { font-size: 13px; color: #666; margin-top: 8px; }
+        .field { background: #f0f0f0; padding: 2px 8px; border-radius: 3px; font-style: italic; color: #555; }
+        .section { margin: 26px 0; page-break-inside: avoid; }
+        .section-title { font-weight: bold; color: #1e3a5f; font-size: 16px; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+        .article-title { font-weight: bold; color: #1e3a5f; font-size: 17px; margin: 22px 0 10px 0; padding-top: 10px; border-top: 2px solid #1e3a5f; }
+        .clause-num { font-weight: bold; color: #1e3a5f; }
+        .sub-title { font-weight: bold; color: #1e3a5f; font-size: 14px; margin: 14px 0 6px 0; }
+        .warning { background: #f8d7da; border-left: 4px solid #dc3545; padding: 14px 16px; margin: 18px 0; }
+        .warning strong { color: #721c24; }
+        .notice { background: #d1ecf1; border-left: 4px solid #0c5460; padding: 14px 16px; margin: 18px 0; }
+        .practice-note { background: #fdf6e3; border-left: 4px solid #b58900; padding: 14px 16px; margin: 14px 0; font-size: 13.5px; }
+        .practice-note .label { font-weight: bold; color: #1e3a5f; font-size: 14px; display: block; margin-bottom: 6px; }
+        .signature-line { border-top: 1px solid #000; width: 360px; margin-top: 50px; padding-top: 5px; font-size: 12.5px; }
+        .notary-block { border: 2px solid #000; padding: 18px 20px; margin-top: 30px; page-break-inside: avoid; font-size: 13px; }
+        .notary-block .notary-title { font-weight: bold; text-align: center; text-transform: uppercase; letter-spacing: 1.2px; font-size: 13px; margin-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        td, th { padding: 7px 8px; vertical-align: top; }
+        th { background: #1e3a5f; color: #fff; text-align: left; font-size: 12.5px; }
+        .data-table td { border: 1px solid #ccc; font-size: 13px; }
+        .data-table td.label { font-weight: 600; background: #f9f9f9; width: 40%; }
+        .calc-table th, .calc-table td { border: 1px solid #1e3a5f; padding: 8px 10px; font-size: 13px; }
+        .calc-table td.label { font-weight: 600; background: #f9f9f9; }
+        .calc-table td.amount { text-align: right; font-family: 'Courier New', monospace; }
+        .calc-table tr.subtotal td { background: #fdf6e3; font-weight: bold; }
+        .calc-table tr.total td { background: #1e3a5f; color: #fff; font-weight: bold; }
+        .checklist { background: #f9f9f9; border: 1px solid #ddd; padding: 16px 20px; border-radius: 6px; }
+        .checklist ol { margin: 0; padding-left: 22px; }
+        .checklist li { margin-bottom: 6px; font-size: 13.5px; }
+        .toc { background: #f4f6f9; border: 1px solid #c0cad8; padding: 16px 22px; margin: 20px 0 28px 0; border-radius: 6px; }
+        .toc-title { font-weight: bold; color: #1e3a5f; font-size: 14px; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+        .toc ol { margin: 0; padding-left: 22px; }
+        .toc li { margin-bottom: 4px; font-size: 13.5px; }
+        .toc a { color: #1e3a5f; text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+        .footnote { font-size: 11.5px; color: #666; font-style: italic; }
+        .clause { margin: 10px 0 14px 0; font-size: 13.5px; }
+        .clause p { margin: 6px 0; }
+        .formula { font-family: 'Courier New', monospace; background: #fffbe6; padding: 10px 14px; border-left: 3px solid #b58900; margin: 8px 0; font-size: 12.5px; }
+        .page-break { page-break-before: always; }
+        @media print {
+            .no-print { display: none; }
+            body { margin: 0; max-width: 100%; }
+            .section, .notary-block { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="no-print" style="background: #fff3cd; border: 2px solid #856404; padding: 18px; border-radius: 8px; margin-bottom: 24px;">
+        <strong style="color: #856404; font-size: 16px;">CRITICAL — ATTORNEY REVIEW REQUIRED BEFORE FIRST USE</strong>
+        <p style="margin: 8px 0 0 0; font-size: 13.5px;">
+            A Guaranteed Maximum Price (GMP) agreement is a substantive commercial contract with risk allocation that differs materially from a lump-sum agreement. Key risk-allocation provisions — the definition of Cost of the Work (what is reimbursable), the contractor's contingency, the savings-sharing formula, the GMP-conversion process from preconstruction services, audit rights, treatment of allowances, and the buy-out gain/loss treatment — vary significantly across markets and project types. The framework below mirrors industry-standard practice and the structural pattern of AIA Document A102 / A133 (Standard Form of Agreement Between Owner and Contractor for a Cost-Plus-Fee with a Guaranteed Maximum Price) without reproducing AIA's copyrighted form verbatim. <strong>This is a starting template only.</strong> Have construction counsel licensed in the state of the project review every GMP Agreement before first use, on each new project type, and on any material change to the contractor's preconstruction-services capabilities or buy-out approach.
+        </p>
+    </div>
+
+    <div class="header">
+        <div class="form-title">GUARANTEED MAXIMUM PRICE (GMP) AGREEMENT</div>
+        <div class="form-subtitle">Between Owner and Contractor &middot; Cost-Plus-Fee with GMP &middot; Industry-Standard Commercial Form</div>
+        <div class="doc-meta">
+            Effective Date: <span class="field">[Date]</span> &nbsp;|&nbsp;
+            Project: <span class="field">[Project Name]</span>
+        </div>
+    </div>
+
+    <div class="warning">
+        <strong>WHEN A GMP IS THE RIGHT DELIVERY METHOD.</strong> A Guaranteed Maximum Price agreement is appropriate when (a) the owner wants cost transparency (open-book accounting on the contractor's actual cost) but with risk protection (a cap on total cost); (b) the design is sufficiently developed to estimate cost accurately but not so finalized that a lump-sum would force the contractor into a high contingency; (c) the project complexity (renovations of occupied buildings, healthcare, biotech, institutional) makes lump-sum bidding speculative; (d) the owner wants the contractor engaged during preconstruction to advise on constructibility, value engineering, and procurement strategy. <strong>A GMP is NOT appropriate</strong> when the project is straightforward enough for a clean lump-sum bid, when the owner does not have the financial sophistication to manage open-book accounting, or when the contractor lacks the cost-tracking infrastructure to support open-book reporting.
+    </div>
+
+    <div class="toc">
+        <div class="toc-title">Table of Contents</div>
+        <ol>
+            <li><a href="#sec-parties">Parties &amp; Recitals</a></li>
+            <li><a href="#sec-art1">Article 1 — Contract Documents</a></li>
+            <li><a href="#sec-art2">Article 2 — Preconstruction Services</a></li>
+            <li><a href="#sec-art3">Article 3 — Construction Phase Services</a></li>
+            <li><a href="#sec-art4">Article 4 — Guaranteed Maximum Price (GMP)</a></li>
+            <li><a href="#sec-art5">Article 5 — Cost of the Work — What's Reimbursable</a></li>
+            <li><a href="#sec-art6">Article 6 — Costs NOT to be Reimbursed</a></li>
+            <li><a href="#sec-art7">Article 7 — Contractor's Fee</a></li>
+            <li><a href="#sec-art8">Article 8 — Contractor's Contingency</a></li>
+            <li><a href="#sec-art9">Article 9 — Allowances within the GMP</a></li>
+            <li><a href="#sec-art10">Article 10 — Changes in the Work — GMP Adjustments</a></li>
+            <li><a href="#sec-art11">Article 11 — Payment</a></li>
+            <li><a href="#sec-art12">Article 12 — Subcontractor Buy-Out (Bidding) Gain or Loss</a></li>
+            <li><a href="#sec-art13">Article 13 — Open Book Accounting + Audit Rights</a></li>
+            <li><a href="#sec-art14">Article 14 — Savings Sharing</a></li>
+            <li><a href="#sec-art15">Article 15 — Other Terms (incorporated from Master Conditions)</a></li>
+            <li><a href="#sec-signatures">Signatures &amp; Notary</a></li>
+        </ol>
+    </div>
+
+    <!-- ============================================================
+         PARTIES + RECITALS
+         ============================================================ -->
+    <div class="section" id="sec-parties">
+        <div class="section-title">Parties &amp; Recitals</div>
+
+        <p>This GUARANTEED MAXIMUM PRICE AGREEMENT (the "Agreement") is made and entered into as of <span class="field">[Effective Date]</span> between:</p>
+
+        <table class="data-table">
+            <tr>
+                <td class="label">OWNER:</td>
+                <td><span class="field">[Owner Legal Name]</span><br>a <span class="field">[State]</span> <span class="field">[Entity Type]</span><br><span class="field">[Address]</span></td>
+            </tr>
+            <tr>
+                <td class="label">CONTRACTOR:</td>
+                <td><span class="field">[GC Legal Name]</span><br>a <span class="field">[State]</span> <span class="field">[Entity Type]</span><br><span class="field">[Address]</span><br>Contractor License No.: <span class="field">[State License #]</span></td>
+            </tr>
+            <tr>
+                <td class="label">ARCHITECT (if separately retained by Owner):</td>
+                <td><span class="field">[Architect firm name]</span><br><span class="field">[Address]</span></td>
+            </tr>
+        </table>
+
+        <p style="margin-top: 16px;"><strong>Recitals.</strong></p>
+        <p style="font-size: 13.5px;">A. Owner intends to construct the project described in Exhibit A (the "Project") at the location identified therein.</p>
+        <p style="font-size: 13.5px;">B. Owner desires to engage Contractor to provide both (i) Preconstruction Services during the design phase to advise on constructibility, value engineering, scheduling, procurement, and cost estimating; and (ii) Construction Phase Services to perform the construction of the Project on a cost-plus-fee basis subject to a Guaranteed Maximum Price.</p>
+        <p style="font-size: 13.5px;">C. Contractor desires to provide both Preconstruction Services and Construction Phase Services on the terms set forth in this Agreement.</p>
+        <p style="font-size: 13.5px;">D. The parties contemplate a two-phase engagement: Preconstruction Services begin upon execution of this Agreement at the Preconstruction Services Fee set forth in Article 2; Construction Phase Services begin upon execution of a GMP Amendment establishing the Guaranteed Maximum Price, the Schedule, and the Construction Phase Fee, all developed during the Preconstruction phase.</p>
+
+        <p style="margin-top: 14px; font-size: 13.5px;"><strong>NOW, THEREFORE,</strong> in consideration of the mutual covenants and promises set forth herein, the parties agree as follows.</p>
+    </div>
+
+    <!-- ============================================================
+         ARTICLE 1 — CONTRACT DOCUMENTS
+         ============================================================ -->
+    <div class="section" id="sec-art1">
+        <div class="article-title">Article 1 — Contract Documents</div>
+
+        <div class="clause">
+            <p><span class="clause-num">1.1 Components.</span> The Contract Documents consist of: (a) this Agreement; (b) the GMP Amendment, when executed; (c) the General Conditions of the Contract for Construction (Exhibit B, incorporating an industry-standard general-conditions form or such other general conditions as the parties expressly adopt); (d) the Drawings and Specifications for the Project (each addendum, modification, and as-bid set identified by date); (e) all Change Orders executed pursuant to this Agreement; (f) any other documents expressly identified in the GMP Amendment as Contract Documents.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">1.2 Order of Precedence.</span> In the event of conflict among the Contract Documents, the order of precedence is: (a) any Change Order executed after the GMP Amendment, in reverse chronological order; (b) the GMP Amendment; (c) this Agreement; (d) the General Conditions; (e) the Specifications; (f) the Drawings; (g) other Contract Documents in the order identified in the GMP Amendment.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">1.3 Two-Phase Structure.</span> This Agreement is structured in two phases: the Preconstruction Phase (Article 2) and the Construction Phase (Article 3). The transition from Preconstruction to Construction occurs upon the execution of the GMP Amendment (Article 4). Until the GMP Amendment is executed, Contractor's services and compensation are limited to Preconstruction Services as defined in Article 2.</p>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         ARTICLE 2 — PRECONSTRUCTION
+         ============================================================ -->
+    <div class="section" id="sec-art2">
+        <div class="article-title">Article 2 — Preconstruction Services</div>
+
+        <div class="clause">
+            <p><span class="clause-num">2.1 Scope of Preconstruction Services.</span> During the Preconstruction Phase, Contractor shall provide the following services:</p>
+            <ul style="font-size: 13.5px;">
+                <li>Constructibility review of the design as it develops, including identification of conflicts among trades, value-engineering opportunities, and means/methods recommendations</li>
+                <li>Cost estimating at major design milestones (typically Schematic Design, Design Development, 50% Construction Documents, 95% Construction Documents)</li>
+                <li>Value-engineering proposals with supporting cost analysis at each estimating milestone</li>
+                <li>Scheduling — preliminary CPM schedule development; identification of long-lead procurement items; phasing strategy</li>
+                <li>Procurement planning — bid-package strategy, subcontractor pre-qualification, identification of long-lead items requiring early procurement</li>
+                <li>Subcontractor buy-out — preparation of bid packages by trade, solicitation of bids, bid analysis, recommendation of subcontractors</li>
+                <li>GMP development — preparation of the proposed Guaranteed Maximum Price based on the bid-out subcontracts, the Cost of the Work projection, the Contractor's Contingency, and the Construction Phase Fee</li>
+                <li>Other preconstruction services reasonably required by the Project</li>
+            </ul>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">2.2 Preconstruction Services Fee.</span> Owner shall pay Contractor for Preconstruction Services on the basis stated in the GMP Amendment, which shall be one of: (a) a fixed lump-sum amount of $<span class="field">[Amount]</span>; (b) a not-to-exceed amount of $<span class="field">[Amount]</span> billed against actual hours at the rates set forth in Exhibit C (Schedule of Hourly Rates); or (c) such other basis as the parties agree. Preconstruction Services Fee is paid monthly during the Preconstruction Phase and is independent of (and not credited against) the Construction Phase Fee.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">2.3 Preconstruction Phase Duration.</span> The Preconstruction Phase begins on the Effective Date and continues until the earlier of: (a) execution of the GMP Amendment; (b) Owner's written termination of Preconstruction Services; or (c) the date specified in the GMP Amendment.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">2.4 Owner's Right Not to Proceed.</span> If Owner determines, after receipt of any GMP proposal from Contractor, not to proceed with the Construction Phase, Owner may terminate this Agreement upon thirty (30) days' written notice to Contractor. In such event, Owner's sole obligation is to pay Contractor the unpaid balance of the Preconstruction Services Fee through the date of termination. Contractor shall have no claim for lost profits or anticipated Construction Phase Fee.</p>
+        </div>
+
+        <div class="practice-note">
+            <span class="label">Preconstruction-services fee aligns incentives.</span>
+            Paying for preconstruction is unfamiliar to many owners — they're used to "free" preconstruction from contractors who roll the cost into the bid. The advantage of a separate fee: the contractor's preconstruction recommendations are independent of the desire to win the construction job. A contractor paid $80,000 in preconstruction fees gives honest value-engineering recommendations even when those recommendations reduce the eventual GMP (and thus the contractor's fee). A contractor doing free preconstruction has every incentive to recommend toward higher GMPs. Owners sophisticated enough to engage a GMP delivery method understand and pay for preconstruction separately.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         ARTICLE 3 — CONSTRUCTION
+         ============================================================ -->
+    <div class="section" id="sec-art3">
+        <div class="article-title">Article 3 — Construction Phase Services</div>
+
+        <div class="clause">
+            <p><span class="clause-num">3.1 Construction Phase Scope.</span> Construction Phase Services begin upon execution of the GMP Amendment and consist of constructing the Project in accordance with the Contract Documents. Contractor shall furnish all labor, materials, equipment, supervision, and other items necessary to complete the Project in strict accordance with the Contract Documents.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">3.2 Date of Commencement.</span> The Date of Commencement of the Construction Phase is the date stated in the GMP Amendment, or such later date as the parties may establish by written agreement.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">3.3 Contract Time.</span> Substantial Completion shall be achieved no later than the date stated in the GMP Amendment, subject to adjustment by Change Order under Article 10.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">3.4 Contractor's Performance Obligations.</span> Contractor's performance obligations include all of the obligations applicable to a contractor under the General Conditions, including without limitation: (a) supervision and direction of the Work; (b) labor, materials, equipment, and services; (c) compliance with laws and regulations; (d) safety; (e) protection of persons and property; (f) coordination with the Architect and the Owner's other consultants; (g) maintenance of project records.</p>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         ARTICLE 4 — GMP
+         ============================================================ -->
+    <div class="section" id="sec-art4">
+        <div class="article-title">Article 4 — Guaranteed Maximum Price (GMP)</div>
+
+        <div class="clause">
+            <p><span class="clause-num">4.1 GMP — The Cap on Owner's Total Cost.</span> The Guaranteed Maximum Price (the "GMP") is the maximum total amount that Owner is obligated to pay Contractor for the Construction Phase Services, including all Cost of the Work (Article 5), the Contractor's Contingency (Article 8), the Allowances (Article 9), and the Contractor's Construction Phase Fee (Article 7), but subject to adjustment by Change Order in accordance with Article 10. <strong>Contractor bears the risk that the actual Cost of the Work plus the Construction Phase Fee will exceed the GMP, except as expressly provided in this Agreement.</strong></p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">4.2 GMP Amount.</span> The GMP is established in the GMP Amendment in the amount of $<span class="field">[GMP Amount]</span>, comprising:</p>
+
+            <table class="calc-table" style="margin-top: 8px;">
+                <tr>
+                    <td class="label" width="60%">Estimated Cost of the Work (Article 5)</td>
+                    <td class="amount" width="40%">$<span class="field">[Amount]</span></td>
+                </tr>
+                <tr>
+                    <td class="label">Allowances within the GMP (Article 9 — itemized)</td>
+                    <td class="amount">$<span class="field">[Amount]</span></td>
+                </tr>
+                <tr>
+                    <td class="label">Contractor's Contingency (Article 8)</td>
+                    <td class="amount">$<span class="field">[Amount]</span></td>
+                </tr>
+                <tr>
+                    <td class="label">Contractor's Construction Phase Fee (Article 7)</td>
+                    <td class="amount">$<span class="field">[Amount]</span></td>
+                </tr>
+                <tr class="total">
+                    <td class="label">GUARANTEED MAXIMUM PRICE (GMP)</td>
+                    <td class="amount">$<span class="field">[Total GMP]</span></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">4.3 What the GMP Includes.</span> The GMP includes all Cost of the Work properly chargeable under Article 5 (including all subcontracted work, materials, equipment, labor with burdens, and General Conditions costs), the Contractor's Contingency, the Allowances, and the Construction Phase Fee. Owner will pay no more than the GMP for the scope identified in the Contract Documents, except as adjusted by executed Change Orders.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">4.4 GMP Assumptions and Clarifications.</span> The GMP is established on the basis of the Drawings, Specifications, addenda, and clarifications listed in the GMP Amendment as of the date of GMP execution. Subsequent design changes, drawing revisions, addenda, or owner-directed changes that affect the scope, cost, or schedule of the Work are addressed by Change Order under Article 10 and may adjust the GMP.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">4.5 Documentation Supporting the GMP.</span> The GMP Amendment shall include the following documentation supporting the GMP:</p>
+            <ul style="font-size: 13.5px;">
+                <li>List of Drawings, Specifications, addenda, and clarifications used to establish the GMP, identified by date and revision</li>
+                <li>List of Allowances within the GMP, with the amount and scope of each</li>
+                <li>List of qualifications, exclusions, and assumptions made in establishing the GMP</li>
+                <li>Detailed cost estimate by CSI division supporting the Estimated Cost of the Work</li>
+                <li>List of major subcontract bid packages and the bid amounts received</li>
+                <li>Schedule of long-lead procurement items and their lead times</li>
+                <li>Project schedule reflecting the Date of Commencement and Substantial Completion</li>
+            </ul>
+        </div>
+
+        <div class="warning">
+            <strong>The GMP qualifications and assumptions list is the most-litigated portion of every GMP project.</strong> Where the GMP is established on assumptions (e.g., "GMP assumes existing slab is structurally adequate to receive new equipment loads without reinforcement"), the assumption becomes a basis for change order if proven incorrect. Conversely, an absence of an assumption ("the GMP includes whatever foundation work is required to receive new equipment, regardless of existing conditions") shifts the risk to the contractor. Negotiate the qualifications and assumptions list with the same intensity as the GMP number itself.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         ARTICLE 5 — COST OF THE WORK
+         ============================================================ -->
+    <div class="section" id="sec-art5">
+        <div class="article-title">Article 5 — Cost of the Work — What's Reimbursable</div>
+
+        <p style="font-size: 13.5px;">"Cost of the Work" means costs necessarily incurred by Contractor in proper performance of the Work, paid by Contractor, and reimbursable as set forth below. Cost of the Work shall not include any costs identified in Article 6 as not reimbursable.</p>
+
+        <div class="clause">
+            <p><span class="clause-num">5.1 Labor Costs.</span> Wages of construction workers directly employed by Contractor to perform the Work (foremen, journeymen, apprentices, laborers), at actual rates including:</p>
+            <ul style="font-size: 13.5px;">
+                <li>Hourly wage at actual paid rate</li>
+                <li>Payroll taxes (FICA, Medicare, federal/state unemployment)</li>
+                <li>Workers' compensation insurance premiums (at actual experience-modified rate)</li>
+                <li>Health, welfare, pension, and other fringe benefits provided pursuant to collective bargaining agreement or company policy</li>
+                <li>Vacation and holiday pay accrued during performance of the Work</li>
+                <li>Per diem, lodging, and travel reimbursement for workers required to travel to the Project</li>
+            </ul>
+            <p style="font-size: 13.5px;">Cost of the Work does NOT include the salaries of Contractor's executive officers, principal members, or general office staff except as expressly identified in Section 5.2 (project-site staff).</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">5.2 Project-Site Staff.</span> Salaries and burdens of Contractor's project-site staff, including project manager, project superintendent, assistant superintendents, project engineer, project accountant, safety officer, and other on-site supervisory and administrative personnel, in proportion to the time devoted to the Project. The General Conditions Schedule (Exhibit D) identifies the project-site staff positions, the planned monthly hours, and the burdened cost rates included in the GMP.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">5.3 Subcontract Costs.</span> Payments to Subcontractors for Work performed pursuant to subcontracts entered into in accordance with this Agreement.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">5.4 Material and Equipment Costs.</span> Costs (including transportation and storage) of materials and equipment incorporated or to be incorporated in the completed Construction. Discounts, rebates, and refunds shall accrue to Owner — Contractor shall make reasonable efforts to obtain available trade discounts.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">5.5 Construction Equipment, Tools, and Temporary Facilities.</span> Costs of construction equipment used in the performance of the Work, whether rented from third parties or owned by Contractor (at rental rates not to exceed prevailing local rental rates for similar equipment); rental costs of small tools and consumables; cost of temporary site utilities, temporary fencing, temporary office trailers, dumpster service.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">5.6 Other Costs.</span> Permit fees, royalties, and licenses required for the Work; sales, use, and similar taxes related to the Work; cost of removal of debris from the site; cost of testing required by the Contract Documents; cost of bonds required by the Contract Documents (premium reimbursable as a separate line item); insurance premiums for project-specific insurance (builder's risk, project-specific GL, etc.); legal costs related to defending claims arising out of the Work (with Owner's prior consent for non-routine matters).</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">5.7 Emergency Costs.</span> Costs incurred in taking action to prevent threatened damage, injury, or loss in case of an emergency affecting the safety of persons or property, provided Contractor gives Owner notice as soon as reasonably practicable.</p>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         ARTICLE 6 — COSTS NOT REIMBURSED
+         ============================================================ -->
+    <div class="section" id="sec-art6">
+        <div class="article-title">Article 6 — Costs NOT to be Reimbursed</div>
+
+        <p style="font-size: 13.5px;">The following costs are NOT included in Cost of the Work and shall be borne by Contractor out of its Construction Phase Fee:</p>
+
+        <ul style="font-size: 13.5px;">
+            <li>Salaries of Contractor's executive officers, principals, members, partners, and general office staff (except project-site staff per Section 5.2)</li>
+            <li>Expenses of Contractor's principal office and branch offices not located at the Project (rent, utilities, office supplies, IT, telephone, insurance not project-specific)</li>
+            <li>Capital expenses including interest on Contractor's capital used for the Work</li>
+            <li>Profit on Contractor's own forces (covered by Construction Phase Fee, not double-billed as Cost of the Work)</li>
+            <li>Costs that would cause the GMP to be exceeded — Contractor shall absorb such costs unless they qualify for a Change Order under Article 10</li>
+            <li>Costs arising from Contractor's default or breach</li>
+            <li>Costs of correcting Defective Work, except to the extent the Defective Work is caused by Owner-furnished materials or owner-directed methods</li>
+            <li>Costs incurred for unsafe practices or violations of applicable laws / regulations attributable to Contractor's negligence</li>
+            <li>Cost of insurance premiums for Contractor's general business insurance not project-specific</li>
+            <li>Legal costs for defending or prosecuting claims by or against Contractor arising out of Contractor's default or breach</li>
+            <li>Costs incurred in completing the Project after Owner's termination of Contractor for default</li>
+        </ul>
+
+        <div class="practice-note">
+            <span class="label">"Costs that would cause the GMP to be exceeded" is the cap.</span>
+            This is the operational definition of "Guaranteed Maximum Price." Once the actual Cost of the Work plus the Construction Phase Fee reaches the GMP, the contractor pays for everything else out of pocket. The contractor's contingency (Article 8) is the cushion within the GMP — drawn down as needed by the contractor for in-scope unforeseens. Once the contingency is exhausted, the contractor is exposed to overruns. This is what the "guarantee" in GMP means.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         ARTICLE 7 — FEE
+         ============================================================ -->
+    <div class="section" id="sec-art7">
+        <div class="article-title">Article 7 — Contractor's Fee</div>
+
+        <div class="clause">
+            <p><span class="clause-num">7.1 Construction Phase Fee.</span> Owner shall pay Contractor a Construction Phase Fee in the amount stated in the GMP Amendment, which shall be one of:</p>
+            <ul style="font-size: 13.5px;">
+                <li><strong>Fixed Fee.</strong> A fixed dollar amount of $<span class="field">[Amount]</span>, payable in monthly installments proportional to the percent complete of the Cost of the Work.</li>
+                <li><strong>Percentage Fee.</strong> A fee equal to <span class="field">[X%]</span> of the Cost of the Work as defined in Article 5, payable monthly with each Application for Payment, and adjusted as the Cost of the Work is finalized at Substantial Completion.</li>
+                <li><strong>Hybrid.</strong> A combination of fixed and percentage components, as detailed in the GMP Amendment.</li>
+            </ul>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">7.2 Fee Adjustment for Change Orders.</span> Each Change Order that adjusts the GMP also adjusts the Construction Phase Fee proportionally — additive Change Orders increase the Fee by <span class="field">[the same percentage rate as the original Fee]</span>; deductive Change Orders decrease the Fee proportionally. Change Orders for self-performed work are calculated separately at the rates in the GMP Amendment.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">7.3 Fee Independent of Cost Performance.</span> The Construction Phase Fee is not adjusted based on cost performance — Contractor earns the agreed Fee regardless of whether the actual Cost of the Work comes in under or over the projection (subject to Article 14 savings sharing if under-budget). This is intentional: the Fee compensates Contractor for performance of the Construction Phase services; cost-performance incentives are addressed through the Savings Sharing mechanism in Article 14.</p>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         ARTICLE 8 — CONTINGENCY
+         ============================================================ -->
+    <div class="section" id="sec-art8">
+        <div class="article-title">Article 8 — Contractor's Contingency</div>
+
+        <div class="clause">
+            <p><span class="clause-num">8.1 Contractor's Contingency Within the GMP.</span> The GMP includes a Contractor's Contingency in the amount of $<span class="field">[Amount]</span>, equal to <span class="field">[5–10%]</span> of the Estimated Cost of the Work. The Contingency is intended to address unforeseen costs that arise within the scope of the Contract Documents (in-scope unforeseens) and that do not qualify for a Change Order under Article 10.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">8.2 Permitted Uses of Contingency.</span> The Contractor may draw on the Contingency for, including without limitation:</p>
+            <ul style="font-size: 13.5px;">
+                <li>Subcontractor or supplier price escalation between GMP execution and procurement (when not otherwise covered by an executed escalation contingency)</li>
+                <li>Productivity adjustments where actual labor productivity differs from the GMP estimate within reasonable limits</li>
+                <li>Means and methods adjustments that do not change the scope of Work</li>
+                <li>Expediting / overtime to recover schedule slip not caused by an Owner-driven delay</li>
+                <li>Coordination work between trades that exceeds the original assumption</li>
+                <li>Material waste / re-orders within reasonable industry tolerances</li>
+                <li>Replacement of damaged materials or equipment when not covered by builder's risk insurance</li>
+                <li>Weather-related cost increases not rising to the level of an excusable delay (extra mobilization, weather protection)</li>
+            </ul>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">8.3 Contingency NOT for Owner-Directed Changes.</span> Contractor shall NOT use the Contingency to cover costs that qualify for a Change Order under Article 10 (Owner-directed changes, design errors, differing site conditions, owner-furnished item issues). Such costs are addressed by Change Orders adjusting the GMP, not by Contingency draw-down.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">8.4 Contingency Reporting.</span> Contractor shall report the status of the Contingency monthly with each Application for Payment, identifying: (a) opening balance for the month; (b) draw-downs during the month with brief description of each (e.g., "Sub price escalation on Division 23 mech package: $12,500"); (c) closing balance; (d) cumulative draw-down and remaining Contingency.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">8.5 Owner Approval for Single Draws Over $25,000.</span> Individual Contingency draw-downs in excess of $25,000 (or such other threshold as the GMP Amendment establishes) require Owner's prior written approval. The intent is operational visibility, not approval gatekeeping — Owner shall not unreasonably withhold or delay approval of Contingency draws within the permitted uses identified in Section 8.2.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">8.6 Unused Contingency at Final Completion.</span> Any unused Contractor's Contingency at Final Completion shall be addressed under the Savings Sharing mechanism in Article 14 (i.e., split between Owner and Contractor per the agreed sharing formula).</p>
+        </div>
+
+        <div class="practice-note">
+            <span class="label">Contingency is for in-scope unforeseens, not Owner changes.</span>
+            The most contentious GMP provision is the line between "in-scope unforeseen → contractor draws on contingency" and "owner-driven change → owner pays via change order." Sub price escalation between GMP execution and procurement is contingency. A redesign of the lobby finishes after GMP execution is a change order. The middle ground (the architect issues an ASI clarifying the wood floor specification — was that a change or a clarification of original scope?) is where disputes happen. Pre-empt by negotiating clear contingency-use criteria in the GMP Amendment, and by tracking every contingency draw with a 1-line basis description that the architect/owner can review monthly.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         ARTICLE 9 — ALLOWANCES
+         ============================================================ -->
+    <div class="section" id="sec-art9">
+        <div class="article-title">Article 9 — Allowances within the GMP</div>
+
+        <div class="clause">
+            <p><span class="clause-num">9.1 Allowances.</span> The GMP includes specific Allowances for items where the design is not yet finalized or the cost cannot yet be definitively established. Each Allowance is identified in the GMP Amendment with the dollar amount and the scope to which it applies.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">9.2 Allowance Reconciliation.</span> When the actual cost of an Allowance item is determined (typically when the relevant subcontract or supply is bought out, or the relevant design selection is made):</p>
+            <ul style="font-size: 13.5px;">
+                <li>If actual cost is less than the Allowance, the Allowance is reduced to actual cost; the GMP is reduced by the difference (which becomes Owner's savings)</li>
+                <li>If actual cost is more than the Allowance, the Allowance is increased to actual cost; the GMP is increased by the difference via Change Order (which becomes Owner's additional cost)</li>
+                <li>Contractor's Construction Phase Fee is adjusted proportionally to the Allowance change (additive or deductive)</li>
+            </ul>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">9.3 Owner's Right to Modify Allowance Scope.</span> Owner may modify the design selection within an Allowance scope at any time before procurement; the GMP is adjusted to reflect the actual cost of the selected design as set forth in Section 9.2.</p>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         ARTICLE 10 — CHANGES
+         ============================================================ -->
+    <div class="section" id="sec-art10">
+        <div class="article-title">Article 10 — Changes in the Work — GMP Adjustments</div>
+
+        <div class="clause">
+            <p><span class="clause-num">10.1 Change Order Authority.</span> Owner may direct changes in the Work by written Change Order signed by Owner. Contractor shall not perform any change in the Work without a written Change Order, except in cases of emergency to protect life or property.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">10.2 Effect on GMP.</span> Each Change Order adjusts the GMP as follows: (a) Cost of the Work is adjusted by the actual or estimated cost of the changed work; (b) the Contractor's Fee is adjusted proportionally per Section 7.2; (c) the Allowance for the affected work, if any, is reconciled per Article 9; (d) the Contingency is NOT adjusted by Change Order (it remains as established in the GMP Amendment, subject to draw-down per Article 8).</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">10.3 Pricing of Change Orders.</span> Changes shall be priced as follows, in the order of preference stated:</p>
+            <ul style="font-size: 13.5px;">
+                <li>Mutually agreed lump-sum price based on Contractor's Change Order Request</li>
+                <li>Unit prices stated in the GMP Amendment</li>
+                <li>Cost of the Work as defined in Article 5, plus the Contractor's Fee at the percentage rate established in Article 7</li>
+            </ul>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">10.4 Change Order for Owner-Directed Scope Changes.</span> Owner-directed scope changes are addressed by Change Order adjusting the GMP. Contractor's Contingency is not used for Owner-directed scope changes.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">10.5 Differing Site Conditions.</span> Concealed or differing site conditions encountered during the Work that materially differ from those indicated in the Contract Documents or normally encountered for work of this character are addressed by Change Order (not by Contingency draw-down). Contractor shall give written notice promptly upon discovery, and shall not disturb the conditions until Owner has had reasonable opportunity to inspect.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">10.6 Design Errors and Owner-Caused Delays.</span> Costs arising from design errors, omissions, or owner-caused delays are addressed by Change Order. Contractor's Contingency is not used for these costs.</p>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         ARTICLE 11 — PAYMENT
+         ============================================================ -->
+    <div class="section" id="sec-art11">
+        <div class="article-title">Article 11 — Payment</div>
+
+        <div class="clause">
+            <p><span class="clause-num">11.1 Schedule of Values.</span> Within 30 days after execution of the GMP Amendment, Contractor shall submit a Schedule of Values allocating the GMP across line items in accordance with industry-standard CSI MasterFormat structure. The Schedule of Values, once accepted by Owner and Architect, governs Application for Payment progress measurement.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">11.2 Monthly Application for Payment.</span> Contractor shall submit a monthly Application for Payment in form and content reasonably acceptable to Owner and Architect, supported by Continuation Sheet showing line-item progress, and documentation reasonably required to substantiate Cost of the Work. The Application reports:</p>
+            <ul style="font-size: 13.5px;">
+                <li>Cost of the Work performed and stored to date (per Schedule of Values + Continuation Sheet)</li>
+                <li>Contractor's Fee earned to date (proportional to Cost of the Work or per fixed schedule as the GMP Amendment provides)</li>
+                <li>Contingency draws to date</li>
+                <li>Allowance reconciliation to date</li>
+                <li>Less retainage withheld</li>
+                <li>Less previous certificates for payment</li>
+                <li>Current payment due</li>
+            </ul>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">11.3 Backup Documentation.</span> With each Application for Payment, Contractor shall provide such backup documentation as Owner reasonably requests, including:</p>
+            <ul style="font-size: 13.5px;">
+                <li>Subcontractor pay applications for the corresponding period</li>
+                <li>Vendor invoices for materials billed for the period</li>
+                <li>Payroll records for direct labor and project-site staff for the period</li>
+                <li>Contingency status report (see Section 8.4)</li>
+                <li>Change order log (cumulative)</li>
+                <li>Lien waivers (conditional partial for current; unconditional partial for prior period)</li>
+            </ul>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">11.4 Retainage.</span> Retainage shall be withheld from each progress payment at the rate stated in the GMP Amendment (typical: <span class="field">[10%]</span>), released as set forth in the General Conditions.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">11.5 Architect Certification.</span> If an Architect is engaged on the Project, the Architect shall certify each Application for Payment in accordance with the General Conditions. Owner shall pay Contractor within the period specified in the GMP Amendment after Architect's certification (typical: <span class="field">[30 days]</span>).</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">11.6 Final Payment.</span> Final payment, including release of all retainage withheld and payment of any unbilled amounts, shall be made to Contractor within the period specified in the GMP Amendment after Final Completion and submission of all required closeout documents (typical: <span class="field">[30 days]</span>).</p>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         ARTICLE 12 — BUY-OUT GAIN/LOSS
+         ============================================================ -->
+    <div class="section" id="sec-art12">
+        <div class="article-title">Article 12 — Subcontractor Buy-Out (Bidding) Gain or Loss</div>
+
+        <div class="clause">
+            <p><span class="clause-num">12.1 Buy-Out Treatment.</span> The Estimated Cost of the Work in the GMP is based on bid-time estimates of subcontract values. The actual subcontracts entered into by Contractor following GMP execution may yield amounts that differ from the GMP estimates ("buy-out gain" if lower; "buy-out loss" if higher). Treatment:</p>
+            <ul style="font-size: 13.5px;">
+                <li><strong>Buy-out gain</strong> (actual subcontract amount less than the estimate in the GMP): the gain reduces the projected Cost of the Work; the GMP is NOT reduced by the gain (the gain remains within the GMP and is available to absorb subsequent buy-out losses on other trades or to be returned to Owner via Savings Sharing at completion). Contractor's Contingency is not adjusted by buy-out gains.</li>
+                <li><strong>Buy-out loss</strong> (actual subcontract amount more than the estimate in the GMP): the loss increases the projected Cost of the Work; the GMP is NOT increased by the loss. Contractor must absorb the loss out of buy-out gains on other trades, the Contingency, or — once those are exhausted — out of Contractor's Fee or out of pocket.</li>
+            </ul>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">12.2 Owner Visibility.</span> Contractor shall provide Owner with monthly reporting of buy-out activity, identifying subcontracts let in the period, the GMP estimate vs. actual contract value for each, and the cumulative buy-out gain or loss against the GMP estimate.</p>
+        </div>
+
+        <div class="practice-note">
+            <span class="label">The buy-out is where contractors make most of their money on a GMP project.</span>
+            A skilled GC often achieves 5–15% buy-out gain on the major trades, building a cushion within the GMP that absorbs subsequent overruns and creates Savings Sharing at completion. Owners with experience know this and structure the GMP estimate accordingly (tighter on bid-time numbers, expecting some give-back at completion). Owners without experience set higher GMPs and lose the give-back via inflated estimates. Either way, the GMP structure aligns the contractor's incentive to procure aggressively (every buy-out dollar saved becomes either downstream cushion or Savings Sharing).
+        </div>
+    </div>
+
+    <!-- ============================================================
+         ARTICLE 13 — OPEN BOOK
+         ============================================================ -->
+    <div class="section" id="sec-art13">
+        <div class="article-title">Article 13 — Open Book Accounting + Audit Rights</div>
+
+        <div class="clause">
+            <p><span class="clause-num">13.1 Open Book.</span> Contractor shall maintain Open Book accounting on the Project, meaning that all costs included as Cost of the Work shall be supported by documentation (invoices, paid receipts, payroll records, subcontract amounts, equipment rental tickets) available for Owner inspection on reasonable advance notice during the Construction Phase and for a period of three (3) years after Final Completion.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">13.2 Audit Rights.</span> Owner, or Owner's designated independent auditor, shall have the right to audit Contractor's books and records pertaining to the Cost of the Work at any time during the Construction Phase and for three (3) years after Final Completion, upon reasonable advance notice. Audit findings of overcharges (costs improperly included as Cost of the Work) entitle Owner to refund of the overcharge plus, if the overcharge exceeds <span class="field">[2%]</span> of audited Cost of the Work, reimbursement of Owner's reasonable audit costs.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">13.3 Subcontractor Books.</span> For Cost-Plus subcontracts entered into by Contractor in connection with the Project, Contractor shall require the subcontractor to maintain similar open-book records. For lump-sum subcontracts, the subcontract amount itself is the documented cost (no further open-book requirement).</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">13.4 Privileged or Confidential Information.</span> Open-book obligations do not require disclosure of (a) Contractor's general office or executive compensation; (b) Contractor's bank borrowing and capital structure; (c) Contractor's relationships with insurance carriers and surety apart from project-specific premiums; (d) other documents privileged or confidential under applicable law.</p>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         ARTICLE 14 — SAVINGS SHARING
+         ============================================================ -->
+    <div class="section" id="sec-art14">
+        <div class="article-title">Article 14 — Savings Sharing</div>
+
+        <div class="clause">
+            <p><span class="clause-num">14.1 Savings Defined.</span> "Savings" at Final Completion equals: GMP &minus; (actual Cost of the Work + Contractor's Fee earned + Allowance reconciliations + Contingency draws). Restated: Savings is the unspent portion of the GMP at Final Completion.</p>
+
+            <div class="formula">
+                Savings = GMP &minus; (Cost of the Work actual + Contractor's Fee + Allowance reconciliations + Contingency draws)
+            </div>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">14.2 Sharing Formula.</span> Savings shall be shared between Owner and Contractor as follows (the "Savings Sharing Formula" — to be agreed in the GMP Amendment, with industry-typical structures shown below):</p>
+
+            <table class="data-table">
+                <tr>
+                    <th>Structure</th>
+                    <th>Owner Share</th>
+                    <th>Contractor Share</th>
+                    <th>Used When</th>
+                </tr>
+                <tr>
+                    <td>Owner-favored</td>
+                    <td>75%</td>
+                    <td>25%</td>
+                    <td>Owner-friendly market; mature contractor relationship; smaller projects</td>
+                </tr>
+                <tr>
+                    <td>Even split</td>
+                    <td>50%</td>
+                    <td>50%</td>
+                    <td>Most common in commercial GMP work</td>
+                </tr>
+                <tr>
+                    <td>Contractor-favored</td>
+                    <td>25%</td>
+                    <td>75%</td>
+                    <td>High-incentive structure; larger projects with significant buy-out potential</td>
+                </tr>
+                <tr>
+                    <td>Tiered (savings-band)</td>
+                    <td>Sliding</td>
+                    <td>Sliding</td>
+                    <td>E.g., first 5% of GMP savings split 70/30 to Owner; next 5% split 50/50; above that 30/70 to Contractor — incentivizes deep cost reduction</td>
+                </tr>
+                <tr>
+                    <td>Owner-only</td>
+                    <td>100%</td>
+                    <td>0%</td>
+                    <td>Public projects in jurisdictions that prohibit savings sharing; some institutional owners</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">14.3 Calculation at Final Completion.</span> Savings shall be calculated at Final Completion based on actual Cost of the Work as audited (per Article 13) and reconciled against the GMP. The calculation and the resulting Savings allocation shall be set forth in a closing reconciliation submitted with the final Application for Payment.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">14.4 No Sharing of Loss.</span> If at Final Completion the actual Cost of the Work plus Contractor's Fee exceeds the GMP, Contractor bears the loss as set forth in Article 4 — Owner does not share in any cost overrun.</p>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         ARTICLE 15 — INCORPORATION OF MASTER CONDITIONS
+         ============================================================ -->
+    <div class="section" id="sec-art15">
+        <div class="article-title">Article 15 — Other Terms (Incorporated from General Conditions)</div>
+
+        <div class="clause">
+            <p><span class="clause-num">15.1 Incorporated Terms.</span> All other provisions governing the Work — insurance, bonds, indemnification, scheduling, dispute resolution, default and termination, warranties, lien waivers, safety, environmental, intellectual property, and miscellaneous provisions — are governed by the General Conditions (Exhibit B) and are incorporated by reference. Where a conflict exists between this Agreement and the General Conditions, this Agreement governs.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">15.2 Modifications to General Conditions.</span> Any project-specific modifications to the General Conditions are set forth in the Supplementary Conditions (Exhibit E) attached to the GMP Amendment.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">15.3 Governing Law.</span> This Agreement is governed by the laws of the State of <span class="field">[State of the Project]</span>.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">15.4 Entire Agreement.</span> This Agreement, together with the GMP Amendment, the General Conditions, the Supplementary Conditions, the Drawings and Specifications, and the other Contract Documents, constitutes the entire agreement between the parties with respect to the subject matter hereof.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">15.5 Counterparts; Electronic Signatures.</span> This Agreement may be executed in counterparts and electronically signed.</p>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         SIGNATURES
+         ============================================================ -->
+    <div class="section page-break" id="sec-signatures">
+        <div class="section-title">Signatures</div>
+
+        <p style="font-size: 13.5px;">IN WITNESS WHEREOF, the parties have executed this Guaranteed Maximum Price Agreement as of the Effective Date first above written.</p>
+
+        <div class="signature-line" style="margin-top: 50px;">
+            <strong>OWNER:</strong> <span class="field">[Owner Legal Name]</span><br>
+            By: <span class="field">[Signature]</span><br>
+            Printed Name: <span class="field">[Name]</span><br>
+            Title: <span class="field">[Title]</span><br>
+            Date: <span class="field">[Date]</span>
+        </div>
+
+        <div class="signature-line" style="margin-top: 60px;">
+            <strong>CONTRACTOR:</strong> <span class="field">[Contractor Legal Name]</span><br>
+            By: <span class="field">[Signature]</span><br>
+            Printed Name: <span class="field">[Name]</span><br>
+            Title: <span class="field">[Title]</span><br>
+            Date: <span class="field">[Date]</span>
+        </div>
+
+        <div class="notary-block" style="margin-top: 50px;">
+            <div class="notary-title">Notary Acknowledgment</div>
+            <p style="font-size: 12.5px;">State of <span class="field">[State]</span> &middot; County of <span class="field">[County]</span></p>
+            <p style="font-size: 12.5px;">On <span class="field">[Date]</span>, before me, <span class="field">[Notary Name]</span>, a Notary Public, personally appeared <span class="field">[Signer Name]</span>, who proved to me on the basis of satisfactory evidence to be the person whose name is subscribed to the within instrument, and acknowledged that he/she/they executed the same in his/her/their authorized capacity.</p>
+            <p style="font-size: 12.5px;">I certify under PENALTY OF PERJURY under the laws of the State of <span class="field">[State]</span> that the foregoing paragraph is true and correct.</p>
+            <div style="margin-top: 22px; font-size: 12.5px;">
+                Notary Signature: <span class="field">[Signature]</span><br>
+                Commission Expires: <span class="field">[Date]</span><br>
+                (Affix seal)
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="warning">
+            <strong>Closing reminder.</strong> A GMP delivery method places significantly more administrative burden on both parties than a lump-sum contract — open-book accounting, monthly contingency reporting, buy-out tracking, savings reconciliation. The contractor must have the project-accounting infrastructure (project-cost reporting in real time, by line item, auditable) to support the structure. The owner must have the financial sophistication to read the open-book reports and make decisions on contingency draws and allowance reconciliations. Where either party lacks the infrastructure, a lump-sum delivery method may better serve the project. Have construction counsel licensed in the project state review every GMP Agreement before first use, and have a CPA experienced in construction-industry cost accounting review the open-book / audit provisions and the savings-sharing formula.
+        </div>
+
+        <p class="footnote">Document version: 2026-05-15 (v1.0). Industry-standard commercial form; structural framework parallels AIA Documents A102 / A133 (Standard Form of Agreement Between Owner and Contractor for a Cost-Plus-Fee with a Guaranteed Maximum Price) without reproducing the AIA copyrighted form. Maintained as part of the ContrPro Complete tier — General Contractor suite.</p>
+    </div>
+
+</body>
+</html>
