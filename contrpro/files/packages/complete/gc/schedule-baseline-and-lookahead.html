@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule Baseline + 3-Week Look-Ahead — GC Schedule Discipline</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.55; max-width: 880px; margin: 40px auto; padding: 20px; color: #222; }
+        .header { text-align: center; border-bottom: 3px double #1e3a5f; padding-bottom: 20px; margin-bottom: 30px; }
+        .form-title { font-size: 26px; font-weight: bold; color: #1e3a5f; margin-bottom: 6px; }
+        .form-subtitle { font-size: 15px; color: #444; font-weight: 600; }
+        .doc-meta { font-size: 13px; color: #666; margin-top: 8px; }
+        .field { background: #f0f0f0; padding: 2px 8px; border-radius: 3px; font-style: italic; color: #555; }
+        .section { margin: 28px 0; page-break-inside: avoid; }
+        .section-title { font-weight: bold; color: #1e3a5f; font-size: 16px; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+        .sub-title { font-weight: bold; color: #1e3a5f; font-size: 14px; margin: 14px 0 6px 0; }
+        .warning { background: #f8d7da; border-left: 4px solid #dc3545; padding: 14px 16px; margin: 18px 0; }
+        .warning strong { color: #721c24; }
+        .notice { background: #d1ecf1; border-left: 4px solid #0c5460; padding: 14px 16px; margin: 18px 0; }
+        .practice-note { background: #fdf6e3; border-left: 4px solid #b58900; padding: 14px 16px; margin: 14px 0; font-size: 13.5px; }
+        .practice-note .label { font-weight: bold; color: #1e3a5f; font-size: 14px; display: block; margin-bottom: 6px; }
+        .form-frame { border: 2px solid #1e3a5f; padding: 20px 22px; margin: 18px 0 24px 0; background: #fafbfc; page-break-inside: avoid; }
+        .form-frame .form-frame-title { font-size: 18px; font-weight: bold; color: #1e3a5f; text-align: center; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 4px; }
+        .form-frame .form-frame-sub { font-size: 13px; color: #555; text-align: center; margin-bottom: 16px; font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        td, th { padding: 7px 8px; vertical-align: top; }
+        th { background: #1e3a5f; color: #fff; text-align: left; font-size: 12.5px; }
+        .data-table td { border: 1px solid #ccc; font-size: 13px; }
+        .data-table td.label { font-weight: 600; background: #f9f9f9; width: 32%; }
+        .sched-table th, .sched-table td { border: 1px solid #ccc; padding: 5px 6px; font-size: 11px; vertical-align: top; }
+        .sched-table th { font-size: 10px; text-transform: uppercase; line-height: 1.3; padding: 6px 4px; }
+        .sched-table tr.header-row td { background: #fdf6e3; font-weight: bold; }
+        .sched-table tr.example-row td { background: #f0f4f8; font-style: italic; color: #555; }
+        .sched-table td.center { text-align: center; }
+        .sched-table td.crit { background: #fee2e2; color: #991b1b; font-weight: bold; }
+        .sched-table td.complete { background: #d4edda; }
+        .sched-table td.in-prog { background: #fff3cd; }
+        .checklist { background: #f9f9f9; border: 1px solid #ddd; padding: 16px 20px; border-radius: 6px; }
+        .checklist ol { margin: 0; padding-left: 22px; }
+        .checklist li { margin-bottom: 6px; font-size: 13.5px; }
+        .toc { background: #f4f6f9; border: 1px solid #c0cad8; padding: 16px 22px; margin: 20px 0 28px 0; border-radius: 6px; }
+        .toc-title { font-weight: bold; color: #1e3a5f; font-size: 14px; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+        .toc ol { margin: 0; padding-left: 22px; }
+        .toc li { margin-bottom: 4px; font-size: 13.5px; }
+        .toc a { color: #1e3a5f; text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+        .footnote { font-size: 11.5px; color: #666; font-style: italic; }
+        .signature-line { border-top: 1px solid #000; width: 320px; margin-top: 40px; padding-top: 5px; font-size: 12.5px; }
+        .page-break { page-break-before: always; }
+        @media print {
+            .no-print { display: none; }
+            body { margin: 0; max-width: 100%; }
+            .section, .form-frame { page-break-inside: avoid; }
+            .sched-table { font-size: 9.5px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="no-print" style="background: #fff3cd; border: 2px solid #856404; padding: 18px; border-radius: 8px; margin-bottom: 24px;">
+        <strong style="color: #856404; font-size: 16px;">SCHEDULE DISCIPLINE — TWO TIME HORIZONS</strong>
+        <p style="margin: 8px 0 0 0; font-size: 13.5px;">
+            Commercial GC scheduling operates on two distinct time horizons that work together: (1) the <strong>Baseline Schedule</strong> — the master Critical Path Method (CPM) schedule developed at project start, showing every activity from notice to proceed through final completion, with durations, dependencies, milestones, and float; and (2) the <strong>3-Week Look-Ahead</strong> — a rolling short-interval schedule used at weekly trade coordination meetings to confirm what's happening in the next 21 days at the trade-by-trade level. The Baseline answers "are we on schedule overall?" The Look-Ahead answers "what's actually happening this week and who's responsible?" Both are required; they serve different audiences and different decisions. This package provides templates and discipline rules for both.
+        </p>
+    </div>
+
+    <div class="header">
+        <div class="form-title">SCHEDULE BASELINE + 3-WEEK LOOK-AHEAD</div>
+        <div class="form-subtitle">Two Time Horizons of GC Schedule Discipline</div>
+        <div class="doc-meta">
+            Project: <span class="field">[Project Name]</span> &nbsp;|&nbsp;
+            Schedule Date: <span class="field">[Date]</span>
+        </div>
+    </div>
+
+    <div class="toc">
+        <div class="toc-title">Table of Contents</div>
+        <ol>
+            <li><a href="#sec-overview">Two Time Horizons — Baseline vs. Look-Ahead</a></li>
+            <li><a href="#sec-baseline">Baseline Schedule — Master CPM</a></li>
+            <li><a href="#sec-lookahead">3-Week Look-Ahead Schedule</a></li>
+            <li><a href="#sec-update">Monthly Schedule Update Procedure</a></li>
+            <li><a href="#sec-discipline">Schedule Discipline — 12 Rules</a></li>
+        </ol>
+    </div>
+
+    <!-- ============================================================
+         OVERVIEW
+         ============================================================ -->
+    <div class="section" id="sec-overview">
+        <div class="section-title">1. Two Time Horizons — Baseline vs. Look-Ahead</div>
+
+        <table class="data-table">
+            <tr>
+                <th>Aspect</th>
+                <th>Baseline Schedule (CPM)</th>
+                <th>3-Week Look-Ahead</th>
+            </tr>
+            <tr>
+                <td><strong>Time horizon</strong></td>
+                <td>Notice to Proceed → Final Completion (typically 6–36 months)</td>
+                <td>Current week + next 2 weeks (21 calendar days)</td>
+            </tr>
+            <tr>
+                <td><strong>Granularity</strong></td>
+                <td>Activities of 1–14 days each, organized by phase / area / trade</td>
+                <td>Daily granularity at the trade-level work crew</td>
+            </tr>
+            <tr>
+                <td><strong>Updated</strong></td>
+                <td>Monthly (with each Application for Payment)</td>
+                <td>Weekly (every coordination meeting)</td>
+            </tr>
+            <tr>
+                <td><strong>Audience</strong></td>
+                <td>Owner, architect, lender (if any), GC project executive, surety</td>
+                <td>Trade subcontractor PMs and superintendents at the weekly coordination meeting</td>
+            </tr>
+            <tr>
+                <td><strong>Decision it drives</strong></td>
+                <td>"Are we on schedule overall? When is substantial completion? What's on the critical path?"</td>
+                <td>"What's happening this week and next? Who has what crew where? What conflicts need to be resolved?"</td>
+            </tr>
+            <tr>
+                <td><strong>Software</strong></td>
+                <td>Primavera P6, Microsoft Project, Asta Powerproject, Synchro</td>
+                <td>Excel, Smartsheet, P6 + filter, Asana / Monday for simple projects</td>
+            </tr>
+            <tr>
+                <td><strong>Format</strong></td>
+                <td>Gantt chart with logic ties; CSV export with predecessors / successors / float</td>
+                <td>Tabular by trade and by week; sometimes printed as 11x17 banner posted at job trailer</td>
+            </tr>
+        </table>
+
+        <div class="practice-note">
+            <span class="label">A baseline without a look-ahead is a wall decoration. A look-ahead without a baseline is a guess.</span>
+            Some GCs have only a Baseline (developed at contract execution and never looked at again — lives in a binder). Others have only a weekly trade list (no understanding of cumulative cost / schedule impact). Both fail. The Baseline tells you whether what's in the Look-Ahead actually fits the contract; the Look-Ahead tells you whether what's in the Baseline is actually achievable. Project managers who manage both have schedule reliability 2–3x better than those who manage only one.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         BASELINE
+         ============================================================ -->
+    <div class="section" id="sec-baseline">
+        <div class="section-title">2. Baseline Schedule — Master CPM</div>
+
+        <p style="font-size: 13.5px;">The Baseline is developed in the first 30 days of the project. It identifies every activity required to complete the work, with durations, dependencies (predecessor → successor relationships), and milestone dates. The Critical Path is the longest sequence of dependent activities — any delay on the critical path delays the project; activities not on the critical path have float (the time they can slip without affecting the project end date).</p>
+
+        <div class="form-frame">
+            <div class="form-frame-title">Baseline Schedule — CPM Activity List</div>
+            <div class="form-frame-sub">Project: <span class="field">[Project name]</span> &middot; Baseline Issue Date: <span class="field">[Date]</span></div>
+
+            <table class="sched-table">
+                <tr>
+                    <th width="50">Act ID</th>
+                    <th>Activity Description</th>
+                    <th width="50">Phase / Area</th>
+                    <th width="40">Trade</th>
+                    <th width="50">Duration (days)</th>
+                    <th width="60">Predecessor (relation)</th>
+                    <th width="60">Early Start</th>
+                    <th width="60">Early Finish</th>
+                    <th width="40">Float (days)</th>
+                    <th width="40">Critical?</th>
+                </tr>
+
+                <tr class="header-row">
+                    <td colspan="10">— SAMPLE EXTRACT (typical 12-month commercial project; full schedule has 200–500 activities) —</td>
+                </tr>
+                <tr class="example-row">
+                    <td class="center">A100</td>
+                    <td>Notice to Proceed</td>
+                    <td>Pre-Con</td>
+                    <td>—</td>
+                    <td class="center">0</td>
+                    <td>—</td>
+                    <td>2026-03-01</td>
+                    <td>2026-03-01</td>
+                    <td class="center">0</td>
+                    <td class="center crit">Y</td>
+                </tr>
+                <tr class="example-row">
+                    <td class="center">A110</td>
+                    <td>Mobilize site (fence, trailer, util.)</td>
+                    <td>Pre-Con</td>
+                    <td>GC</td>
+                    <td class="center">10</td>
+                    <td>A100 (FS)</td>
+                    <td>2026-03-02</td>
+                    <td>2026-03-15</td>
+                    <td class="center">0</td>
+                    <td class="center crit">Y</td>
+                </tr>
+                <tr class="example-row">
+                    <td class="center">A200</td>
+                    <td>Site clearing &amp; demolition</td>
+                    <td>Site</td>
+                    <td>Demo</td>
+                    <td class="center">15</td>
+                    <td>A110 (FS)</td>
+                    <td>2026-03-16</td>
+                    <td>2026-04-05</td>
+                    <td class="center">0</td>
+                    <td class="center crit">Y</td>
+                </tr>
+                <tr class="example-row">
+                    <td class="center">A210</td>
+                    <td>Mass excavation</td>
+                    <td>Site</td>
+                    <td>Earthwork</td>
+                    <td class="center">20</td>
+                    <td>A200 (FS)</td>
+                    <td>2026-04-06</td>
+                    <td>2026-05-01</td>
+                    <td class="center">0</td>
+                    <td class="center crit">Y</td>
+                </tr>
+                <tr class="example-row">
+                    <td class="center">A300</td>
+                    <td>Foundation rebar &amp; formwork</td>
+                    <td>Foundation</td>
+                    <td>Concrete</td>
+                    <td class="center">15</td>
+                    <td>A210 (FS)</td>
+                    <td>2026-05-02</td>
+                    <td>2026-05-22</td>
+                    <td class="center">0</td>
+                    <td class="center crit">Y</td>
+                </tr>
+                <tr class="example-row">
+                    <td class="center">A310</td>
+                    <td>Foundation pour + cure (28 days)</td>
+                    <td>Foundation</td>
+                    <td>Concrete</td>
+                    <td class="center">28</td>
+                    <td>A300 (FS)</td>
+                    <td>2026-05-23</td>
+                    <td>2026-06-19</td>
+                    <td class="center">0</td>
+                    <td class="center crit">Y</td>
+                </tr>
+                <tr class="example-row">
+                    <td class="center">A400</td>
+                    <td>Order long-lead steel (begin)</td>
+                    <td>Pre-Con</td>
+                    <td>Steel</td>
+                    <td class="center">1</td>
+                    <td>A100 (FS)</td>
+                    <td>2026-03-02</td>
+                    <td>2026-03-02</td>
+                    <td class="center">21</td>
+                    <td class="center">N</td>
+                </tr>
+                <tr class="example-row">
+                    <td class="center">A410</td>
+                    <td>Steel fabrication lead time</td>
+                    <td>Pre-Con</td>
+                    <td>Steel</td>
+                    <td class="center">90</td>
+                    <td>A400 (FS)</td>
+                    <td>2026-03-03</td>
+                    <td>2026-06-19</td>
+                    <td class="center">0</td>
+                    <td class="center crit">Y</td>
+                </tr>
+                <tr class="example-row">
+                    <td class="center">A500</td>
+                    <td>Structural steel erection</td>
+                    <td>Structure</td>
+                    <td>Steel</td>
+                    <td class="center">25</td>
+                    <td>A310 (FS), A410 (FS)</td>
+                    <td>2026-06-20</td>
+                    <td>2026-07-22</td>
+                    <td class="center">0</td>
+                    <td class="center crit">Y</td>
+                </tr>
+                <tr class="example-row">
+                    <td class="center">…</td>
+                    <td><em>(continue for all activities)</em></td>
+                    <td>…</td>
+                    <td>…</td>
+                    <td class="center">…</td>
+                    <td>…</td>
+                    <td>…</td>
+                    <td>…</td>
+                    <td class="center">…</td>
+                    <td class="center">…</td>
+                </tr>
+
+                <tr class="example-row">
+                    <td class="center">A990</td>
+                    <td>Substantial Completion</td>
+                    <td>Closeout</td>
+                    <td>—</td>
+                    <td class="center">0</td>
+                    <td>(many predecessors)</td>
+                    <td>2027-02-15</td>
+                    <td>2027-02-15</td>
+                    <td class="center">0</td>
+                    <td class="center crit">Y</td>
+                </tr>
+                <tr class="example-row">
+                    <td class="center">A999</td>
+                    <td>Final Completion</td>
+                    <td>Closeout</td>
+                    <td>—</td>
+                    <td class="center">0</td>
+                    <td>A990 (FS) + 30</td>
+                    <td>2027-03-17</td>
+                    <td>2027-03-17</td>
+                    <td class="center">0</td>
+                    <td class="center crit">Y</td>
+                </tr>
+            </table>
+
+            <p class="footnote" style="margin-top: 10px;">
+                <strong>Relations:</strong> FS = Finish-to-Start (most common — successor cannot start until predecessor finishes); SS = Start-to-Start; FF = Finish-to-Finish; SF = Start-to-Finish (rare). <strong>Lag:</strong> "+ 30" means a 30-day lag between predecessor finish and successor start (e.g., concrete cure time). <strong>Critical?:</strong> Y = activity is on the critical path (zero float — any slip delays the project); N = activity has float and can absorb some slip without affecting the project end. <strong>Float:</strong> the number of calendar days the activity can be delayed without delaying the project end.
+            </p>
+        </div>
+
+        <div class="sub-title">Baseline Milestones</div>
+        <table class="data-table">
+            <tr>
+                <th>Milestone</th>
+                <th>Baseline Date</th>
+                <th>Type</th>
+            </tr>
+            <tr>
+                <td>Notice to Proceed</td>
+                <td><span class="field">[Date]</span></td>
+                <td>Mandatory (contract)</td>
+            </tr>
+            <tr>
+                <td>Mobilization Complete</td>
+                <td><span class="field">[Date]</span></td>
+                <td>Required precedent</td>
+            </tr>
+            <tr>
+                <td>Foundation Complete</td>
+                <td><span class="field">[Date]</span></td>
+                <td>Critical path</td>
+            </tr>
+            <tr>
+                <td>Steel Topped Out</td>
+                <td><span class="field">[Date]</span></td>
+                <td>Critical path / progress milestone</td>
+            </tr>
+            <tr>
+                <td>Building Dry-In (roof + exterior closed)</td>
+                <td><span class="field">[Date]</span></td>
+                <td>Critical path / weather threshold</td>
+            </tr>
+            <tr>
+                <td>MEP Rough-In Complete</td>
+                <td><span class="field">[Date]</span></td>
+                <td>Critical path</td>
+            </tr>
+            <tr>
+                <td>Drywall Complete</td>
+                <td><span class="field">[Date]</span></td>
+                <td>Critical path</td>
+            </tr>
+            <tr>
+                <td>Finishes Complete</td>
+                <td><span class="field">[Date]</span></td>
+                <td>Critical path</td>
+            </tr>
+            <tr>
+                <td>Commissioning Complete</td>
+                <td><span class="field">[Date]</span></td>
+                <td>Required precedent for SC</td>
+            </tr>
+            <tr>
+                <td>Substantial Completion</td>
+                <td><span class="field">[Date — per contract]</span></td>
+                <td>Mandatory (contract)</td>
+            </tr>
+            <tr>
+                <td>Final Completion</td>
+                <td><span class="field">[Date — per contract]</span></td>
+                <td>Mandatory (contract)</td>
+            </tr>
+        </table>
+
+        <div class="practice-note">
+            <span class="label">Long-lead items go on the schedule even if they're not on the critical path.</span>
+            Steel fabrication, custom curtain wall, custom switchgear, custom AV equipment, custom millwork — anything with a 60+ day lead time goes on the Baseline Schedule as a procurement activity even if installation is months out. The lead time often becomes the critical path even when the install activity itself wouldn't be (steel example above: A410 fabrication is on the critical path because it locks the start of A500 erection). Missing a long-lead item from the Baseline is the classic schedule-blow-up scenario.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         3-WEEK LOOK-AHEAD
+         ============================================================ -->
+    <div class="section page-break" id="sec-lookahead">
+        <div class="section-title">3. 3-Week Look-Ahead Schedule</div>
+
+        <p style="font-size: 13.5px;">The 3-Week Look-Ahead is the operational schedule used at weekly trade coordination meetings. It shows what each trade is doing in the current week, the next week, and the week after that — at the trade-by-trade work-area-by-work-area level. Updated every week. Posted at the job trailer. Distributed to every trade sub PM and superintendent before each coordination meeting.</p>
+
+        <div class="form-frame">
+            <div class="form-frame-title">3-Week Look-Ahead Schedule</div>
+            <div class="form-frame-sub">Project: <span class="field">[Project]</span> &middot; Week of: <span class="field">[Monday Date]</span></div>
+
+            <table class="sched-table">
+                <tr>
+                    <th width="80">Trade / Sub</th>
+                    <th width="60">Work Area</th>
+                    <th width="80">Week 1<br>(Current)</th>
+                    <th width="80">Week 2<br>(Next)</th>
+                    <th width="80">Week 3<br>(Following)</th>
+                    <th width="40">Crew Size</th>
+                    <th>Coordination Notes / Conflicts</th>
+                </tr>
+
+                <tr class="header-row">
+                    <td colspan="7">— SAMPLE WEEK (typical mid-construction; floor framing complete, MEP rough-in active) —</td>
+                </tr>
+
+                <tr>
+                    <td><strong>Concrete (Div 03)</strong><br>ABC Concrete</td>
+                    <td>Level 4 elev. slab</td>
+                    <td class="in-prog">Form &amp; rebar L4 (Mon-Wed); pour Thu</td>
+                    <td>Strip + cure L4 (Mon-Wed); start L5 form Thu</td>
+                    <td>Rebar L5; pour Fri</td>
+                    <td class="center">8</td>
+                    <td>Need crane priority Thu morning for L4 pour. MEP rough-in must be inspected by Wed PM.</td>
+                </tr>
+                <tr>
+                    <td><strong>Steel (Div 05)</strong><br>XYZ Steel</td>
+                    <td>L3-L5 stairs &amp; railings</td>
+                    <td class="in-prog">L3 stair install (Mon-Tue); L4 rail install (Wed-Fri)</td>
+                    <td>L4 stair install; L5 rail install</td>
+                    <td>L5 stair install</td>
+                    <td class="center">3</td>
+                    <td>Rail install on L4 must wait for L4 slab cure (5 days) before securing posts.</td>
+                </tr>
+                <tr>
+                    <td><strong>Mech / HVAC (Div 23)</strong><br>ABC Mech</td>
+                    <td>L3 above-ceiling MEP rough</td>
+                    <td class="in-prog">Hang ductwork L3 zones 1-2</td>
+                    <td>Hang ductwork L3 zone 3; start L4</td>
+                    <td>Pre-test L3 ductwork; continue L4</td>
+                    <td class="center">5</td>
+                    <td>L3 ceiling closure scheduled wk 4 — duct must be tested + signed off by then.</td>
+                </tr>
+                <tr>
+                    <td><strong>Plumbing (Div 22)</strong><br>QRS Plumbing</td>
+                    <td>L3 above-ceiling rough</td>
+                    <td class="in-prog">Above-ceiling drain &amp; vent L3 zone 1</td>
+                    <td>Above-ceiling drain &amp; vent L3 zones 2-3</td>
+                    <td>Pressure test L3</td>
+                    <td class="center">3</td>
+                    <td>Coordinate with HVAC on overhead routing — conflict at L3 column line C-7 needs resolution Mon AM.</td>
+                </tr>
+                <tr>
+                    <td><strong>Electrical (Div 26)</strong><br>EFG Elec</td>
+                    <td>L3 above-ceiling + L2 wall rough</td>
+                    <td class="in-prog">L3 above-ceiling conduit zones 1-2; L2 wall rough zone 3</td>
+                    <td>L3 above-ceiling zone 3; L2 wall rough zones 1-2</td>
+                    <td>L2 wall rough complete; pre-inspect</td>
+                    <td class="center">6</td>
+                    <td>Need inspector for L2 wall rough end of wk 3 — submit inspection request by Wed wk 2.</td>
+                </tr>
+                <tr>
+                    <td><strong>Drywall (Div 09)</strong><br>HIJ Drywall</td>
+                    <td>L1 finishing; L2 framing</td>
+                    <td class="complete">Finish drywall L1 zones 1-2 (complete by Wed)</td>
+                    <td>L2 wall framing zones 1-2 (Mon-Thu)</td>
+                    <td>L2 wall framing zone 3; start drywall L1 zone 3</td>
+                    <td class="center">5</td>
+                    <td>L1 finishing held until L1 MEP rough re-inspection cleared Tue.</td>
+                </tr>
+                <tr>
+                    <td><strong>Roofing (Div 07)</strong><br>RoofCo</td>
+                    <td>Membrane install</td>
+                    <td class="in-prog">Membrane sections 1-2 (weather permitting)</td>
+                    <td>Membrane sections 3-4</td>
+                    <td>Pre-cap inspection; start cap flashing</td>
+                    <td class="center">4</td>
+                    <td>Weather-dependent. If rain forecast >50% Tue/Wed wk 1, hold off membrane install.</td>
+                </tr>
+                <tr>
+                    <td><strong>Painting (Div 09)</strong><br>PaintPro</td>
+                    <td>Mobilizing</td>
+                    <td>Mobilize; submittals due</td>
+                    <td>Submittal review; sample mock-up</td>
+                    <td>Begin L1 priming (after drywall finish complete)</td>
+                    <td class="center">2 (mob)</td>
+                    <td>Sample mock-up wk 2 — owner to attend approval. Schedule for Thu PM.</td>
+                </tr>
+                <tr>
+                    <td><strong>GC General Conditions</strong></td>
+                    <td>Site management</td>
+                    <td class="in-prog">Crane scheduling; safety walks; coord meetings</td>
+                    <td>Inspection scheduling; subcontractor billing reconciliation</td>
+                    <td>Pay-app cycle; pencil draft with architect</td>
+                    <td class="center">3</td>
+                    <td>Monthly architect pencil draft Thursday wk 3.</td>
+                </tr>
+            </table>
+
+            <p class="footnote" style="margin-top: 10px;">
+                <strong>Color code:</strong> green = activity scheduled to complete this week as planned &middot; yellow = activity in progress on schedule &middot; red = activity behind or with risk that needs attention. <strong>Coordination notes column</strong> is critical — every conflict identified in advance is a resolved meeting item; every conflict not identified is a field re-do and a delay.
+            </p>
+        </div>
+
+        <div class="practice-note">
+            <span class="label">The Look-Ahead is the agenda for the weekly coordination meeting.</span>
+            Every Monday morning (typical), the GC project manager pre-prepares the Look-Ahead reflecting actual progress through Friday close. The weekly coordination meeting (Tuesday morning typical) walks the Look-Ahead row by row with each sub. Each sub confirms "yes I can do that" or "no, here's the conflict / constraint / delay." Conflicts get resolved in real-time with all parties at the table. The meeting takes 60–90 minutes and prevents the 5–10 hours of field re-coordination that happen when crews show up to find their work area is occupied or unprepared.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         MONTHLY UPDATE
+         ============================================================ -->
+    <div class="section" id="sec-update">
+        <div class="section-title">4. Monthly Schedule Update Procedure</div>
+
+        <p style="font-size: 13.5px;">Most contracts require a monthly schedule update submitted with each Application for Payment. The update reflects actual progress (% complete on each in-progress activity), forecasts revised dates for upcoming activities, and identifies impact of any change orders or delays.</p>
+
+        <div class="checklist">
+            <ol>
+                <li><strong>Capture actuals.</strong> For each activity scheduled to be in progress or complete this period: record actual start, actual finish (if complete), and percent complete (if in progress).</li>
+                <li><strong>Update remaining durations.</strong> For each in-progress activity: update remaining duration based on field reality (often 1.2–1.5x the original duration for activities running behind).</li>
+                <li><strong>Recalculate forward.</strong> Run schedule recalculation. Identify which activities are now driving the new substantial completion date.</li>
+                <li><strong>Compare to baseline.</strong> Calculate variance: revised SC date vs. baseline SC date vs. contract SC date. If variance is positive (behind), identify recovery actions.</li>
+                <li><strong>Identify recovery options.</strong> If behind: which activities can be accelerated? Which can be re-sequenced? Where is there float that can absorb slip elsewhere?</li>
+                <li><strong>Incorporate executed change orders.</strong> Add new CO scope as new activities; revise existing activity durations / dependencies as the CO requires.</li>
+                <li><strong>Identify pending impacts.</strong> Pending change orders, open RFIs over 14 days, late owner-supplied items: flag potential schedule impact even if not yet quantified.</li>
+                <li><strong>Issue updated schedule + narrative.</strong> Submit with the monthly Application for Payment: updated CPM schedule (PDF + native file format), schedule narrative explaining variance from baseline and recovery plan, updated milestone dates.</li>
+                <li><strong>Communicate to subs.</strong> Distribute the updated 3-Week Look-Ahead reflecting any changes. Discuss in the next weekly coordination meeting.</li>
+            </ol>
+        </div>
+
+        <div class="practice-note">
+            <span class="label">Schedule narrative is more important than the schedule itself.</span>
+            Architects and owners do not parse 300-activity Gantt charts. They read the schedule narrative — a 1–2 page document that says: where we are vs. baseline; what's on the critical path; what variances exist and why; what we're doing to recover. A clean narrative submitted monthly builds trust over the project. A schedule submitted without a narrative gets ignored; when the project goes sideways, the GC then has no documented record of when delays were first identified or what mitigation was attempted.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         DISCIPLINE
+         ============================================================ -->
+    <div class="section" id="sec-discipline">
+        <div class="section-title">5. Schedule Discipline — 12 Rules</div>
+
+        <div class="checklist">
+            <ol>
+                <li><strong>Baseline within 30 days of NTP.</strong> The Baseline is developed in the first 30 days. Submit to architect/owner; resolve comments; freeze as the contract baseline. Schedules that don't get baselined never get used.</li>
+                <li><strong>Long-lead items identified day 1.</strong> Within the first week of NTP, every long-lead procurement (steel, custom curtain wall, custom switchgear, custom MEP equipment, custom millwork, specialty AV) is on the schedule with the lead time as a real activity, not a footnote.</li>
+                <li><strong>Every activity has a responsible party.</strong> The schedule activity list assigns a responsible trade or sub for every line item — no orphan activities.</li>
+                <li><strong>Critical path identified and visible.</strong> Every monthly schedule update highlights the current critical path. Activities on the critical path get extra scrutiny in coordination meetings.</li>
+                <li><strong>Float belongs to the project, not to the trade.</strong> Float is a project resource — when one trade slips into another's float, both share the float. Don't let early trades consume all the float and leave later trades zero buffer.</li>
+                <li><strong>Look-Ahead updated weekly, period.</strong> Every Monday before noon, the Look-Ahead reflects Friday-actuals and is distributed to every sub. Don't skip weeks. Don't merge weeks.</li>
+                <li><strong>Weekly coordination meeting walks the Look-Ahead.</strong> The meeting agenda is the Look-Ahead — row by row, each sub confirms or flags conflicts. Meetings without the Look-Ahead in front of every attendee become rambling chat sessions.</li>
+                <li><strong>Inspector and architect attendance scheduled in the Look-Ahead.</strong> Inspections, architect site visits, owner walks — schedule them on the Look-Ahead so they don't become last-minute scrambles.</li>
+                <li><strong>Weather-sensitive activities flagged.</strong> Roofing, exterior masonry, asphalt paving, concrete pour in cold weather — flag in the Look-Ahead with the weather contingency.</li>
+                <li><strong>Schedule narrative submitted monthly.</strong> Plain-English 1–2 page narrative with the schedule update. Variance, critical path, recovery plan.</li>
+                <li><strong>Time extensions documented as they occur.</strong> When a delay event occurs (owner change, weather, late owner-supplied item, late RFI response), document the date, cause, and projected schedule impact. Submit time-extension request within the contract notice period (typically 7–14 days) — late requests are deemed waived.</li>
+                <li><strong>Recovery schedule when behind by 10+ days.</strong> If cumulative variance reaches 10 days behind baseline SC, issue a recovery schedule showing what acceleration is required and at what cost. Owner-decision-required: accept the slip, or fund the acceleration. Don't silently absorb 30 days of slip with no plan.</li>
+            </ol>
+        </div>
+
+        <div class="warning">
+            <strong>Schedule documentation is the project's defense in delay claims.</strong> The single most common dispute on a commercial project at the end is "who caused the delay and who pays for it?" The party with rigorous schedule documentation — baseline, monthly updates, schedule narratives, time-extension requests submitted on time — wins these disputes overwhelmingly. The party with sketchy schedule documentation loses, regardless of whose fault the delay actually was. Schedule discipline is not just about running the project on time; it's about preserving the project's legal defensibility if things go sideways.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         CLOSING
+         ============================================================ -->
+    <div class="section">
+        <div class="warning">
+            <strong>Closing reminder.</strong> This Schedule package describes industry-standard CPM scheduling and 3-week look-ahead practices. <strong>The actual schedule on a project is generated and maintained in scheduling software</strong> — Primavera P6 (industry standard for mid-to-large commercial), Microsoft Project (smaller projects), Asta Powerproject (UK / European prevalent), Synchro (4D BIM-integrated), Smartsheet (lighter-weight, collaboration-first). The templates above are illustrative of the data captured; in practice, the schedule is software-generated and exported to PDF or web format for distribution. The discipline rules apply regardless of which tool. Construction-management-software platforms (Procore, Sage, BuilderTrend, Autodesk Construction Cloud) generally include scheduling integrations or modules.
+        </div>
+
+        <p class="footnote">Document version: 2026-05-15 (v1.0). Industry-standard CPM and short-interval scheduling practices. Maintained as part of the ContrPro Complete tier — General Contractor suite.</p>
+    </div>
+
+</body>
+</html>
