@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lien Waiver &amp; Release Forms — Conditional / Unconditional, Progress / Final</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 850px; margin: 40px auto; padding: 20px; color: #222; }
+        .header { text-align: center; border-bottom: 3px double #1e3a5f; padding-bottom: 20px; margin-bottom: 30px; }
+        .form-title { font-size: 28px; font-weight: bold; color: #1e3a5f; margin-bottom: 8px; }
+        .form-subtitle { font-size: 16px; color: #444; font-weight: 600; }
+        .doc-meta { font-size: 13px; color: #666; margin-top: 8px; }
+        .field { background: #f0f0f0; padding: 2px 8px; border-radius: 3px; font-style: italic; color: #555; }
+        .section { margin: 28px 0; page-break-inside: avoid; }
+        .section-title { font-weight: bold; color: #1e3a5f; font-size: 16px; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+        .sub-title { font-weight: bold; color: #1e3a5f; font-size: 14px; margin: 16px 0 8px 0; }
+        .warning { background: #f8d7da; border-left: 4px solid #dc3545; padding: 14px 16px; margin: 18px 0; }
+        .warning strong { color: #721c24; }
+        .notice { background: #d1ecf1; border-left: 4px solid #0c5460; padding: 14px 16px; margin: 18px 0; }
+        .statute-block { background: #fdf6e3; border-left: 4px solid #b58900; padding: 14px 16px; margin: 14px 0; font-size: 13.5px; }
+        .statute-block .state-name { font-weight: bold; color: #1e3a5f; font-size: 15px; display: block; margin-bottom: 6px; }
+        .statute-block .citation { font-family: 'Courier New', monospace; font-size: 12px; color: #555; }
+        .statute-block ul { margin: 6px 0 4px 18px; padding-left: 0; }
+        .statute-block li { margin-bottom: 4px; }
+        .form-frame { border: 2px solid #1e3a5f; padding: 20px 22px; margin: 18px 0 24px 0; background: #fafbfc; page-break-inside: avoid; }
+        .form-frame .form-frame-title { font-size: 18px; font-weight: bold; color: #1e3a5f; text-align: center; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 4px; }
+        .form-frame .form-frame-sub { font-size: 13px; color: #555; text-align: center; margin-bottom: 14px; font-style: italic; }
+        .form-frame .form-frame-statute { font-size: 12px; color: #777; text-align: center; font-family: 'Courier New', monospace; margin-bottom: 16px; }
+        .form-frame p { font-size: 14px; }
+        .signature-block { margin-top: 30px; }
+        .signature-line { border-top: 1px solid #000; width: 360px; margin-top: 50px; padding-top: 5px; font-size: 12.5px; }
+        .notary-block { border: 2px solid #000; padding: 18px 20px; margin-top: 30px; page-break-inside: avoid; font-size: 13px; }
+        .notary-block .notary-title { font-weight: bold; text-align: center; text-transform: uppercase; letter-spacing: 1.2px; font-size: 13px; margin-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        td, th { padding: 8px; vertical-align: top; }
+        th { background: #1e3a5f; color: #fff; text-align: left; font-size: 13px; }
+        .data-table td { border: 1px solid #ccc; font-size: 13px; }
+        .data-table td.amount { text-align: right; font-family: 'Courier New', monospace; }
+        .matrix-table th, .matrix-table td { border: 1px solid #1e3a5f; padding: 10px; vertical-align: top; }
+        .matrix-table th { font-size: 12.5px; text-transform: uppercase; }
+        .matrix-table td { font-size: 13px; background: #fff; }
+        .matrix-table td.label { background: #1e3a5f; color: #fff; font-weight: bold; text-align: center; vertical-align: middle; width: 18%; font-size: 12.5px; text-transform: uppercase; }
+        .checklist { background: #f9f9f9; border: 1px solid #ddd; padding: 16px 20px; border-radius: 6px; }
+        .checklist ol { margin: 0; padding-left: 22px; }
+        .checklist li { margin-bottom: 6px; font-size: 13.5px; }
+        .toc { background: #f4f6f9; border: 1px solid #c0cad8; padding: 16px 22px; margin: 20px 0 28px 0; border-radius: 6px; }
+        .toc-title { font-weight: bold; color: #1e3a5f; font-size: 14px; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+        .toc ol { margin: 0; padding-left: 22px; }
+        .toc li { margin-bottom: 4px; font-size: 13.5px; }
+        .toc a { color: #1e3a5f; text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+        .footnote { font-size: 11.5px; color: #666; font-style: italic; }
+        .page-break { page-break-before: always; }
+        @media print {
+            .no-print { display: none; }
+            body { margin: 0; max-width: 100%; }
+            .section, .form-frame, .notary-block { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+         NON-PRINT ATTORNEY-REVIEW DISCLAIMER
+         ============================================================ -->
+    <div class="no-print" style="background: #fff3cd; border: 2px solid #856404; padding: 18px; border-radius: 8px; margin-bottom: 24px;">
+        <strong style="color: #856404; font-size: 16px;">CRITICAL — DO NOT SIGN BLANK, UNDATED, OR BEFORE FUNDS HAVE CLEARED</strong>
+        <p style="margin: 8px 0 0 0; font-size: 13.5px;">
+            A lien waiver and release is a <strong>real legal release of substantive rights</strong>. Once signed, an <strong>unconditional</strong> waiver extinguishes the claimant's lien rights for the period covered <em>even if the underlying check bounces, is later disputed, or is never honored</em> (with narrow statutory exceptions in CA, AZ, NV, MI, UT, WY, MO, FL, GA). In states with statutory exact-form requirements (CA Civ. Code §§ 8132, 8134, 8136, 8138; AZ A.R.S. § 33-1008; NV NRS 108.2457; FL Fla. Stat. § 713.20 (post-SB 658, eff. 10/1/2023); MI MCL § 570.1115; UT Utah Code § 38-1a-802; WY Wyo. Stat. § 29-1-312; MO Mo. Rev. Stat. § 429.005), <strong>any deviation from the prescribed wording renders the waiver void</strong>. Use the form for the state where the project is located, not where your office is. Never sign a blank waiver. Never sign an unconditional waiver before the payment instrument has cleared (a wire confirmation, a cashier's check that has cleared 7 business days, or a personal check that has cleared 10 business days). For lower-tier participants paid through joint checks, every payee must sign — a waiver from the GC alone does not bind the sub or the supplier. <strong>Have a construction attorney in the state of the project review every waiver before first use and on any state statutory amendment.</strong>
+        </p>
+    </div>
+
+    <!-- ============================================================
+         HEADER
+         ============================================================ -->
+    <div class="header">
+        <div class="form-title">LIEN WAIVER &amp; RELEASE FORMS</div>
+        <div class="form-subtitle">Conditional / Unconditional &middot; Progress / Final &middot; State-Specific Overlays</div>
+        <div class="doc-meta">
+            State of Project: <span class="field">[Two-letter state abbreviation]</span> &nbsp;|&nbsp;
+            County: <span class="field">[County]</span> &nbsp;|&nbsp;
+            Form Selected: <span class="field">[Conditional Progress / Unconditional Progress / Conditional Final / Unconditional Final]</span>
+        </div>
+    </div>
+
+    <div class="warning">
+        <strong>FOUR DISTINCT FORMS — USE THE RIGHT ONE.</strong> The four statutory waiver/release forms are <strong>not interchangeable</strong>. Signing an Unconditional Final when only a progress payment was made wipes out lien rights for work not yet paid. Signing a Conditional Final when the job is not actually complete creates ambiguity over future change orders and retention. Match the form to the payment posture: (1) <strong>Conditional Progress</strong> — partial payment pending; release effective only on payment clearance; (2) <strong>Unconditional Progress</strong> — partial payment cleared; release immediate for amounts received through-date; (3) <strong>Conditional Final</strong> — final payment pending; release effective only on payment clearance and includes retention; (4) <strong>Unconditional Final</strong> — final payment cleared; full and final release of all lien rights for the project. <strong>When in doubt, sign Conditional, not Unconditional.</strong>
+    </div>
+
+    <!-- ============================================================
+         TABLE OF CONTENTS
+         ============================================================ -->
+    <div class="toc">
+        <div class="toc-title">Table of Contents</div>
+        <ol>
+            <li><a href="#sec-decision-matrix">When to Use Which Form — Decision Matrix</a></li>
+            <li><a href="#sec-checklist">Pre-Signing Checklist (28 Items)</a></li>
+            <li><a href="#sec-form-cp">Form 1 — Conditional Waiver and Release on Progress Payment</a></li>
+            <li><a href="#sec-form-up">Form 2 — Unconditional Waiver and Release on Progress Payment</a></li>
+            <li><a href="#sec-form-cf">Form 3 — Conditional Waiver and Release on Final Payment</a></li>
+            <li><a href="#sec-form-uf">Form 4 — Unconditional Waiver and Release on Final Payment</a></li>
+            <li><a href="#sec-partial">Partial Release of Lien (After Filing) — Mechanics</a></li>
+            <li><a href="#sec-bond">Bonded-Around Lien — Release of Bond vs. Release of Underlying Lien</a></li>
+            <li><a href="#sec-joint">Joint Checks &amp; Lower-Tier Flow-Down</a></li>
+            <li><a href="#sec-recording">Recording &amp; Discharge of a Filed Lien</a></li>
+            <li><a href="#sec-state-overlays">State-Specific Statutory Overlays (18 Markets)</a></li>
+            <li><a href="#sec-notary">Notary Acknowledgment Blocks</a></li>
+        </ol>
+    </div>
+
+    <!-- ============================================================
+         1. DECISION MATRIX
+         ============================================================ -->
+    <div class="section" id="sec-decision-matrix">
+        <div class="section-title">1. When to Use Which Form — Decision Matrix</div>
+        <p>The four forms map to a 2x2 decision: <strong>has the payment cleared yet (conditional vs. unconditional)?</strong> and <strong>is this a progress payment or the final payment for the project (progress vs. final)?</strong></p>
+        <table class="matrix-table">
+            <tr>
+                <th></th>
+                <th>PROGRESS PAYMENT (more work to come, retention may be held)</th>
+                <th>FINAL PAYMENT (job complete, including retention)</th>
+            </tr>
+            <tr>
+                <td class="label">Payment Pending<br>(check not yet cleared, wire not yet confirmed)</td>
+                <td><strong>Form 1 — Conditional Waiver on Progress Payment.</strong> Release is effective only when the identified payment instrument actually clears. Use this when handing a waiver across the table at the time of payment, before the funds settle. Safest default for progress draws.</td>
+                <td><strong>Form 3 — Conditional Waiver on Final Payment.</strong> Release of all lien rights for the project, effective only when the identified final-payment instrument clears. Includes retention. Use when delivering the final waiver in exchange for the final-payment check before bank settlement.</td>
+            </tr>
+            <tr>
+                <td class="label">Payment Cleared<br>(funds confirmed in your account)</td>
+                <td><strong>Form 2 — Unconditional Waiver on Progress Payment.</strong> Immediate release of lien rights for amounts paid through the through-date. Issue ONLY after the payment has cleared the bank. Subsequent draws and unbilled change orders remain protected.</td>
+                <td><strong>Form 4 — Unconditional Waiver on Final Payment.</strong> Final, irrevocable release of all lien rights for the entire project. Issue ONLY after the final payment has cleared. After this, the claimant has waived all lien rights — no further filings possible against this owner for this project.</td>
+            </tr>
+        </table>
+        <div class="notice">
+            <strong>Default rule of thumb:</strong> Use Conditional (Forms 1 or 3) whenever the waiver is exchanged contemporaneously with the payment instrument. Use Unconditional (Forms 2 or 4) only after independent confirmation that the funds have settled. The lower-tier participant who signs Unconditional first and waits for the check second has waived a meaningful right in exchange for paper.
+        </div>
+        <div class="warning">
+            <strong>Watch for the &ldquo;all-encompassing&rdquo; waiver buried in a pay application.</strong> Some general contractors and owners insert language in a pay application certification that operates as an unconditional final waiver of all lien rights, not just the amount being requested in that draw. Read every signature block. If the language extends to amounts beyond the current draw or to future change orders, strike through and initial, or refuse to sign and offer a clean conforming waiver instead.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         2. PRE-SIGNING CHECKLIST
+         ============================================================ -->
+    <div class="section" id="sec-checklist">
+        <div class="section-title">2. Pre-Signing Checklist (28 Items)</div>
+        <div class="checklist">
+            <ol>
+                <li><strong>Form match.</strong> Confirm the form selected matches the payment posture (Conditional vs. Unconditional &middot; Progress vs. Final). When in doubt, sign Conditional.</li>
+                <li><strong>State match.</strong> Confirm the form is the statutorily prescribed form for the <strong>state where the project is located</strong>, not the state of the claimant's office. CA, AZ, NV, MI, UT, WY, FL, GA, MO have exact-form rules.</li>
+                <li><strong>Statutory wording verified.</strong> Compare the form text character-for-character against the controlling statute (CA Civ. §§ 8132/8134/8136/8138; AZ § 33-1008; NV § 108.2457; FL § 713.20; MI § 570.1115). Even font emphasis (bold/caps) is part of the statutory form in some states.</li>
+                <li><strong>Through-date stated and accurate.</strong> Progress waivers must state the date through which work and materials are released. A waiver with no through-date is read against the signer as covering all work to the date of signing.</li>
+                <li><strong>Dollar amount matches the payment instrument.</strong> Reconcile to the check, wire confirmation, or ACH amount. Round numbers without supporting math are a red flag.</li>
+                <li><strong>Funds cleared (Unconditional only).</strong> Wire confirmed in account / cashier's check cleared 7 business days / personal check cleared 10 business days. Verify with the bank, not the payor.</li>
+                <li><strong>Retention status documented.</strong> If retention is being held, the waiver must say so and exclude it. If retention is being released, the amount must be itemized.</li>
+                <li><strong>Disputed amounts carved out.</strong> Use the &ldquo;Exceptions&rdquo; or &ldquo;Reservations&rdquo; field to list any disputed change orders, back charges, retention, or extras that are NOT being released. List by date, change-order number, and dollar amount.</li>
+                <li><strong>Unbilled change orders carved out.</strong> Itemize all known but unbilled change orders, additional work, and pending claims. Include T&amp;M tickets not yet invoiced.</li>
+                <li><strong>Unbilled stored materials carved out.</strong> If the claimant has materials on site or off site that have not yet been billed, list them.</li>
+                <li><strong>Pending claims documented.</strong> Delay claims, acceleration claims, impact claims, scope-of-work disputes — all must be reserved or they are released.</li>
+                <li><strong>Lower-tier waivers collected.</strong> If signing as a higher-tier contractor, collect waivers from every sub and supplier under your contract before signing your own. Their lien rights survive your release.</li>
+                <li><strong>Joint-check participants signed.</strong> If the payment is by joint check, every named payee must sign their own waiver. Endorsing a joint check is not a waiver of lien rights in most states.</li>
+                <li><strong>Project description matches the contract.</strong> Property address, owner name, job description, and contract date must reconcile to the underlying contract.</li>
+                <li><strong>Owner name matches the deed.</strong> Pull the recorded vesting deed or assessor parcel data. Mismatched owner names are common waiver defects.</li>
+                <li><strong>Original lien recording info matched (if releasing a recorded lien).</strong> County, instrument number, book/page, and date of recording must exactly match the original Claim of Lien being released.</li>
+                <li><strong>Counterparts language present (multi-signer waivers).</strong> If multiple signers, the form should permit execution in counterparts and electronic signatures.</li>
+                <li><strong>Notarization status confirmed.</strong> CA progress waivers do NOT require notarization. CA final unconditional waivers do not either, but lender/title company may require notarization as a contractual condition. Check the project funding documents.</li>
+                <li><strong>Signer authority verified.</strong> The signer must have actual legal authority to bind the entity. Officers, members, managers — confirm the operating agreement or corporate resolution permits the signer.</li>
+                <li><strong>Title block matches the entity.</strong> Sole proprietor / LLC / S-corp / partnership — the signature block must reflect the actual entity form on file with the Secretary of State.</li>
+                <li><strong>License number printed.</strong> Many states (CA, NV, AZ) require the contractor's license number on the waiver; missing it can be a defect.</li>
+                <li><strong>Date of signature filled.</strong> A waiver with no signature date is unenforceable in some states and ambiguous in all.</li>
+                <li><strong>Original to payor, copy to file.</strong> Retain a date-stamped copy with the matching payment record (check copy, wire confirmation, deposit ticket).</li>
+                <li><strong>Lender / title company copy delivered.</strong> Lender draws often require contemporaneous waivers. Confirm delivery via a transmittal log.</li>
+                <li><strong>Bond and insurance certificates not affected.</strong> A lien waiver does not waive payment-bond claims, surety claims, or insurance claims. Reserve those expressly if the waiver language is broad.</li>
+                <li><strong>Trust-fund rights reserved.</strong> In construction-trust-fund states (TX, MI, MD, NJ, NY for residential, IL for owner-occupied, OK), the waiver does not waive statutory trust-fund rights against the payor's principals.</li>
+                <li><strong>Federal Miller Act / Little Miller Act rights reserved.</strong> On federal projects (Miller Act, 40 U.S.C. § 3133) and state public-works projects (state Little Miller Acts), there is no lien against public property — payment-bond claims are the remedy and are not waived by a lien waiver unless the waiver expressly covers bond rights.</li>
+                <li><strong>Counsel review on first use and on amendment.</strong> Retain construction counsel to review the form on first use in any new state and re-review on every state statutory amendment.</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         3. FORM 1 — CONDITIONAL WAIVER ON PROGRESS PAYMENT
+         ============================================================ -->
+    <div class="section" id="sec-form-cp">
+        <div class="section-title">3. Form 1 — Conditional Waiver and Release on Progress Payment</div>
+        <p>This form releases lien, stop-payment-notice, and payment-bond rights for amounts paid through the stated through-date, <strong>contingent on the identified payment instrument clearing the bank</strong>. If the check bounces or the wire is reversed, the release is void. Use this when handing a waiver across the table at the time of payment.</p>
+
+        <div class="form-frame">
+            <div class="form-frame-title">Conditional Waiver and Release on Progress Payment</div>
+            <div class="form-frame-sub">Effective ONLY upon actual receipt of the identified payment by the claimant</div>
+            <div class="form-frame-statute">Statutory model: California Civil Code § 8132; equivalent: AZ § 33-1008(D)(1); NV § 108.2457(5)(a); FL § 713.20(2)</div>
+
+            <p><strong>NOTICE:</strong> This document waives the claimant's lien, stop-payment-notice, and payment-bond rights effective on receipt of payment. A person should not rely on this document unless satisfied that the claimant has received payment. <em>(Statutory disclaimer language — do not modify.)</em></p>
+
+            <p><strong>Identifying Information.</strong></p>
+            <table class="data-table">
+                <tr><td width="32%"><strong>Name of Claimant:</strong></td><td><span class="field">[Legal entity name]</span></td></tr>
+                <tr><td><strong>Name of Customer:</strong></td><td><span class="field">[Person/entity who hired claimant]</span></td></tr>
+                <tr><td><strong>Job Location:</strong></td><td><span class="field">[Street, City, State, ZIP, county]</span></td></tr>
+                <tr><td><strong>Owner of Record:</strong></td><td><span class="field">[Per recorded deed]</span></td></tr>
+                <tr><td><strong>Through Date:</strong></td><td><span class="field">[Last date of work or materials covered by this release]</span></td></tr>
+                <tr><td><strong>Amount of Payment:</strong></td><td>$ <span class="field">[Dollar amount of the identified progress payment]</span></td></tr>
+                <tr><td><strong>Payment Instrument:</strong></td><td><span class="field">[Check no. / wire reference / ACH trace]</span> dated <span class="field">[Date]</span> drawn on <span class="field">[Bank]</span></td></tr>
+            </table>
+
+            <p><strong>Conditional Waiver and Release.</strong> Upon receipt by the claimant of a check or other payment instrument in the above amount payable to the claimant, and when the check or payment instrument has been properly endorsed and has been paid by the bank on which it is drawn, this document becomes effective to release any mechanic's lien right, any state or federal statutory bond right, any private bond right, any claim for payment, and any rights under any similar ordinance, rule, or statute related to claim or payment rights for persons in the claimant's position that the claimant has on the job, but only for the principal amount of $<span class="field">[Amount]</span> in connection with the labor, services, equipment, or materials furnished to the customer through the through-date stated above.</p>
+
+            <p>This release covers a progress payment for the labor, services, equipment, or materials furnished to the customer through the through-date only and does not cover any retentions, pending modifications and changes, or items furnished after that date. Before any recipient of this document relies on it, the recipient should verify evidence of payment to the claimant.</p>
+
+            <p><strong>Exceptions / Reservations.</strong> This release does NOT cover the following items, which are expressly reserved:</p>
+            <ul>
+                <li>Retention withheld from the above payment: $<span class="field">[Amount]</span></li>
+                <li>Disputed amounts and back charges: <span class="field">[Itemize: change order #, date, dollar amount]</span></li>
+                <li>Unbilled change orders and extras: <span class="field">[Itemize]</span></li>
+                <li>Stored materials not yet invoiced: <span class="field">[Itemize]</span></li>
+                <li>Pending delay, acceleration, or impact claims: <span class="field">[Itemize]</span></li>
+                <li>Trust-fund and statutory bond rights, which are NOT waived hereby</li>
+            </ul>
+
+            <div class="signature-block">
+                <p>Date: <span class="field">[Date]</span></p>
+                <div class="signature-line">
+                    <span class="field">[Authorized Signature]</span><br>
+                    Printed Name: <span class="field">[Name]</span><br>
+                    Title: <span class="field">[Title — Officer / Member / Manager]</span><br>
+                    Company: <span class="field">[Claimant Legal Name]</span><br>
+                    License #: <span class="field">[State contractor license number]</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         4. FORM 2 — UNCONDITIONAL WAIVER ON PROGRESS PAYMENT
+         ============================================================ -->
+    <div class="section" id="sec-form-up">
+        <div class="section-title">4. Form 2 — Unconditional Waiver and Release on Progress Payment</div>
+        <div class="warning">
+            <strong>SIGN ONLY AFTER PAYMENT HAS CLEARED YOUR BANK.</strong> This form takes effect immediately upon signing. If the underlying check has not cleared and is later returned NSF, the lien rights for the released amount are still extinguished. Verify settlement with your bank — not the payor's representations — before signing.
+        </div>
+
+        <div class="form-frame">
+            <div class="form-frame-title">Unconditional Waiver and Release on Progress Payment</div>
+            <div class="form-frame-sub">Effective IMMEDIATELY on signing, irrespective of underlying check clearance</div>
+            <div class="form-frame-statute">Statutory model: California Civil Code § 8134; equivalent: AZ § 33-1008(D)(2); NV § 108.2457(5)(b); FL § 713.20(3)</div>
+
+            <p><strong>NOTICE:</strong> This document waives and releases lien, stop-payment-notice, and payment-bond rights unconditionally and states that you have been paid for giving up those rights. This document is enforceable against you if you sign it, even if you have not been paid. If you have not been paid, use a Conditional Waiver and Release on Progress Payment form. <em>(Statutory disclaimer language — do not modify.)</em></p>
+
+            <p><strong>Identifying Information.</strong></p>
+            <table class="data-table">
+                <tr><td width="32%"><strong>Name of Claimant:</strong></td><td><span class="field">[Legal entity name]</span></td></tr>
+                <tr><td><strong>Name of Customer:</strong></td><td><span class="field">[Person/entity who hired claimant]</span></td></tr>
+                <tr><td><strong>Job Location:</strong></td><td><span class="field">[Street, City, State, ZIP, county]</span></td></tr>
+                <tr><td><strong>Owner of Record:</strong></td><td><span class="field">[Per recorded deed]</span></td></tr>
+                <tr><td><strong>Through Date:</strong></td><td><span class="field">[Last date of work or materials covered by this release]</span></td></tr>
+                <tr><td><strong>Amount of Payment Received:</strong></td><td>$ <span class="field">[Dollar amount actually received]</span></td></tr>
+            </table>
+
+            <p><strong>Unconditional Waiver and Release.</strong> The claimant has been paid and has received a progress payment in the above amount for all labor, services, equipment, or materials furnished to the customer on the above-described project through the through-date and does hereby release any mechanic's lien right, any state or federal statutory bond right, any private bond right, any claim for payment, and any rights under any similar ordinance, rule, or statute related to claim or payment rights for persons in the claimant's position that the claimant has on the above-referenced job to the following extent.</p>
+
+            <p>This release covers a progress payment for all labor, services, equipment, or materials furnished to the customer through the through-date only and does not cover any retentions, pending modifications and changes, or items furnished after that date.</p>
+
+            <p><strong>Exceptions / Reservations.</strong> This release does NOT cover the following items, which are expressly reserved:</p>
+            <ul>
+                <li>Retention withheld from the above payment: $<span class="field">[Amount]</span></li>
+                <li>Disputed amounts and back charges: <span class="field">[Itemize]</span></li>
+                <li>Unbilled change orders and extras: <span class="field">[Itemize]</span></li>
+                <li>Stored materials not yet invoiced: <span class="field">[Itemize]</span></li>
+                <li>Pending delay, acceleration, or impact claims: <span class="field">[Itemize]</span></li>
+            </ul>
+
+            <div class="signature-block">
+                <p>Date: <span class="field">[Date — must be on or after payment clearance]</span></p>
+                <div class="signature-line">
+                    <span class="field">[Authorized Signature]</span><br>
+                    Printed Name: <span class="field">[Name]</span><br>
+                    Title: <span class="field">[Title]</span><br>
+                    Company: <span class="field">[Claimant Legal Name]</span><br>
+                    License #: <span class="field">[State contractor license number]</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         5. FORM 3 — CONDITIONAL WAIVER ON FINAL PAYMENT
+         ============================================================ -->
+    <div class="section" id="sec-form-cf">
+        <div class="section-title">5. Form 3 — Conditional Waiver and Release on Final Payment</div>
+        <p>The final-payment release operates as a complete and final discharge of all lien rights for the project, effective on payment clearance. Includes all retention and final billings. Use when delivering the final-payment waiver in exchange for the final-payment instrument before bank settlement.</p>
+
+        <div class="form-frame">
+            <div class="form-frame-title">Conditional Waiver and Release on Final Payment</div>
+            <div class="form-frame-sub">Effective ONLY upon actual receipt of the identified final payment</div>
+            <div class="form-frame-statute">Statutory model: California Civil Code § 8136; equivalent: AZ § 33-1008(D)(3); NV § 108.2457(5)(c); FL § 713.20(4)</div>
+
+            <p><strong>NOTICE:</strong> This document waives the claimant's lien, stop-payment-notice, and payment-bond rights effective on receipt of payment. A person should not rely on this document unless satisfied that the claimant has received payment. <em>(Statutory disclaimer language — do not modify.)</em></p>
+
+            <p><strong>Identifying Information.</strong></p>
+            <table class="data-table">
+                <tr><td width="32%"><strong>Name of Claimant:</strong></td><td><span class="field">[Legal entity name]</span></td></tr>
+                <tr><td><strong>Name of Customer:</strong></td><td><span class="field">[Person/entity who hired claimant]</span></td></tr>
+                <tr><td><strong>Job Location:</strong></td><td><span class="field">[Street, City, State, ZIP, county]</span></td></tr>
+                <tr><td><strong>Owner of Record:</strong></td><td><span class="field">[Per recorded deed]</span></td></tr>
+                <tr><td><strong>Amount of Final Payment:</strong></td><td>$ <span class="field">[Dollar amount of identified final payment, including retention]</span></td></tr>
+                <tr><td><strong>Payment Instrument:</strong></td><td><span class="field">[Check no. / wire reference / ACH trace]</span> dated <span class="field">[Date]</span> drawn on <span class="field">[Bank]</span></td></tr>
+            </table>
+
+            <p><strong>Conditional Waiver and Release.</strong> Upon receipt by the claimant of a check or other payment instrument in the above amount payable to the claimant, and when the check or payment instrument has been properly endorsed and has been paid by the bank on which it is drawn, this document becomes effective to release the claimant's mechanic's lien rights, any state or federal statutory bond right, any private bond right, any claim for payment, and any rights under any similar ordinance, rule, or statute related to claim or payment rights for persons in the claimant's position in connection with the labor, services, equipment, or materials furnished to the customer on the above-described job.</p>
+
+            <p>This release covers the final payment to the claimant for all labor, services, equipment, or materials furnished on the job, including all retention. Before any recipient of this document relies on it, the recipient should verify evidence of payment to the claimant.</p>
+
+            <p><strong>Exceptions / Reservations.</strong> This release does NOT cover the following items, which are expressly reserved:</p>
+            <ul>
+                <li>Disputed change orders, back charges, and unbilled extras: <span class="field">[Itemize: number, date, amount]</span></li>
+                <li>Pending delay, acceleration, or impact claims: <span class="field">[Itemize]</span></li>
+                <li>Warranty obligations of the claimant (these survive the release as contract obligations, not lien rights)</li>
+                <li>Trust-fund and statutory bond rights, which are NOT waived hereby</li>
+            </ul>
+
+            <div class="signature-block">
+                <p>Date: <span class="field">[Date]</span></p>
+                <div class="signature-line">
+                    <span class="field">[Authorized Signature]</span><br>
+                    Printed Name: <span class="field">[Name]</span><br>
+                    Title: <span class="field">[Title]</span><br>
+                    Company: <span class="field">[Claimant Legal Name]</span><br>
+                    License #: <span class="field">[State contractor license number]</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         6. FORM 4 — UNCONDITIONAL WAIVER ON FINAL PAYMENT
+         ============================================================ -->
+    <div class="section" id="sec-form-uf">
+        <div class="section-title">6. Form 4 — Unconditional Waiver and Release on Final Payment</div>
+        <div class="warning">
+            <strong>FINAL, IRREVOCABLE, ALL-PROJECT.</strong> This form extinguishes ALL lien rights against this owner for this project. Once signed, the claimant cannot file a mechanic's lien for any work or materials, billed or unbilled, on this property regardless of subsequent disputes. Sign only after the final-payment instrument has fully cleared (wire confirmed in account / cashier's check cleared 7 business days / personal check cleared 10 business days). If there is any disputed change order, back charge, or unbilled work, list it explicitly in the Reservations field — anything not reserved is released.
+        </div>
+
+        <div class="form-frame">
+            <div class="form-frame-title">Unconditional Waiver and Release on Final Payment</div>
+            <div class="form-frame-sub">Effective IMMEDIATELY on signing &middot; releases all lien rights for the project</div>
+            <div class="form-frame-statute">Statutory model: California Civil Code § 8138; equivalent: AZ § 33-1008(D)(4); NV § 108.2457(5)(d); FL § 713.20(5)</div>
+
+            <p><strong>NOTICE:</strong> This document waives and releases lien, stop-payment-notice, and payment-bond rights unconditionally and states that you have been paid for giving up those rights. It is enforceable against you if you sign it, even if you have not been paid. If you have not been paid, use a Conditional Waiver and Release on Final Payment form. <em>(Statutory disclaimer language — do not modify.)</em></p>
+
+            <p><strong>Identifying Information.</strong></p>
+            <table class="data-table">
+                <tr><td width="32%"><strong>Name of Claimant:</strong></td><td><span class="field">[Legal entity name]</span></td></tr>
+                <tr><td><strong>Name of Customer:</strong></td><td><span class="field">[Person/entity who hired claimant]</span></td></tr>
+                <tr><td><strong>Job Location:</strong></td><td><span class="field">[Street, City, State, ZIP, county]</span></td></tr>
+                <tr><td><strong>Owner of Record:</strong></td><td><span class="field">[Per recorded deed]</span></td></tr>
+                <tr><td><strong>Total Final Payment Received:</strong></td><td>$ <span class="field">[Dollar amount actually received in cleared funds]</span></td></tr>
+            </table>
+
+            <p><strong>Unconditional Waiver and Release.</strong> The claimant has been paid in full for all labor, services, equipment, and materials furnished to the customer on the above-described project and does hereby waive and release any right to a mechanic's lien, any right to a stop-payment notice, any right to any state or federal statutory bond claim or any right to any private bond claim the claimant has on the above-referenced job.</p>
+
+            <p><strong>Exceptions / Reservations.</strong> This release does NOT cover the following items, which are expressly reserved (anything not listed below is released):</p>
+            <ul>
+                <li>Disputed change orders, back charges, and unbilled extras: <span class="field">[Itemize — these are released if not listed]</span></li>
+                <li>Pending delay, acceleration, or impact claims: <span class="field">[Itemize — released if not listed]</span></li>
+                <li>Warranty obligations (survive as contract claims, not lien claims)</li>
+                <li>Indemnification obligations (survive as contract claims)</li>
+            </ul>
+
+            <div class="signature-block">
+                <p>Date: <span class="field">[Date — must be on or after final-payment clearance]</span></p>
+                <div class="signature-line">
+                    <span class="field">[Authorized Signature]</span><br>
+                    Printed Name: <span class="field">[Name]</span><br>
+                    Title: <span class="field">[Title]</span><br>
+                    Company: <span class="field">[Claimant Legal Name]</span><br>
+                    License #: <span class="field">[State contractor license number]</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         7. PARTIAL RELEASE OF FILED LIEN
+         ============================================================ -->
+    <div class="section" id="sec-partial">
+        <div class="section-title">7. Partial Release of Lien (After Filing) — Mechanics</div>
+        <p>A partial release applies after a Claim of Lien has already been recorded and the claimant has received payment for a portion — but not all — of the secured amount. Two distinct scenarios use a partial release: (1) <strong>partial release of the lien amount</strong> (claimant has been paid down by some dollar figure but a balance remains); (2) <strong>partial release of property</strong> (the lien encumbered multiple parcels and the claimant agrees to release one parcel, often to permit a sale or refinance, while preserving the lien on the remaining parcels).</p>
+
+        <div class="form-frame">
+            <div class="form-frame-title">Partial Release of Recorded Mechanic's Lien</div>
+            <div class="form-frame-sub">For use AFTER a Claim of Lien has been recorded; releases part but not all</div>
+
+            <p>The undersigned claimant, having previously recorded a Claim of Mechanic's Lien against the property described below, hereby releases the recorded lien <strong>in part</strong> as follows:</p>
+
+            <table class="data-table">
+                <tr><td width="32%"><strong>Original Lien Amount:</strong></td><td>$<span class="field">[Original amount as recorded]</span></td></tr>
+                <tr><td><strong>Date of Recording:</strong></td><td><span class="field">[Date the original lien was recorded]</span></td></tr>
+                <tr><td><strong>Recording Reference:</strong></td><td>Instrument No. <span class="field">[Number]</span> / Book <span class="field">[Book]</span> Page <span class="field">[Page]</span></td></tr>
+                <tr><td><strong>County of Recording:</strong></td><td><span class="field">[County, State]</span></td></tr>
+                <tr><td><strong>Property Description (full legal):</strong></td><td><span class="field">[Verbatim from original lien — must match exactly]</span></td></tr>
+                <tr><td><strong>Amount Now Released:</strong></td><td>$<span class="field">[Dollar amount being released]</span></td></tr>
+                <tr><td><strong>Remaining Lien Balance:</strong></td><td>$<span class="field">[Original minus released]</span></td></tr>
+                <tr><td><strong>Parcels Released (if partial-property release):</strong></td><td><span class="field">[APN(s) and legal descriptions of released parcels]</span></td></tr>
+                <tr><td><strong>Parcels Retained:</strong></td><td><span class="field">[APN(s) and legal descriptions of parcels still subject to lien]</span></td></tr>
+            </table>
+
+            <p>This partial release is recorded as a separate instrument and references the original lien by recording number. The remaining balance of the lien continues in full force and effect against the property and parcels not expressly released by this instrument. Foreclosure rights for the unreleased balance are preserved and the underlying foreclosure deadline is unchanged unless extended by separate written agreement of the parties and recorded.</p>
+
+            <div class="signature-block">
+                <p>Executed this <span class="field">[Day]</span> day of <span class="field">[Month]</span>, <span class="field">[Year]</span>.</p>
+                <div class="signature-line">
+                    <span class="field">[Authorized Signature]</span><br>
+                    Printed Name: <span class="field">[Name]</span><br>
+                    Title: <span class="field">[Title]</span><br>
+                    Company: <span class="field">[Claimant Legal Name]</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="notice">
+            <strong>Recording the partial release.</strong> File the partial release with the same county recorder/clerk where the original Claim of Lien was recorded. Reference the original lien by instrument number in the caption. Pay the recording fee. Provide a recorded copy to the property owner, the GC (if claimant is sub-tier), and the title company handling any contemporaneous sale or refinance. In states using a Notice of Commencement system (FL, OH, MI, NJ), provide a copy to the designated agent identified in the recorded NOC.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         8. BONDED-AROUND LIEN
+         ============================================================ -->
+    <div class="section" id="sec-bond">
+        <div class="section-title">8. Bonded-Around Lien — Release of Bond vs. Release of Underlying Lien</div>
+        <p>When a property owner posts a discharge bond (also called a release-of-lien bond, lien-substitution bond, or transfer-of-lien-to-bond) to free the real property from a recorded mechanic's lien, the lien is transferred from the property to the bond. The claimant's collateral becomes the bond rather than the real estate. This is common in commercial transactions and is governed by state-specific statutes (FL § 713.24; CA Civ. § 8424; TX Prop. § 53.171; NY Lien Law § 19; NJ N.J.S.A. 2A:44A-31). The release mechanics differ depending on whether the claimant is releasing the bond (the new collateral) or the underlying lien (which is no longer encumbering the property).</p>
+
+        <div class="sub-title">Release of Bond (Post-Bond)</div>
+        <p>If the bond has been posted and the dispute has been resolved (settlement, judgment, or arbitration award), the claimant releases the bond by:</p>
+        <ol>
+            <li>Issuing a written release to the surety identifying the bond by number, principal, and amount.</li>
+            <li>Filing a release of bond with the court (in states where the bond was court-approved) or with the recording office (in states where the bond was recorded as a substitute encumbrance).</li>
+            <li>Returning the original bond instrument or executing a release indorsement, depending on surety practice.</li>
+            <li>Confirming with the surety that the bond is closed and that no further demand will be made.</li>
+        </ol>
+
+        <div class="sub-title">Release of Underlying Lien After Bond Posted</div>
+        <p>The recording of the discharge bond automatically transfers the lien to the bond by operation of statute in most states — the underlying lien is no longer an encumbrance on the property as of the date of bond recording. However, title companies often require a separate written acknowledgment from the claimant that the underlying lien is released as to the real property, even though statute already accomplishes this. Provide a Release of Underlying Lien acknowledgment in the form below if requested by the title company:</p>
+
+        <div class="form-frame">
+            <div class="form-frame-title">Acknowledgment of Lien Transfer to Bond</div>
+            <div class="form-frame-sub">Confirms underlying lien no longer encumbers the real property; bond is the new collateral</div>
+
+            <p>The undersigned claimant acknowledges that the Claim of Mechanic's Lien recorded on <span class="field">[Date]</span> as Instrument No. <span class="field">[Number]</span> in <span class="field">[County]</span> County, <span class="field">[State]</span>, against the property at <span class="field">[Address]</span> has been transferred to the Discharge Bond No. <span class="field">[Bond Number]</span> issued by <span class="field">[Surety Name]</span> in the amount of $<span class="field">[Bond Amount]</span> on <span class="field">[Date]</span>, pursuant to <span class="field">[State statute]</span>. The undersigned acknowledges that, as of the date of bond recording, the real property is no longer subject to the underlying Claim of Lien, and the claimant's collateral is the bond. This acknowledgment does not release the bond and does not waive any claim against the bond, the principal, or the surety.</p>
+
+            <div class="signature-block">
+                <p>Date: <span class="field">[Date]</span></p>
+                <div class="signature-line">
+                    <span class="field">[Authorized Signature]</span><br>
+                    Printed Name: <span class="field">[Name]</span> &middot; Title: <span class="field">[Title]</span> &middot; Company: <span class="field">[Claimant Name]</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         9. JOINT CHECKS & LOWER-TIER FLOW-DOWN
+         ============================================================ -->
+    <div class="section" id="sec-joint">
+        <div class="section-title">9. Joint Checks &amp; Lower-Tier Flow-Down</div>
+        <p>Joint checks are a common payment mechanism on construction projects. A general contractor pays a subcontractor by issuing a check made payable jointly to the subcontractor AND the subcontractor's supplier or lower-tier sub. The intent is to ensure that the supplier or lower-tier participant gets paid for materials or labor furnished, preventing the higher-tier sub from receiving funds and not paying its own creditors. Lien-waiver mechanics in joint-check scenarios are non-obvious and a frequent source of unwaived liens against the property.</p>
+
+        <div class="warning">
+            <strong>ENDORSEMENT IS NOT WAIVER.</strong> In most states, endorsing a joint check does NOT operate as a lien waiver by the endorsing payee. The supplier who endorses the joint check has been paid (or should have been paid), but the supplier's lien rights are not waived absent a separate signed waiver in statutory form. The GC and owner who rely on the endorsement alone leave the property exposed to the supplier's lien. (FL § 713.20(7); CA Civ. § 8126; AZ § 33-1008(F).)
+        </div>
+
+        <div class="sub-title">Two-Party Joint Check (Sub + Supplier)</div>
+        <ol>
+            <li><strong>GC issues check</strong> payable to "Sub Inc. AND Supplier Co." in the amount of the supplier's invoice.</li>
+            <li><strong>Sub presents the check to Supplier</strong> with a Conditional Waiver and Release on Progress Payment in the amount of the supplier's invoice, signed by Supplier.</li>
+            <li><strong>Supplier endorses the check</strong> and signs the waiver.</li>
+            <li><strong>Sub deposits the check</strong> after Supplier endorsement; Sub forwards the supplier's full invoice amount to Supplier within the time required by the GC's joint-check agreement (typically within 7 days).</li>
+            <li><strong>Sub also signs its own Conditional Waiver and Release on Progress Payment</strong> in the amount of the GC's payment to Sub.</li>
+            <li><strong>GC retains both waivers</strong> in the project file with copies of the joint check and proof of supplier payment.</li>
+        </ol>
+
+        <div class="sub-title">Three-Party Joint Check (GC + Sub + Supplier)</div>
+        <p>Less common but used when the GC wants to control the funds and verify supplier payment in real time. All three parties present and endorse simultaneously; supplier's waiver and sub's waiver are exchanged at the table.</p>
+
+        <div class="sub-title">Joint-Check Agreement (Recommended)</div>
+        <p>Before issuing the first joint check, GC and Sub should sign a Joint-Check Agreement specifying: (1) the supplier(s) covered; (2) the form of waiver each supplier will provide on presentment; (3) Sub's obligation to forward the full invoice amount to the supplier; (4) GC's right to issue all future payments to Sub directly to the supplier if Sub fails to pay; (5) how disputes between Sub and Supplier will be handled without affecting GC's payment obligations to Sub.</p>
+    </div>
+
+    <!-- ============================================================
+         10. RECORDING & DISCHARGE OF FILED LIEN
+         ============================================================ -->
+    <div class="section" id="sec-recording">
+        <div class="section-title">10. Recording &amp; Discharge of a Filed Lien</div>
+        <p>When a Claim of Lien has been recorded and the underlying claim is fully resolved (paid, settled, or judicially discharged), the claimant must record a release with the same recording office that holds the original lien. Failure to record a release after payment exposes the claimant to slander-of-title liability and statutory damages in many states (CA Civ. § 8424 — duty to release within 10 days of payment; AZ A.R.S. § 33-420 — $5,000 per occurrence for failure to release; NV NRS 108.2437; FL § 713.21 — owner can demand release on 20 days' notice).</p>
+
+        <div class="sub-title">Steps to Record a Full Release</div>
+        <ol>
+            <li><strong>Confirm payment cleared.</strong> Wire confirmation in account, cashier's check cleared 7 business days, personal check cleared 10 business days. Do not record a release based on a check still in transit.</li>
+            <li><strong>Pull original Claim of Lien.</strong> Obtain a certified copy from the recording office or pull from project files. The release must reference the original by exact recording number, book/page, and date.</li>
+            <li><strong>Use the state-required form.</strong> Some states (CA, AZ, FL, MI, NV, MO) require a specific Release-of-Lien form by statute. Other states accept a general Release-of-Recorded-Mechanic's-Lien instrument. Use the state-prescribed form where available.</li>
+            <li><strong>Notarize if required.</strong> Most states require notarization of the release if the original lien was notarized. The notary block must use the state-required acknowledgment form (see Section 12).</li>
+            <li><strong>File with the same recording office.</strong> Same county, same recording office (recorder, register of deeds, clerk of superior court, prothonotary, circuit court — whichever holds the original).</li>
+            <li><strong>Pay the recording fee.</strong> Releases generally cost the same as the original recording (typically $15–$60 depending on jurisdiction).</li>
+            <li><strong>Obtain recorded copy.</strong> Get a date-stamped recorded copy with the new instrument number for your records.</li>
+            <li><strong>Distribute copies.</strong> Property owner; GC (if claimant was sub-tier); title company (especially if there was a contemporaneous sale or refinance); designated agent under any state's Notice of Commencement statute (FL, OH, MI, NJ).</li>
+        </ol>
+
+        <div class="form-frame">
+            <div class="form-frame-title">Full Release of Recorded Mechanic's Lien</div>
+            <div class="form-frame-sub">For use AFTER full payment of a recorded lien; cancels the recorded encumbrance</div>
+
+            <p>The undersigned claimant, having previously recorded a Claim of Mechanic's Lien against the property described below and having received payment in full satisfaction of the secured claim, hereby <strong>fully releases, cancels, and discharges</strong> the lien:</p>
+
+            <table class="data-table">
+                <tr><td width="32%"><strong>Original Lien Amount:</strong></td><td>$<span class="field">[Amount as recorded]</span></td></tr>
+                <tr><td><strong>Date of Recording:</strong></td><td><span class="field">[Date]</span></td></tr>
+                <tr><td><strong>Recording Reference:</strong></td><td>Instrument No. <span class="field">[Number]</span> / Book <span class="field">[Book]</span> Page <span class="field">[Page]</span></td></tr>
+                <tr><td><strong>County of Recording:</strong></td><td><span class="field">[County, State]</span></td></tr>
+                <tr><td><strong>Property Address:</strong></td><td><span class="field">[Street, City, State, ZIP]</span></td></tr>
+                <tr><td><strong>Property Owner of Record:</strong></td><td><span class="field">[Per recorded deed]</span></td></tr>
+                <tr><td><strong>Property Legal Description:</strong></td><td><span class="field">[Verbatim from original lien]</span></td></tr>
+                <tr><td><strong>Total Amount Received:</strong></td><td>$<span class="field">[Amount actually received in cleared funds]</span></td></tr>
+            </table>
+
+            <p>For valuable consideration, receipt of which is acknowledged in cleared funds, the undersigned claimant fully releases, cancels, and discharges the above-referenced Claim of Mechanic's Lien. The Recorder, Clerk, Register of Deeds, or other recording authority is authorized and directed to record this release and to mark the original lien as discharged on the public record. The undersigned warrants that all subcontractors, suppliers, laborers, and lower-tier participants under the undersigned's contract have been paid in full or have signed conforming waivers, and that the undersigned has full legal authority to execute this release on behalf of the claimant entity.</p>
+
+            <div class="signature-block">
+                <p>Executed this <span class="field">[Day]</span> day of <span class="field">[Month]</span>, <span class="field">[Year]</span>.</p>
+                <div class="signature-line">
+                    <span class="field">[Authorized Signature]</span><br>
+                    Printed Name: <span class="field">[Name]</span><br>
+                    Title: <span class="field">[Title]</span><br>
+                    Company: <span class="field">[Claimant Legal Name]</span><br>
+                    License #: <span class="field">[State contractor license number]</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         11. STATE-SPECIFIC OVERLAYS
+         ============================================================ -->
+    <div class="section" id="sec-state-overlays">
+        <div class="section-title">11. State-Specific Statutory Overlays (18 Markets)</div>
+        <p>The forms above are conformed to the California statutory model (Civ. Code §§ 8132/8134/8136/8138), which is the most widely adopted statutory waiver framework. Many states have adopted equivalent four-form structures with cosmetic variations; others have unique requirements that override the generic forms. The overlays below identify, for each of ContrPro's 18 audited primary markets, the controlling statute, any state-required exact-form rule, deadlines for recording a release after payment, and special procedural notes. <strong>Use the state-conformed form for the state where the project is located.</strong></p>
+
+        <div class="statute-block">
+            <span class="state-name">California (CA)</span>
+            <span class="citation">Cal. Civ. Code §§ 8132 (Conditional Progress), 8134 (Unconditional Progress), 8136 (Conditional Final), 8138 (Unconditional Final); § 8424 (duty to record release within 10 days of full payment of a recorded lien).</span>
+            <ul>
+                <li><strong>Strict exact-form rule.</strong> Any waiver that does not conform substantially to the statutory text is unenforceable. The four forms above mirror the statutory wording; do not modify the boldface NOTICE blocks.</li>
+                <li><strong>Notarization not required</strong> for the four statutory waivers (but is required for the Release of Recorded Lien under § 8480).</li>
+                <li><strong>Duty to release within 10 days</strong> of full payment of a recorded lien (§ 8424). Failure to release exposes claimant to actual damages plus $2,000 statutory penalty.</li>
+                <li><strong>"Reasonable consideration" rule (§ 8126):</strong> a waiver is enforceable only when supported by a payment instrument; pre-signed waivers in advance of payment are invalid.</li>
+            </ul>
+        </div>
+
+        <div class="statute-block">
+            <span class="state-name">Arizona (AZ)</span>
+            <span class="citation">Ariz. Rev. Stat. § 33-1008 (four statutory waiver forms, modeled on CA); § 33-420 (penalty for wrongful filing or failure to release — $5,000 per occurrence plus attorney's fees and costs).</span>
+            <ul>
+                <li><strong>Exact-form rule.</strong> Waivers materially different from the statutory text are void.</li>
+                <li><strong>License number required</strong> on every waiver (ROC contractor license).</li>
+                <li><strong>20-day notice triggers release duty</strong> after full payment.</li>
+                <li><strong>Wrongful failure to release</strong> exposes claimant to $5,000 per occurrence under § 33-420 — one of the harshest penalties in the country.</li>
+            </ul>
+        </div>
+
+        <div class="statute-block">
+            <span class="state-name">Florida (FL)</span>
+            <span class="citation">Fla. Stat. § 713.20 (statutory waiver forms; substantially overhauled by SB 658, effective October 1, 2023); § 713.21 (release on demand, 20 days); § 713.24 (transfer to bond).</span>
+            <ul>
+                <li><strong>Post-SB 658 exact-form rule.</strong> As of October 1, 2023, FL has prescribed exact statutory forms for all four waiver types. Pre-2023 waivers used in any project commencing after that date are presumed defective.</li>
+                <li><strong>Joint-check endorsement is NOT a waiver</strong> (§ 713.20(7) — codified the common-law rule).</li>
+                <li><strong>Notice of Commencement system</strong> requires waivers be sent to the designated agent identified in the recorded NOC.</li>
+                <li><strong>20-day release duty</strong> on owner demand after full payment of a recorded lien (§ 713.21(4)). Failure to release exposes claimant to attorney's fees.</li>
+                <li><strong>Discharge bond mechanics</strong> under § 713.24 transfer the lien to the bond automatically on bond recording.</li>
+            </ul>
+        </div>
+
+        <div class="statute-block">
+            <span class="state-name">Texas (TX)</span>
+            <span class="citation">Tex. Prop. Code Chapter 53, particularly § 53.281 et seq. (waivers and releases — substantially restructured 2011); § 53.158 (release of recorded lien on full payment); homestead-property heightened requirements at § 53.254.</span>
+            <ul>
+                <li><strong>Four statutory waiver forms</strong> in §§ 53.284–53.287, parallel to the CA structure, but with TX-specific notice language.</li>
+                <li><strong>Conspicuous notice required</strong> on the face of every waiver: "NOTICE: THIS DOCUMENT WAIVES RIGHTS UNCONDITIONALLY AND STATES THAT YOU HAVE BEEN PAID FOR GIVING UP THOSE RIGHTS. THIS DOCUMENT IS ENFORCEABLE AGAINST YOU IF YOU SIGN IT, EVEN IF YOU HAVE NOT BEEN PAID..."</li>
+                <li><strong>Homestead property:</strong> additional notice and consent requirements under § 53.254.</li>
+                <li><strong>Trust-fund statute (Tex. Prop. Code Chapter 162)</strong> survives the waiver: a lien waiver does not waive trust-fund claims against the principals of the payor.</li>
+                <li><strong>Release of recorded lien:</strong> file with the county clerk's land records; no separate statutory deadline but the 10-day standard from CA is best practice.</li>
+            </ul>
+        </div>
+
+        <div class="statute-block">
+            <span class="state-name">New York (NY)</span>
+            <span class="citation">N.Y. Lien Law § 34 (waiver of lien before filing — generally void as against public policy unless given for consideration in connection with payment); § 19 (discharge of recorded lien); § 39 (willful exaggeration void); § 39-a (attorney's fee shift).</span>
+            <ul>
+                <li><strong>No statutory exact-form for waivers.</strong> NY does not prescribe a statutory waiver form. Custom waivers in plain English are accepted, but must clearly state the consideration and the scope of the release.</li>
+                <li><strong>Pre-payment waivers void:</strong> a waiver signed in advance of payment, without consideration, is unenforceable as against public policy (§ 34 — though this section directly addresses contract clauses, courts apply the same rule to standalone waivers).</li>
+                <li><strong>Discharge of recorded lien</strong> under § 19: file a satisfaction or release with the county clerk where the lien was filed. No statutory release deadline, but failure to release within a reasonable time after full payment exposes the claimant to slander-of-title liability.</li>
+                <li><strong>Willful exaggeration (§ 39):</strong> a lien with a willfully exaggerated amount is void in its entirety; § 39-a allows the owner to recover attorney's fees in defending against a willfully exaggerated lien.</li>
+            </ul>
+        </div>
+
+        <div class="statute-block">
+            <span class="state-name">Georgia (GA)</span>
+            <span class="citation">O.C.G.A. § 44-14-366 (statutory interim and final waiver forms — heavily amended 2009 and 2020); § 44-14-368 (release of recorded lien).</span>
+            <ul>
+                <li><strong>Two statutory forms only:</strong> Interim Waiver and Release Upon Payment (progress) and Unconditional Waiver and Release Upon Final Payment. The Interim Waiver acts as conditional in form.</li>
+                <li><strong>90-day conversion rule.</strong> An Interim Waiver and Release Upon Payment becomes binding on the lien claimant 90 days after the date of execution unless, within 60 days of execution, the claimant files an Affidavit of Nonpayment with the county clerk and gives notice to the owner. <strong>This is unique to GA and creates a hard 60-day deadline to preserve disputed amounts.</strong></li>
+                <li><strong>Statutory caption required:</strong> the waivers must contain the statutory NOTICE language verbatim.</li>
+                <li><strong>Release of recorded lien:</strong> file with the clerk of superior court where the lien was recorded.</li>
+            </ul>
+        </div>
+
+        <div class="statute-block">
+            <span class="state-name">Tennessee (TN)</span>
+            <span class="citation">Tenn. Code Ann. § 66-11-201 et seq. (mechanic's lien act); §§ 66-11-124 and 66-11-139 (waivers); § 66-11-141 (release of recorded lien).</span>
+            <ul>
+                <li><strong>No statutory exact-form for waivers.</strong> Custom waivers accepted; must identify project, payment, and scope clearly.</li>
+                <li><strong>Pre-furnishing waivers void</strong> as against public policy (§ 66-11-124(c)) for residential property; commercial pre-furnishing waivers may be enforceable if conspicuously noted in the contract.</li>
+                <li><strong>Release of recorded lien:</strong> file with the register of deeds in the county of recording. No statutory deadline but 30-day best practice.</li>
+                <li><strong>Notarization required</strong> for the release if the original lien was notarized (which is typical).</li>
+            </ul>
+        </div>
+
+        <div class="statute-block">
+            <span class="state-name">North Carolina (NC)</span>
+            <span class="citation">N.C.G.S. § 44A-12.1 (subordination/waiver agreements — limited circumstances); §§ 44A-23 and 44A-24 (release of recorded lien); LiensNC.com electronic filing system.</span>
+            <ul>
+                <li><strong>Pre-furnishing waivers strictly limited</strong> by § 44A-12.1: lien rights cannot be waived in advance of furnishing labor or materials, with narrow exceptions.</li>
+                <li><strong>LiensNC.com required for filing</strong> Notices to Lien Agent; release filings also typically processed through this system in addition to county-level recording.</li>
+                <li><strong>Release of recorded lien:</strong> file with the clerk of superior court in the county of recording.</li>
+                <li><strong>Lien Upon Funds:</strong> NC has a separate "Claim of Lien Upon Funds" (§ 44A-18) for sub-tier claimants — release uses an analogous form to discharge the funds-lien.</li>
+            </ul>
+        </div>
+
+        <div class="statute-block">
+            <span class="state-name">Washington (WA)</span>
+            <span class="citation">RCW 60.04.071 (release of recorded lien — within 10 days of full payment); 60.04.181 (penalty for failure to release).</span>
+            <ul>
+                <li><strong>No statutory exact-form for waivers.</strong> Custom waivers accepted.</li>
+                <li><strong>10-day release duty</strong> after full payment of a recorded lien (RCW 60.04.071). Failure to release exposes claimant to actual damages plus statutory penalty.</li>
+                <li><strong>Public works projects:</strong> WA Little Miller Act (RCW 39.08) governs payment-bond claims; lien waivers do not waive bond rights.</li>
+                <li><strong>Contractor registration:</strong> claimant's registration number (RCW 18.27) is required on the waiver and release.</li>
+            </ul>
+        </div>
+
+        <div class="statute-block">
+            <span class="state-name">Ohio (OH)</span>
+            <span class="citation">Ohio Rev. Code § 1311.06 (mechanic's lien filing); § 1311.20 (release on payment); § 1311.32 (discharge of lien); Notice of Commencement system at § 1311.04.</span>
+            <ul>
+                <li><strong>No statutory exact-form for waivers.</strong> Custom waivers accepted but must be "in writing and signed."</li>
+                <li><strong>Notice of Commencement system:</strong> waivers and releases must be sent to the designated agent identified in the recorded NOC.</li>
+                <li><strong>30-day release duty</strong> after full payment of a recorded lien.</li>
+                <li><strong>Residential 1–2 family:</strong> heightened protections for owner-occupants; consult counsel before any waiver involving a homestead.</li>
+            </ul>
+        </div>
+
+        <div class="statute-block">
+            <span class="state-name">Virginia (VA)</span>
+            <span class="citation">Va. Code § 43-3 (mechanic's lien); § 43-23.1 (release on payment); § 43-71 (waivers — pre-furnishing prohibited for residential).</span>
+            <ul>
+                <li><strong>Pre-furnishing waivers prohibited</strong> for residential projects (§ 43-71). Commercial pre-furnishing waivers permitted with explicit contract language.</li>
+                <li><strong>No statutory exact-form for payment waivers.</strong></li>
+                <li><strong>Release of recorded lien:</strong> file a "Memorandum of Release" with the clerk of court in the county of recording.</li>
+                <li><strong>10-day release duty</strong> after full payment best practice (no specific statutory deadline).</li>
+            </ul>
+        </div>
+
+        <div class="statute-block">
+            <span class="state-name">Pennsylvania (PA)</span>
+            <span class="citation">49 P.S. § 1401 et seq. (Mechanics' Lien Law of 1963); § 1401(b) (waivers — significantly amended 2007); § 1510 (release on satisfaction).</span>
+            <ul>
+                <li><strong>Pre-furnishing waivers permitted only for non-residential projects of $1,000,000+.</strong> The 2007 amendments narrowed pre-furnishing waivers significantly. Residential and small commercial waivers in advance of furnishing are void.</li>
+                <li><strong>No statutory exact-form for payment waivers</strong> — custom forms accepted.</li>
+                <li><strong>Release of recorded lien:</strong> file a satisfaction with the prothonotary in the county where the lien claim was filed.</li>
+                <li><strong>Sub-tier subordination waivers:</strong> require explicit "subordination" language to be enforceable.</li>
+            </ul>
+        </div>
+
+        <div class="statute-block">
+            <span class="state-name">Michigan (MI)</span>
+            <span class="citation">MCL § 570.1115 (statutory waiver forms — Construction Lien Act); §§ 570.1107 and 570.1108 (Notice of Commencement system); MCL § 570.1118 (release of recorded lien).</span>
+            <ul>
+                <li><strong>Statutory exact-form rule.</strong> MI prescribes specific waiver forms — partial conditional/unconditional and full conditional/unconditional — that mirror the CA four-form structure.</li>
+                <li><strong>Notice of Commencement system:</strong> waivers must be sent to the designated agent on the recorded NOC.</li>
+                <li><strong>Construction-trust-fund act (MCL § 570.151)</strong> survives waiver; misappropriation is a felony.</li>
+                <li><strong>Release of recorded lien:</strong> file with the register of deeds in the county of recording within 30 days of full payment.</li>
+            </ul>
+        </div>
+
+        <div class="statute-block">
+            <span class="state-name">New Jersey (NJ)</span>
+            <span class="citation">N.J.S.A. 2A:44A-1 et seq. (Construction Lien Law); 2A:44A-38 (waivers); 2A:44A-30 (discharge of lien); 2A:44A-21 (residential AAA arbitration prerequisite).</span>
+            <ul>
+                <li><strong>Pre-furnishing waivers prohibited.</strong></li>
+                <li><strong>Residential projects:</strong> AAA arbitration is a prerequisite to lien filing (§ 21); release of an arbitration-supported lien follows the arbitration award.</li>
+                <li><strong>Construction-trust-fund act</strong> survives waiver.</li>
+                <li><strong>Release of recorded lien:</strong> file a Discharge of Lien Claim with the county clerk in the county of recording within 30 days of full payment.</li>
+            </ul>
+        </div>
+
+        <div class="statute-block">
+            <span class="state-name">Massachusetts (MA)</span>
+            <span class="citation">M.G.L. c. 254 §§ 32 (waivers); § 15 (dissolution and discharge of lien); § 14 (bond to dissolve lien).</span>
+            <ul>
+                <li><strong>Pre-furnishing waivers prohibited</strong> by § 32 (effective 1996 amendments).</li>
+                <li><strong>Three-document filing structure</strong> for the lien itself (Notice of Contract, Statement of Account, civil action) — but the release of the lien is a single recorded instrument.</li>
+                <li><strong>Release of recorded lien:</strong> file with the registry of deeds in the county where the lien was recorded.</li>
+                <li><strong>Bond-to-dissolve mechanism (§ 14):</strong> owner can post a bond to dissolve the lien; the claimant's collateral becomes the bond.</li>
+            </ul>
+        </div>
+
+        <div class="statute-block">
+            <span class="state-name">Maryland (MD)</span>
+            <span class="citation">Md. Real Prop. § 9-114 (release of judicially established lien); § 9-105 (lien is judicially established by petition, not by recording); Md. Rule 12-302.</span>
+            <ul>
+                <li><strong>MD does not record liens automatically.</strong> A claimant files a Petition to Establish Mechanics' Lien in Circuit Court; the court enters an interlocutory and then final order establishing the lien. Release accordingly involves a court order, not a county recording.</li>
+                <li><strong>Release of judicially established lien:</strong> filed with the Circuit Court that established the lien; the court enters an order discharging the lien and the order is recorded with the land records.</li>
+                <li><strong>No statutory exact-form for payment waivers</strong> — custom forms accepted.</li>
+            </ul>
+        </div>
+
+        <div class="statute-block">
+            <span class="state-name">Connecticut (CT)</span>
+            <span class="citation">Conn. Gen. Stat. § 49-35a et seq. (mechanic's liens); § 49-37 (release on satisfaction); § 49-39 (foreclosure deadline — one year from recording).</span>
+            <ul>
+                <li><strong>No statutory exact-form for payment waivers</strong> — custom forms accepted.</li>
+                <li><strong>Release of recorded lien:</strong> file a Certificate of Release of Mechanic's Lien with the town clerk in the town where the lien was recorded.</li>
+                <li><strong>One-year foreclosure deadline (§ 49-39)</strong> means a recorded lien automatically expires if foreclosure is not commenced within one year — the practical effect is that an unreleased lien still drops off after a year, but recording a release is best practice.</li>
+                <li><strong>Notarization required</strong> for the release.</li>
+            </ul>
+        </div>
+
+        <div class="statute-block">
+            <span class="state-name">Illinois (IL)</span>
+            <span class="citation">770 ILCS 60/35 (release on payment); 770 ILCS 60/34 (waivers — pre-furnishing waivers void as to residential); 770 ILCS 60/38.1 (penalty for failure to release).</span>
+            <ul>
+                <li><strong>Pre-furnishing waivers void</strong> for residential property and owner-occupied property under 770 ILCS 60/34.</li>
+                <li><strong>10-day release duty</strong> after full payment of a recorded lien (770 ILCS 60/35).</li>
+                <li><strong>Penalty for failure to release:</strong> $2,500 plus actual damages (770 ILCS 60/38.1).</li>
+                <li><strong>Release of recorded lien:</strong> file with the recorder of deeds in the county of recording. Notarization required.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         12. NOTARY ACKNOWLEDGMENT BLOCKS
+         ============================================================ -->
+    <div class="section" id="sec-notary">
+        <div class="section-title">12. Notary Acknowledgment Blocks</div>
+        <p>Releases of recorded liens generally require notarization to be accepted by the recording office. The notary block must use the form prescribed by the state of recording. Two common forms are provided below; check state-specific requirements before using.</p>
+
+        <div class="notary-block">
+            <div class="notary-title">Notary Acknowledgment — General Form (Most States)</div>
+            <p>State of <span class="field">[State]</span><br>
+            County of <span class="field">[County]</span></p>
+            <p>On <span class="field">[Date]</span>, before me, <span class="field">[Notary Name]</span>, a Notary Public in and for said State, personally appeared <span class="field">[Signer Name]</span>, who proved to me on the basis of satisfactory evidence to be the person whose name is subscribed to the within instrument and acknowledged to me that he/she/they executed the same in his/her/their authorized capacity, and that by his/her/their signature on the instrument the person, or the entity upon behalf of which the person acted, executed the instrument.</p>
+            <p>I certify under PENALTY OF PERJURY under the laws of the State of <span class="field">[State]</span> that the foregoing paragraph is true and correct.</p>
+            <p>WITNESS my hand and official seal.</p>
+            <div style="margin-top: 30px;">Signature of Notary: <span class="field">[Notary signature]</span><br>
+            Notary Public, State of <span class="field">[State]</span><br>
+            My commission expires: <span class="field">[Date]</span><br>
+            Commission Number: <span class="field">[Number]</span><br>
+            (Affix seal)</div>
+        </div>
+
+        <div class="notary-block">
+            <div class="notary-title">Notary Acknowledgment — California Civil Code § 1189 Form (Required for CA Filings)</div>
+            <p style="font-size: 12px; font-style: italic; margin-bottom: 12px;">A notary public or other officer completing this certificate verifies only the identity of the individual who signed the document to which this certificate is attached, and not the truthfulness, accuracy, or validity of that document. <em>(Required California disclaimer — do not modify.)</em></p>
+            <p>State of California<br>
+            County of <span class="field">[County]</span></p>
+            <p>On <span class="field">[Date]</span>, before me, <span class="field">[Notary Name and Title]</span>, personally appeared <span class="field">[Signer Name]</span>, who proved to me on the basis of satisfactory evidence to be the person(s) whose name(s) is/are subscribed to the within instrument and acknowledged to me that he/she/they executed the same in his/her/their authorized capacity(ies), and that by his/her/their signature(s) on the instrument the person(s), or the entity upon behalf of which the person(s) acted, executed the instrument.</p>
+            <p>I certify under PENALTY OF PERJURY under the laws of the State of California that the foregoing paragraph is true and correct.</p>
+            <p>WITNESS my hand and official seal.</p>
+            <div style="margin-top: 30px;">Signature of Notary: <span class="field">[Notary signature]</span> &nbsp; (Affix seal)</div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         CLOSING DISCLAIMER
+         ============================================================ -->
+    <div class="section">
+        <div class="warning">
+            <strong>Closing reminder.</strong> Lien-waiver and lien-release law is highly state-specific and unforgiving. The forms above are conformed to the most widely adopted statutory model (CA Civil Code §§ 8132/8134/8136/8138) with state-specific overlays for ContrPro's 18 audited primary markets. <strong>Any project in a state with an exact-form requirement (CA, AZ, NV, FL, MI, MO, UT, WY) must use the state-conformed form, not the generic four-form set above.</strong> For projects in the remaining 32 states, conform the generic four-form set to local statutory requirements before first use. Have a construction attorney in the state of the project review every waiver before first use and on every state statutory amendment. Do not rely on these forms as legal advice — they are a structured starting point only.
+        </div>
+
+        <p class="footnote">Document version: 2026-05-15. Statutory references current as of January 2026; verify against current state code before use. Maintained as part of the ContrPro Essential Documents package.</p>
+    </div>
+
+</body>
+</html>

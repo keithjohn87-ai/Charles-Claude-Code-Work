@@ -1,0 +1,20 @@
+Change Order Number,Date Issued,Project/Job,Description of Change,Reason,Original Contract Amount,Change Order Amount,Revised Contract Amount,Approved By,Date Approved,Status
+CO-001,,,,$0.00,$0.00,$0.00,,,Pending
+CO-002,,,,$0.00,$0.00,$0.00,,,Pending
+CO-003,,,,$0.00,$0.00,$0.00,,,Pending
+CO-004,,,,$0.00,$0.00,$0.00,,,Pending
+CO-005,,,,$0.00,$0.00,$0.00,,,Pending
+
+CHANGE ORDER SUMMARY
+Total Change Orders Issued:,0
+Total Approved:,$0.00
+Total Pending:,$0.00
+Total Rejected:,$0.00
+Net Impact to Contract:,$0.00
+
+Instructions:
+1. Assign sequential CO numbers (CO-001, CO-002, etc.)
+2. Describe changes clearly and specifically
+3. Get written approval before performing changed work
+4. Track status: Pending / Approved / Rejected / Completed
+5. Attach all COs to original contract file

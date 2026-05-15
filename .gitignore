@@ -17,6 +17,16 @@ workspace/projects/
 logs/
 *.log
 
+# ContrPro runtime state (added 2026-05-15 when contrpro/ was first tracked
+# in this repo). Source code, scripts, and the per-tier content under
+# files/packages/ ARE tracked. Runtime DB, generated emails, and pycache are not.
+contrpro/contrpro.db
+contrpro/contrpro.db-shm
+contrpro/contrpro.db-wal
+contrpro/emails/
+# Empty handlers/ dir is a placeholder for future per-event handlers
+contrpro/handlers/
+
 # macOS
 .DS_Store
 

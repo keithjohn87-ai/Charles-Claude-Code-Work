@@ -1,0 +1,26 @@
+Invoice Number,Date Issued,Customer/Job,Description,Amount,Date Due,Date Paid,Payment Method,Days to Pay,Status,Notes
+INV-001,,,,$0.00,,,,0,Outstanding,
+INV-002,,,,$0.00,,,,0,Outstanding,
+INV-003,,,,$0.00,,,,0,Outstanding,
+INV-004,,,,$0.00,,,,0,Outstanding,
+INV-005,,,,$0.00,,,,0,Outstanding,
+
+ACCOUNTS RECEIVABLE SUMMARY
+Total Invoiced:,$0.00
+Total Collected:,$0.00
+Total Outstanding:,$0.00
+Average Days to Pay:,0
+Overdue Amount:,$0.00
+
+AGING REPORT
+Current (0-30 days):,$0.00
+31-60 days:,$0.00
+61-90 days:,$0.00
+Over 90 days:,$0.00
+
+Instructions:
+1. Use sequential invoice numbers
+2. Update immediately when payments received
+3. Follow up on invoices at 15 days past due
+4. Consider lien rights for unpaid invoices
+5. Review aging report weekly

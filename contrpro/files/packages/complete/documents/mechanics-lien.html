@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claim of Mechanic's Lien</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 850px; margin: 40px auto; padding: 20px; color: #222; }
+        .header { text-align: center; border-bottom: 3px double #1e3a5f; padding-bottom: 20px; margin-bottom: 30px; }
+        .form-title { font-size: 28px; font-weight: bold; color: #1e3a5f; margin-bottom: 8px; }
+        .form-subtitle { font-size: 16px; color: #444; font-weight: 600; }
+        .doc-meta { font-size: 13px; color: #666; margin-top: 8px; }
+        .field { background: #f0f0f0; padding: 2px 8px; border-radius: 3px; font-style: italic; color: #555; }
+        .section { margin: 28px 0; page-break-inside: avoid; }
+        .section-title { font-weight: bold; color: #1e3a5f; font-size: 16px; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+        .sub-title { font-weight: bold; color: #1e3a5f; font-size: 14px; margin: 16px 0 8px 0; }
+        .warning { background: #f8d7da; border-left: 4px solid #dc3545; padding: 14px 16px; margin: 18px 0; }
+        .warning strong { color: #721c24; }
+        .notice { background: #d1ecf1; border-left: 4px solid #0c5460; padding: 14px 16px; margin: 18px 0; }
+        .statute-block { background: #fdf6e3; border-left: 4px solid #b58900; padding: 14px 16px; margin: 14px 0; font-size: 13.5px; }
+        .statute-block .state-name { font-weight: bold; color: #1e3a5f; font-size: 15px; display: block; margin-bottom: 6px; }
+        .statute-block .citation { font-family: 'Courier New', monospace; font-size: 12px; color: #555; }
+        .statute-block ul { margin: 6px 0 4px 18px; padding-left: 0; }
+        .statute-block li { margin-bottom: 4px; }
+        .signature-block { margin-top: 40px; }
+        .signature-line { border-top: 1px solid #000; width: 360px; margin-top: 50px; padding-top: 5px; }
+        .notary-block { border: 2px solid #000; padding: 20px; margin-top: 40px; page-break-inside: avoid; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        td, th { padding: 8px; vertical-align: top; }
+        th { background: #1e3a5f; color: #fff; text-align: left; font-size: 13px; }
+        .data-table td { border: 1px solid #ccc; font-size: 13px; }
+        .data-table td.amount { text-align: right; font-family: 'Courier New', monospace; }
+        .checklist { background: #f9f9f9; border: 1px solid #ddd; padding: 16px 20px; border-radius: 6px; }
+        .checklist ol { margin: 0; padding-left: 22px; }
+        .checklist li { margin-bottom: 6px; font-size: 13.5px; }
+        .deadline-table th, .deadline-table td { border: 1px solid #ccc; font-size: 12.5px; padding: 6px 8px; }
+        .deadline-table th { font-size: 11.5px; }
+        .footnote { font-size: 11.5px; color: #666; font-style: italic; }
+        .page-break { page-break-before: always; }
+        @media print {
+            .no-print { display: none; }
+            body { margin: 0; max-width: 100%; }
+            .section { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+         NON-PRINT ATTORNEY-REVIEW DISCLAIMER
+         ============================================================ -->
+    <div class="no-print" style="background: #fff3cd; border: 2px solid #856404; padding: 18px; border-radius: 8px; margin-bottom: 24px;">
+        <strong style="color: #856404; font-size: 16px;">CRITICAL — ATTORNEY REVIEW REQUIRED BEFORE RECORDING</strong>
+        <p style="margin: 8px 0 0 0; font-size: 13.5px;">
+            This is a <strong>real legal instrument</strong> that, once recorded with a county recorder or clerk of court, encumbers real property and creates substantive rights and obligations. Mechanic's lien laws are <strong>state-specific and procedurally unforgiving</strong> — a single missed deadline, defective legal description, omitted statutory warning, or non-conforming notarial block can void the lien entirely. Some states (MD) do not record liens at all but require a judicial petition; one state (NC) requires electronic filing through LiensNC.com; one state (NJ) requires AAA arbitration before residential lien filing. <strong>This template is a structured starting point only.</strong> Every filing must be reviewed by a construction attorney licensed in the state of recording before it is sworn, notarized, and filed. Filing a defective, exaggerated, or wrongful lien exposes the claimant to slander-of-title liability, statutory damages (e.g., AZ A.R.S. § 33-420: $5,000 per occurrence plus fees; NY Lien Law § 39-a: willful exaggeration voids the lien and shifts attorney's fees), and in some states criminal exposure for construction-trust-fund misapplication.
+        </p>
+    </div>
+
+    <!-- ============================================================
+         1. HEADER — LIEN INSTRUMENT NAME VARIES BY STATE
+         ============================================================ -->
+    <div class="header">
+        <div class="form-title">CLAIM OF MECHANIC'S LIEN</div>
+        <div class="form-subtitle">(State-specific instrument names — select correct caption when filing)</div>
+        <div class="doc-meta">
+            State of Filing: <span class="field">[Two-letter state abbreviation]</span> &nbsp;|&nbsp;
+            County of Recording: <span class="field">[County]</span> &nbsp;|&nbsp;
+            Recording Office: <span class="field">[Recorder / Clerk of Superior Court / Prothonotary / Register of Deeds / Circuit Court]</span>
+        </div>
+    </div>
+
+    <div class="notice">
+        <strong>Caption by state (use the correct one):</strong>
+        <ul style="margin: 6px 0 0 18px; font-size: 13px;">
+            <li><strong>TN, CA, FL, IL, MI, NC, NJ, NY, OH (in part), WA, AZ:</strong> Claim of Lien / Claim of Mechanic's Lien / Notice of Claim of Lien</li>
+            <li><strong>TX:</strong> "Affidavit Claiming a Mechanic's Lien" — must bear the conspicuous 10-point bold notice "<strong>NOTICE: THIS IS NOT A LIEN. THIS IS ONLY AN AFFIDAVIT CLAIMING A LIEN.</strong>" on homestead properties (Tex. Prop. Code § 53.254)</li>
+            <li><strong>NY:</strong> "Notice Under Mechanic's Lien Law" / "Notice of Mechanic's Lien" (N.Y. Lien Law § 10)</li>
+            <li><strong>NC:</strong> "Claim of Lien on Real Property" (N.C.G.S. § 44A-12) — and, separately, "Claim of Lien Upon Funds" (N.C.G.S. § 44A-18)</li>
+            <li><strong>OH:</strong> "Affidavit for Mechanic's Lien" (ORC § 1311.06)</li>
+            <li><strong>VA:</strong> "Memorandum of Mechanic's Lien" (Va. Code § 43-4, § 43-5 GC / § 43-10 sub)</li>
+            <li><strong>MA:</strong> "Notice of Contract" (prime) / "Notice of Subcontract" (sub) + later "Statement of Account" (M.G.L. c. 254 § 2, § 4, § 8)</li>
+            <li><strong>MD:</strong> NOT recorded — file <strong>"Petition to Establish Mechanics' Lien"</strong> in Circuit Court (Md. Real Prop. § 9-105; Md. Rule 12-302)</li>
+            <li><strong>PA:</strong> "Mechanics' Lien Claim" filed with the <strong>Prothonotary</strong> (49 P.S. § 1502, § 1503)</li>
+            <li><strong>CT:</strong> "Certificate of Mechanic's Lien" recorded with town clerk's land records (Conn. Gen. Stat. § 49-34)</li>
+            <li><strong>GA:</strong> "Claim of Lien" filed with clerk of superior court (O.C.G.A. § 44-14-361.1)</li>
+        </ul>
+    </div>
+
+    <div class="warning">
+        <strong>STATUTORY DEADLINE WARNING:</strong> This lien must be recorded within the <strong>state-specific filing window</strong> measured from the claimant's last day of furnishing labor or materials. The window varies from <strong>60 days (OH residential 1–2 family; MA accelerated post-Notice of Substantial Completion)</strong> to <strong>8 months (NY non-residential under § 10)</strong>. A lien filed one day late is void. See state-overlay blocks in Section 5 below. <br><br>
+        Date of first furnishing: <span class="field">[Date]</span> &nbsp;|&nbsp;
+        Date of last furnishing: <span class="field">[Date]</span> &nbsp;|&nbsp;
+        State filing deadline: <span class="field">[Computed from state rule]</span> &nbsp;|&nbsp;
+        Foreclosure deadline: <span class="field">[Computed from state rule]</span>
+    </div>
+
+    <!-- ============================================================
+         2. PARTIES + IDENTIFICATION
+         ============================================================ -->
+    <div class="section">
+        <div class="section-title">1. Lien Claimant Information</div>
+        <table class="data-table">
+            <tr>
+                <td width="32%"><strong>Full Legal Name:</strong></td>
+                <td><span class="field">[Lien claimant's full legal name as it appears on contractor license / Secretary of State filing]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Business Form / Entity Type:</strong></td>
+                <td><span class="field">[Sole proprietor / general partnership / LP / LLC / S-corp / C-corp / professional corporation]</span></td>
+            </tr>
+            <tr>
+                <td><strong>State of Formation:</strong></td>
+                <td><span class="field">[State where entity is organized]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Principal Business Address:</strong></td>
+                <td><span class="field">[Street]</span><br><span class="field">[City, State, ZIP]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Mailing Address for Service:</strong></td>
+                <td><span class="field">[If different from above]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Phone / Email:</strong></td>
+                <td><span class="field">[Telephone]</span> &nbsp;|&nbsp; <span class="field">[Email]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Contractor License Number:</strong></td>
+                <td><span class="field">[License #]</span> (Issued by <span class="field">[Licensing authority — e.g., TBLC, CSLB, TDLR, CILB]</span>)</td>
+            </tr>
+            <tr>
+                <td><strong>License Classification:</strong></td>
+                <td><span class="field">[e.g., BC-B / B / C-10 / CMC-A / CE / S — see state classification rules]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Public Works Registration (if applicable):</strong></td>
+                <td><span class="field">[e.g., CA DIR PWC Registration # under Labor Code § 1725.5; WA Contractor Registration # under RCW 18.27]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Federal EIN / State Tax ID:</strong></td>
+                <td><span class="field">[EIN]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Trade / CSI Classification:</strong></td>
+                <td><span class="field">[Primary CSI MasterFormat Division — e.g., Division 03 Concrete; Division 23 HVAC; Division 26 Electrical; Division 22 Plumbing; Division 05 Metals]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Tier of Claimant:</strong></td>
+                <td><span class="field">[Prime / direct contractor — OR — Subcontractor (specify tier) — OR — Material supplier — OR — Design professional — OR — Equipment lessor — OR — Laborer]</span></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <div class="section-title">2. Property Owner of Record</div>
+        <div class="notice" style="font-size: 13px;">
+            <strong>Owner name must match the current deed of record.</strong> Pull the most recent recorded deed or assessor parcel data before filing. A mismatch between the lien claimant's stated owner and the true owner of record is one of the most common grounds for lien invalidation. For trusts, LLCs, and tenancy-in-common, list every record owner verbatim.
+        </div>
+        <table class="data-table">
+            <tr>
+                <td width="32%"><strong>Owner Full Legal Name:</strong></td>
+                <td><span class="field">[Per current deed of record — exact spelling]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Co-Owner(s) / Spouse:</strong></td>
+                <td><span class="field">[If property is held by spouses, tenancy in common, joint tenancy, or trust — list each owner]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Owner's Interest in Property:</strong></td>
+                <td><span class="field">[Fee simple / leasehold / life estate / undivided interest — material in FL § 713.13 and elsewhere]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Owner's Mailing Address of Record:</strong></td>
+                <td><span class="field">[Per recorded deed or recorded Notice of Commencement]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Owner's Designated Agent for Service (if any):</strong></td>
+                <td><span class="field">[From recorded Notice of Commencement — FL § 713.13, OH § 1311.04, MI § 570.1108]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Recording Reference for Deed:</strong></td>
+                <td><span class="field">[Book / Page or Instrument Number — recorded vesting deed]</span></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <div class="section-title">3. General Contractor / Direct Contractor (If Claimant Is Sub-Tier)</div>
+        <table class="data-table">
+            <tr>
+                <td width="32%"><strong>General Contractor / Prime:</strong></td>
+                <td><span class="field">[Legal name of GC / direct contractor in privity with owner]</span></td>
+            </tr>
+            <tr>
+                <td><strong>GC Business Address:</strong></td>
+                <td><span class="field">[Street, City, State, ZIP]</span></td>
+            </tr>
+            <tr>
+                <td><strong>GC License Number / State:</strong></td>
+                <td><span class="field">[License #, issuing state, classification]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Hiring Party (if different from GC):</strong></td>
+                <td><span class="field">[Name of upper-tier subcontractor that hired the claimant, if claimant is sub-sub or supplier-to-sub]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Original Contract Date (Owner ↔ GC):</strong></td>
+                <td><span class="field">[Date]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Subcontract Date (Claimant ↔ Hiring Party):</strong></td>
+                <td><span class="field">[Date]</span></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <div class="section-title">4. Construction Lender of Record (Required in Several States)</div>
+        <p class="footnote">Required for AZ § 33-992.01 service of Preliminary 20-Day Notice; CA Civ. Code § 8200(e) preliminary notice; FL § 713.13 Notice of Commencement; OH § 1311.04(B); MI § 570.1108(2). Identify the construction lender on every project where a construction loan or recorded construction deed of trust exists.</p>
+        <table class="data-table">
+            <tr>
+                <td width="32%"><strong>Construction Lender Name:</strong></td>
+                <td><span class="field">[Bank / lender of record]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Lender Address for Notice:</strong></td>
+                <td><span class="field">[Branch or notice address]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Construction Loan / Deed of Trust Recording:</strong></td>
+                <td><span class="field">[Book / Page or Instrument # of recorded mortgage / deed of trust]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Date of Recording of Construction Mortgage:</strong></td>
+                <td><span class="field">[Date — critical for relation-back priority analysis]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Surety / Payment Bond (if applicable):</strong></td>
+                <td><span class="field">[Surety name, bond number, penal sum — material for public works]</span></td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- ============================================================
+         3. PROJECT DESCRIPTION + LEGAL DESCRIPTION
+         ============================================================ -->
+    <div class="section">
+        <div class="section-title">5. Project &amp; Property Description</div>
+        <div class="warning">
+            <strong>The legal description is load-bearing.</strong> A street address alone is <strong>not sufficient</strong> in most states; the recorded lien must contain a "description sufficient for identification" of the property, which in practice means the full legal description from the most recent recorded deed (lot/block/subdivision with plat reference, or metes-and-bounds for unplatted land), plus the parcel/tax ID. NY (Lien Law § 9), CA (Civ. Code § 8416), FL (§ 713.08), TX (§ 53.054), NC (§ 44A-12), VA (§ 43-5), and PA (§ 1503) all require a description sufficient to identify the property. <strong>Pull the legal description from the current recorded deed before filing — do not paraphrase.</strong>
+        </div>
+        <table class="data-table">
+            <tr>
+                <td width="28%"><strong>Project / Site Name:</strong></td>
+                <td><span class="field">[Project name, building, phase, etc.]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Property Street Address:</strong></td>
+                <td><span class="field">[Number, street, unit/suite]</span><br><span class="field">[City, county, state, ZIP]</span></td>
+            </tr>
+            <tr>
+                <td><strong>County:</strong></td>
+                <td><span class="field">[County for recording office jurisdiction]</span></td>
+            </tr>
+            <tr>
+                <td><strong>State:</strong></td>
+                <td><span class="field">[State of recording]</span></td>
+            </tr>
+            <tr>
+                <td><strong>FULL LEGAL DESCRIPTION:</strong></td>
+                <td>
+                    <span class="field">[Verbatim from the current recorded deed of record. For platted land: "Lot ___, Block ___, ___ Subdivision, according to the plat thereof recorded in [Plat Book/Cabinet/Slide], at [Page/Folio], of the [county/parish] [recording office]." For unplatted land: full metes-and-bounds beginning at point of beginning, describing each call, returning to point of beginning, with reference to bearings and distances and survey or deed of record.]</span><br><br>
+                    <span class="field">[For condominium units: unit number, building, declaration recording, and undivided percentage interest in common elements.]</span>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Tax Parcel ID / APN / Folio:</strong></td>
+                <td><span class="field">[Assessor's parcel number, tax folio, or tax map ID — required by FL § 713.13 and customary elsewhere]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Recorded Notice of Commencement (if any):</strong></td>
+                <td><span class="field">[Book/Page/Instrument # — FL § 713.13, OH § 1311.04, MI § 570.1108, GA § 44-14-361.5, PA § 1501.1 (if Searchable Project)]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Designated Lien Agent (NC only):</strong></td>
+                <td><span class="field">[Lien Agent name and LiensNC.com identifier per N.C.G.S. § 44A-11.1, for projects ≥ $30,000]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Property Type:</strong></td>
+                <td><span class="field">[Commercial / industrial / multifamily (3+ units) / 1–2 family residential / owner-occupied dwelling / mixed-use / oil-and-gas (OH § 1311.021) / public-works-adjacent]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Date of First Furnishing by Claimant:</strong></td>
+                <td><span class="field">[Date of first physical labor or material delivery to the site]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Date of Last Furnishing by Claimant:</strong></td>
+                <td><span class="field">[Last date of substantial contract work — NOT warranty visits, NOT punch-list-only callbacks]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Date of Project Substantial Completion (if known):</strong></td>
+                <td><span class="field">[Per architect certificate or owner acknowledgment]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Date of Project Termination / Abandonment (if applicable):</strong></td>
+                <td><span class="field">[Triggers VA § 43-17 60-day alternate suit deadline and CA § 8180 cessation rules]</span></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <div class="section-title">6. Description of Labor, Services, Materials, &amp; Equipment Furnished</div>
+        <p><strong>Type of Work (CSI MasterFormat coded):</strong></p>
+        <p style="margin-left: 20px;"><span class="field">[Identify primary CSI Division and Section. Examples: Division 03 — Cast-in-Place Concrete (03 30 00); Division 05 — Structural Steel Framing (05 12 00); Division 22 — Domestic Water Piping (22 11 16); Division 23 — Refrigerant Piping (23 23 00); Division 26 — Low-Voltage Electrical Distribution (26 20 00).]</span></p>
+        <p><strong>Detailed Description of Furnishing:</strong></p>
+        <p style="margin-left: 20px;"><span class="field">[Describe with specificity: (a) the nature of labor performed (e.g., "fabrication and erection of structural steel framing for second-floor mezzanine including 14 wide-flange columns, 38 beams, and shear connections"); (b) the materials furnished (quantities, grades, specifications); (c) equipment rentals (type, hours/days); (d) professional services (engineering, surveying, architectural); (e) the location within the improvement; (f) dates and progress milestones; (g) whether work was performed under written subcontract, written work order, or oral authorization. Attach itemized statement as Exhibit A.]</span></p>
+        <p><strong>Trade / Scope CSI Reference:</strong></p>
+        <p style="margin-left: 20px;"><span class="field">[Reference CSI section number(s) from project specifications, e.g., "Section 05 12 00 — Structural Steel Framing; Section 05 21 00 — Steel Joist Framing"]</span></p>
+    </div>
+
+    <!-- ============================================================
+         4. AMOUNT CLAIMED
+         ============================================================ -->
+    <div class="section">
+        <div class="section-title">7. Amount Claimed (Just Credits and Deductions Applied)</div>
+        <div class="warning">
+            <strong>Sworn statement of amount due:</strong> The claimant must state the amount due <strong>"after just credits and deductions"</strong> (the standard formulation). Willfully exaggerated lien amounts are sanctioned in several states. <strong>NY Lien Law § 39-a:</strong> a lien filed with "willful exaggeration" is <strong>void</strong>, and the claimant is liable for damages including the amount of exaggeration, the cost of bonding off, and attorney's fees. <strong>AZ A.R.S. § 33-420:</strong> wrongful recording subjects the claimant to $5,000 per occurrence or actual damages (whichever is greater), plus attorney's fees. Exaggerating the lien — even for "negotiating room" — is a substantive defense the owner will assert and is increasingly a route to fee-shifting against the claimant.
+        </div>
+        <table class="data-table">
+            <tr>
+                <td width="60%"><strong>Original Contract Value (Claimant ↔ Hiring Party):</strong></td>
+                <td class="amount">$ <span class="field">[Amount]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Approved Change Orders (sum of all signed change orders):</strong></td>
+                <td class="amount">$ <span class="field">[Amount]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Pending / Unsigned Change Orders (claimed, owner-disputed):</strong></td>
+                <td class="amount">$ <span class="field">[Amount — disclose separately if claimed]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Total Adjusted Contract Value:</strong></td>
+                <td class="amount">$ <span class="field">[Amount]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Less: Payments Received to Date:</strong></td>
+                <td class="amount">($ <span class="field">[Amount]</span>)</td>
+            </tr>
+            <tr>
+                <td><strong>Less: Credits, Backcharges, &amp; Owner Setoffs:</strong></td>
+                <td class="amount">($ <span class="field">[Amount]</span>)</td>
+            </tr>
+            <tr>
+                <td><strong>Less: Retainage Released to Date:</strong></td>
+                <td class="amount">($ <span class="field">[Amount]</span>)</td>
+            </tr>
+            <tr>
+                <td><strong>Subtotal — Principal Amount Due:</strong></td>
+                <td class="amount">$ <span class="field">[Amount]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Retainage Held but Earned and Currently Due:</strong></td>
+                <td class="amount">$ <span class="field">[Amount — note VA § 43-4 exclusion of retainage from 150-day look-back; TN T.C.A. § 66-11-145 retainage carve-out]</span></td>
+            </tr>
+            <tr>
+                <td><strong>Statutory Interest (per state prompt-pay statute):</strong></td>
+                <td class="amount">$ <span class="field">[Amount — itemize separately; do not bundle into principal]</span></td>
+            </tr>
+            <tr style="background: #f0f0f0; font-weight: bold; font-size: 1.1em;">
+                <td><strong>TOTAL AMOUNT OF LIEN CLAIMED:</strong></td>
+                <td class="amount"><strong>$ <span class="field">[Total]</span></strong></td>
+            </tr>
+        </table>
+
+        <p class="sub-title">7.1 Statutory Interest by State (Prompt-Pay Rate)</p>
+        <p class="footnote">If interest is claimed, identify and apply the controlling state prompt-pay rate. <strong>TN:</strong> contract rate or 1.5%/month (T.C.A. § 66-34-601). <strong>CA:</strong> 2%/month on wrongfully withheld amounts (Civ. Code § 8800(c); B&amp;P § 7108.5(b); PCC § 7107(f)). <strong>VA, TX, NY, FL, GA, IL, NC, WA, OH, PA, MI, NJ, MA, MD, CT, AZ:</strong> consult state-overlay Section 5 below for the specific rate. Interest should be stated separately from principal on the lien instrument.</p>
+
+        <p class="sub-title">7.2 Invoice-Level Breakdown (Required by Most States)</p>
+        <table class="data-table deadline-table">
+            <thead>
+                <tr>
+                    <th>Invoice #</th>
+                    <th>Date</th>
+                    <th>Period Covered</th>
+                    <th>Description / CSI Section</th>
+                    <th>Amount Invoiced</th>
+                    <th>Amount Paid</th>
+                    <th>Balance Due</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="field">[#]</span></td>
+                    <td><span class="field">[Date]</span></td>
+                    <td><span class="field">[Period]</span></td>
+                    <td><span class="field">[Scope + CSI]</span></td>
+                    <td class="amount">$<span class="field">[ ]</span></td>
+                    <td class="amount">$<span class="field">[ ]</span></td>
+                    <td class="amount">$<span class="field">[ ]</span></td>
+                </tr>
+                <tr>
+                    <td><span class="field">[#]</span></td>
+                    <td><span class="field">[Date]</span></td>
+                    <td><span class="field">[Period]</span></td>
+                    <td><span class="field">[Scope + CSI]</span></td>
+                    <td class="amount">$<span class="field">[ ]</span></td>
+                    <td class="amount">$<span class="field">[ ]</span></td>
+                    <td class="amount">$<span class="field">[ ]</span></td>
+                </tr>
+                <tr>
+                    <td><span class="field">[Add rows as needed — itemize every invoice that contributes to the amount claimed; attach full invoice set as Exhibit A]</span></td>
+                    <td colspan="6"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p class="sub-title">7.3 Sworn Statement of Amount Due</p>
+        <p>The amounts set forth above are <strong>true and correct</strong> and represent <strong>amounts due and owing to the claimant after just credits and deductions</strong> for labor, professional services, materials, equipment, and/or services furnished to the project described in Section 5 above. No part of the amount claimed has been paid or is otherwise secured by means other than this lien claim. The claimant has applied all payments received to the items they were designated to cover, and has applied all good-faith credits and offsets known to the claimant.</p>
+    </div>
+
+    <!-- ============================================================
+         5. STATUTORY NOTICE + LANGUAGE BLOCKS — BY STATE
+         ============================================================ -->
+    <div class="page-break"></div>
+
+    <div class="section">
+        <div class="section-title">8. State-Specific Statutory Notice &amp; Required Language</div>
+        <div class="warning">
+            <strong>SELECT THE BLOCK FOR THE STATE OF FILING — do not fill in more than one.</strong> Each state has its own filing deadline, required language, foreclosure window, and service rules. Filing the wrong-state form, or omitting the state-mandated warning language, voids the lien. Print the relevant block as part of the filed instrument; the other blocks may remain as reference. Verify every deadline against the current statutory text — state legislatures amend lien statutes more frequently than most legal regimes (TX HB 2237 in 2022; CA SB 61 / SB 440 in 2026; TN § 66-11 amendments under CIPPA; IL Public Act 103-0827 in 2025).
+        </div>
+
+        <!-- ===== TENNESSEE ===== -->
+        <div class="statute-block">
+            <span class="state-name">TENNESSEE — Notice of Lien under T.C.A. § 66-11-112 / § 66-11-115</span>
+            <span class="citation">Tenn. Code Ann. §§ 66-11-101 through 66-11-208</span>
+            <ul>
+                <li><strong>Recording:</strong> Sworn Notice of Lien recorded with the <strong>register of deeds</strong> in the county where the property is located.</li>
+                <li><strong>Filing deadline — Prime contractor:</strong> 90 days after completion or abandonment (T.C.A. § 66-11-112).</li>
+                <li><strong>Filing deadline — Remote contractor (sub/supplier):</strong> 90 days after claimant's last day of furnishing (T.C.A. § 66-11-115).</li>
+                <li><strong>Notice of Completion accelerator:</strong> If owner records Notice of Completion under T.C.A. § 66-11-143, the window collapses to <strong>30 days commercial / 10 days residential</strong> from recording.</li>
+                <li><strong>Monthly Notice of Nonpayment (remote claimants only):</strong> Served by registered or certified mail on owner AND prime contractor <strong>within 90 days of the last day of each month</strong> in which unpaid work was performed (T.C.A. § 66-11-145). Confirm timely service of every monthly notice before filing the lien — failure to serve forfeits the lien for that month's work (except retainage).</li>
+                <li><strong>Notice to Owner (residential prime, T.C.A. § 66-11-203):</strong> Must have been served before commencing residential work.</li>
+                <li><strong>Foreclosure deadline:</strong> Suit to enforce within <strong>1 year</strong> from completion / abandonment (T.C.A. § 66-11-106). If owner serves written demand to enforce under § 66-11-130, the window collapses to <strong>60 days</strong>.</li>
+                <li><strong>Bond to indemnify:</strong> T.C.A. § 66-11-142 — surety bond in the lien amount discharges the lien.</li>
+            </ul>
+        </div>
+
+        <!-- ===== CALIFORNIA ===== -->
+        <div class="statute-block">
+            <span class="state-name">CALIFORNIA — Claim of Mechanics' Lien under Civil Code § 8416</span>
+            <span class="citation">Cal. Civ. Code §§ 8000 through 8848</span>
+            <ul>
+                <li><strong>Recording:</strong> Sworn claim of lien recorded with the <strong>county recorder</strong> of the county where the property is located. Lien must be served on the owner (§ 8416(a)(7)) — lien is <strong>not valid</strong> unless served.</li>
+                <li><strong>Preliminary 20-Day Notice (precondition for non-prime claimants):</strong> Must have been served on owner, direct contractor, and construction lender within 20 days of first furnishing (Civ. Code §§ 8200–8216). Late notice limits lien to work furnished within the 20-day lookback before service (Civ. Code § 8204). Direct contractors serve only the construction lender.</li>
+                <li><strong>Filing deadline — Direct contractor (prime):</strong> 90 days after completion of the work of improvement, OR 60 days after recording of Notice of Completion or Cessation, whichever is earlier (Civ. Code § 8412).</li>
+                <li><strong>Filing deadline — Other claimants (sub/supplier/design professional):</strong> 90 days after completion, OR 30 days after recording of Notice of Completion or Cessation, whichever is earlier (Civ. Code § 8414).</li>
+                <li><strong>Foreclosure deadline:</strong> Suit within <strong>90 days after recording the claim of lien</strong> (Civ. Code § 8460) — hard cap, expungeable by operation of law if missed.</li>
+                <li><strong>Statutory waivers:</strong> Only the four statutory forms (Civ. Code §§ 8132, 8134, 8136, 8138) are valid; non-statutory waivers are <strong>void</strong> (Civ. Code § 8122). Never sign unconditional release until check has cleared.</li>
+                <li><strong>Release bond:</strong> 125% of claim amount (Civ. Code § 8424).</li>
+                <li><strong>Stop payment notice (parallel remedy):</strong> Civ. Code §§ 8500–8560 (private), §§ 9350–9510 (public).</li>
+            </ul>
+        </div>
+
+        <!-- ===== TEXAS ===== -->
+        <div class="statute-block">
+            <span class="state-name">TEXAS — Affidavit Claiming Mechanic's Lien under Tex. Prop. Code § 53.052</span>
+            <span class="citation">Tex. Prop. Code Chapter 53; HB 2237 (2021), eff. Jan. 1, 2022; SB 929 (2025), eff. May 21, 2025</span>
+            <ul>
+                <li><strong>Recording:</strong> Sworn lien affidavit filed with the <strong>county clerk</strong> in the county where the property is located.</li>
+                <li><strong>Monthly pre-lien notice (§ 53.056) — derivative claimants:</strong> For <strong>commercial</strong>, served by the <strong>15th day of the third month</strong> after each month in which labor or materials were furnished and remain unpaid. For <strong>residential</strong>, by the <strong>15th day of the second month</strong>. Service via in-person, USPS certified mail, or traceable private mail (FedEx/UPS). <strong>HB 2237 eliminated USPS Registered Mail and email/fax are not authorized.</strong></li>
+                <li><strong>Filing deadline — Original contractor:</strong> Commercial — <strong>15th day of the fourth month</strong> after the month in which the work was completed, terminated, or abandoned. Residential — <strong>15th day of the third month</strong> after the same.</li>
+                <li><strong>Filing deadline — Other claimant (sub/supplier):</strong> Commercial — <strong>15th day of the fourth month</strong> after later of last furnishing month or specially-fabricated-materials delivery month. Residential — <strong>15th day of the third month</strong> after the same.</li>
+                <li><strong>Retainage claim:</strong> 15th day of the third month after completion, termination, or abandonment of the original contract (§ 53.057, § 53.101).</li>
+                <li><strong>Service of affidavit:</strong> Within <strong>5 business days</strong> of filing, send copy to owner (and to original contractor if claimant is a sub) by certified mail (§ 53.055).</li>
+                <li><strong>Homestead — § 53.254:</strong> Affidavit on a homestead must include the conspicuous <strong>10-point boldface notice</strong> at the top: <strong>"NOTICE: THIS IS NOT A LIEN. THIS IS ONLY AN AFFIDAVIT CLAIMING A LIEN."</strong> Written contract executed before work begins, signed by both spouses, filed with the county clerk before work commences.</li>
+                <li><strong>Foreclosure deadline:</strong> Commercial — <strong>1 year</strong> from last possible filing date. Residential — <strong>1 year</strong> from last possible filing date. Extendable by recorded written agreement up to <strong>2 years</strong> total (§ 53.158).</li>
+                <li><strong>Bond around lien:</strong> 150% of lien amount under § 53.171–§ 53.175.</li>
+                <li><strong>Construction Trust Fund Act (§ 162):</strong> Diverting construction payments is a Class A misdemeanor (≥ $500) or third-degree felony (with intent to defraud); corporate officers personally liable.</li>
+            </ul>
+        </div>
+
+        <!-- ===== NEW YORK ===== -->
+        <div class="statute-block">
+            <span class="state-name">NEW YORK — Notice Under Mechanic's Lien Law under N.Y. Lien Law § 10</span>
+            <span class="citation">N.Y. Lien Law §§ 1–250 (standalone statute, not part of Real Property Law)</span>
+            <ul>
+                <li><strong>Recording:</strong> Notice of Lien filed with the <strong>county clerk</strong> of the county where the property is located.</li>
+                <li><strong>No preliminary notice requirement</strong> — unique among major states; the filing of the Notice of Lien is the entire perfection step.</li>
+                <li><strong>Filing deadline — Single-family dwelling:</strong> <strong>4 months</strong> after claimant's last day of work or last delivery.</li>
+                <li><strong>Filing deadline — All other private improvements (commercial, multifamily, mixed-use, industrial):</strong> <strong>8 months</strong> after last work or last delivery (longest commercial lien-filing window of any major state).</li>
+                <li><strong>Public improvement (Lien Law § 12):</strong> <strong>30 days</strong> after completion and acceptance of the improvement; lien attaches to funds, not to public property.</li>
+                <li><strong>Service of Notice of Lien (Lien Law § 11):</strong> Within <strong>5 days before</strong> or <strong>30 days after</strong> filing, serve copy on owner, GC, and any mortgage holder by certified mail or personal delivery.</li>
+                <li><strong>Foreclosure deadline:</strong> <strong>1 year</strong> from filing (Lien Law § 17). Extendable by court order or by recorded "Extension of Notice of Mechanic's Lien" filed before expiration; single-family limited to one extension by filing; commercial typically requires court approval after first extension.</li>
+                <li><strong>Willful exaggeration — § 39-a:</strong> Notice of Lien filed with willful exaggeration is <strong>void</strong>; claimant liable for damages including exaggerated amount, bonding-off costs, and attorney's fees.</li>
+                <li><strong>Bond to discharge (Lien Law § 19(4), § 21):</strong> <strong>110%</strong> of lien amount.</li>
+                <li><strong>Article 3-A construction trust funds (§§ 70–79-a):</strong> All construction payments are trust funds; misapplication is larceny under § 79-a, with felony grading from petit larceny up to Class B felony for amounts over $1,000,000. Personal civil and criminal liability for officers and controlling agents.</li>
+            </ul>
+        </div>
+
+        <!-- ===== FLORIDA ===== -->
+        <div class="statute-block">
+            <span class="state-name">FLORIDA — Claim of Lien under Fla. Stat. § 713.08</span>
+            <span class="citation">Fla. Stat. Chapter 713, Part I (§§ 713.001–713.37)</span>
+            <ul>
+                <li><strong>Recording:</strong> Claim of Lien recorded with the <strong>clerk of the circuit court</strong> in the county where the property is located.</li>
+                <li><strong>Notice of Commencement precondition:</strong> Owner records Notice of Commencement (§ 713.13) before work begins for any direct contract &gt; $2,500 ($7,500 for residential roofing); also posted at jobsite. Valid for 1 year unless earlier expiration specified.</li>
+                <li><strong>Notice to Owner (§ 713.06(2)(a)) — non-privity claimants:</strong> Served on owner AND designated agent identified on Notice of Commencement <strong>before commencing, or not later than 45 days after first furnishing</strong>. Failure is a <strong>complete defense</strong> to lien — no substantial-compliance relief.</li>
+                <li><strong>Filing deadline — Claim of Lien (§ 713.08):</strong> <strong>90 days</strong> after final furnishing OR within 90 days of contract termination, whichever is first.</li>
+                <li><strong>Required boldface warning on Notice to Owner:</strong> "<strong>WARNING! FLORIDA'S CONSTRUCTION LIEN LAW ALLOWS SOME UNPAID CONTRACTORS, SUBCONTRACTORS, AND MATERIAL SUPPLIERS TO FILE LIENS AGAINST YOUR PROPERTY EVEN IF YOU HAVE MADE PAYMENT IN FULL.</strong>"</li>
+                <li><strong>Service of recorded lien:</strong> Before recording or within <strong>15 days after</strong> recording (§ 713.08(4)(c)).</li>
+                <li><strong>Final Contractor's Affidavit (§ 713.06(3)(d)):</strong> Prime must deliver to owner <strong>at least 5 days before</strong> filing suit; failure bars enforcement.</li>
+                <li><strong>Foreclosure deadline:</strong> <strong>1 year</strong> from recording. Owner may serve Notice of Contest of Lien (§ 713.22) collapsing the window to <strong>60 days</strong> from service.</li>
+                <li><strong>Transfer to security (§ 713.24):</strong> Lien amount + 3 years' interest + greater of $5,000 or 25% of lien for fees/costs.</li>
+                <li><strong>Misapplication of funds (§ 713.345):</strong> Personal criminal liability — 3rd-degree felony (&lt; $1,000), 2nd-degree felony ($1,000–$99,999), 1st-degree felony ($100,000+).</li>
+            </ul>
+        </div>
+
+        <!-- ===== GEORGIA ===== -->
+        <div class="statute-block">
+            <span class="state-name">GEORGIA — Claim of Lien under O.C.G.A. § 44-14-361.1</span>
+            <span class="citation">O.C.G.A. §§ 44-14-360 through 44-14-369; SB 143 (2021)</span>
+            <ul>
+                <li><strong>Recording:</strong> Sworn Claim of Lien filed with the <strong>clerk of superior court</strong> of the county where the property is located.</li>
+                <li><strong>Notice to Contractor (NTC) — § 44-14-361.5:</strong> Required where Notice of Commencement was filed and claimant is not in privity with the prime contractor. Served by registered/certified mail, statutory overnight delivery, or hand delivery <strong>within 30 days</strong> of later of (a) NOC filing or (b) claimant's first furnishing. Forfeits lien rights if untimely.</li>
+                <li><strong>Filing deadline — Claim of Lien:</strong> <strong>90 days</strong> after the last day on which labor, services, or materials were furnished.</li>
+                <li><strong>Service of recorded Claim of Lien — § 44-14-361.1(a)(4):</strong> <strong>No later than 2 business days</strong> after filing, send copy by registered/certified mail, statutory overnight delivery, or hand delivery to owner (and to contractor if NOC was filed). <strong>Failure voids the lien.</strong></li>
+                <li><strong>Action on the underlying debt:</strong> <strong>365 days</strong> from filing of the lien (O.C.G.A. § 44-14-361.1(a)(3)).</li>
+                <li><strong>Notice of Filing of Lien Action:</strong> Within <strong>30 days</strong> of commencing suit, file notice of action with the clerk of superior court referencing the lien book/page.</li>
+                <li><strong>Notice of Contest of Lien (§ 44-14-368):</strong> Owner-served notice collapses the 365-day action deadline to <strong>60 days</strong>.</li>
+                <li><strong>Statutory lien waiver (§ 44-14-366):</strong> Only "substantially follows" the statutory forms in 12-point boldface caps are valid. Interim waiver becomes <strong>conclusive evidence of payment after 90 days</strong> unless Affidavit of Nonpayment is filed with superior court within that window.</li>
+                <li><strong>Bond off (§ 44-14-364):</strong> Double the lien amount (owner's domicile — equal to lien amount); 7-day notice of filing to claimant.</li>
+                <li><strong>Aggregate cap (§ 44-14-361.1(e)):</strong> Total of all liens shall not exceed contract price of the improvement.</li>
+            </ul>
+        </div>
+
+        <!-- ===== ILLINOIS ===== -->
+        <div class="statute-block">
+            <span class="state-name">ILLINOIS — Claim of Lien under 770 ILCS 60/7</span>
+            <span class="citation">770 ILCS 60 (Mechanics Lien Act); Public Act 103-0827 (2024), eff. Jan. 1, 2025</span>
+            <ul>
+                <li><strong>Recording:</strong> Claim of Lien recorded with the <strong>recorder of deeds</strong> of the county where the property is located.</li>
+                <li><strong>Subcontractor 90-day notice (770 ILCS 60/24):</strong> Within <strong>90 days</strong> of last work/delivery, served on owner of record and lender of record (if known). Methods (per PA 103-0827): registered/certified mail, personal service, OR nationally recognized commercial delivery (FedEx/UPS/DHL) with tracking. Service legally effective on date of mailing/pickup.</li>
+                <li><strong>Filing deadline — Claim of Lien:</strong> <strong>4 months</strong> after last day of furnishing (binds owner, third-party purchasers, encumbrancers, lender of record); within <strong>2 years</strong> after last day of furnishing (binds owner only).</li>
+                <li><strong>Foreclosure deadline:</strong> <strong>2 years</strong> from last furnishing (770 ILCS 60/9 and § 60/7) — jurisdictional, no equitable tolling.</li>
+                <li><strong>Section 34 demand:</strong> Owner-served demand collapses the suit deadline to <strong>30 days</strong> from service (770 ILCS 60/34) — most aggressive owner-side tool in the country.</li>
+                <li><strong>Public works (770 ILCS 60/23):</strong> Notice and Claim filed with public agency within <strong>90 days</strong>; suit within <strong>90 days</strong> of filing.</li>
+                <li><strong>Bond off (770 ILCS 60/38.1):</strong> <strong>175%</strong> of lien claim amount.</li>
+                <li><strong>Aggregate cap (770 ILCS 60/21):</strong> Sub lien limited to what owner owes prime at time of 90-day notice.</li>
+            </ul>
+        </div>
+
+        <!-- ===== NORTH CAROLINA ===== -->
+        <div class="statute-block">
+            <span class="state-name">NORTH CAROLINA — Claim of Lien on Real Property under N.C.G.S. § 44A-12 (paired with Claim of Lien Upon Funds under § 44A-18)</span>
+            <span class="citation">N.C.G.S. Chapter 44A Article 2 (§§ 44A-7–44A-23); SL 2012-158 (HB 1052), eff. April 1, 2013</span>
+            <ul>
+                <li><strong>TWO REMEDIES — file BOTH:</strong> (1) Claim of Lien on Real Property with <strong>Clerk of Superior Court</strong>; (2) Claim of Lien Upon Funds served on the obligor (owner for prime; higher-tier sub for lower-tier).</li>
+                <li><strong>Lien Agent system (§ 44A-11.1):</strong> Required for any project ≥ $30,000 (except owner-occupied existing single-family residence). Owner designates Lien Agent through <strong>LiensNC.com</strong> before earlier of first furnishing or building permit issuance.</li>
+                <li><strong>Notice to Lien Agent (§ 44A-11.2):</strong> Subs/suppliers serve through LiensNC.com <strong>within 15 calendar days</strong> of first furnishing. Late service preserves lien rights only for work furnished after service date — pre-service work is unrecoverable. <strong>The 15-day clock is the single most-missed deadline in NC practice.</strong></li>
+                <li><strong>Filing deadline — Claim of Lien on Real Property:</strong> <strong>120 days</strong> from claimant's last furnishing.</li>
+                <li><strong>Service of recorded Claim of Lien (§ 44A-11):</strong> Within <strong>3 days</strong> of filing (excluding weekends/holidays).</li>
+                <li><strong>Foreclosure deadline:</strong> <strong>180 days</strong> from last furnishing (N.C.G.S. § 44A-13) — i.e., 60 days after the 120-day filing deadline. Must record Notice of Lis Pendens with Clerk of Superior Court.</li>
+                <li><strong>Lien Upon Funds (§ 44A-18):</strong> Perfected by service, not by filing. Attaches to amount obligor owes upstream at time of service. Obligor that disregards properly served lien upon funds is directly liable to claimant.</li>
+                <li><strong>Bond off (§ 44A-16):</strong> <strong>1.25 times</strong> the lien claim.</li>
+                <li><strong>Anti-waiver (§ 44A-12.1(b)):</strong> Advance waivers of lien rights for labor/materials not yet furnished are unenforceable.</li>
+            </ul>
+        </div>
+
+        <!-- ===== WASHINGTON ===== -->
+        <div class="statute-block">
+            <span class="state-name">WASHINGTON — Notice of Claim of Lien under RCW 60.04.091</span>
+            <span class="citation">RCW Chapter 60.04 (Mechanics' and Materialmen's Liens)</span>
+            <ul>
+                <li><strong>Recording:</strong> Notice of Claim of Lien recorded in the <strong>county</strong> where the property is located.</li>
+                <li><strong>Contractor must be registered (RCW 60.04.011(11)):</strong> Unregistered contractor under RCW 18.27 has <strong>no lien rights</strong>.</li>
+                <li><strong>Pre-claim notice (RCW 60.04.031):</strong> "Notice to Owner" / "Notice of Right to Claim Lien" — new single-family residence: protects lien only for work supplied after a date <strong>10 days</strong> before notice. All other projects: protects work supplied after <strong>60 days</strong> before notice. Required of all except prime contractor in privity, laborers performing only labor, and certain residential sub categories. Service by certified/registered mail or personal delivery; first-class mail insufficient.</li>
+                <li><strong>Filing deadline:</strong> <strong>90 days</strong> after claimant ceased to furnish labor/services/materials/equipment.</li>
+                <li><strong>Service of recorded lien on owner:</strong> Within <strong>14 days</strong> of filing — failure forfeits attorney's fees and costs in foreclosure (but lien itself survives).</li>
+                <li><strong>Foreclosure deadline:</strong> <strong>8 calendar months</strong> from recording (RCW 60.04.141). Service of summons and complaint on owner within <strong>90 days</strong> of filing the action. Two-year want-of-prosecution dismissal risk.</li>
+                <li><strong>Frivolous lien procedure (RCW 60.04.081):</strong> Owner application heard within 14 days; court may release frivolous or clearly excessive lien and award fees.</li>
+                <li><strong>Bond off (RCW 60.04.161):</strong> <strong>1.5 times</strong> the lien amount (or $5,000, whichever is greater).</li>
+                <li><strong>Public works:</strong> Payment bond claim under RCW 39.08 within <strong>30 days after acceptance</strong>; retainage claim under RCW 60.28 within <strong>45 days after acceptance</strong>.</li>
+            </ul>
+        </div>
+
+        <!-- ===== OHIO ===== -->
+        <div class="statute-block">
+            <span class="state-name">OHIO — Affidavit for Mechanic's Lien under ORC § 1311.06</span>
+            <span class="citation">Ohio Rev. Code Chapter 1311</span>
+            <ul>
+                <li><strong>Recording:</strong> Affidavit for Mechanic's Lien filed with the <strong>county recorder</strong> of each county where the property is located.</li>
+                <li><strong>Notice of Commencement (§ 1311.04):</strong> Owner-filed; recorded with county recorder; posted at job site; copy provided to claimants on written request within 10 days.</li>
+                <li><strong>Notice of Furnishing (§ 1311.05) — non-privity claimants:</strong> Within <strong>21 calendar days</strong> after first furnishing, served on owner (or designee) and original contractor by certified mail or personal service. Late service preserves lien rights only for the 21 days immediately preceding service — earlier work lost forever.</li>
+                <li><strong>Filing deadline — Affidavit:</strong>
+                    <ul>
+                        <li><strong>1- or 2-family dwelling / residential condominium:</strong> <strong>60 days</strong> from last furnishing.</li>
+                        <li><strong>Oil or gas well property (§ 1311.021):</strong> <strong>120 days</strong>.</li>
+                        <li><strong>All other property (commercial/industrial/multifamily 3+):</strong> <strong>75 days</strong>.</li>
+                    </ul>
+                </li>
+                <li><strong>Service of affidavit on owner (§ 1311.07):</strong> Within <strong>30 days</strong> after filing.</li>
+                <li><strong>Lien duration (§ 1311.13(E)):</strong> <strong>6 years</strong> from filing; foreclosure within that period.</li>
+                <li><strong>Notice to Commence Suit (§ 1311.11):</strong> Owner-served notice forces claimant to file suit within <strong>60 days</strong> or lose lien.</li>
+                <li><strong>Bond off (§ 1311.11):</strong> <strong>125%</strong> of lien claim.</li>
+                <li><strong>Home-construction full-payment defense (§ 1311.011):</strong> Homeowner who pays prime in full before receiving subcontractor lien affidavit has substantive defense.</li>
+                <li><strong>Public works:</strong> No lien on public property; bond claim under § 153.54 and lien on retained funds under § 1311.25–§ 1311.32.</li>
+            </ul>
+        </div>
+
+        <!-- ===== VIRGINIA ===== -->
+        <div class="statute-block">
+            <span class="state-name">VIRGINIA — Memorandum of Mechanic's Lien under Va. Code § 43-4 (GC) / § 43-10 (sub)</span>
+            <span class="citation">Va. Code Title 43 (Mechanics' and Certain Other Liens)</span>
+            <ul>
+                <li><strong>Recording:</strong> Memorandum of Mechanic's Lien filed with the <strong>clerk of the circuit court</strong> of the county or city where the property is located.</li>
+                <li><strong>No preliminary notice for GC.</strong> Subcontractor (§ 43-7) must give written notice of amount and character of claim to owner. Sub-subcontractor / supplier (§ 43-9) must give notice to owner AND general contractor.</li>
+                <li><strong>Optional § 43-11 preliminary notice (personal-liability upgrade):</strong> Triggers owner personal liability for amounts paid to GC after notice without ensuring claimant payment.</li>
+                <li><strong>Filing deadline — § 43-4:</strong> Not later than <strong>90 days from the last day of the month</strong> in which claimant last performed labor or furnished material, AND in no event later than <strong>90 days from completion or termination</strong> of the building/structure.</li>
+                <li><strong>150-day look-back rule:</strong> Memorandum cannot include sums for labor or materials furnished <strong>more than 150 days before claimant's last day of work</strong>. Including pre-150-day amounts <strong>voids the entire lien</strong> (no partial reformation). File successive memoranda.</li>
+                <li><strong>Retainage and pay-when-received carve-outs</strong> excluded from 150-day cap (retainage capped at 10% of total contract).</li>
+                <li><strong>Certification of mailing (GC only):</strong> Required with the Memorandum (§ 43-4) — copy mailed to owner at last known address.</li>
+                <li><strong>Foreclosure deadline — § 43-17:</strong> Later of <strong>6 months from recording</strong> OR <strong>60 days from completion or termination</strong>. Strictly construed and jurisdictional.</li>
+                <li><strong>Bond off (§ 43-71):</strong> Cash or surety bond equal to lien claim plus court-determined costs and interest.</li>
+                <li><strong>Public works:</strong> Payment bond claim under Va. Code § 2.2-4337; suit within <strong>1 year</strong> of last furnishing; 90-day notice for sub-subcontractors.</li>
+            </ul>
+        </div>
+
+        <!-- ===== PENNSYLVANIA ===== -->
+        <div class="statute-block">
+            <span class="state-name">PENNSYLVANIA — Mechanics' Lien Claim under 49 P.S. § 1502</span>
+            <span class="citation">49 P.S. §§ 1101–1902 (Mechanics' Lien Law of 1963; Acts 52/2006, 117/2007, 142/2014)</span>
+            <ul>
+                <li><strong>Filing:</strong> Lien claim filed with the <strong>Prothonotary</strong> of the Court of Common Pleas of the county where the property is located.</li>
+                <li><strong>Searchable Project regime (Act 142/2014; § 1501.1–.7):</strong> Triggered when owner files a Notice of Commencement in the <strong>State Construction Notices Directory</strong> for projects costing $1.5M+. Subcontractors must file Notice of Furnishing in the Directory within <strong>45 days</strong> of first furnishing or forfeit all lien rights on the project.</li>
+                <li><strong>Subcontractor Preliminary Notice of Intent to Lien (§ 1501(b)):</strong> Served on owner by personal service or certified mail with return receipt <strong>at least 30 days before</strong> filing the lien claim. Required for subs; GCs exempt.</li>
+                <li><strong>Filing deadline — Lien claim (§ 1502):</strong> <strong>6 months</strong> after claimant's last work/material — same for both GC and sub.</li>
+                <li><strong>Service of filed claim (§ 1502(a)(2)):</strong> Within <strong>1 month</strong> after filing.</li>
+                <li><strong>Suit to enforce (scire facias) (§ 1701):</strong> Within <strong>2 years</strong> of filing the lien — jurisdictional.</li>
+                <li><strong>Act 117 owner-occupied residential carve-out (§ 1303(d)):</strong> Sub lien invalid against owner-occupied 1–2 family residence to extent owner has paid prime in full.</li>
+                <li><strong>Public works:</strong> No liens against Commonwealth or political subdivision property; payment bond claim only.</li>
+                <li><strong>Visible commencement relation-back (§ 1508):</strong> All liens relate back to visible commencement of the improvement.</li>
+            </ul>
+        </div>
+
+        <!-- ===== MICHIGAN ===== -->
+        <div class="statute-block">
+            <span class="state-name">MICHIGAN — Claim of Lien under MCL 570.1111</span>
+            <span class="citation">Construction Lien Act, MCL 570.1101–570.1305; PA 96 (2018)</span>
+            <ul>
+                <li><strong>Recording:</strong> Claim of Lien recorded with the <strong>register of deeds</strong> for the county where the property is located.</li>
+                <li><strong>Notice of Commencement (MCL 570.1108):</strong> Owner-filed for projects &gt; $30,000 in aggregate cost; recorded with register of deeds, posted on site, provided to GC, provided to subs/suppliers within 10 business days on request.</li>
+                <li><strong>Notice of Furnishing (MCL 570.1109):</strong> Non-privity subs/suppliers must serve on owner (or designee) and GC <strong>within 20 calendar days</strong> after first furnishing — by personal service or certified mail. Late service preserves lien rights only for the 20 days immediately before service. <strong>Michigan's 20-day window is one day shorter than Ohio's 21-day window — distinguish carefully.</strong></li>
+                <li><strong>Sworn Statement (MCL 570.1110):</strong> GC must furnish on owner demand identifying every sub/supplier, amount owed, paid, and remaining. Knowing falsification is a misdemeanor.</li>
+                <li><strong>Filing deadline — Claim of Lien:</strong> <strong>90 days</strong> after last furnishing of labor or materials.</li>
+                <li><strong>Service of recorded Claim of Lien (MCL 570.1111(4)):</strong> Within <strong>15 days</strong> of recording — personal service or certified mail with return receipt requested.</li>
+                <li><strong>Lien duration (MCL 570.1117):</strong> <strong>1 year</strong> from recording.</li>
+                <li><strong>Bond off (MCL 570.1116):</strong> <strong>125%</strong> of lien amount, deposited with circuit court.</li>
+                <li><strong>Public works (MCL 129.201 et seq.):</strong> Payment bond required for contracts &gt; $50,000; second-tier 90-day notice; 1-year suit limitation on bond claims.</li>
+                <li><strong>Laborer super-priority (MCL 570.1119(3)):</strong> Laborer liens have priority over all other liens including prior-recorded mortgages.</li>
+            </ul>
+        </div>
+
+        <!-- ===== NEW JERSEY ===== -->
+        <div class="statute-block">
+            <span class="state-name">NEW JERSEY — Construction Lien Claim under N.J.S.A. 2A:44A-6 (commercial) / 2A:44A-21 (residential — AAA arbitration precondition)</span>
+            <span class="citation">Construction Lien Law of 1993 (N.J.S.A. 2A:44A-1 to 2A:44A-38); P.L. 2010, c. 119</span>
+            <ul>
+                <li><strong>Filing:</strong> Lien claim filed with the <strong>county clerk</strong> in the county where the property is located.</li>
+                <li><strong>STRUCTURAL DIVIDE — commercial vs. residential.</strong></li>
+                <li><strong>COMMERCIAL:</strong> File lien claim with county clerk within <strong>90 days</strong> of last work/material. No pre-arbitration.</li>
+                <li><strong>RESIDENTIAL (owner-occupied 1- or 2-family + condo unit):</strong>
+                    <ul>
+                        <li>(a) File <strong>Notice of Unpaid Balance and Right to File Lien (NUB)</strong> with county clerk <strong>within 60 days</strong> of last furnishing (N.J.S.A. 2A:44A-20);</li>
+                        <li>(b) Serve NUB on owner and GC within <strong>10 days</strong> of NUB filing;</li>
+                        <li>(c) File Demand for Arbitration with <strong>American Arbitration Association</strong> under Home Construction Lien Arbitration Rules <strong>within 60 days</strong> of NUB filing (AAA fee $750–$1,500) (N.J.S.A. 2A:44A-21);</li>
+                        <li>(d) After favorable arbitration award, file the lien claim with county clerk <strong>within 10 days</strong> of award; serve on owner/prime within 10 days of lien filing.</li>
+                    </ul>
+                </li>
+                <li><strong>Lien fund (§ 2A:44A-9 and § 2A:44A-10):</strong> Aggregate lien claims cannot exceed amount owner owes prime less prior payments and prior-priority claims. Owner's full-payment defense is complete.</li>
+                <li><strong>Foreclosure deadline (§ 2A:44A-14):</strong> <strong>1 year</strong> from lien filing — strictly enforced.</li>
+                <li><strong>Notice to Commence Suit (§ 2A:44A-15):</strong> Owner-served demand collapses suit deadline to <strong>30 days</strong>.</li>
+                <li><strong>Bond off (§ 2A:44A-30 and § 2A:44A-31):</strong> <strong>110%</strong> of lien claim.</li>
+                <li><strong>Public works (N.J.S.A. 2A:44-143 et seq.):</strong> Bond claim only; serve notice and file suit within 1 year of last furnishing.</li>
+            </ul>
+        </div>
+
+        <!-- ===== MASSACHUSETTS ===== -->
+        <div class="statute-block">
+            <span class="state-name">MASSACHUSETTS — Notice of Contract / Notice of Subcontract + Statement of Account under M.G.L. c. 254</span>
+            <span class="citation">M.G.L. c. 254 §§ 1–33; St. 1996, c. 364; St. 2010, c. 419</span>
+            <ul>
+                <li><strong>Front-loaded recording — unique structure:</strong> The lien is created by recording a <strong>Notice of Contract</strong> (§ 2 — prime) or <strong>Notice of Subcontract</strong> (§ 4 — sub/supplier) at the <strong>Registry of Deeds</strong> for the county where the property is located, BEFORE the lien attaches.</li>
+                <li><strong>Prime contractor's lien requires a WRITTEN contract with the owner</strong> (§ 2). An oral prime contract is not lien-supportable.</li>
+                <li><strong>Notice of Contract / Notice of Subcontract deadline — earliest of:</strong>
+                    <ul>
+                        <li><strong>60 days</strong> after owner's filing of Notice of Substantial Completion (§ 2A); OR</li>
+                        <li><strong>90 days</strong> after owner's filing of Notice of Termination (§ 2B); OR</li>
+                        <li><strong>90 days</strong> after claimant's last day of work or last delivery.</li>
+                    </ul>
+                </li>
+                <li><strong>Sub's lien cap:</strong> Lien is capped at the amount owner owes prime at time of Notice-of-Subcontract filing. File early — every owner-to-prime payment after filing does not reduce the sub's lien.</li>
+                <li><strong>Statement of Account (§ 8) deadline — earliest of:</strong>
+                    <ul>
+                        <li><strong>90 days</strong> after Notice of Substantial Completion; OR</li>
+                        <li><strong>120 days</strong> after Notice of Termination; OR</li>
+                        <li><strong>120 days</strong> after claimant's last day of work/last delivery.</li>
+                    </ul>
+                </li>
+                <li><strong>Civil action to enforce (§ 5):</strong> <strong>Within 90 days of recording the Statement of Account</strong> — Superior Court (or District Court if jurisdictional limits met); record memorandum of lis pendens. <strong>Missing the 90-day enforcement deadline dissolves the lien automatically by operation of law</strong> — no equitable tolling.</li>
+                <li><strong>No-lien clauses void (§ 32):</strong> Contractual waivers prospectively waiving lien rights are unenforceable against claimants who were not parties.</li>
+                <li><strong>Bond discharge (§ 14):</strong> Bond equal to lien amount, surety court-approved.</li>
+                <li><strong>Public works (M.G.L. c. 149 § 29):</strong> Payment bond regime; notice within 65 days of last day of work; suit within 1 year.</li>
+            </ul>
+        </div>
+
+        <!-- ===== MARYLAND ===== -->
+        <div class="statute-block">
+            <span class="state-name">MARYLAND — Petition to Establish Mechanics' Lien (NOT a recorded lien) under Md. Real Prop. § 9-105</span>
+            <span class="citation">Md. Code Ann., Real Prop. §§ 9-101 to 9-114; Md. Rules 12-301 to 12-308</span>
+            <ul>
+                <li><strong>FUNDAMENTAL STRUCTURAL DIFFERENCE — Maryland liens are JUDICIAL, not recorded.</strong> Do NOT file a lien at the land records office. Instead, file a <strong>Petition to Establish Mechanics' Lien</strong> in the <strong>Circuit Court</strong> for the county where the property is located.</li>
+                <li><strong>15% rule (§ 9-102(a)(2)) — Berenter doctrine threshold:</strong> For repair, rebuilding, or improvement to an <strong>existing building</strong> (not new construction), the work must have increased the building's pre-work value <strong>by 15% or more</strong>. Small repairs (e.g., $5,000 on a $400,000 home) fail and are NOT lienable. New construction is exempt from the 15% threshold.</li>
+                <li><strong>Tenant-occupied family dwellings excluded entirely</strong> from the lien regime by § 9-102(a)(2) — landlord's contractor has no lien rights.</li>
+                <li><strong>Notice of Intent to Claim Lien (§ 9-104) — non-privity claimants:</strong> Served on owner within <strong>120 days</strong> of subcontractor's last work or material (personal service / certified mail / posting on door). Sub lien limited to amount owner owes prime at time of notice (good-faith payment defense).</li>
+                <li><strong>Owner-occupied single-family residence (§ 9-104(f)):</strong> 30-day waiting period after Notice of Intent before petition may be filed.</li>
+                <li><strong>Petition filing deadline (§ 9-105(a)):</strong> Within <strong>180 days</strong> after claimant's work was finished or materials furnished.</li>
+                <li><strong>Procedural cascade:</strong> Petition → Show-Cause Order (Md. Rule 12-303) → probable-validity hearing → interlocutory order establishing lien OR owner-posted bond OR dismissal → final order after evidentiary hearing.</li>
+                <li><strong>Statute of limitations on enforcement:</strong> <strong>12 years</strong> from date lien established (final order).</li>
+                <li><strong>Anti-waiver (§ 9-113(b)):</strong> Pre-work waivers void as against public policy — one of the strongest in the U.S.</li>
+                <li><strong>Public works:</strong> No liens; payment bond under Maryland Little Miller Act (State Fin. &amp; Proc. §§ 17-101–17-111).</li>
+            </ul>
+        </div>
+
+        <!-- ===== CONNECTICUT ===== -->
+        <div class="statute-block">
+            <span class="state-name">CONNECTICUT — Certificate of Mechanic's Lien under Conn. Gen. Stat. § 49-34</span>
+            <span class="citation">Conn. Gen. Stat. §§ 49-33 to 49-46a; Public Acts 99-153, 03-86, 11-178, 17-89</span>
+            <ul>
+                <li><strong>Recording:</strong> Certificate of Mechanic's Lien recorded in the <strong>land records of the town</strong> where the property is located.</li>
+                <li><strong>No statutory pre-lien notice requirement.</strong> Owner service occurs <strong>after</strong> recording (post-filing).</li>
+                <li><strong>Filing deadline (§ 49-34(1)):</strong> <strong>90 days</strong> from date claimant ceased to perform services or furnish materials.</li>
+                <li><strong>Service of lien on owner (§ 49-35):</strong> Within <strong>30 days after recording</strong> by first-class mail or in-hand. Failure invalidates the lien.</li>
+                <li><strong>Lien-fund cap (§ 49-33(f)):</strong> Aggregate of all subcontractor liens cannot exceed the sum owner agreed to pay GC less amounts paid to GC before lien recording. <strong>Once owner pays GC in full, sub lien rights are extinguished.</strong> Camardo doctrine.</li>
+                <li><strong>Lien duration (§ 49-39):</strong> <strong>1 year</strong> from perfection — claimant must commence foreclosure action within that window. No extension by stipulation per Diamond National Corp. v. Dwelle, 164 Conn. 540 (1973).</li>
+                <li><strong>Bond around (§ 49-37):</strong> Typically <strong>150%</strong> of lien amount; court discretion under § 49-37(b).</li>
+                <li><strong>Public works (§ 49-41):</strong> No liens; payment bond required for prime contractor on public works &gt; $100,000; bond claim within <strong>180 days</strong> of last work.</li>
+                <li><strong>No-lien clauses enforceable under common law</strong> (unlike NY and MA), though disfavored in practice.</li>
+            </ul>
+        </div>
+
+        <!-- ===== ARIZONA ===== -->
+        <div class="statute-block">
+            <span class="state-name">ARIZONA — Notice and Claim of Lien under A.R.S. § 33-993</span>
+            <span class="citation">A.R.S. Title 33 Chapter 6 (§§ 33-981 to 33-1006); Article 7 stop-notice (§§ 33-1051 to 33-1067)</span>
+            <ul>
+                <li><strong>Recording:</strong> Notice and Claim of Lien recorded with the <strong>county recorder</strong> in the county where the property is located.</li>
+                <li><strong>Unlicensed contractor bar (§ 33-981(C), (E)):</strong> A person required to be licensed under Title 32 Chapter 10 who does not hold a valid license has <strong>no lien rights</strong>.</li>
+                <li><strong>Preliminary 20-Day Notice (§ 33-992.01) — REQUIRED of nearly every claimant including original contractor:</strong> Served by USPS first-class mail with certificate of mailing, registered mail, OR certified mail on (1) owner/reputed owner, (2) original contractor, (3) construction lender, (4) party with whom claimant contracted, <strong>within 20 days</strong> of first furnishing. Late service forfeits lien rights for any work furnished &gt; 20 days before late service. Single notice valid for all subsequent work to same jobsite unless estimated price increases ≥ 30% or upstream chain changes.</li>
+                <li><strong>OWNER-OCCUPIED DWELLING DEFENSE (§ 33-1002) — material:</strong> On an owner-occupied 1- or 2-family dwelling, <strong>only the contractor with a written contract directly signed by the owner-occupant</strong> has lien rights. Subs, sub-subs, and suppliers — even with perfect 20-Day Notice — have <strong>no lien rights</strong> against the dwelling. Recording a lien anyway exposes claimant to <strong>§ 33-420 liability ($5,000 per occurrence or actual damages, whichever is greater, plus attorney's fees)</strong>. Use the stop-notice remedy instead (Article 7).</li>
+                <li><strong>Filing deadline (§ 33-993):</strong>
+                    <ul>
+                        <li>Default: <strong>120 days</strong> after completion;</li>
+                        <li>If owner records Notice of Completion (§ 33-993(B)): <strong>60 days</strong> after recording.</li>
+                    </ul>
+                </li>
+                <li><strong>Foreclosure deadline — NON-EXTENDABLE 6 months (§ 33-998):</strong> Suit filed in Superior Court AND lis pendens recorded with county recorder within <strong>6 months</strong> of lien recording. Statutory and not subject to private extension.</li>
+                <li><strong>Stop notice remedy (§§ 33-1051–33-1067):</strong> Parallel alternative to lien; essential where owner-occupied defense bars lien.</li>
+                <li><strong>Required notice content (§ 33-992.01(C)):</strong> Includes the statutory mechanic's lien warning in <strong>bold type</strong> reproduced verbatim from the statute.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         6. VERIFICATION + NOTARIZATION
+         ============================================================ -->
+    <div class="page-break"></div>
+
+    <div class="section">
+        <div class="section-title">9. Verification under Penalty of Perjury</div>
+        <p>I, <span class="field">[Name of Affiant]</span>, being duly sworn under oath, depose and state as follows:</p>
+        <ol>
+            <li>I am the <span class="field">[lien claimant / authorized officer / qualifying agent / general partner / member-manager]</span> of the lien claimant identified in Section 1 of this Claim of Mechanic's Lien, and I am authorized to make this verification on behalf of the lien claimant.</li>
+            <li>I have personal knowledge of the matters stated in this Claim of Mechanic's Lien, or such knowledge is derived from records maintained by the lien claimant in the ordinary course of business and reasonably relied upon.</li>
+            <li>The lien claimant furnished the labor, professional services, materials, and/or equipment described in Section 6 to the real property described in Section 5, at the request of or with the consent of the owner of record or the owner's agent (or, where the lien claimant is a remote contractor, at the request of the upstream contracting party identified in Section 3).</li>
+            <li>The dates of first and last furnishing set forth in Section 5 are true and correct, and reflect the actual dates of substantive contract performance — not warranty visits, punch-list-only callbacks, or de minimis return trips.</li>
+            <li>The amount claimed in Section 7 is true and correct, represents amounts <strong>justly due and owing to the lien claimant after just credits and deductions</strong>, and is not exaggerated. No part of the amount claimed has been paid or is otherwise secured.</li>
+            <li>The lien claimant has complied with all statutory pre-lien notice requirements applicable to this claim under the laws of the state of recording — including, where applicable, the preliminary notice, notice to owner, notice of furnishing, notice to lien agent, notice of nonpayment, and/or notice to contractor described in the state-specific overlay block in Section 8 above. Proof of each required service is preserved and is attached as Exhibit C.</li>
+            <li>The lien claimant is, where required by state law, currently licensed and/or registered to perform the work described in Section 6, and was so licensed and/or registered at all times during which work was performed.</li>
+            <li>This Claim of Mechanic's Lien is not made for any improper purpose, is not exaggerated, and is filed in good faith.</li>
+        </ol>
+        <p>I declare under penalty of perjury under the laws of the State of <span class="field">[State]</span> that the foregoing is true and correct.</p>
+
+        <div class="signature-block">
+            <p>Executed this <span class="field">[Day]</span> day of <span class="field">[Month]</span>, <span class="field">[Year]</span>, at <span class="field">[City, State]</span>.</p>
+            <div class="signature-line">
+                <span class="field">[Signature of Affiant]</span><br>
+                <span class="field">[Printed Name]</span><br>
+                <span class="field">[Title / Capacity]</span><br>
+                <span class="field">[Lien Claimant Name]</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="notary-block">
+        <div class="section-title" style="margin-top: 0;">10. Notarial Acknowledgment</div>
+        <p class="footnote">Use the form prescribed by the state of recording. Most states accept the standard "acknowledgment" form; California requires its specific acknowledgment form with the CA-mandated disclaimer. Texas requires acknowledgment AND, for homestead liens, the 10-point bold "NOTICE: THIS IS NOT A LIEN" caption (§ 53.254). For NC's LiensNC.com filings, the notarial block is electronic. Verify the controlling state-specific notarial wording before execution.</p>
+
+        <p>STATE OF <span class="field">[State]</span> &nbsp;)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) ss.<br>
+        COUNTY OF <span class="field">[County]</span> &nbsp;)</p>
+
+        <p>On this <span class="field">[Day]</span> day of <span class="field">[Month]</span>, <span class="field">[Year]</span>, before me, the undersigned notary public, personally appeared <span class="field">[Affiant Name]</span>, personally known to me (or proved to me on the basis of satisfactory evidence) to be the person whose name is subscribed to the within instrument, and acknowledged to me that he/she/they executed the same in his/her/their authorized capacity, and that by his/her/their signature on the instrument, the person, or the entity upon behalf of which the person acted, executed the instrument. The affiant having first been duly sworn, did depose and state under oath that the matters set forth in this Claim of Mechanic's Lien are true and correct to the best of the affiant's knowledge.</p>
+
+        <p>Witness my hand and official seal.</p>
+
+        <div style="margin-top: 36px;">
+            <div style="border-top: 1px solid #000; width: 320px; display: inline-block; margin-right: 30px; padding-top: 4px;">
+                Signature of Notary Public
+            </div>
+            <div style="border-top: 1px solid #000; width: 220px; display: inline-block; padding-top: 4px;">
+                My Commission Expires
+            </div>
+        </div>
+
+        <div style="margin-top: 28px;">
+            <div style="border-top: 1px solid #000; width: 320px; display: inline-block; padding-top: 4px;">
+                Printed Name of Notary
+            </div>
+        </div>
+
+        <div style="margin-top: 36px; padding: 10px; border: 1px dashed #999; width: 240px;">
+            <em>[Affix Notary Seal / Stamp Here]</em>
+        </div>
+
+        <p class="footnote" style="margin-top: 18px;"><strong>Witness signatures (where state law requires).</strong> Most states do not require attesting witnesses in addition to notarial acknowledgment. Check the state-specific recording requirements before adding a witness block; in most jurisdictions, an unnecessary witness is harmless but a missing notarization is fatal.</p>
+    </div>
+
+    <!-- ============================================================
+         7. CERTIFICATE OF SERVICE / RECORDING
+         ============================================================ -->
+    <div class="page-break"></div>
+
+    <div class="section">
+        <div class="section-title">11. Certificate of Service &amp; Recording</div>
+        <p>The undersigned certifies that on the <span class="field">[Day]</span> day of <span class="field">[Month]</span>, <span class="field">[Year]</span>, a true and correct copy of the foregoing Claim of Mechanic's Lien was served on the following parties by the methods and at the addresses set forth below:</p>
+
+        <table class="data-table">
+            <thead>
+                <tr><th width="22%">Party</th><th>Name &amp; Address</th><th width="20%">Method</th><th width="14%">Date</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Property Owner of Record</td>
+                    <td><span class="field">[Name; address per deed of record]</span></td>
+                    <td><span class="field">[Certified mail RRR / personal service / sheriff service / overnight courier]</span></td>
+                    <td><span class="field">[Date]</span></td>
+                </tr>
+                <tr>
+                    <td>Owner's Designated Agent (if any)</td>
+                    <td><span class="field">[Per Notice of Commencement]</span></td>
+                    <td><span class="field">[Method]</span></td>
+                    <td><span class="field">[Date]</span></td>
+                </tr>
+                <tr>
+                    <td>General Contractor / Prime</td>
+                    <td><span class="field">[Name; address]</span></td>
+                    <td><span class="field">[Method]</span></td>
+                    <td><span class="field">[Date]</span></td>
+                </tr>
+                <tr>
+                    <td>Construction Lender (if applicable)</td>
+                    <td><span class="field">[Name; address]</span></td>
+                    <td><span class="field">[Method]</span></td>
+                    <td><span class="field">[Date]</span></td>
+                </tr>
+                <tr>
+                    <td>Upper-Tier Contracting Party (if sub-tier claimant)</td>
+                    <td><span class="field">[Name; address]</span></td>
+                    <td><span class="field">[Method]</span></td>
+                    <td><span class="field">[Date]</span></td>
+                </tr>
+                <tr>
+                    <td>Surety on Payment Bond (if any)</td>
+                    <td><span class="field">[Name; address]</span></td>
+                    <td><span class="field">[Method]</span></td>
+                    <td><span class="field">[Date]</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p class="sub-title">11.1 State-Specific Service Deadlines</p>
+        <table class="data-table deadline-table">
+            <thead>
+                <tr>
+                    <th>State</th>
+                    <th>Service deadline relative to recording</th>
+                    <th>Authority</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>TN</td><td>No fixed post-recording service deadline; copy customarily served promptly</td><td>T.C.A. § 66-11-112 et seq.</td></tr>
+                <tr><td>CA</td><td>Service on owner required for lien validity; serve at recording or promptly after</td><td>Civ. Code § 8416(a)(7)</td></tr>
+                <tr><td>TX</td><td><strong>5 business days</strong> after filing</td><td>Tex. Prop. Code § 53.055</td></tr>
+                <tr><td>NY</td><td>5 days before or <strong>30 days after</strong> filing</td><td>N.Y. Lien Law § 11</td></tr>
+                <tr><td>FL</td><td>Before recording or within <strong>15 days after</strong> recording</td><td>Fla. Stat. § 713.08(4)(c)</td></tr>
+                <tr><td>GA</td><td><strong>2 business days</strong> after filing — failure voids the lien</td><td>O.C.G.A. § 44-14-361.1(a)(4)</td></tr>
+                <tr><td>IL</td><td>Within 10 days of recording (best practice)</td><td>770 ILCS 60/7 (practitioner standard)</td></tr>
+                <tr><td>NC</td><td><strong>3 days</strong> of filing (excluding weekends/holidays)</td><td>N.C.G.S. § 44A-11</td></tr>
+                <tr><td>WA</td><td><strong>14 days</strong> of filing — failure forfeits attorney's fees</td><td>RCW 60.04.091</td></tr>
+                <tr><td>OH</td><td><strong>30 days</strong> after filing</td><td>ORC § 1311.07</td></tr>
+                <tr><td>VA</td><td>Certification of mailing required at filing (GC only)</td><td>Va. Code § 43-4</td></tr>
+                <tr><td>PA</td><td><strong>1 month</strong> after filing</td><td>49 P.S. § 1502(a)(2)</td></tr>
+                <tr><td>MI</td><td><strong>15 days</strong> after recording — personal service or certified mail RRR</td><td>MCL 570.1111(4)</td></tr>
+                <tr><td>NJ</td><td><strong>10 days</strong> after filing (commercial); 10 days after lien filing post-arbitration (residential)</td><td>N.J.S.A. 2A:44A-7, 2A:44A-21(d)</td></tr>
+                <tr><td>MA</td><td>Recording of Notice IS the perfection — service of Notice of Subcontract on owner is separate, by mailing or delivery</td><td>M.G.L. c. 254 § 4</td></tr>
+                <tr><td>MD</td><td>Petition served on owner under Md. Rule 12-302 (Show-Cause Order)</td><td>Md. Real Prop. § 9-106; Md. Rule 12-303</td></tr>
+                <tr><td>CT</td><td><strong>30 days</strong> after recording — first-class mail or in-hand</td><td>Conn. Gen. Stat. § 49-35</td></tr>
+                <tr><td>AZ</td><td>Promptly after recording (5 business days, safe-harbor) — certified or registered mail</td><td>A.R.S. § 33-993(D)</td></tr>
+            </tbody>
+        </table>
+
+        <p class="sub-title">11.2 Recording Office by State (Where the Lien Is Filed)</p>
+        <table class="data-table deadline-table">
+            <thead>
+                <tr><th>State</th><th>Recording / Filing Office</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>TN</td><td>Register of Deeds (county)</td></tr>
+                <tr><td>CA</td><td>County Recorder</td></tr>
+                <tr><td>TX</td><td>County Clerk</td></tr>
+                <tr><td>NY</td><td>County Clerk</td></tr>
+                <tr><td>FL</td><td>Clerk of the Circuit Court (county)</td></tr>
+                <tr><td>GA</td><td>Clerk of Superior Court (county)</td></tr>
+                <tr><td>IL</td><td>Recorder of Deeds (county)</td></tr>
+                <tr><td>NC</td><td>Clerk of Superior Court (county) for Claim of Lien on Real Property; <strong>LiensNC.com (electronic)</strong> for Notice to Lien Agent</td></tr>
+                <tr><td>WA</td><td>County Auditor / Recorder</td></tr>
+                <tr><td>OH</td><td>County Recorder</td></tr>
+                <tr><td>VA</td><td>Clerk of the Circuit Court (county or city)</td></tr>
+                <tr><td>PA</td><td><strong>Prothonotary</strong> of the Court of Common Pleas (county)</td></tr>
+                <tr><td>MI</td><td>Register of Deeds (county)</td></tr>
+                <tr><td>NJ</td><td>County Clerk (commercial); residential lien follows AAA arbitration, then County Clerk</td></tr>
+                <tr><td>MA</td><td>Registry of Deeds (county)</td></tr>
+                <tr><td>MD</td><td><strong>Circuit Court (judicial petition — NOT recorded)</strong></td></tr>
+                <tr><td>CT</td><td>Town Clerk's Land Records</td></tr>
+                <tr><td>AZ</td><td>County Recorder</td></tr>
+            </tbody>
+        </table>
+        <p class="footnote">Filing fees vary by jurisdiction; expect $25–$80 for the first page plus per-page additions. Confirm current fees with the recording office before filing.</p>
+
+        <div class="signature-block">
+            <div class="signature-line">
+                <span class="field">[Signature of Server]</span><br>
+                <span class="field">[Printed Name]</span><br>
+                <span class="field">[Title]</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         8. EXHIBITS
+         ============================================================ -->
+    <div class="section">
+        <div class="section-title">12. Exhibits</div>
+        <p>The following exhibits are attached to and incorporated by reference into this Claim of Mechanic's Lien:</p>
+        <table class="data-table">
+            <tr>
+                <td width="15%"><strong>Exhibit A</strong></td>
+                <td><strong>Itemized invoices / billing records.</strong> Full set of invoices comprising the amount claimed in Section 7, including invoice number, date, period covered, scope/CSI section, hours/quantities, unit prices, extended amounts, taxes, and running balances. Include payment-application sheets (AIA G702/G703 or equivalent) if used on the project.</td>
+            </tr>
+            <tr>
+                <td><strong>Exhibit B</strong></td>
+                <td><strong>Original contract or written work authorization.</strong> The fully executed subcontract, work order, purchase order, master services agreement and task order, or other written authorization under which the lien claimant performed the work. For MA projects, attach the written prime contract on which a sub's lien depends (M.G.L. c. 254 § 2). For TX homestead, attach the spousally-signed pre-work contract (Tex. Prop. Code § 53.254).</td>
+            </tr>
+            <tr>
+                <td><strong>Exhibit C</strong></td>
+                <td><strong>Proof of preliminary notice service (where state requires).</strong> Includes (as applicable): CA Preliminary 20-Day Notice + proof of service; TX § 53.056 monthly pre-lien notices for every month of unpaid work + USPS/courier tracking; FL Notice to Owner + proof of service on owner and designated agent; GA Notice to Contractor + statutory overnight delivery receipt; IL 90-day subcontractor notice; NC Notice to Lien Agent + LiensNC.com confirmation; OH Notice of Furnishing + certified mail receipt; MI Notice of Furnishing + receipt; AZ Preliminary 20-Day Notice + USPS certificate of mailing; TN Notice of Nonpayment for each unpaid month + certified mail green cards; PA Preliminary Notice of Intent to Lien + certified mail receipt; NJ NUB (residential) + AAA Demand for Arbitration; VA § 43-7 / § 43-9 notice to owner; MA Notice of Contract / Notice of Subcontract + Registry of Deeds recording; CA Stop Payment Notice (if used); MD Notice of Intent to Claim Lien (sub).</td>
+            </tr>
+            <tr>
+                <td><strong>Exhibit D</strong></td>
+                <td><strong>Materialman's certifications (if applicable).</strong> For material suppliers: copies of delivery receipts, signed bills of lading, on-site receipt acknowledgments, photographs of delivered materials at the site, and (for TX specially fabricated materials) the § 53.058 fabricated-items notice with proof of acceptance.</td>
+            </tr>
+            <tr>
+                <td><strong>Exhibit E</strong></td>
+                <td><strong>Construction trust fund / sworn statement (where state regime applies).</strong> For TX: certification under Property Code Chapter 162 of trust-fund compliance and identification of beneficiaries. For NY: Article 3-A trust fund records and § 76 books of account showing source and disposition of trust assets. For MI: signed Sworn Statement under MCL 570.1110 and partial waivers from sub-tier claimants. For FL: contractor's final-payment affidavit under § 713.06(3)(d) (prime only — and only after delivery to owner ≥ 5 days before suit).</td>
+            </tr>
+            <tr>
+                <td><strong>Exhibit F</strong></td>
+                <td><strong>Recorded deed and legal description source.</strong> Copy of the most recent recorded deed from which the legal description in Section 5 was drawn, with book/page or instrument number.</td>
+            </tr>
+            <tr>
+                <td><strong>Exhibit G</strong></td>
+                <td><strong>Recorded Notice of Commencement (where applicable).</strong> FL § 713.13, OH § 1311.04, MI § 570.1108, GA § 44-14-361.5, PA Searchable Project (Act 142) Notice of Commencement from the State Construction Notices Directory.</td>
+            </tr>
+            <tr>
+                <td><strong>Exhibit H</strong></td>
+                <td><strong>Lien waivers / partial releases previously executed.</strong> Copies of all conditional and unconditional waivers previously delivered, identifying which payments they release and which work and time periods they cover. Critical for documenting that the amount claimed in Section 7 is net of previously waived amounts.</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- ============================================================
+         9. PRE-FILE CHECKLIST (NO-PRINT)
+         ============================================================ -->
+    <div class="page-break"></div>
+
+    <div class="no-print">
+        <div class="section">
+            <div class="section-title">PRE-FILE CHECKLIST — Complete Every Item Before Recording</div>
+            <p style="font-size: 13.5px;">This is a real legal filing that, once recorded, encumbers real property. Defects discovered <em>after</em> recording are rarely curable and may expose the claimant to slander-of-title liability and statutory damages. <strong>Have your attorney review the completed instrument and every exhibit before it is sworn and filed.</strong></p>
+
+            <div class="checklist">
+                <ol>
+                    <li><strong>State of recording confirmed</strong> — Which state's lien statute governs? Pull the current state-overlay block in Section 8.</li>
+                    <li><strong>Claimant license / registration verified</strong> — Active license and/or registration on the date of every day of furnishing. WA forfeits lien rights entirely for unregistered contractors (RCW 60.04.011(11)); AZ bars unlicensed lien claims (A.R.S. § 33-981(C), (E)).</li>
+                    <li><strong>Owner name matches current recorded deed of record</strong> — Pull the most recent vesting deed and copy the owner name verbatim, including punctuation, trust references, and co-owner ordering.</li>
+                    <li><strong>Full legal description pulled from current deed</strong> — Not paraphrased; not from the marketing flyer; not from the title commitment. The recorded deed.</li>
+                    <li><strong>Tax parcel ID / APN / folio confirmed against assessor records</strong>.</li>
+                    <li><strong>Date of first furnishing confirmed</strong> — The actual date of first physical labor or material delivery to the site, not the contract execution date.</li>
+                    <li><strong>Date of last furnishing confirmed</strong> — The last day of substantive contract work; explicitly NOT warranty visits, NOT punch-list-only callbacks, NOT trivial corrective work performed to revive the lien clock. The clock-revival doctrine has been rejected in every state surveyed.</li>
+                    <li><strong>Notice of Commencement (if applicable) located and copied</strong> — FL, OH, MI, GA, PA Searchable. Without it, the 20-day or 21-day or 45-day notice clock may not have started, but defensive practice is to assume it did.</li>
+                    <li><strong>Preliminary / pre-lien notice (state-specific) timely served and documented</strong>:
+                        <ul style="font-size: 13px; margin-top: 4px;">
+                            <li>CA — 20-Day Preliminary Notice to owner + GC + lender, within 20 days of first furnishing.</li>
+                            <li>TX — Monthly § 53.056 notice for EVERY month of unpaid work, by the 15th day of the third month (commercial) or second month (residential) after each unpaid month. <strong>Single rollup notice does not perfect prior months.</strong></li>
+                            <li>FL — Notice to Owner within 45 days of first furnishing; failure is a complete defense.</li>
+                            <li>GA — Notice to Contractor within 30 days of later of NOC filing or first furnishing.</li>
+                            <li>IL — 90-day subcontractor notice to owner and lender (now permits FedEx/UPS/DHL with tracking under PA 103-0827).</li>
+                            <li>NC — Notice to Lien Agent through LiensNC.com within 15 calendar days of first furnishing. <strong>The #1 missed deadline in NC.</strong></li>
+                            <li>WA — Notice to Owner protecting 10-day or 60-day lookback (depending on project type).</li>
+                            <li>OH — Notice of Furnishing within 21 calendar days of first furnishing.</li>
+                            <li>MI — Notice of Furnishing within 20 calendar days of first furnishing. (One day shorter than OH.)</li>
+                            <li>PA — Subcontractor Preliminary Notice of Intent to Lien at least 30 days before filing; Searchable Project Notice of Furnishing within 45 days if applicable.</li>
+                            <li>NJ residential — NUB + AAA Demand within 60 days each; commercial — none required.</li>
+                            <li>TN — Monthly Notice of Nonpayment by certified mail within 90 days of last day of each unpaid month.</li>
+                            <li>VA — § 43-7 notice (sub to owner) and § 43-9 notice (sub-sub to owner AND GC). Optional § 43-11 preliminary notice for owner personal liability upgrade.</li>
+                            <li>AZ — Preliminary 20-Day Notice to owner + GC + lender + contracting party within 20 days of first furnishing.</li>
+                            <li>MD — Notice of Intent to Claim Lien (sub) within 120 days of last work.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Amount claimed re-derived from invoice ledger</strong> — Reconcile contract value, change orders, payments received, credits, retainage, and statutory interest. Do not pad. Willful exaggeration is sanctioned in NY (§ 39-a) and AZ (§ 33-420).</li>
+                    <li><strong>Retainage isolated and identified separately</strong> — Required in VA (excluded from 150-day look-back), TN (carve-out from § 66-11-145 nonpayment notice), and TX (retainage lien has its own deadline under § 53.101).</li>
+                    <li><strong>Statutory interest itemized separately</strong> — Do not bundle interest into principal. Identify the applicable prompt-pay rate (TN 1.5%/mo; CA 2%/mo; etc.).</li>
+                    <li><strong>State-specific filing deadline computed and confirmed</strong> — Cross-check against the state-overlay block. <strong>If &lt; 14 days remain, treat as emergency.</strong></li>
+                    <li><strong>State-specific foreclosure deadline calendared</strong> — Even though it is not due now, calendar it on the same day you file the lien. Missing the foreclosure deadline is the second-most-common malpractice trap (AZ 6 months non-extendable; CA 90 days; WA 8 months; FL 1 year or 60 days if contested; etc.).</li>
+                    <li><strong>Notice of Completion / Notice of Cessation / Notice of Substantial Completion check</strong> — If the owner has recorded any of these, the lien clock may have collapsed dramatically. TN collapses to 30/10 days; CA collapses to 30/60 days; MA shifts deadlines via Notice of Substantial Completion under § 2A and Notice of Termination under § 2B; AZ collapses to 60 days.</li>
+                    <li><strong>Demand-to-enforce / Notice-to-Commence-Suit / Notice-of-Contest check</strong> — Has the owner served a demand under TN § 66-11-130 (60 days), IL 770 ILCS 60/34 (30 days), GA § 44-14-368 (60 days), NJ § 2A:44A-15 (30 days), OH § 1311.11 (60 days), or FL § 713.22 (60 days from contest)?</li>
+                    <li><strong>Service-on-owner method and deadline confirmed</strong> — See state table in Section 11.1. Several states use the date of mailing (IL post-PA 103-0827); others use the date of receipt; GA's 2-business-day window is the tightest.</li>
+                    <li><strong>State-required boldface warning language included</strong> — TX homestead "NOTICE: THIS IS NOT A LIEN..."; FL Notice to Owner "WARNING! FLORIDA'S CONSTRUCTION LIEN LAW..."; AZ Preliminary 20-Day Notice statutory bold warning; GA § 44-14-366 12-point boldface caps for waivers.</li>
+                    <li><strong>For NC — LiensNC.com filing pathway confirmed</strong>; for MD — judicial petition pathway confirmed (NOT recorded); for NJ residential — AAA arbitration completed; for PA Searchable Project — Directory filings confirmed.</li>
+                    <li><strong>Construction-loan / mortgage priority position analyzed</strong> — Date of first furnishing vs. date of construction mortgage recording. Most states relate back to first furnishing or visible commencement. Calendars priority over post-commencement encumbrances.</li>
+                    <li><strong>Public-works status confirmed</strong> — No mechanic's lien against public property in any state. Public projects route to payment bond claim under the state's Little Miller Act; deadlines differ from private lien deadlines.</li>
+                    <li><strong>Homestead / owner-occupied-dwelling defense analyzed</strong> — TX homestead, AZ § 33-1002 (only direct contractor with written contract has lien rights), OH § 1311.011 full-payment defense, PA Act 117 owner-occupied carve-out, MD tenant-occupied family dwelling exemption, NJ residential AAA precondition.</li>
+                    <li><strong>Trust-fund / criminal-exposure compliance reviewed</strong> — TX Chapter 162, NY Lien Law Article 3-A, FL § 713.345. Confirm that the claimant entity has not itself diverted construction trust funds; a contractor that has misapplied funds is in worse position to claim a lien for unpaid amounts.</li>
+                    <li><strong>Aggregate-cap analysis (where applicable)</strong> — GA (aggregate liens ≤ contract price), IL 770 ILCS 60/21 (sub limited to owner-to-prime balance at notice), NJ § 2A:44A-9 (lien fund), CT § 49-33(f) (sub aggregate ≤ unpaid balance), VA § 43-7 (sub limited to owner-to-GC balance), MA § 4 (sub capped at owner-to-prime balance), MD § 9-104(d) (unpaid-balance defense).</li>
+                    <li><strong>VA 150-day look-back confirmed (VA only)</strong> — Memorandum cannot include sums for work performed more than 150 days before claimant's last day of work. Inclusion voids the ENTIRE lien. File successive memoranda if needed.</li>
+                    <li><strong>Notarial block uses correct state-specific acknowledgment language</strong> — CA's acknowledgment includes the specific California disclaimer; other states use the standard form.</li>
+                    <li><strong>Exhibits A–H assembled, paginated, and bates-numbered if voluminous</strong>.</li>
+                    <li><strong>Filing fees confirmed with the recording office</strong> — Have a check or e-filing payment method ready; filing officer rejection for fee shortage may push filing past the statutory deadline.</li>
+                    <li><strong>Calendar EVERY downstream deadline at the moment of filing</strong> — Foreclosure deadline, service-of-lien deadline, lis-pendens recording deadline (NC, AZ), demand-to-enforce response window (if served).</li>
+                    <li><strong>HAVE YOUR CONSTRUCTION ATTORNEY REVIEW THE COMPLETED FILING</strong> — This is a real legal filing with real consequences. The cost of attorney review is trivial compared to the cost of a defective or wrongful lien. Filing without attorney review is the single most preventable source of lien-claim malpractice in U.S. construction practice.</li>
+                </ol>
+            </div>
+
+            <p style="margin-top: 20px; font-size: 13px;"><strong>After filing:</strong> Send a copy to all interested parties (per Section 11). Mark your calendar for the foreclosure deadline (per the state-overlay block). Consider settlement negotiations within the foreclosure window. If the owner records a Notice of Contest of Lien (FL) or serves a demand to enforce (TN, OH, IL, GA, NJ), recalibrate the foreclosure deadline immediately and consult counsel within 5 business days.</p>
+
+            <p style="margin-top: 16px; font-size: 12.5px; color: #555;"><strong>Disclaimer.</strong> This template is structured starting material for use by a contractor with construction-attorney representation. It does not constitute legal advice and is not a substitute for state-specific legal counsel. Mechanics' lien laws are amended frequently — TX HB 2237 (2022), CA SB 61 / SB 440 (2026), IL PA 103-0827 (2025), and TN CIPPA (2020) are examples of material amendments within the last several years. Every filing must be reviewed against the controlling current statutory text.</p>
+        </div>
+    </div>
+
+</body>
+</html>

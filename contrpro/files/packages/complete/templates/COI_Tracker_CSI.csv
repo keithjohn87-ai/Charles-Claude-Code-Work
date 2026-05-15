@@ -1,0 +1,60 @@
+Subcontractor,CSI Division,CSI Code,Division Name,COI On File,Insurance Company,Policy Number,General Liability Limit,GL Expiration,Workers Comp,WC Expiration,Auto Insurance,Auto Expiration,Umbrella,Umbrella Expiration,Status,Notes
+,,,,,,,$0.00,,,,,,,,Expired,
+,,,,,,,$0.00,,,,,,,,Expired,
+,,,,,,,$0.00,,,,,,,,Expired,
+,,,,,,,$0.00,,,,,,,,Expired,
+,,,,,,,$0.00,,,,,,,,Expired,
+
+COI SUMMARY BY CSI DIVISION
+CSI Division,Division Name,Total Subcontractors,COI Current,COI Expiring (30 days),COI Expired
+01,General Requirements,0,0,0,0
+02,Existing Conditions,0,0,0,0
+04,Masonry,0,0,0,0
+05,Metals,0,0,0,0
+06,"Wood, Plastics, and Composites",0,0,0,0
+07,Thermal and Moisture Protection,0,0,0,0
+08,Openings,0,0,0,0
+09,Finishes,0,0,0,0
+10,Specialties,0,0,0,0
+21,Fire Suppression,0,0,0,0
+22,Plumbing,0,0,0,0
+23,HVAC,0,0,0,0
+26,Electrical,0,0,0,0
+31,Earthwork,0,0,0,0
+32,Exterior Improvements,0,0,0,0
+
+EXPIRATION ALERTS BY DIVISION
+Review 60 days before expiration
+Request renewal COI 30 days before expiration
+Do not allow on-site work with expired COI
+
+CSI MASTERFORMAT DIVISION REFERENCE
+01 - General Requirements
+02 - Existing Conditions
+04 - Masonry
+05 - Metals (Structural Steel, Metal Joists, Decking, Fabrications)
+06 - Wood/Plastics/Composites (Carpentry, Architectural Woodwork)
+07 - Thermal/Moisture Protection (Roofing, Waterproofing, Insulation)
+08 - Openings (Doors, Windows, Glazing)
+09 - Finishes (Drywall, Flooring, Painting)
+10 - Specialties (Storage, Signage, Safety)
+21 - Fire Suppression (Sprinklers, Fire Extinguishing)
+22 - Plumbing (Piping, Fixtures, Equipment)
+23 - HVAC (Heating, Cooling, Air Distribution)
+26 - Electrical (Power Distribution, Lighting, Controls)
+31 - Earthwork (Excavation, Grading, Site Clearing)
+32 - Exterior Improvements (Paving, Landscaping, Site Furnishings)
+
+Instructions:
+1. Assign CSI Division and Code for each subcontractor's primary trade
+2. Collect COI before work begins
+3. Verify Additional Insured endorsement
+4. Track all policy expiration dates
+5. Request updated COIs annually
+6. Maintain file for each subcontractor by division
+
+CSI MasterFormat Integration:
+- CSI Division: Two-digit division number (01-49) for trade classification
+- CSI Code: Specific work category code (e.g., 05 10 00 for Structural Metal Framing)
+- Division Name: Standard MasterFormat division name
+- Division Summary: Track COI status by trade for compliance management

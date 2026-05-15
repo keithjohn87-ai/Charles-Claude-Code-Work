@@ -1,0 +1,25 @@
+Vendor/Supplier,Invoice Number,Date Received,Description,Amount,Due Date,Date Paid,Payment Method,Check/Ref Number,Status,Notes
+,,,,$0.00,,,,,Unpaid,
+,,,,$0.00,,,,,Unpaid,
+,,,,$0.00,,,,,Unpaid,
+,,,,$0.00,,,,,Unpaid,
+,,,,$0.00,,,,,Unpaid,
+
+ACCOUNTS PAYABLE SUMMARY
+Total Outstanding:,$0.00
+Due This Week:,$0.00
+Overdue:,$0.00
+Paid (This Month):,$0.00
+
+CASH FLOW FORECAST
+Week 1:,$0.00
+Week 2:,$0.00
+Week 3:,$0.00
+Week 4:,$0.00
+
+Instructions:
+1. Enter bills immediately upon receipt
+2. Prioritize payments by due date
+3. Take early payment discounts when offered
+4. Track payment method for reconciliation
+5. Review cash flow weekly

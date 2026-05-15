@@ -1,0 +1,29 @@
+Job Name,Job Number,Client Name,Contract Amount,Start Date,Target Completion,Status
+,,,,$0.00,,,Not Started
+,,,,$0.00,,,Not Started
+,,,,$0.00,,,Not Started
+,,,,$0.00,,,Not Started
+,,,,$0.00,,,Not Started
+
+COST TRACKING
+Category,Budget,Actual,Variance,% Complete
+Labor,$0.00,$0.00,$0.00,0%
+Materials,$0.00,$0.00,$0.00,0%
+Subcontractors,$0.00,$0.00,$0.00,0%
+Equipment,$0.00,$0.00,$0.00,0%
+Permits/Fees,$0.00,$0.00,$0.00,0%
+Overhead,$0.00,$0.00,$0.00,0%
+TOTAL,$0.00,$0.00,$0.00,0%
+
+JOB PROFITABILITY
+Total Contract,$0.00
+Total Costs,$0.00
+Gross Profit,$0.00
+Profit Margin,0%
+
+Instructions:
+1. Fill in job details in the first section
+2. Track costs by category in the COST TRACKING section
+3. Profitability calculates automatically
+4. Update % Complete weekly for accurate forecasting
+5. Review variances to stay on budget

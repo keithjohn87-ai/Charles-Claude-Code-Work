@@ -1,0 +1,25 @@
+Project Name,Project Number,Client,Contract Amount,Start Date,Target Date,Actual Completion,Status,Budget,Actual Cost,Margin,PM Notes
+,,,,$0.00,,,,In Progress,$0.00,$0.00,$0.00,
+,,,,$0.00,,,,In Progress,$0.00,$0.00,$0.00,
+,,,,$0.00,,,,In Progress,$0.00,$0.00,$0.00,
+,,,,$0.00,,,,In Progress,$0.00,$0.00,$0.00,
+,,,,$0.00,,,,In Progress,$0.00,$0.00,$0.00,
+
+PROJECT DASHBOARD
+Active Projects:,0
+Completed (This Month):,0
+Total Contract Value:,$0.00
+Total Budget:,$0.00
+Total Actual Cost:,$0.00
+Overall Margin:,$0.00
+Margin %:,0%
+
+STATUS OPTIONS
+Not Started / In Progress / On Hold / Completed / Cancelled
+
+Instructions:
+1. Update project status weekly
+2. Track actual vs budget costs
+3. Flag projects with <10% margin
+4. Document issues in PM Notes
+5. Review dashboard monthly

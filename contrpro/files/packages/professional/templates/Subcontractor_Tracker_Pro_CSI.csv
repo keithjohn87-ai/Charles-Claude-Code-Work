@@ -1,0 +1,69 @@
+Company Name,Contact Name,Phone,Email,Address,Trade/Specialty,CSI Division,CSI Code,License #,License Exp,Insurance Exp,W9 Received,Contract Signed,Hourly Rate,Markup %,Performance Rating,Last Job,Total Jobs,Notes
+,,,,,,,,,,,,,$0.00,0%,,,0,
+,,,,,,,,,,,,,$0.00,0%,,,0,
+,,,,,,,,,,,,,$0.00,0%,,,0,
+,,,,,,,,,,,,,$0.00,0%,,,0,
+,,,,,,,,,,,,,$0.00,0%,,,0,
+
+SUBCONTRACTOR ANALYTICS BY CSI DIVISION
+CSI Division,Division Name,Total Vendors,Approved for Work,Insurance Current,Average Rating
+01,General Requirements,0,0,0,0
+02,Existing Conditions,0,0,0,0
+04,Masonry,0,0,0,0
+05,Metals,0,0,0,0
+06,"Wood, Plastics, and Composites",0,0,0,0
+07,Thermal and Moisture Protection,0,0,0,0
+08,Openings,0,0,0,0
+09,Finishes,0,0,0,0
+10,Specialties,0,0,0,0
+21,Fire Suppression,0,0,0,0
+22,Plumbing,0,0,0,0
+23,HVAC,0,0,0,0
+26,Electrical,0,0,0,0
+31,Earthwork,0,0,0,0
+32,Exterior Improvements,0,0,0,0
+
+TOP PERFORMERS BY DIVISION (Rating 4+ and 3+ jobs completed)
+CSI Division,Company Name,Trade/Specialty,Performance Rating,Total Jobs
+05,Metals,,0,0
+22,Plumbing,,0,0
+23,HVAC,,0,0
+26,Electrical,,0,0
+
+CSI MASTERFORMAT DIVISION REFERENCE
+01 - General Requirements
+02 - Existing Conditions
+04 - Masonry
+05 - Metals (Structural Steel, Metal Joists, Decking, Fabrications)
+06 - Wood/Plastics/Composites (Carpentry, Architectural Woodwork)
+07 - Thermal/Moisture Protection (Roofing, Waterproofing, Insulation)
+08 - Openings (Doors, Windows, Glazing)
+09 - Finishes (Drywall, Flooring, Painting)
+10 - Specialties (Storage, Signage, Safety)
+21 - Fire Suppression (Sprinklers, Fire Extinguishing)
+22 - Plumbing (Piping, Fixtures, Equipment)
+23 - HVAC (Heating, Cooling, Air Distribution)
+26 - Electrical (Power Distribution, Lighting, Controls)
+31 - Earthwork (Excavation, Grading, Site Clearing)
+32 - Exterior Improvements (Paving, Landscaping, Site Furnishings)
+
+RATING CRITERIA
+5 = Exceptional - Exceeds expectations
+4 = Good - Reliable quality
+3 = Acceptable - Meets standards
+2 = Below Average - Issues noted
+1 = Unacceptable - Do not use
+
+Instructions:
+1. Assign CSI Division and Code for each subcontractor's primary trade
+2. Rate performance after each job
+3. Track total jobs for reliability
+4. Maintain competitive pricing data
+5. Flag license/insurance expirations
+6. Build relationships with top performers by division
+
+CSI MasterFormat Integration:
+- CSI Division: Two-digit division number (01-49) for trade classification
+- CSI Code: Specific work category code (e.g., 05 10 00 for Structural Metal Framing)
+- Division Name: Standard MasterFormat division name
+- Filter by division to find subcontractors by trade

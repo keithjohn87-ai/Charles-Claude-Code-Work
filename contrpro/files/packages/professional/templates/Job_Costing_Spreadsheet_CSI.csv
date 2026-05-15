@@ -1,0 +1,182 @@
+Job Name,Job Number,Client Name,Contract Amount,Start Date,Target Completion,Status,View Mode,CSI Division,CSI Code,Division Name
+,,,,$0.00,,,Not Started,GC View (All Divisions),,,
+,,,,$0.00,,,Not Started,GC View (All Divisions),,,
+,,,,$0.00,,,Not Started,GC View (All Divisions),,,
+,,,,$0.00,,,Not Started,GC View (All Divisions),,,
+,,,,$0.00,,,Not Started,GC View (All Divisions),,,
+
+COST TRACKING BY CSI DIVISION
+CSI Division,Division Name,CSI Code,Category,Budget,Actual,Variance,% Complete
+01,General Requirements,01 10 00,Summary,$0.00,$0.00,$0.00,0%
+01,General Requirements,01 20 00,Price and Payment Procedures,$0.00,$0.00,$0.00,0%
+01,General Requirements,01 30 00,Administrative Requirements,$0.00,$0.00,$0.00,0%
+01,General Requirements,01 40 00,Quality Requirements,$0.00,$0.00,$0.00,0%
+01,General Requirements,01 50 00,Temporary Facilities and Controls,$0.00,$0.00,$0.00,0%
+01,General Requirements,01 60 00,Product Requirements,$0.00,$0.00,$0.00,0%
+01,General Requirements,01 70 00,Execution and Closeout Requirements,$0.00,$0.00,$0.00,0%
+01,General Requirements,01 80 00,Performance Requirements,$0.00,$0.00,$0.00,0%
+02,Existing Conditions,02 10 00,Subsurface Investigation,$0.00,$0.00,$0.00,0%
+02,Existing Conditions,02 20 00,Assessment,$0.00,$0.00,$0.00,0%
+02,Existing Conditions,02 30 00,Hazardous Material Assessment,$0.00,$0.00,$0.00,0%
+02,Existing Conditions,02 40 00,Demolition and Structure Moving,$0.00,$0.00,$0.00,0%
+02,Existing Conditions,02 50 00,Site Remediation,$0.00,$0.00,$0.00,0%
+04,Masonry,04 10 00,Dampproofing and Waterproofing,$0.00,$0.00,$0.00,0%
+04,Masonry,04 20 00,Unit Masonry,$0.00,$0.00,$0.00,0%
+04,Masonry,04 30 00,Masonry Veneer,$0.00,$0.00,$0.00,0%
+04,Masonry,04 40 00,Stone Assemblies,$0.00,$0.00,$0.00,0%
+04,Masonry,04 50 00,Refractory Masonry,$0.00,$0.00,$0.00,0%
+04,Masonry,04 60 00,Corrosion-Resistant Masonry,$0.00,$0.00,$0.00,0%
+04,Masonry,04 70 00,Manufactured Masonry,$0.00,$0.00,$0.00,0%
+05,Metals,05 10 00,Structural Metal Framing,$0.00,$0.00,$0.00,0%
+05,Metals,05 20 00,Metal Joists,$0.00,$0.00,$0.00,0%
+05,Metals,05 30 00,Metal Decking,$0.00,$0.00,$0.00,0%
+05,Metals,05 40 00,Cold-Formed Metal Framing,$0.00,$0.00,$0.00,0%
+05,Metals,05 50 00,Metal Fabrications,$0.00,$0.00,$0.00,0%
+05,Metals,05 60 00,Hydraulic Fabrications,$0.00,$0.00,$0.00,0%
+05,Metals,05 70 00,Ornamental Metal,$0.00,$0.00,$0.00,0%
+05,Metals,05 80 00,Expansion Control,$0.00,$0.00,$0.00,0%
+05,Metals,05 90 00,Metal Restoration and Cleaning,$0.00,$0.00,$0.00,0%
+06,"Wood, Plastics, and Composites",06 10 00,Rough Carpentry,$0.00,$0.00,$0.00,0%
+06,"Wood, Plastics, and Composites",06 20 00,Finish Carpentry,$0.00,$0.00,$0.00,0%
+06,"Wood, Plastics, and Composites",06 30 00,Heavy Timber Construction,$0.00,$0.00,$0.00,0%
+06,"Wood, Plastics, and Composites",06 40 00,Architectural Woodwork,$0.00,$0.00,$0.00,0%
+06,"Wood, Plastics, and Composites",06 50 00,Structural Plastics,$0.00,$0.00,$0.00,0%
+06,"Wood, Plastics, and Composites",06 60 00,Plastic Fabrications,$0.00,$0.00,$0.00,0%
+06,"Wood, Plastics, and Composites",06 70 00,Structural Composites,$0.00,$0.00,$0.00,0%
+06,"Wood, Plastics, and Composites",06 80 00,Composite Fabrications,$0.00,$0.00,$0.00,0%
+07,Thermal and Moisture Protection,07 10 00,Dampproofing and Waterproofing,$0.00,$0.00,$0.00,0%
+07,Thermal and Moisture Protection,07 20 00,Thermal Protection,$0.00,$0.00,$0.00,0%
+07,Thermal and Moisture Protection,07 30 00,Steep Slope Roofing,$0.00,$0.00,$0.00,0%
+07,Thermal and Moisture Protection,07 40 00,Roofing and Siding Panels,$0.00,$0.00,$0.00,0%
+07,Thermal and Moisture Protection,07 50 00,Membrane Roofing,$0.00,$0.00,$0.00,0%
+07,Thermal and Moisture Protection,07 60 00,Flashing and Sheet Metal,$0.00,$0.00,$0.00,0%
+07,Thermal and Moisture Protection,07 70 00,Roof and Wall Specialties,$0.00,$0.00,$0.00,0%
+07,Thermal and Moisture Protection,07 80 00,Fire and Smoke Protection,$0.00,$0.00,$0.00,0%
+07,Thermal and Moisture Protection,07 90 00,Joint Protection,$0.00,$0.00,$0.00,0%
+08,Openings,08 10 00,Doors and Frames,$0.00,$0.00,$0.00,0%
+08,Openings,08 20 00,Wood and Plastic Doors,$0.00,$0.00,$0.00,0%
+08,Openings,08 30 00,Specialty Doors and Frames,$0.00,$0.00,$0.00,0%
+08,Openings,08 40 00,"Entrances, Storefronts, and Curtain Walls",$0.00,$0.00,$0.00,0%
+08,Openings,08 50 00,Windows,$0.00,$0.00,$0.00,0%
+08,Openings,08 60 00,Roof Windows and Skylights,$0.00,$0.00,$0.00,0%
+08,Openings,08 70 00,Hardware,$0.00,$0.00,$0.00,0%
+08,Openings,08 80 00,Glazing,$0.00,$0.00,$0.00,0%
+08,Openings,08 90 00,Louvers and Vents,$0.00,$0.00,$0.00,0%
+09,Finishes,09 10 00,Wall and Ceiling Preparation,$0.00,$0.00,$0.00,0%
+09,Finishes,09 20 00,Plaster and Gypsum Board,$0.00,$0.00,$0.00,0%
+09,Finishes,09 30 00,Tiling,$0.00,$0.00,$0.00,0%
+09,Finishes,09 40 00,Terrazzo,$0.00,$0.00,$0.00,0%
+09,Finishes,09 50 00,Ceilings,$0.00,$0.00,$0.00,0%
+09,Finishes,09 60 00,Flooring,$0.00,$0.00,$0.00,0%
+09,Finishes,09 70 00,Wall Finishes,$0.00,$0.00,$0.00,0%
+09,Finishes,09 80 00,Acoustic Treatment,$0.00,$0.00,$0.00,0%
+09,Finishes,09 90 00,Painting and Coating,$0.00,$0.00,$0.00,0%
+10,Specialties,10 10 00,Visual Display Boards,$0.00,$0.00,$0.00,0%
+10,Specialties,10 20 00,Interior Identifying Devices,$0.00,$0.00,$0.00,0%
+10,Specialties,10 30 00,Fireplaces and Stoves,$0.00,$0.00,$0.00,0%
+10,Specialties,10 40 00,Safety Specialties,$0.00,$0.00,$0.00,0%
+10,Specialties,10 50 00,Postal Specialties,$0.00,$0.00,$0.00,0%
+10,Specialties,10 60 00,Storage Assemblies,$0.00,$0.00,$0.00,0%
+10,Specialties,10 70 00,Exterior Protection,$0.00,$0.00,$0.00,0%
+10,Specialties,10 80 00,"Toilet, Bath, and Laundry Accessories",$0.00,$0.00,$0.00,0%
+10,Specialties,10 90 00,Wardrobe and Closet Specialties,$0.00,$0.00,$0.00,0%
+21,Fire Suppression,21 10 00,Water-Based Fire-Suppression Systems,$0.00,$0.00,$0.00,0%
+21,Fire Suppression,21 20 00,Fire-Extinguishing Systems,$0.00,$0.00,$0.00,0%
+21,Fire Suppression,21 30 00,Fire Pumps,$0.00,$0.00,$0.00,0%
+21,Fire Suppression,21 40 00,Storage Tanks for Fire-Suppression Water,$0.00,$0.00,$0.00,0%
+22,Plumbing,22 10 00,Plumbing Piping,$0.00,$0.00,$0.00,0%
+22,Plumbing,22 20 00,Plumbing Fixtures,$0.00,$0.00,$0.00,0%
+22,Plumbing,22 30 00,Plumbing Equipment,$0.00,$0.00,$0.00,0%
+22,Plumbing,22 40 00,Plumbing Systems,$0.00,$0.00,$0.00,0%
+22,Plumbing,22 50 00,Pool and Fountain Plumbing Systems,$0.00,$0.00,$0.00,0%
+22,Plumbing,22 60 00,Gas and Vacuum Systems for Laboratory and Healthcare Facilities,$0.00,$0.00,$0.00,0%
+22,Plumbing,22 70 00,Plumbing Insulation,$0.00,$0.00,$0.00,0%
+23,HVAC,23 10 00,Facility Fuel Systems,$0.00,$0.00,$0.00,0%
+23,HVAC,23 20 00,HVAC Piping and Pumps,$0.00,$0.00,$0.00,0%
+23,HVAC,23 30 00,HVAC Air Distribution,$0.00,$0.00,$0.00,0%
+23,HVAC,23 40 00,HVAC Air Cleaning Devices,$0.00,$0.00,$0.00,0%
+23,HVAC,23 50 00,Central Heating Equipment,$0.00,$0.00,$0.00,0%
+23,HVAC,23 60 00,Central Cooling Equipment,$0.00,$0.00,$0.00,0%
+23,HVAC,23 70 00,Central HVAC Equipment,$0.00,$0.00,$0.00,0%
+23,HVAC,23 80 00,Decentralized HVAC Equipment,$0.00,$0.00,$0.00,0%
+23,HVAC,23 90 00,HVAC Instrumentation and Controls,$0.00,$0.00,$0.00,0%
+26,Electrical,26 10 00,Medium-Voltage Electrical Distribution,$0.00,$0.00,$0.00,0%
+26,Electrical,26 20 00,Low-Voltage Electrical Transmission,$0.00,$0.00,$0.00,0%
+26,Electrical,26 30 00,Facility Electrical Power Generating and Storing Equipment,$0.00,$0.00,$0.00,0%
+26,Electrical,26 40 00,Electrical and Cathodic Protection,$0.00,$0.00,$0.00,0%
+26,Electrical,26 50 00,Lighting,$0.00,$0.00,$0.00,0%
+26,Electrical,26 60 00,Uninterruptible Power Supplies,$0.00,$0.00,$0.00,0%
+26,Electrical,26 70 00,Low-Voltage Electrical Distribution,$0.00,$0.00,$0.00,0%
+26,Electrical,26 80 00,Power Quality Equipment,$0.00,$0.00,$0.00,0%
+26,Electrical,26 90 00,Electrical Instrumentation and Controls,$0.00,$0.00,$0.00,0%
+31,Earthwork,31 10 00,Site Clearing,$0.00,$0.00,$0.00,0%
+31,Earthwork,31 20 00,Earth Moving,$0.00,$0.00,$0.00,0%
+31,Earthwork,31 30 00,Excavation and Fill,$0.00,$0.00,$0.00,0%
+31,Earthwork,31 40 00,Shoring and Underpinning,$0.00,$0.00,$0.00,0%
+31,Earthwork,31 50 00,Excavation Support and Protection,$0.00,$0.00,$0.00,0%
+32,Exterior Improvements,32 10 00,"Bases, Ballasts, and Paving",$0.00,$0.00,$0.00,0%
+32,Exterior Improvements,32 20 00,Site Improvements,$0.00,$0.00,$0.00,0%
+32,Exterior Improvements,32 30 00,Site Furnishings,$0.00,$0.00,$0.00,0%
+32,Exterior Improvements,32 40 00,Irrigation,$0.00,$0.00,$0.00,0%
+32,Exterior Improvements,32 50 00,Planting,$0.00,$0.00,$0.00,0%
+32,Exterior Improvements,32 60 00,Special Surfacing and Paving,$0.00,$0.00,$0.00,0%
+32,Exterior Improvements,32 70 00,Wetlands,$0.00,$0.00,$0.00,0%
+32,Exterior Improvements,32 80 00,Athletic and Recreational Surfaces,$0.00,$0.00,$0.00,0%
+32,Exterior Improvements,32 90 00,Site Restoration,$0.00,$0.00,$0.00,0%
+
+DIVISION SUMMARY (GC VIEW)
+CSI Division,Division Name,Total Budget,Total Actual,Total Variance,Status
+01,General Requirements,$0.00,$0.00,$0.00,Not Started
+02,Existing Conditions,$0.00,$0.00,$0.00,Not Started
+04,Masonry,$0.00,$0.00,$0.00,Not Started
+05,Metals,$0.00,$0.00,$0.00,Not Started
+06,"Wood, Plastics, and Composites",$0.00,$0.00,$0.00,Not Started
+07,Thermal and Moisture Protection,$0.00,$0.00,$0.00,Not Started
+08,Openings,$0.00,$0.00,$0.00,Not Started
+09,Finishes,$0.00,$0.00,$0.00,Not Started
+10,Specialties,$0.00,$0.00,$0.00,Not Started
+21,Fire Suppression,$0.00,$0.00,$0.00,Not Started
+22,Plumbing,$0.00,$0.00,$0.00,Not Started
+23,HVAC,$0.00,$0.00,$0.00,Not Started
+26,Electrical,$0.00,$0.00,$0.00,Not Started
+31,Earthwork,$0.00,$0.00,$0.00,Not Started
+32,Exterior Improvements,$0.00,$0.00,$0.00,Not Started
+
+JOB PROFITABILITY
+Total Contract,$0.00
+Total Costs,$0.00
+Gross Profit,$0.00
+Profit Margin,0%
+
+VIEW MODE LEGEND
+GC View (All Divisions) - Shows all CSI divisions with summary
+Subcontractor View (Division 01) - General Requirements only
+Subcontractor View (Division 02) - Existing Conditions only
+Subcontractor View (Division 04) - Masonry only
+Subcontractor View (Division 05) - Metals only
+Subcontractor View (Division 06) - Wood/Plastics/Composites only
+Subcontractor View (Division 07) - Thermal/Moisture Protection only
+Subcontractor View (Division 08) - Openings only
+Subcontractor View (Division 09) - Finishes only
+Subcontractor View (Division 10) - Specialties only
+Subcontractor View (Division 21) - Fire Suppression only
+Subcontractor View (Division 22) - Plumbing only
+Subcontractor View (Division 23) - HVAC only
+Subcontractor View (Division 26) - Electrical only
+Subcontractor View (Division 31) - Earthwork only
+Subcontractor View (Division 32) - Exterior Improvements only
+
+Instructions:
+1. Fill in job details in the first section
+2. Select View Mode: GC View (see all divisions) or Subcontractor View (filtered to trade)
+3. Track costs by CSI Division and Code in the COST TRACKING section
+4. Division Summary shows rolled-up totals for GC oversight
+5. Profitability calculates automatically
+6. Update % Complete weekly for accurate forecasting
+7. Review variances to stay on budget
+
+CSI MasterFormat Integration:
+- CSI Division: Two-digit division number (01-49)
+- CSI Code: Full 6-8 digit code (e.g., 05 10 00)
+- Division Name: Standard MasterFormat division name
+- View Mode: Filter data for GC (all divisions) or Subcontractor (specific trade)
