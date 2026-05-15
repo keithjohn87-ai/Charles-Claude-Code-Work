@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Order Request + Authorization — GC Contract Instruments</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.55; max-width: 880px; margin: 40px auto; padding: 20px; color: #222; }
+        .header { text-align: center; border-bottom: 3px double #1e3a5f; padding-bottom: 20px; margin-bottom: 30px; }
+        .form-title { font-size: 26px; font-weight: bold; color: #1e3a5f; margin-bottom: 6px; }
+        .form-subtitle { font-size: 15px; color: #444; font-weight: 600; }
+        .doc-meta { font-size: 13px; color: #666; margin-top: 8px; }
+        .field { background: #f0f0f0; padding: 2px 8px; border-radius: 3px; font-style: italic; color: #555; }
+        .section { margin: 28px 0; page-break-inside: avoid; }
+        .section-title { font-weight: bold; color: #1e3a5f; font-size: 16px; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+        .sub-title { font-weight: bold; color: #1e3a5f; font-size: 14px; margin: 14px 0 6px 0; }
+        .warning { background: #f8d7da; border-left: 4px solid #dc3545; padding: 14px 16px; margin: 18px 0; }
+        .warning strong { color: #721c24; }
+        .notice { background: #d1ecf1; border-left: 4px solid #0c5460; padding: 14px 16px; margin: 18px 0; }
+        .practice-note { background: #fdf6e3; border-left: 4px solid #b58900; padding: 14px 16px; margin: 14px 0; font-size: 13.5px; }
+        .practice-note .label { font-weight: bold; color: #1e3a5f; font-size: 14px; display: block; margin-bottom: 6px; }
+        .form-frame { border: 2px solid #1e3a5f; padding: 20px 22px; margin: 18px 0 24px 0; background: #fafbfc; page-break-inside: avoid; }
+        .form-frame .form-frame-title { font-size: 18px; font-weight: bold; color: #1e3a5f; text-align: center; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 4px; }
+        .form-frame .form-frame-sub { font-size: 13px; color: #555; text-align: center; margin-bottom: 16px; font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        td, th { padding: 7px 8px; vertical-align: top; }
+        th { background: #1e3a5f; color: #fff; text-align: left; font-size: 12.5px; }
+        .data-table td { border: 1px solid #ccc; font-size: 13px; }
+        .data-table td.label { font-weight: 600; background: #f9f9f9; width: 32%; }
+        .calc-table th, .calc-table td { border: 1px solid #1e3a5f; padding: 8px 10px; font-size: 13px; }
+        .calc-table th { font-size: 11.5px; text-transform: uppercase; }
+        .calc-table td.label { font-weight: 600; background: #f9f9f9; }
+        .calc-table td.amount { text-align: right; font-family: 'Courier New', monospace; }
+        .calc-table tr.subtotal td { background: #fdf6e3; font-weight: bold; }
+        .calc-table tr.total td { background: #1e3a5f; color: #fff; font-weight: bold; }
+        .checklist { background: #f9f9f9; border: 1px solid #ddd; padding: 16px 20px; border-radius: 6px; }
+        .checklist ol { margin: 0; padding-left: 22px; }
+        .checklist li { margin-bottom: 6px; font-size: 13.5px; }
+        .toc { background: #f4f6f9; border: 1px solid #c0cad8; padding: 16px 22px; margin: 20px 0 28px 0; border-radius: 6px; }
+        .toc-title { font-weight: bold; color: #1e3a5f; font-size: 14px; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+        .toc ol { margin: 0; padding-left: 22px; }
+        .toc li { margin-bottom: 4px; font-size: 13.5px; }
+        .toc a { color: #1e3a5f; text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+        .footnote { font-size: 11.5px; color: #666; font-style: italic; }
+        .signature-line { border-top: 1px solid #000; width: 320px; margin-top: 40px; padding-top: 5px; font-size: 12.5px; }
+        .page-break { page-break-before: always; }
+        @media print {
+            .no-print { display: none; }
+            body { margin: 0; max-width: 100%; }
+            .section, .form-frame { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+         INTRO
+         ============================================================ -->
+    <div class="no-print" style="background: #fff3cd; border: 2px solid #856404; padding: 18px; border-radius: 8px; margin-bottom: 24px;">
+        <strong style="color: #856404; font-size: 16px;">FORMAL CONTRACT INSTRUMENTS — DISTINCT FROM THE CHANGE ORDER LOG</strong>
+        <p style="margin: 8px 0 0 0; font-size: 13.5px;">
+            This package contains the two formal contract instruments for processing changes to the Owner-Contractor Agreement: (1) the <strong>Change Order Request (COR)</strong> — the contractor's proposal to the owner for changed work, including time and cost analysis; and (2) the <strong>Change Order (CO)</strong> — the executed bilateral instrument that modifies the contract sum, time, or scope. These instruments are distinct from the project's running Change_Order_Log spreadsheet (which tracks status across all CORs and COs at a glance) and from the Construction Change Directive (CCD) — a unilateral owner instruction to perform work pending negotiation. Use these forms together with the change-order procedures established in the Owner-Contractor Agreement and the General Conditions.
+        </p>
+    </div>
+
+    <div class="header">
+        <div class="form-title">CHANGE ORDER REQUEST + AUTHORIZATION</div>
+        <div class="form-subtitle">Formal Contract Instruments — Owner / Contractor Change Process</div>
+        <div class="doc-meta">
+            Project: <span class="field">[Project Name]</span> &nbsp;|&nbsp;
+            Document Date: <span class="field">[Date]</span>
+        </div>
+    </div>
+
+    <div class="toc">
+        <div class="toc-title">Table of Contents</div>
+        <ol>
+            <li><a href="#sec-three">Three Change-Process Instruments — COR, CCD, CO</a></li>
+            <li><a href="#sec-when">When Each Instrument Is Used</a></li>
+            <li><a href="#sec-cor">Change Order Request (COR) — Contractor's Proposal</a></li>
+            <li><a href="#sec-ccd">Construction Change Directive (CCD) — Owner's Unilateral Direction</a></li>
+            <li><a href="#sec-co">Change Order (CO) — Executed Bilateral Modification</a></li>
+            <li><a href="#sec-pricing">Pricing Methodologies — Lump Sum, Unit Price, Time &amp; Materials, Allowance</a></li>
+            <li><a href="#sec-discipline">Change-Process Discipline — 12 Rules</a></li>
+        </ol>
+    </div>
+
+    <!-- ============================================================
+         1. THREE INSTRUMENTS
+         ============================================================ -->
+    <div class="section" id="sec-three">
+        <div class="section-title">1. Three Change-Process Instruments — COR, CCD, CO</div>
+
+        <table class="data-table">
+            <tr>
+                <th>Instrument</th>
+                <th>What It Is</th>
+                <th>Who Issues</th>
+                <th>Effect</th>
+            </tr>
+            <tr>
+                <td><strong>COR (Change Order Request)</strong></td>
+                <td>The contractor's written proposal to the owner: here is the changed scope, here is the price impact, here is the time impact</td>
+                <td>Contractor</td>
+                <td>Proposal — does NOT modify the contract until accepted (becomes a CO)</td>
+            </tr>
+            <tr>
+                <td><strong>CCD (Construction Change Directive)</strong></td>
+                <td>Owner's unilateral written instruction to perform changed work, pending negotiation of price and time</td>
+                <td>Owner (typically through architect)</td>
+                <td>Contractor must perform; price negotiated subsequently and incorporated into a CO</td>
+            </tr>
+            <tr>
+                <td><strong>CO (Change Order)</strong></td>
+                <td>Executed bilateral modification of the contract — both owner and contractor sign; modifies contract sum, time, and/or scope</td>
+                <td>Owner + Contractor (signed by both)</td>
+                <td>Contract modification — binding upon execution</td>
+            </tr>
+        </table>
+
+        <div class="practice-note">
+            <span class="label">Field directives, RFIs, and ASIs are NOT changes by themselves.</span>
+            A field directive from the architect, an RFI response, or an ASI (Architect's Supplemental Instruction) clarifies design intent — it does not unilaterally modify the contract sum or time. If the field directive, RFI response, or ASI changes the cost or schedule of the work, the contractor must initiate a COR to convert the change into a CO. Performing changed work in response to a verbal directive without a COR + CO is the most common way contractors lose money on changes — at the end of the project, the owner argues the work was within original scope and refuses payment.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         2. WHEN EACH IS USED
+         ============================================================ -->
+    <div class="section" id="sec-when">
+        <div class="section-title">2. When Each Instrument Is Used</div>
+
+        <p style="font-size: 13.5px;"><strong>Standard flow when contractor identifies a change:</strong></p>
+        <ol style="font-size: 13.5px;">
+            <li>Contractor recognizes that work directed (or required by ambiguity, RFI response, ASI, field condition, or owner request) is outside original contract scope</li>
+            <li>Contractor issues a written Notice of Change to owner / architect within the contract-specified notice period (typically 7–14 days)</li>
+            <li>Contractor prepares COR — itemized cost + schedule analysis</li>
+            <li>Contractor submits COR to architect / owner</li>
+            <li>Architect reviews; recommends acceptance, modification, or rejection to owner</li>
+            <li>Owner accepts COR → executes a Change Order incorporating the COR's price and time</li>
+            <li>If owner doesn't accept the price but wants the work performed → owner issues a CCD; contractor performs on T&amp;M basis pending negotiation; final CO subsequently issued</li>
+            <li>If owner rejects both the change and the COR → contractor may have a claim under the contract dispute-resolution provisions if the work is required by contract documents</li>
+        </ol>
+
+        <p style="font-size: 13.5px;"><strong>Standard flow when owner directs a change:</strong></p>
+        <ol style="font-size: 13.5px;">
+            <li>Owner identifies a desired change in scope or design</li>
+            <li>Owner (via architect) requests contractor to provide a COR</li>
+            <li>Contractor prepares and submits COR</li>
+            <li>Owner accepts → executes a CO</li>
+            <li>Owner accepts the work but disputes the price → owner issues CCD; contractor performs; final CO incorporates the negotiated/T&amp;M-based price</li>
+            <li>Owner declines to make the change → no contract modification</li>
+        </ol>
+    </div>
+
+    <!-- ============================================================
+         3. CHANGE ORDER REQUEST
+         ============================================================ -->
+    <div class="section" id="sec-cor">
+        <div class="section-title">3. Change Order Request (COR) — Contractor's Proposal</div>
+
+        <div class="form-frame">
+            <div class="form-frame-title">Change Order Request</div>
+            <div class="form-frame-sub">Contractor's written proposal for changed work — proposal only, not a contract modification</div>
+
+            <table class="data-table">
+                <tr><td class="label">COR Number:</td><td><span class="field">[Sequential per project — e.g., COR-027]</span></td></tr>
+                <tr><td class="label">Date Submitted:</td><td><span class="field">[Date]</span></td></tr>
+                <tr><td class="label">Project:</td><td><span class="field">[Project name + project no.]</span></td></tr>
+                <tr><td class="label">Owner:</td><td><span class="field">[Owner legal name]</span></td></tr>
+                <tr><td class="label">Architect:</td><td><span class="field">[Architect firm]</span></td></tr>
+                <tr><td class="label">Contractor:</td><td><span class="field">[GC legal name]</span></td></tr>
+                <tr><td class="label">Source of Change:</td><td>☐ Owner-directed change &nbsp; ☐ Architect ASI / RFI response &nbsp; ☐ Field-discovered condition &nbsp; ☐ Code requirement / inspector directive &nbsp; ☐ Owner-supplied item issue &nbsp; ☐ Concealed condition &nbsp; ☐ Other: <span class="field">[Source]</span></td></tr>
+                <tr><td class="label">Trigger Document:</td><td><span class="field">[ASI #, RFI #, owner letter date, field condition observation date]</span></td></tr>
+                <tr><td class="label">Notice of Change Date:</td><td><span class="field">[Date contractor first notified owner of the change — for compliance with contract notice provisions]</span></td></tr>
+            </table>
+
+            <div class="sub-title" style="margin-top: 18px;">Description of Change</div>
+            <p style="font-size: 13px; padding: 10px; background: #fff; border: 1px solid #ddd; min-height: 80px;">
+                <span class="field">[Detailed description of the changed scope. Include: what is being added, deleted, or modified relative to the original contract documents; specific drawing and specification references; affected CSI divisions; affected trade subcontractors; any changes in quality, materials, or methods]</span>
+            </p>
+
+            <div class="sub-title">Reason for Change</div>
+            <p style="font-size: 13px; padding: 10px; background: #fff; border: 1px solid #ddd; min-height: 60px;">
+                <span class="field">[Why is the change occurring? E.g., "Per ASI #007 dated 2026-04-15, the architect has revised the storefront sill detail at the main entrance. The new detail requires a larger flashing element and additional sealant beyond what was shown on the original A-501."]</span>
+            </p>
+
+            <div class="sub-title" style="margin-top: 18px;">Cost Analysis</div>
+            <table class="calc-table">
+                <tr>
+                    <th width="50%">Item</th>
+                    <th width="25%">Add</th>
+                    <th width="25%">Deduct</th>
+                </tr>
+                <tr>
+                    <td class="label">Direct Labor (with burden)</td>
+                    <td class="amount">$<span class="field">[Amount]</span></td>
+                    <td class="amount">$<span class="field">[Amount]</span></td>
+                </tr>
+                <tr>
+                    <td class="label">Materials (delivered cost incl. tax)</td>
+                    <td class="amount">$<span class="field">[Amount]</span></td>
+                    <td class="amount">$<span class="field">[Amount]</span></td>
+                </tr>
+                <tr>
+                    <td class="label">Equipment (rental + operator)</td>
+                    <td class="amount">$<span class="field">[Amount]</span></td>
+                    <td class="amount">$<span class="field">[Amount]</span></td>
+                </tr>
+                <tr>
+                    <td class="label">Subcontracted Work (attach sub CORs)</td>
+                    <td class="amount">$<span class="field">[Amount]</span></td>
+                    <td class="amount">$<span class="field">[Amount]</span></td>
+                </tr>
+                <tr class="subtotal">
+                    <td class="label">Direct Cost Subtotal</td>
+                    <td class="amount">$<span class="field">[Sum]</span></td>
+                    <td class="amount">$<span class="field">[Sum]</span></td>
+                </tr>
+                <tr>
+                    <td class="label">GC Overhead &amp; Profit (per contract — typical 15% on direct labor + materials, 10% on subcontracted work)</td>
+                    <td class="amount">$<span class="field">[Amount]</span></td>
+                    <td class="amount">$<span class="field">[Amount]</span></td>
+                </tr>
+                <tr>
+                    <td class="label">Bond Premium (if reimbursable per contract — typical 1.0–1.5% of direct cost subtotal)</td>
+                    <td class="amount">$<span class="field">[Amount]</span></td>
+                    <td class="amount">$<span class="field">[Amount]</span></td>
+                </tr>
+                <tr>
+                    <td class="label">Insurance Premium (if reimbursable per contract — typical 0.5–1.0% of direct cost)</td>
+                    <td class="amount">$<span class="field">[Amount]</span></td>
+                    <td class="amount">$<span class="field">[Amount]</span></td>
+                </tr>
+                <tr class="total">
+                    <td class="label">TOTAL CHANGE</td>
+                    <td class="amount">$<span class="field">[Total Add]</span></td>
+                    <td class="amount">$<span class="field">[Total Deduct]</span></td>
+                </tr>
+                <tr class="total">
+                    <td class="label">NET CHANGE TO CONTRACT SUM</td>
+                    <td class="amount" colspan="2">$<span class="field">[Net Add or (Deduct)]</span></td>
+                </tr>
+            </table>
+
+            <div class="sub-title" style="margin-top: 18px;">Schedule Impact</div>
+            <table class="data-table">
+                <tr><td class="label">Change in Substantial Completion Date:</td><td><span class="field">[+ X days / − X days / 0 days]</span></td></tr>
+                <tr><td class="label">Reason for Schedule Impact:</td><td><span class="field">[Critical-path activities affected; coordination with other trades; lead-time for new materials; etc.]</span></td></tr>
+                <tr><td class="label">Schedule Update Attached:</td><td>☐ Yes — see attached &nbsp; ☐ No schedule impact &nbsp; ☐ Schedule update will be provided within <span class="field">[7]</span> days</td></tr>
+            </table>
+
+            <div class="sub-title" style="margin-top: 18px;">Attachments</div>
+            <p style="font-size: 13px;">
+                ☐ Detailed labor estimate (hours × rate × burden)<br>
+                ☐ Material quotes (minimum 2 supplier quotes for material above $<span class="field">[2,500]</span>)<br>
+                ☐ Subcontractor CORs (one per affected sub)<br>
+                ☐ Equipment rental quotes (if applicable)<br>
+                ☐ Marked-up drawings / sketches of the change<br>
+                ☐ Schedule update (if schedule impact)<br>
+                ☐ Other: <span class="field">[Attachment description]</span>
+            </p>
+
+            <div class="sub-title" style="margin-top: 18px;">Validity</div>
+            <p style="font-size: 13px;">This Change Order Request is firm for <span class="field">[thirty (30)]</span> calendar days from the date of submission. After expiration, the contractor reserves the right to revise the price and time impact based on then-current conditions (material price changes, labor availability, schedule re-sequencing required).</p>
+
+            <div class="signature-line">
+                CONTRACTOR (Submitting): <span class="field">[GC Name]</span><br>
+                By: <span class="field">[Signature]</span><br>
+                Title / Date: <span class="field">[Title]</span> / <span class="field">[Date]</span>
+            </div>
+        </div>
+
+        <div class="practice-note">
+            <span class="label">Backup is everything.</span>
+            A COR submitted without backup gets discounted. A COR with detailed labor hours, dated material quotes, sub CORs, and a schedule justification gets paid. Owners and architects are not trying to be unreasonable — they have to certify the change in good faith. Give them the data they need to certify, and the COR sails through. Submit a vague "$45,000 for additional work per ASI 7" with no backup, and expect a 30% discount even if your number was right.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         4. CCD
+         ============================================================ -->
+    <div class="section page-break" id="sec-ccd">
+        <div class="section-title">4. Construction Change Directive (CCD) — Owner's Unilateral Direction</div>
+
+        <p style="font-size: 13.5px;">When the owner needs work performed but the contractor and owner have not agreed on price or time, the owner issues a CCD directing the contractor to proceed. The contractor must perform; the price is determined subsequently and incorporated into a Change Order. Most contracts permit T&amp;M-based pricing for CCD work.</p>
+
+        <div class="form-frame">
+            <div class="form-frame-title">Construction Change Directive</div>
+            <div class="form-frame-sub">Owner's unilateral direction to proceed pending price/time agreement</div>
+
+            <table class="data-table">
+                <tr><td class="label">CCD Number:</td><td><span class="field">[Sequential — e.g., CCD-005]</span></td></tr>
+                <tr><td class="label">Date Issued:</td><td><span class="field">[Date]</span></td></tr>
+                <tr><td class="label">Project:</td><td><span class="field">[Project name]</span></td></tr>
+                <tr><td class="label">Owner:</td><td><span class="field">[Owner name]</span></td></tr>
+                <tr><td class="label">Contractor:</td><td><span class="field">[GC name]</span></td></tr>
+                <tr><td class="label">Related COR (if any):</td><td><span class="field">[COR # — when CCD issued because COR price not agreed]</span></td></tr>
+            </table>
+
+            <div class="sub-title" style="margin-top: 18px;">Directed Work</div>
+            <p style="font-size: 13px; padding: 10px; background: #fff; border: 1px solid #ddd; min-height: 60px;">
+                <span class="field">[Description of work to be performed under this CCD]</span>
+            </p>
+
+            <div class="sub-title">Pricing Method</div>
+            <p style="font-size: 13px;">
+                ☐ Time &amp; Materials — track and document daily; submit T&amp;M tickets weekly with the next pay-app for tracking; final pricing incorporated into subsequent CO based on actual cost + contract markup<br>
+                ☐ Owner-imposed amount: $<span class="field">[Amount]</span> — work is to be performed for this amount; if contractor disputes, contractor reserves right to claim the difference per contract dispute provisions<br>
+                ☐ Cost-plus — actual cost + <span class="field">[15%]</span> markup, supported by invoices<br>
+                ☐ Other: <span class="field">[Method]</span>
+            </p>
+
+            <div class="sub-title">Schedule Impact</div>
+            <p style="font-size: 13px;">
+                ☐ No change to substantial completion date<br>
+                ☐ Time extension to be determined and incorporated into subsequent CO<br>
+                ☐ Specific time extension granted: <span class="field">[X]</span> days
+            </p>
+
+            <div class="sub-title">Performance Direction</div>
+            <p style="font-size: 13px;">Contractor shall commence the directed work upon receipt of this CCD. Daily T&amp;M cost documentation (labor hours by trade, materials with invoices, equipment hours) is required and shall be submitted weekly to the architect for review. The directed work shall be incorporated into a subsequent Change Order within <span class="field">[60]</span> days of the directed work's substantial completion.</p>
+
+            <div class="signature-line">
+                OWNER: <span class="field">[Owner name]</span><br>
+                By: <span class="field">[Signature]</span><br>
+                Title / Date: <span class="field">[Title]</span> / <span class="field">[Date]</span>
+            </div>
+
+            <div class="signature-line" style="margin-top: 30px;">
+                ARCHITECT (recommendation): <span class="field">[Architect firm]</span><br>
+                By: <span class="field">[Signature]</span><br>
+                Title / Date: <span class="field">[Title]</span> / <span class="field">[Date]</span>
+            </div>
+
+            <div class="signature-line" style="margin-top: 30px;">
+                CONTRACTOR (acknowledgment of receipt — reservation of rights as to price/time):<br>
+                By: <span class="field">[Signature]</span><br>
+                Title / Date: <span class="field">[Title]</span> / <span class="field">[Date]</span>
+            </div>
+        </div>
+
+        <div class="practice-note">
+            <span class="label">CCD acknowledgment is NOT acceptance of the owner's price.</span>
+            When acknowledging a CCD, the contractor signs to confirm receipt and intent to perform — NOT to confirm agreement with the owner-imposed price (if any). Some owners try to draft CCDs that read "Contractor's signature constitutes agreement with the price stated below." Strike that language and replace with "Contractor acknowledges receipt and will perform; pricing subject to contract dispute provisions." This preserves the contractor's right to assert a higher price if T&amp;M cost exceeds the owner-imposed amount.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         5. CHANGE ORDER
+         ============================================================ -->
+    <div class="section" id="sec-co">
+        <div class="section-title">5. Change Order (CO) — Executed Bilateral Modification</div>
+
+        <p style="font-size: 13.5px;">The Change Order is the executed instrument that modifies the contract. Both owner and contractor sign; the architect typically signs to recommend. Once executed, the change order modifies the original contract sum, contract time, and/or scope as stated.</p>
+
+        <div class="form-frame">
+            <div class="form-frame-title">Change Order</div>
+            <div class="form-frame-sub">Bilateral modification of the Owner-Contractor Agreement</div>
+
+            <table class="data-table">
+                <tr><td class="label">Change Order Number:</td><td><span class="field">[Sequential — e.g., CO-018]</span></td></tr>
+                <tr><td class="label">Date Executed:</td><td><span class="field">[Date]</span></td></tr>
+                <tr><td class="label">Project:</td><td><span class="field">[Project name + project no.]</span></td></tr>
+                <tr><td class="label">Owner:</td><td><span class="field">[Owner name]</span></td></tr>
+                <tr><td class="label">Contractor:</td><td><span class="field">[GC name]</span></td></tr>
+                <tr><td class="label">Architect:</td><td><span class="field">[Architect firm]</span></td></tr>
+                <tr><td class="label">Source Documents:</td><td><span class="field">[COR-027 dated 2026-04-22; ASI-007 dated 2026-04-15; CCD-003 dated 2026-04-25 (if applicable); etc.]</span></td></tr>
+            </table>
+
+            <div class="sub-title" style="margin-top: 18px;">Scope of Change</div>
+            <p style="font-size: 13px; padding: 10px; background: #fff; border: 1px solid #ddd; min-height: 60px;">
+                <span class="field">[Detailed description of the work being added, deleted, or modified by this Change Order. Reference to drawing revisions, specifications, and/or attached marked-up sketches]</span>
+            </p>
+
+            <div class="sub-title" style="margin-top: 18px;">Contract Sum Adjustment</div>
+            <table class="calc-table">
+                <tr>
+                    <td class="label" width="60%">Original Contract Sum</td>
+                    <td class="amount" width="40%">$<span class="field">[Original sum]</span></td>
+                </tr>
+                <tr>
+                    <td class="label">Net Change by Previously Executed Change Orders (CO-001 through CO-<span class="field">[#]</span>)</td>
+                    <td class="amount">$<span class="field">[Net of prior COs]</span></td>
+                </tr>
+                <tr class="subtotal">
+                    <td class="label">Contract Sum Prior to This Change Order</td>
+                    <td class="amount">$<span class="field">[Sum]</span></td>
+                </tr>
+                <tr>
+                    <td class="label">Contract Sum Will be Increased / Decreased / Unchanged by This Change Order in the Amount of</td>
+                    <td class="amount">$<span class="field">[This CO]</span></td>
+                </tr>
+                <tr class="total">
+                    <td class="label">NEW CONTRACT SUM, INCLUDING THIS CHANGE ORDER</td>
+                    <td class="amount">$<span class="field">[New sum]</span></td>
+                </tr>
+            </table>
+
+            <div class="sub-title" style="margin-top: 18px;">Contract Time Adjustment</div>
+            <table class="calc-table">
+                <tr>
+                    <td class="label" width="60%">Original Contract Substantial Completion Date</td>
+                    <td class="amount" width="40%"><span class="field">[Original date]</span></td>
+                </tr>
+                <tr>
+                    <td class="label">Net Change by Previously Executed Change Orders</td>
+                    <td class="amount"><span class="field">[+ N days]</span></td>
+                </tr>
+                <tr>
+                    <td class="label">Substantial Completion Date Prior to This Change Order</td>
+                    <td class="amount"><span class="field">[Date]</span></td>
+                </tr>
+                <tr>
+                    <td class="label">Time Extension by This Change Order</td>
+                    <td class="amount"><span class="field">[+ N days / 0 days]</span></td>
+                </tr>
+                <tr class="total">
+                    <td class="label">NEW SUBSTANTIAL COMPLETION DATE, INCLUDING THIS CO</td>
+                    <td class="amount"><span class="field">[New date]</span></td>
+                </tr>
+            </table>
+
+            <div class="sub-title" style="margin-top: 18px;">Other Contract Modifications</div>
+            <p style="font-size: 13px;">
+                ☐ No other modifications<br>
+                ☐ Modification to retainage rate: <span class="field">[Description]</span><br>
+                ☐ Modification to insurance / bonding requirements: <span class="field">[Description]</span><br>
+                ☐ Modification to specifications / drawings: <span class="field">[Reference revised documents]</span><br>
+                ☐ Other: <span class="field">[Description]</span>
+            </p>
+
+            <div class="sub-title" style="margin-top: 18px;">Final and Complete Settlement</div>
+            <p style="font-size: 13px;">This Change Order constitutes the final and complete settlement of all costs, time, and other adjustments arising out of or related to the change in scope described above, including all direct costs, indirect costs, overhead, profit, schedule impacts, and consequential or impact effects on the project as a whole. The contractor specifically waives any further claim related to the changes addressed by this Change Order.</p>
+
+            <div class="signature-line" style="margin-top: 30px;">
+                OWNER: <span class="field">[Owner legal name]</span><br>
+                By: <span class="field">[Signature]</span><br>
+                Title / Date: <span class="field">[Title]</span> / <span class="field">[Date]</span>
+            </div>
+
+            <div class="signature-line" style="margin-top: 30px;">
+                CONTRACTOR: <span class="field">[GC legal name]</span><br>
+                By: <span class="field">[Signature]</span><br>
+                Title / Date: <span class="field">[Title]</span> / <span class="field">[Date]</span>
+            </div>
+
+            <div class="signature-line" style="margin-top: 30px;">
+                ARCHITECT (recommendation): <span class="field">[Architect firm]</span><br>
+                By: <span class="field">[Signature]</span><br>
+                Title / Date: <span class="field">[Title]</span> / <span class="field">[Date]</span>
+            </div>
+        </div>
+
+        <div class="warning">
+            <strong>Final and Complete Settlement language is the most-litigated clause in the CO.</strong> Some contractors strike or modify this clause to preserve impact / cumulative-effect claims for the end of the project. If a CO addresses a discrete change without disturbing other work, the standard language is appropriate. If a CO addresses work whose impact reaches into the rest of the project (e.g., a major structural change that cascades into MEP rework, schedule re-sequencing, productivity loss across other trades), the contractor should NOT execute a CO that includes broad final-settlement language without separately preserving cumulative-impact rights. Have construction counsel review the settlement language before executing high-impact COs.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         6. PRICING METHODOLOGIES
+         ============================================================ -->
+    <div class="section" id="sec-pricing">
+        <div class="section-title">6. Pricing Methodologies</div>
+
+        <table class="data-table">
+            <tr>
+                <th>Method</th>
+                <th>How It Works</th>
+                <th>Best For</th>
+            </tr>
+            <tr>
+                <td><strong>Lump Sum</strong></td>
+                <td>Contractor proposes a single fixed price for the change. Most common method. Risk on contractor for cost overrun within scope; benefit if scope is over-estimated.</td>
+                <td>Well-defined changes where scope can be accurately estimated; majority of CORs</td>
+            </tr>
+            <tr>
+                <td><strong>Unit Price</strong></td>
+                <td>Pre-agreed unit prices (per LF, SF, CY, etc.) applied to actual quantities. Contract typically establishes unit prices at execution.</td>
+                <td>Quantity-driven changes (additional excavation, additional concrete, additional flooring)</td>
+            </tr>
+            <tr>
+                <td><strong>Time &amp; Materials (T&amp;M)</strong></td>
+                <td>Actual labor hours × pre-agreed rates + actual material cost + agreed markup. Daily T&amp;M tickets signed by owner's rep.</td>
+                <td>Changes where scope cannot be accurately defined in advance (concealed condition repairs, exploratory work, emergency response)</td>
+            </tr>
+            <tr>
+                <td><strong>Allowance</strong></td>
+                <td>Owner sets an allowance amount; contractor bills against it as work proceeds; reconciliation via CO at end of allowance work</td>
+                <td>Owner-deferred design decisions (carpet selection, fixtures, art) where the line-item is in the contract but the specific product is not</td>
+            </tr>
+            <tr>
+                <td><strong>Not-to-Exceed</strong></td>
+                <td>T&amp;M with a cap; contractor stops at cap and gets next CO if more is needed</td>
+                <td>Modest exploratory work where the upside risk needs a hard ceiling</td>
+            </tr>
+        </table>
+
+        <div class="practice-note">
+            <span class="label">Pre-establish T&amp;M rates at contract execution.</span>
+            Almost every project will have at least one T&amp;M change. The time to negotiate the labor rate ($/hour by trade and seniority), markup percentage on materials, equipment rental rates, and overhead loading is at contract execution — not in the middle of an emergency repair when the contractor has all the leverage. Include a "Schedule of T&amp;M Rates" exhibit in the Owner-Contractor Agreement covering: foreman / journeyman / apprentice rates by trade; small tools allowance; truck and equipment rental rates; material markup; subcontracted work markup; bond/insurance pass-through. This single exhibit saves dozens of hours of CO negotiation downstream.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         7. DISCIPLINE
+         ============================================================ -->
+    <div class="section" id="sec-discipline">
+        <div class="section-title">7. Change-Process Discipline — 12 Rules</div>
+
+        <div class="checklist">
+            <ol>
+                <li><strong>Notice within the contract-specified period.</strong> Most contracts require written notice of a change within 7–14 days of the contractor's awareness. Miss the notice deadline, lose the claim — regardless of merit.</li>
+                <li><strong>Sequential numbering, no gaps.</strong> CORs and COs each get sequential numbers. No "I'll fix the numbering at closeout."</li>
+                <li><strong>One change, one COR.</strong> Don't bundle 5 unrelated changes into one COR. One scope per COR makes review faster, dispute resolution cleaner, and CO records auditable downstream.</li>
+                <li><strong>COR within 14 days of notice.</strong> Notice triggers the change; the COR has to follow promptly. CORs delayed beyond 30 days lose credibility (memory fades, condition has been remediated, the architect questions whether the change really impacted the work).</li>
+                <li><strong>Backup with every COR.</strong> Labor hours, material quotes (2+ for material above the contract's bid threshold), sub CORs, schedule update. CORs without backup get discounted.</li>
+                <li><strong>Don't perform changed work without authorization.</strong> Either a signed CO or a signed CCD. Performing changed work in response to a verbal directive without paper is the most common way contractors lose money on changes.</li>
+                <li><strong>CCDs are NOT acceptance of price.</strong> Acknowledge receipt; reserve rights as to price; perform; track T&amp;M; negotiate the CO subsequently.</li>
+                <li><strong>Track CCDs and CORs in the Change Order Log.</strong> The Change_Order_Log XLSX (in the Business and Complete tiers) is the project-wide register. Every COR and CCD enters; status (open / approved / rejected / closed by CO) updates daily.</li>
+                <li><strong>Match COR backup to T&amp;M tickets when CCD-driven.</strong> When a CO is incorporating CCD work, the COR backup should reconcile to the daily T&amp;M tickets the owner's rep already signed. Discrepancies trigger reconciliation discussion before the CO is signed.</li>
+                <li><strong>Aggregate impact, not just direct cost.</strong> Some COs have ripple effects (re-sequencing, productivity loss on adjacent trades, extended general conditions). Identify and quantify impact effects in the COR — once you sign a CO with broad final-settlement language, the impact claim is gone.</li>
+                <li><strong>Time extensions matter as much as money.</strong> A CO that increases the contract sum but doesn't extend the substantial completion date pressures the contractor to absorb the schedule impact. Always quantify schedule impact in the COR; always include the time-extension line in the CO.</li>
+                <li><strong>Closeout the COR/CCD log at substantial completion.</strong> Every COR open at substantial completion must be either resolved (executed CO or formal rejection with reservation of rights) or expressly preserved as a remaining claim. CORs left open are typically waived by acceptance of substantial completion.</li>
+            </ol>
+        </div>
+
+        <div class="practice-note">
+            <span class="label">The change-order process is where projects make or lose money.</span>
+            On a typical commercial project, change orders represent 5–15% of the original contract sum. A contractor who manages the change process tightly (notice on time, COR backup complete, no unauthorized changes performed, impact effects captured, time extensions documented) collects 90–100% of the change value. A contractor who manages it loosely collects 50–70% — and the missing 30–50% is straight margin loss that no amount of operational efficiency on the original scope can recover. Of all the GC project-management disciplines, the change-order discipline has the highest direct impact on project profitability.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         CLOSING
+         ============================================================ -->
+    <div class="section">
+        <div class="warning">
+            <strong>Closing reminder.</strong> This Change Order Request and Authorization package is intended for use on commercial projects where the contract permits the GC's standard change-order forms. <strong>Where the prime contract specifies particular forms (e.g., AIA G701 Change Order, AIA G714 Construction Change Directive), use the contract-specified forms.</strong> The structural framework (notice timing, COR-CCD-CO progression, T&amp;M rate pre-negotiation, sequential numbering, impact-effect preservation) applies regardless of which specific form is used. On federal projects, additional change-order procedures apply (FAR Part 43; agency-specific requirements) — verify against the prime contract.
+        </div>
+
+        <p class="footnote">Document version: 2026-05-15 (v1.0). Industry-standard commercial change-order forms; structural framework parallels widely-adopted commercial practice (AIA G701/G714/G709 conventions) without reproducing AIA copyrighted forms verbatim. Maintained as part of the ContrPro Complete tier — General Contractor suite.</p>
+    </div>
+
+</body>
+</html>
