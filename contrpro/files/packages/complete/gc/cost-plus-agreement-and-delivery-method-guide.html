@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cost-Plus Agreement + Delivery Method Selection Guide</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.55; max-width: 880px; margin: 40px auto; padding: 20px; color: #222; }
+        .header { text-align: center; border-bottom: 3px double #1e3a5f; padding-bottom: 20px; margin-bottom: 30px; }
+        .form-title { font-size: 26px; font-weight: bold; color: #1e3a5f; margin-bottom: 6px; }
+        .form-subtitle { font-size: 15px; color: #444; font-weight: 600; }
+        .doc-meta { font-size: 13px; color: #666; margin-top: 8px; }
+        .field { background: #f0f0f0; padding: 2px 8px; border-radius: 3px; font-style: italic; color: #555; }
+        .section { margin: 26px 0; page-break-inside: avoid; }
+        .section-title { font-weight: bold; color: #1e3a5f; font-size: 16px; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+        .article-title { font-weight: bold; color: #1e3a5f; font-size: 17px; margin: 22px 0 10px 0; padding-top: 10px; border-top: 2px solid #1e3a5f; }
+        .clause-num { font-weight: bold; color: #1e3a5f; }
+        .sub-title { font-weight: bold; color: #1e3a5f; font-size: 14px; margin: 14px 0 6px 0; }
+        .warning { background: #f8d7da; border-left: 4px solid #dc3545; padding: 14px 16px; margin: 18px 0; }
+        .warning strong { color: #721c24; }
+        .notice { background: #d1ecf1; border-left: 4px solid #0c5460; padding: 14px 16px; margin: 18px 0; }
+        .practice-note { background: #fdf6e3; border-left: 4px solid #b58900; padding: 14px 16px; margin: 14px 0; font-size: 13.5px; }
+        .practice-note .label { font-weight: bold; color: #1e3a5f; font-size: 14px; display: block; margin-bottom: 6px; }
+        .signature-line { border-top: 1px solid #000; width: 360px; margin-top: 50px; padding-top: 5px; font-size: 12.5px; }
+        .notary-block { border: 2px solid #000; padding: 18px 20px; margin-top: 30px; page-break-inside: avoid; font-size: 13px; }
+        .notary-block .notary-title { font-weight: bold; text-align: center; text-transform: uppercase; letter-spacing: 1.2px; font-size: 13px; margin-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        td, th { padding: 7px 8px; vertical-align: top; }
+        th { background: #1e3a5f; color: #fff; text-align: left; font-size: 12.5px; }
+        .data-table td { border: 1px solid #ccc; font-size: 13px; }
+        .data-table td.label { font-weight: 600; background: #f9f9f9; width: 40%; }
+        .compare-table th, .compare-table td { border: 1px solid #1e3a5f; padding: 8px 10px; font-size: 12.5px; vertical-align: top; }
+        .compare-table th { font-size: 11.5px; text-transform: uppercase; }
+        .compare-table td.method { background: #1e3a5f; color: #fff; font-weight: bold; text-align: center; vertical-align: middle; width: 20%; font-size: 12.5px; }
+        .toc { background: #f4f6f9; border: 1px solid #c0cad8; padding: 16px 22px; margin: 20px 0 28px 0; border-radius: 6px; }
+        .toc-title { font-weight: bold; color: #1e3a5f; font-size: 14px; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+        .toc ol { margin: 0; padding-left: 22px; }
+        .toc li { margin-bottom: 4px; font-size: 13.5px; }
+        .toc a { color: #1e3a5f; text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+        .footnote { font-size: 11.5px; color: #666; font-style: italic; }
+        .clause { margin: 10px 0 14px 0; font-size: 13.5px; }
+        .clause p { margin: 6px 0; }
+        .page-break { page-break-before: always; }
+        @media print {
+            .no-print { display: none; }
+            body { margin: 0; max-width: 100%; }
+            .section, .notary-block { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="no-print" style="background: #fff3cd; border: 2px solid #856404; padding: 18px; border-radius: 8px; margin-bottom: 24px;">
+        <strong style="color: #856404; font-size: 16px;">DELIVERY METHOD MATTERS AS MUCH AS THE CONTRACT TERMS</strong>
+        <p style="margin: 8px 0 0 0; font-size: 13.5px;">
+            The choice of delivery method (Lump Sum vs. Cost-Plus vs. GMP) drives the entire risk allocation, financial transparency, and administrative burden of the project — often more than the specific contract terms within a method. This package contains: (1) a delivery method selection guide comparing Lump Sum, Cost-Plus (no GMP), and Cost-Plus with GMP; (2) cross-references to the other Owner-Contractor Agreements in the ContrPro Complete tier; and (3) a complete Cost-Plus (no GMP) Owner-Contractor Agreement form for use when that delivery method is chosen.
+        </p>
+    </div>
+
+    <div class="header">
+        <div class="form-title">COST-PLUS AGREEMENT + DELIVERY METHOD SELECTION GUIDE</div>
+        <div class="form-subtitle">Owner-Contractor Agreement &middot; Industry-Standard Cost-Plus-Fee Form (without Guaranteed Maximum Price)</div>
+        <div class="doc-meta">
+            Project: <span class="field">[Project Name]</span> &nbsp;|&nbsp;
+            Effective Date: <span class="field">[Date]</span>
+        </div>
+    </div>
+
+    <div class="toc">
+        <div class="toc-title">Table of Contents</div>
+        <ol>
+            <li><a href="#sec-three">Three Delivery Methods — Lump Sum, Cost-Plus, GMP</a></li>
+            <li><a href="#sec-when">When to Use Each Method</a></li>
+            <li><a href="#sec-package">Cross-References Within ContrPro Complete Tier</a></li>
+            <li><a href="#sec-cp-agreement">Cost-Plus Owner-Contractor Agreement (Form)</a></li>
+        </ol>
+    </div>
+
+    <!-- ============================================================
+         1. THREE METHODS
+         ============================================================ -->
+    <div class="section" id="sec-three">
+        <div class="section-title">1. Three Delivery Methods</div>
+
+        <table class="compare-table">
+            <tr>
+                <th></th>
+                <th>Lump Sum (Stipulated Sum)</th>
+                <th>Cost-Plus (Cost Reimbursable + Fee, no GMP)</th>
+                <th>Cost-Plus with GMP</th>
+            </tr>
+            <tr>
+                <td class="method">Owner pays</td>
+                <td>Fixed contract sum agreed at execution</td>
+                <td>Actual cost + agreed fee — no upper limit</td>
+                <td>Actual cost + agreed fee — capped at GMP</td>
+            </tr>
+            <tr>
+                <td class="method">Cost overrun risk</td>
+                <td>Contractor (within scope)</td>
+                <td>Owner (no protection on cost)</td>
+                <td>Contractor (above GMP)</td>
+            </tr>
+            <tr>
+                <td class="method">Cost transparency to owner</td>
+                <td>None — contractor's cost is private</td>
+                <td>Full open-book accounting</td>
+                <td>Full open-book accounting</td>
+            </tr>
+            <tr>
+                <td class="method">Design completeness required at contract</td>
+                <td>Bid documents must be substantially complete (90%+ CDs)</td>
+                <td>Can begin with conceptual or schematic design</td>
+                <td>Begin with schematic / DD; GMP set at ~95% CDs</td>
+            </tr>
+            <tr>
+                <td class="method">Contractor incentive on cost</td>
+                <td>Strong — every dollar saved is contractor profit</td>
+                <td>Weak — contractor profit is fee on cost (higher cost may even mean higher fee on % structure)</td>
+                <td>Strong below GMP via Savings Sharing; absolute above GMP</td>
+            </tr>
+            <tr>
+                <td class="method">Owner administrative burden</td>
+                <td>Light — pay-app review, change orders</td>
+                <td>Heavy — open-book monitoring, cost auditing, allowance reconciliation</td>
+                <td>Medium-heavy — open-book + GMP tracking + savings reconciliation</td>
+            </tr>
+            <tr>
+                <td class="method">Contractor administrative burden</td>
+                <td>Standard — pay-app, change orders, schedule</td>
+                <td>Heavy — real-time cost tracking by line item, monthly cost reporting, audit support</td>
+                <td>Heavy — same as cost-plus + buy-out tracking + contingency reporting</td>
+            </tr>
+            <tr>
+                <td class="method">Change order treatment</td>
+                <td>Each change priced as discrete addition to contract sum</td>
+                <td>Changes are reimbursed cost; minimal change-order friction</td>
+                <td>Changes adjust GMP if scope; contingency draws if in-scope unforeseen</td>
+            </tr>
+            <tr>
+                <td class="method">Best for</td>
+                <td>Well-defined projects, competitive bidding, owner risk-averse on cost</td>
+                <td>Repeat-relationship work, emergency response, projects too undefined to lump-sum, owner has financial sophistication and trusts contractor</td>
+                <td>Mid-complexity projects with design still developing, owner wants transparency + cost protection</td>
+            </tr>
+            <tr>
+                <td class="method">Industry contract template</td>
+                <td>AIA A101 (or this tier's <code>construction-contract.html</code>)</td>
+                <td>AIA A103 (or this document below)</td>
+                <td>AIA A102 / A133 (or this tier's <code>gmp-agreement.html</code>)</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- ============================================================
+         2. WHEN TO USE EACH
+         ============================================================ -->
+    <div class="section" id="sec-when">
+        <div class="section-title">2. When to Use Each Method</div>
+
+        <div class="sub-title">Use Lump Sum when:</div>
+        <ul style="font-size: 13.5px;">
+            <li>Design documents are substantially complete (90%+ CDs) before contract execution</li>
+            <li>Project scope is well-defined; risk of mid-project scope change is low</li>
+            <li>Owner wants the simplest contract administration and is willing to pay a contingency premium for cost certainty</li>
+            <li>Owner is bidding the project competitively to multiple contractors</li>
+            <li>Owner does not have the financial sophistication or staff to manage open-book accounting</li>
+            <li>Project is straightforward enough that a clean bid is practical (most cookie-cutter commercial work, most public-sector competitive bids)</li>
+        </ul>
+
+        <div class="sub-title" style="margin-top: 14px;">Use Cost-Plus (no GMP) when:</div>
+        <ul style="font-size: 13.5px;">
+            <li>Project scope cannot be defined in advance (emergency repair, disaster response, exploratory remediation)</li>
+            <li>Owner has a long-term repeat relationship with contractor and trusts cost reporting</li>
+            <li>Owner is highly sophisticated financially and willing to assume cost risk in exchange for total flexibility</li>
+            <li>Project is so customized that competitive bidding would not yield comparable bids</li>
+            <li>Time is critical and waiting for design completion would be prohibitive</li>
+            <li>Owner is internal (large institutional owner with construction division performing work for the parent organization)</li>
+        </ul>
+
+        <div class="sub-title" style="margin-top: 14px;">Use Cost-Plus with GMP when:</div>
+        <ul style="font-size: 13.5px;">
+            <li>Project complexity (renovation of occupied buildings, healthcare, biotech, lab, institutional) makes lump-sum bidding speculative or expensive (high contingency)</li>
+            <li>Owner wants the cost transparency of cost-plus with the cost protection of a cap</li>
+            <li>Design is sufficiently developed to estimate cost (DD or 50% CDs) but not so finalized that lump-sum is practical</li>
+            <li>Owner wants the contractor engaged during preconstruction to advise on constructibility and procurement</li>
+            <li>Owner-contractor relationship is collaborative or design-build and supports the more complex GMP administration</li>
+            <li>Project is mid-to-large size where the savings-sharing incentive is meaningful to both parties</li>
+        </ul>
+
+        <div class="practice-note">
+            <span class="label">Cost-Plus without GMP is the riskiest delivery method for the owner — and the cleanest for the contractor.</span>
+            Without a GMP cap, the contractor has no incentive to economize and the owner has no protection against cost overruns. Cost-Plus without GMP is rare in commercial private work for this reason. Where it is used, it's typically because the project genuinely cannot be priced (true emergency response, exploratory remediation), the owner has the financial sophistication to monitor cost in real time and intervene when costs run high, or the owner is essentially internal (a corporation hiring its own construction division). For most projects, even those where Cost-Plus is the right cost-tracking framework, adding a GMP cap (the GMP delivery method) provides enough Owner protection to be worth the modest additional administrative complexity.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         3. CROSS-REFERENCES
+         ============================================================ -->
+    <div class="section" id="sec-package">
+        <div class="section-title">3. Cross-References Within ContrPro Complete Tier</div>
+
+        <table class="data-table">
+            <tr>
+                <th>Delivery Method</th>
+                <th>ContrPro Complete File</th>
+                <th>Use For</th>
+            </tr>
+            <tr>
+                <td><strong>Lump Sum</strong></td>
+                <td><code>complete/documents/construction-contract.html</code> (1,330L Construction Contract)</td>
+                <td>Standard fixed-price commercial work; competitive-bid projects</td>
+            </tr>
+            <tr>
+                <td><strong>Cost-Plus (no GMP)</strong></td>
+                <td><strong>This document — Section 4 below</strong></td>
+                <td>Repeat-relationship, emergency response, undefined scope, internal-owner work</td>
+            </tr>
+            <tr>
+                <td><strong>Cost-Plus with GMP</strong></td>
+                <td><code>complete/gc/gmp-agreement.html</code> (716L GMP Agreement)</td>
+                <td>Mid-complexity projects with cost-transparency + cost-protection requirement</td>
+            </tr>
+            <tr>
+                <td><strong>Master Subcontract</strong></td>
+                <td><code>complete/gc/master-subcontract-agreement.html</code> (751L)</td>
+                <td>GC-Sub relationship, applies under any of the three Owner-Contractor delivery methods above</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- ============================================================
+         4. COST-PLUS AGREEMENT
+         ============================================================ -->
+    <div class="section page-break" id="sec-cp-agreement">
+        <div class="section-title">4. Cost-Plus Owner-Contractor Agreement (Form)</div>
+
+        <p>This Cost-Plus Owner-Contractor Agreement is the formal contract instrument when the Cost-Plus (no GMP) delivery method has been chosen. It mirrors the structural framework of AIA Document A103 (Standard Form of Agreement Between Owner and Contractor where the basis of payment is the Cost of the Work Plus a Fee without a Guaranteed Maximum Price) without reproducing AIA's copyrighted form verbatim.</p>
+
+        <div class="header" style="border-top: 2px solid #1e3a5f; border-bottom: 2px solid #1e3a5f; padding: 16px; margin-top: 18px;">
+            <div class="form-title" style="font-size: 22px;">COST-PLUS OWNER-CONTRACTOR AGREEMENT</div>
+            <div class="form-subtitle" style="font-size: 13px;">Cost of the Work Plus Fee &middot; Without Guaranteed Maximum Price</div>
+        </div>
+
+        <!-- PARTIES -->
+        <div class="article-title">Parties &amp; Recitals</div>
+
+        <table class="data-table">
+            <tr>
+                <td class="label">OWNER:</td>
+                <td><span class="field">[Owner Legal Name]</span><br><span class="field">[Address]</span></td>
+            </tr>
+            <tr>
+                <td class="label">CONTRACTOR:</td>
+                <td><span class="field">[GC Legal Name]</span><br><span class="field">[Address]</span><br>License No.: <span class="field">[State License #]</span></td>
+            </tr>
+            <tr>
+                <td class="label">ARCHITECT (if separately retained):</td>
+                <td><span class="field">[Architect firm]</span><br><span class="field">[Address]</span></td>
+            </tr>
+        </table>
+
+        <p style="margin-top: 14px; font-size: 13.5px;"><strong>Recitals.</strong> Owner desires to engage Contractor to construct the Project described in Exhibit A on a cost-reimbursable basis with an agreed fee, without a Guaranteed Maximum Price. Owner has determined that the project scope, schedule, or other factors make a fixed-price (Lump Sum) or capped (GMP) delivery method impractical or undesirable. Contractor desires to undertake the Project on the terms set forth in this Agreement.</p>
+
+        <!-- ARTICLE 1 -->
+        <div class="article-title">Article 1 — Contract Documents</div>
+
+        <div class="clause">
+            <p><span class="clause-num">1.1 Components.</span> The Contract Documents consist of: (a) this Agreement; (b) the General Conditions of the Contract for Construction (Exhibit B); (c) the Drawings and Specifications, as they exist at the Effective Date and as updated and issued during the course of the Work; (d) all Change Orders executed during the Work; (e) other documents identified in this Agreement.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">1.2 Order of Precedence.</span> In the event of conflict, the order of precedence is: (a) Change Orders in reverse chronological order; (b) this Agreement; (c) the General Conditions; (d) the Specifications; (e) the Drawings.</p>
+        </div>
+
+        <!-- ARTICLE 2 -->
+        <div class="article-title">Article 2 — Scope &amp; Schedule</div>
+
+        <div class="clause">
+            <p><span class="clause-num">2.1 Scope.</span> Contractor shall furnish all labor, materials, equipment, supervision, and other items necessary to construct the Project as described in the Drawings and Specifications and in any subsequent revisions or change orders.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">2.2 Date of Commencement.</span> The Date of Commencement is the date stated in this Agreement or, if not stated, the date of Owner's written notice to proceed: <span class="field">[Date]</span>.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">2.3 Substantial Completion.</span> Substantial Completion is targeted for <span class="field">[Date]</span>, subject to adjustment based on actual scope developed during the Work. Because this is a Cost-Plus (no GMP) Agreement, the substantial completion date is a target rather than a fixed contractual deadline; mutual agreement on schedule extension is contemplated where actual scope differs from the initial assumptions.</p>
+        </div>
+
+        <!-- ARTICLE 3 -->
+        <div class="article-title">Article 3 — Cost of the Work</div>
+
+        <div class="clause">
+            <p><span class="clause-num">3.1 Reimbursable Costs.</span> Owner shall reimburse Contractor for the Cost of the Work as defined in this Agreement. Cost of the Work means costs necessarily incurred by Contractor in the proper performance of the Work and includes:</p>
+            <ul style="font-size: 13.5px;">
+                <li>Wages of construction workers directly employed by Contractor in the performance of the Work, including burdens (payroll taxes, workers' comp, fringe benefits, vacation accrual)</li>
+                <li>Salaries and burdens of Contractor's project-site staff (project manager, superintendent, project engineer, safety officer, project accountant) in proportion to time devoted to the Project</li>
+                <li>Payments to Subcontractors for Work performed pursuant to subcontracts entered into in accordance with this Agreement</li>
+                <li>Costs of materials and equipment incorporated or to be incorporated in the Project (with discounts, rebates, and refunds accruing to Owner)</li>
+                <li>Costs of construction equipment used in the Work (rental rates not to exceed prevailing local rates; small tools and consumables)</li>
+                <li>Costs of temporary site facilities (fencing, trailer, utilities, dumpster service)</li>
+                <li>Permit fees, royalties, and licenses required for the Work</li>
+                <li>Sales, use, and similar taxes related to the Work</li>
+                <li>Cost of bonds and project-specific insurance</li>
+                <li>Cost of testing required by the Contract Documents</li>
+                <li>Cost of legal services for matters directly related to the Work (with Owner's prior approval for non-routine matters)</li>
+                <li>Cost of removal of debris from the site</li>
+            </ul>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">3.2 Costs NOT Reimbursable.</span> Costs not reimbursable include:</p>
+            <ul style="font-size: 13.5px;">
+                <li>Salaries of Contractor's executive officers, principals, partners, members, and general office staff (other than project-site staff per Section 3.1)</li>
+                <li>Expenses of Contractor's principal and branch offices (except as project-related)</li>
+                <li>Capital expenses including interest on Contractor's capital used for the Work</li>
+                <li>Profit on Contractor's own forces (covered by Fee, not double-billed as Cost of the Work)</li>
+                <li>Costs of correcting Defective Work (unless Defective Work is caused by Owner-furnished materials or Owner-directed methods)</li>
+                <li>Costs incurred for unsafe practices or violations attributable to Contractor's negligence</li>
+                <li>Cost of insurance premiums for Contractor's general business insurance not project-specific</li>
+                <li>Legal costs for defending or prosecuting claims arising out of Contractor's default or breach</li>
+            </ul>
+        </div>
+
+        <!-- ARTICLE 4 -->
+        <div class="article-title">Article 4 — Contractor's Fee</div>
+
+        <div class="clause">
+            <p><span class="clause-num">4.1 Fee Structure.</span> Owner shall pay Contractor a Fee on the basis of one of the following structures, selected and stated in this Agreement:</p>
+            <ul style="font-size: 13.5px;">
+                <li><strong>Fixed Fee.</strong> A fixed dollar amount of $<span class="field">[Amount]</span>, payable in monthly installments proportional to the percent complete of the Cost of the Work. Use this structure when total scope is reasonably bounded, even if specific costs are uncertain.</li>
+                <li><strong>Percentage Fee.</strong> A fee equal to <span class="field">[X%]</span> of the Cost of the Work, payable monthly with each Application for Payment. Use this structure when total scope is uncertain enough that a fixed fee cannot be reasonably estimated.</li>
+                <li><strong>Hybrid (Fixed + Percentage).</strong> A fixed component of $<span class="field">[Amount]</span> plus a percentage of <span class="field">[Y%]</span> on Cost of the Work above $<span class="field">[Threshold]</span>. Use this structure to balance fee predictability with scope-elasticity protection for the contractor.</li>
+            </ul>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">4.2 Fee on Change Orders.</span> Each Change Order adjusts the Fee proportionally — additive Change Orders increase the Fee at the structure above; deductive Change Orders decrease the Fee.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">4.3 Fee Independent of Cost Performance.</span> Because this is a Cost-Plus (no GMP) Agreement, there is no Savings Sharing — Owner bears all cost variance, both up and down. Contractor's Fee is the agreed compensation for performance of the Work, independent of cost outcome.</p>
+        </div>
+
+        <div class="practice-note">
+            <span class="label">Percentage Fee creates a perverse incentive — pick Fixed Fee where possible.</span>
+            Under a Percentage Fee structure, Contractor's compensation rises proportionally with Cost of the Work — so Contractor benefits from higher cost. This is the structural weakness of Cost-Plus contracts. Mitigations: (a) use Fixed Fee where the scope can be reasonably estimated; (b) use Hybrid (Fixed Fee for the base scope; Percentage Fee only on scope above a threshold); (c) include open-book accounting + audit rights so the Owner can monitor cost in real time; (d) require Owner approval for individual cost commitments above a threshold; (e) use Not-to-Exceed structure for sub-contracts where the sub's scope can be defined. The cleanest Cost-Plus contracts use Fixed Fee on the bounded scope and Percentage only on the genuinely uncertain elements.
+        </div>
+
+        <!-- ARTICLE 5 -->
+        <div class="article-title">Article 5 — Payment</div>
+
+        <div class="clause">
+            <p><span class="clause-num">5.1 Application for Payment.</span> Contractor shall submit a monthly Application for Payment supported by detailed Cost of the Work documentation: subcontractor pay applications, vendor invoices, payroll records for direct labor and project-site staff, equipment rental records, and other documentation reasonably required.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">5.2 Payment Timing.</span> Owner shall pay Contractor within <span class="field">[30]</span> days of Owner's receipt of the Application for Payment, less retainage and any amounts properly withheld.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">5.3 Retainage.</span> Retainage shall be withheld at <span class="field">[10%]</span> of each progress payment, released as set forth in the General Conditions.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">5.4 Final Payment.</span> Final payment, including release of all retainage, shall be made within <span class="field">[30]</span> days of Final Completion and submission of all required closeout documents.</p>
+        </div>
+
+        <!-- ARTICLE 6 -->
+        <div class="article-title">Article 6 — Open Book Accounting + Audit Rights</div>
+
+        <div class="clause">
+            <p><span class="clause-num">6.1 Open Book.</span> Contractor shall maintain Open Book accounting on the Project. All costs included as Cost of the Work shall be supported by documentation (invoices, paid receipts, payroll records, subcontract amounts, equipment rental tickets) available for Owner inspection on reasonable advance notice during the Work and for three (3) years after Final Completion.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">6.2 Audit Rights.</span> Owner, or Owner's designated independent auditor, shall have the right to audit Contractor's books and records pertaining to Cost of the Work at any time during the Work and for three (3) years after Final Completion, upon reasonable advance notice. Audit findings of overcharges entitle Owner to refund of the overcharge plus, if the overcharge exceeds <span class="field">[2%]</span> of audited Cost of the Work, reimbursement of Owner's reasonable audit costs.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">6.3 Real-Time Cost Reporting.</span> Contractor shall provide Owner with real-time cost reporting (typically weekly or biweekly), including: cumulative Cost of the Work to date by line item; cumulative Fee earned to date; estimated Cost at Completion (including projection of remaining work); variance from any prior projection. Real-time cost reporting is the operational substitute for the Owner's protection that a GMP cap would otherwise provide.</p>
+        </div>
+
+        <!-- ARTICLE 7 -->
+        <div class="article-title">Article 7 — Owner Approval for Significant Cost Commitments</div>
+
+        <div class="clause">
+            <p><span class="clause-num">7.1 Approval Threshold.</span> Contractor shall obtain Owner's prior written approval before entering into any individual subcontract or material purchase commitment exceeding $<span class="field">[Threshold — typical $25,000–$100,000 depending on project size]</span>. The intent is operational visibility and cost control, not approval gatekeeping — Owner shall not unreasonably withhold or delay approval.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">7.2 Subcontracted Work.</span> Subcontracts shall be entered into on a basis approved by Owner: lump-sum (preferred for defined scope), unit-price (for quantity-driven work), or cost-plus (for genuinely undefined scope). Owner may require competitive bidding for subcontract packages above a threshold.</p>
+        </div>
+
+        <!-- ARTICLE 8 -->
+        <div class="article-title">Article 8 — Other Terms</div>
+
+        <div class="clause">
+            <p><span class="clause-num">8.1 General Conditions Incorporated.</span> All other provisions governing the Work — insurance, bonds, indemnification, scheduling, dispute resolution, default and termination, warranties, lien waivers, safety, intellectual property, and miscellaneous — are governed by the General Conditions (Exhibit B) and incorporated by reference. Where conflict exists between this Agreement and the General Conditions, this Agreement governs.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">8.2 Termination for Convenience.</span> Owner may terminate this Agreement for convenience upon thirty (30) days' written notice. Upon termination, Contractor shall be paid: (a) Cost of the Work properly performed through the date of termination; (b) Fee earned through the date of termination (proportional to Cost of the Work for Percentage Fee, or proportional to the project completion percentage for Fixed Fee); (c) reasonable wind-down costs (demobilization, restocking, sub cancellation charges). Termination for convenience does not give rise to any further claim.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">8.3 Governing Law.</span> This Agreement is governed by the laws of the State of <span class="field">[State of the Project]</span>.</p>
+        </div>
+
+        <div class="clause">
+            <p><span class="clause-num">8.4 Counterparts; Electronic Signatures.</span> This Agreement may be executed in counterparts and electronically signed.</p>
+        </div>
+
+        <!-- SIGNATURES -->
+        <div class="article-title">Signatures</div>
+
+        <p style="font-size: 13.5px;">IN WITNESS WHEREOF, the parties have executed this Cost-Plus Owner-Contractor Agreement as of the Effective Date.</p>
+
+        <div class="signature-line" style="margin-top: 50px;">
+            <strong>OWNER:</strong> <span class="field">[Owner Legal Name]</span><br>
+            By: <span class="field">[Signature]</span><br>
+            Printed Name: <span class="field">[Name]</span> &middot; Title: <span class="field">[Title]</span> &middot; Date: <span class="field">[Date]</span>
+        </div>
+
+        <div class="signature-line" style="margin-top: 60px;">
+            <strong>CONTRACTOR:</strong> <span class="field">[Contractor Legal Name]</span><br>
+            By: <span class="field">[Signature]</span><br>
+            Printed Name: <span class="field">[Name]</span> &middot; Title: <span class="field">[Title]</span> &middot; Date: <span class="field">[Date]</span>
+        </div>
+
+        <div class="notary-block" style="margin-top: 50px;">
+            <div class="notary-title">Notary Acknowledgment</div>
+            <p style="font-size: 12.5px;">State of <span class="field">[State]</span> &middot; County of <span class="field">[County]</span></p>
+            <p style="font-size: 12.5px;">On <span class="field">[Date]</span>, before me, <span class="field">[Notary Name]</span>, personally appeared <span class="field">[Signer Name]</span>, who acknowledged that he/she/they executed the within instrument in his/her/their authorized capacity.</p>
+            <p style="font-size: 12.5px;">I certify under PENALTY OF PERJURY under the laws of the State of <span class="field">[State]</span> that the foregoing paragraph is true and correct.</p>
+            <div style="margin-top: 22px; font-size: 12.5px;">
+                Notary Signature: <span class="field">[Signature]</span><br>
+                Commission Expires: <span class="field">[Date]</span> &middot; (Affix seal)
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="warning">
+            <strong>Closing reminder.</strong> Cost-Plus (no GMP) is the highest-trust contract structure in commercial construction — and the riskiest for the Owner if cost discipline breaks down. The protections built into this Agreement (open-book accounting, audit rights, real-time cost reporting, Owner approval threshold for significant commitments) are operational substitutes for the cost cap that a GMP would otherwise provide. Have construction counsel review every Cost-Plus Agreement before first use. Have a CPA experienced in construction-industry cost accounting review the open-book / audit provisions. For most commercial projects, even where Cost-Plus is the right cost-tracking framework, adding a GMP cap (use the GMP Agreement document instead) provides materially better Owner protection at modest additional administrative cost.
+        </div>
+
+        <p class="footnote">Document version: 2026-05-15 (v1.0). Industry-standard commercial form; structural framework parallels AIA Document A103 (Standard Form of Agreement Between Owner and Contractor where the basis of payment is the Cost of the Work Plus a Fee without a Guaranteed Maximum Price) without reproducing the AIA copyrighted form. Maintained as part of the ContrPro Complete tier — General Contractor suite.</p>
+    </div>
+
+</body>
+</html>
