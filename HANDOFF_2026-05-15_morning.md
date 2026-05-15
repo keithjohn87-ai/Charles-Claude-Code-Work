@@ -74,6 +74,120 @@ This section gets edited in-place as work lands today, per John's "live tracker"
 **In flight:**
 - (None — picking next item from queue.)
 
+---
+
+## AFTERNOON BATCH (2026-05-15 ~10:54 EST onwards)
+
+### GC suite — 8 documents, V1-GC-Complete
+
+After John's 11:53 UTC correction ("I thought we were starting with the GC division?" — earlier I'd queued this as post-beta; he wanted forward motion now), I shipped a complete General Contractor suite at AIA-equivalent depth in `contrpro/files/packages/complete/gc/`:
+
+1. ✅ **Application for Payment + SOV + Continuation Sheet** — 1,193L (commit `ac66646`). Industry-standard equivalent of AIA G702/G703. 18 CSI Division SOV with 40 spot-checked codes, 9-line cover-sheet calc with reconciliation check, full Continuation Sheet column definitions, retainage mechanics with state caps.
+2. ✅ **Master Subcontract Agreement** — 751L (commit `8e33342`). 15 articles + Exhibit A Work Order template. Pay-when-paid with state-law alert (CA Wm. R. Clarke Corp. v. Safeco precedent + 7 other restricted states), comparative-fault indemnification with anti-indemnity statute citations, CGL with CG 20 10 + CG 20 37 endorsement combo, OSHA 29 CFR 1926, 3-step dispute resolution.
+3. ✅ **RFI / Submittal / Transmittal templates** — 669L (commit `70e4668`). Three daily-use forms with use-case framing, sample log entries, and 10 discipline rules.
+4. ✅ **Change Order Request + CCD + Change Order** — 547L (commit `33c35f1`). Three change-process instruments distinct from the existing Change_Order_Log XLSX. Pricing methodology comparison + 12 discipline rules.
+5. ✅ **Closeout Suite** — 574L (commit `445ac66`). Substantial Completion Cert + Punch List + 40-item Closeout Document Checklist + Final Completion Cert + Retainage Release sequence with state prompt-payment statute citations.
+6. ✅ **Schedule Baseline + 3-Week Look-Ahead** — 582L (commit `4583b67`). CPM activity list with sample 12-mo project + trade-by-trade Look-Ahead with sample week + monthly schedule update procedure + 12 discipline rules.
+7. ✅ **GMP Agreement** — 716L (commit `089e76c`). 15 articles. Cost-plus-fee with GMP. Two-phase structure (Preconstruction + Construction). Cost of the Work definition, Contractor's Contingency, Allowance reconciliation, Open Book + Audit, Savings Sharing formula table.
+8. ✅ **Cost-Plus Agreement + Delivery Method Selection Guide** — 454L (commit `2ee9341`). Three-method comparison (Lump Sum / Cost-Plus / GMP) + when-to-use guidance + Cost-Plus Owner-Contractor Agreement form.
+
+**GC suite total: 8 documents / 5,486 lines / 425KB.** All committed.
+
+### QA passes (two rounds)
+
+**Round 1 — sub-agent QA (commit `ade28f5`):** Spawned a focused sub-agent to read all 8 GC docs + cross-references and produce a prioritized punch list. Returned 5 P0s, 11 P1s, 12 P2s. Auto-fixed 3 cleanly bounded items immediately:
+- A.M. Best rating mismatch (master-sub VIII → VII to match prime contract)
+- Schedule example A410 duration (90 → 108 days to reconcile with stated dates)
+- RFI doc orphan `</p>` tag + AIA G716/G710 mapping correction (G716=RFI, G710=ASI)
+
+**Round 2 — judgment-call dial-ins (commit `894a829`):** Per John's "wanna go ahead and dial them in?" greenlight, fixed the 6 remaining P0/P1 items requiring judgment:
+- GA 60-day vs 90-day Affidavit of Nonpayment in `mechanics-lien.html` line 531 — corrected to 60 days per O.C.G.A. § 44-14-366(c)(1) as amended by HB 434 (effective Jan 1, 2021), with explicit "verify with GA construction counsel" note
+- Master-Sub markup-stacking clarification (Sub markup capped at Owner-recoverable rate; GC adds on top per Prime Contract)
+- Master-Sub 5.5 notice-to-proposal-clock chain explicitly tied (7-day notice → GC request → 10-day proposal clock)
+- GMP Article 14.1 Savings formula reframed two-line to avoid double-counting
+- GMP Article 14.4 added "as adjusted by all executed Change Orders" qualifier
+- Change Order settlement language default flipped (Discrete-Scope preserves cumulative impact; Broad Settlement is opt-in alternative with red-bordered counsel-review note)
+- Closeout SC silence-deemed-acceptance softened to state-counsel-dependent
+
+**Agent finding that turned out to be wrong:** the agent flagged "FL pre-furnishing waiver $1M" at release-of-lien.html:673 as P0. Validated the line — it's actually about Pennsylvania (49 P.S. § 1401(b)), which is correctly stated. Agent crossed wires on state. No fix needed.
+
+**Gap-analysis items I surfaced** (not in agent's punch list — for v1.1):
+- CSI Divisions 11/12/13/14 missing from SOV (specialty equipment, furnishings, special construction, conveying systems / elevators)
+- No Pencil Draft Agreement template (referenced in workflow as "single most important step")
+- No Notice of Commencement template (required by FL/OH/MI/NJ for lien-rights flow)
+- No Mutual Release at closeout (bilateral release between owner and contractor)
+- Master Subcontract no occupied-buildings clauses (healthcare/institutional renovation)
+- Closeout doesn't address LEED documentation
+- Schedule doc has no visual Gantt rendering
+
+### Complete tier zip + delivery to John
+
+- ✅ **Complete tier zip rebuilt** (commit `913d473` first, then `ade28f5` and `894a829` for QA-fix rebuilds; final size 469KB).
+- ✅ **Email delivered to John via Charles's Gmail** (Gmail message ID `19e2c81e0e867cd3`) at keith.john87@gmail.com from CharlesCreatorAI@gmail.com. Subject: "ContrPro Complete Tier — V1-GC-Complete build for SME review (15 May 2026)". Body includes inventory of zip contents + two-pass QA notes + focus areas for SME review + gap-analysis items for v1.1. Attachment: `contrpro-complete-v1-gc-complete-2026-05-15.zip` (469,437 bytes).
+
+### Mid-day Charles harness fix #4 (commit `5569a8c`)
+
+After John reported Charles felt incompetent in Telegram, diagnosed in Charles agent log conv 8455750177:
+- Tightened cc_runner exec_shell guard from substring match to actual execute-pattern regex. Old guard false-positive'd on `grep "cc_runner.py"` etc.; new regex only blocks `python -m core.cc_runner` or `python core/cc_runner.py` patterns. Tested 9 should-block + 9 should-allow cases, all correct.
+
+### Mid-day Charles harness fix #5 — set_goal mid-chain auto-nudge (commit `bac826e`)
+
+After confirming Charles still didn't create a goal for the cc_runner work despite the MANDATORY rule in prompts.py:
+- Added a harness nudge in `core/agent.py` round loop. When JOHN_CHARLES conv crosses round_n=4 with chain_tool_call_count >= 3 and no set_goal called yet, injects a one-time `[harness reminder]` synthetic user message into the chain. Audit-tagged for observation. Defaults: NUDGE_AFTER_ROUND=4, NUDGE_TOOL_CALL_THRESHOLD=3, fires at most once per chain.
+
+### Late-afternoon — unattended-Mac recovery monitors
+
+For John's upcoming travel home (Mac left at hotel office, needs auto-recovery on power-cycle):
+
+**Audit findings:**
+- ✅ pmset autorestart=1 (Mac auto-powers-on after AC restored)
+- ✅ FileVault is OFF (no boot-time unlock needed)
+- ✅ All 7 critical LaunchAgents have RunAtLoad=true + KeepAlive=true
+- ✅ Tailscale Funnel config persistent (homes-mac-studio.tailc819f6.ts.net → 8090 survives reboot)
+- ✅ Saved WiFi networks include MarriottBonvoy + 3 others
+- ⚠️ **CRITICAL GAP:** No auto-login configured. LaunchAgents only fire AFTER user login. **Only John can fix** (System Settings → Users & Groups → Automatic login). John acknowledged 18:45 UTC: "I'll see if I can get it secured tonight."
+
+**Defensive monitors shipped (commit pending — script files):**
+- `scripts/boot_health_check.sh` + `~/Library/LaunchAgents/com.charles.boot-health-check.plist` — fires once per boot via RunAtLoad. Sleeps 90s then probes 7 LaunchAgents loaded + MLX/WarRoom/ContrPro local + Tailscale + Funnel public reachable + Internet clean (HTTP 204). iMessages John with full status.
+- `scripts/captive_portal_watch.sh` + `~/Library/LaunchAgents/com.charles.captive-portal-watch.plist` — runs every 5 min via StartInterval=300. State machine in `workspace/captive_portal_state.txt` (CLEAN/CAPTIVE/OFFLINE). iMessages on state transitions + hourly reminder while still-captive (1hr cooldown). Marriott daily portal re-fires get caught.
+- Both LaunchAgents loaded + verified registered. Captive-watch already ran one cycle (state=CLEAN, no alert sent).
+
+**Pre-leave test plan (sent to John):** enable auto-login → confirm boot-health-check iMessage → hard power-cycle → wait 5 min → expect iMessage → from phone test WarRoom + Funnel URL.
+
+### Commits today on Charles main (newest first)
+
+```
+894a829 GC suite QA round 2 — dial-in remaining P0/P1 items
+ade28f5 GC suite QA fixes — auto-fix bounded items from QA pass
+913d473 Rebuild complete-bundle-249.zip to include 8-doc GC suite
+2ee9341 GC suite — Cost-Plus Agreement + Delivery Method Selection Guide
+089e76c GC suite — GMP (Guaranteed Maximum Price) Agreement
+4583b67 GC suite — Schedule Baseline + 3-Week Look-Ahead
+445ac66 GC suite — Closeout (SC Cert + Punch List + Checklist + Final)
+33c35f1 GC suite — Change Order Request + Authorization
+70e4668 GC suite — RFI Log + Submittal Log + Transmittal templates
+8e33342 GC suite — Master Subcontract Agreement
+ac66646 GC suite — Application for Payment + SOV + Continuation Sheet
+bac826e agent: auto-nudge Charles to set_goal mid-chain in JOHN_CHARLES
+5569a8c tool_guards: tighten cc_runner block from substring to execute-pattern
+7b02a18 Bring contrpro/ under version control
+7f2e6b1 Charles harness: round-cap bump 5→15 + Plan-then-act rule
+6faf498 Pre-Charles-self-edit baseline (2026-05-15)
+```
+
+Plus the recovery-monitor scripts commit (with the LaunchAgent plists noted but stored outside git at ~/Library/LaunchAgents/).
+
+### Outstanding for John's call
+
+- **Auto-login enablement** — only he can do this (his password). He committed to attempting "tonight" (18:45 UTC).
+- **Steel Estimator rebuild** — ship-now vs v1.1 deferral (still pending; not blocking V1-GC).
+- **Beta auth setup** — hash passwords + add `CONTRPRO_BETA_USERS` to `.env` + restart com.charles.contrpro. Only matters when ready to onboard real beta testers.
+- **Optional: remote captive-portal-relogin tool** — I offered to draft this; John didn't say yes/no. Would let him SSH to the Mac from his phone and trigger Marriott portal re-login when away from the hotel. Build-on-request.
+
+### SME review delivery
+
+Complete zip emailed to John 16:48 UTC (Gmail msg `19e2c81e0e867cd3`). John will forward to his SME ("someone smarter than me, lol"). Punch list of focus areas + gap-analysis items included in email body so SME has a clear scope rather than a 5,486-line "tell me everything that's wrong" pass.
+
 **Queued (in priority order, will spawn one at a time):**
 1. Contractor Marketing Playbook from scratch — biggest content task (~10-20K words). Spawn after Lien lands.
 2. SBA suite refresh — 2026-current SBA program detail + named lenders. Spawn after Marketing if weekly burn allows; else defer to tomorrow's reset.
