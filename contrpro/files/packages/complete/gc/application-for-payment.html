@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application for Payment — Cover, Schedule of Values, Continuation Sheet</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.55; max-width: 880px; margin: 40px auto; padding: 20px; color: #222; }
+        .header { text-align: center; border-bottom: 3px double #1e3a5f; padding-bottom: 20px; margin-bottom: 30px; }
+        .form-title { font-size: 26px; font-weight: bold; color: #1e3a5f; margin-bottom: 6px; }
+        .form-subtitle { font-size: 15px; color: #444; font-weight: 600; }
+        .doc-meta { font-size: 13px; color: #666; margin-top: 8px; }
+        .field { background: #f0f0f0; padding: 2px 8px; border-radius: 3px; font-style: italic; color: #555; }
+        .section { margin: 28px 0; page-break-inside: avoid; }
+        .section-title { font-weight: bold; color: #1e3a5f; font-size: 16px; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+        .sub-title { font-weight: bold; color: #1e3a5f; font-size: 14px; margin: 16px 0 8px 0; }
+        .warning { background: #f8d7da; border-left: 4px solid #dc3545; padding: 14px 16px; margin: 18px 0; }
+        .warning strong { color: #721c24; }
+        .notice { background: #d1ecf1; border-left: 4px solid #0c5460; padding: 14px 16px; margin: 18px 0; }
+        .practice-note { background: #fdf6e3; border-left: 4px solid #b58900; padding: 14px 16px; margin: 14px 0; font-size: 13.5px; }
+        .practice-note .label { font-weight: bold; color: #1e3a5f; font-size: 14px; display: block; margin-bottom: 6px; }
+        .form-frame { border: 2px solid #1e3a5f; padding: 18px 20px; margin: 18px 0 24px 0; background: #fafbfc; page-break-inside: avoid; }
+        .form-frame .form-frame-title { font-size: 17px; font-weight: bold; color: #1e3a5f; text-align: center; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 4px; }
+        .form-frame .form-frame-sub { font-size: 13px; color: #555; text-align: center; margin-bottom: 16px; font-style: italic; }
+        .signature-block { margin-top: 30px; }
+        .signature-line { border-top: 1px solid #000; width: 360px; margin-top: 50px; padding-top: 5px; font-size: 12.5px; }
+        .notary-block { border: 2px solid #000; padding: 18px 20px; margin-top: 30px; page-break-inside: avoid; font-size: 13px; }
+        .notary-block .notary-title { font-weight: bold; text-align: center; text-transform: uppercase; letter-spacing: 1.2px; font-size: 13px; margin-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        td, th { padding: 7px 8px; vertical-align: top; }
+        th { background: #1e3a5f; color: #fff; text-align: left; font-size: 12.5px; }
+        .data-table td { border: 1px solid #ccc; font-size: 13px; }
+        .data-table td.amount { text-align: right; font-family: 'Courier New', monospace; }
+        .data-table td.label { font-weight: 600; background: #f9f9f9; width: 40%; }
+        .calc-table th, .calc-table td { border: 1px solid #1e3a5f; padding: 8px 10px; font-size: 13px; }
+        .calc-table th { font-size: 12px; text-transform: uppercase; }
+        .calc-table td.line-num { background: #1e3a5f; color: #fff; font-weight: bold; text-align: center; vertical-align: middle; width: 40px; }
+        .calc-table td.line-label { font-weight: 600; }
+        .calc-table td.line-amount { text-align: right; font-family: 'Courier New', monospace; }
+        .calc-table tr.subtotal td { background: #fdf6e3; font-weight: bold; }
+        .calc-table tr.total td { background: #1e3a5f; color: #fff; font-weight: bold; font-size: 14px; }
+        .sov-table th, .sov-table td { border: 1px solid #ccc; padding: 6px 7px; font-size: 11.5px; vertical-align: top; }
+        .sov-table th { font-size: 10.5px; text-transform: uppercase; padding: 8px 6px; line-height: 1.25; }
+        .sov-table td.amount { text-align: right; font-family: 'Courier New', monospace; }
+        .sov-table td.center { text-align: center; }
+        .sov-table tr.header-row td { background: #fdf6e3; font-weight: bold; }
+        .sov-table tr.subtotal-row td { background: #f0f4f8; font-weight: bold; }
+        .sov-table tr.total-row td { background: #1e3a5f; color: #fff; font-weight: bold; }
+        .checklist { background: #f9f9f9; border: 1px solid #ddd; padding: 16px 20px; border-radius: 6px; }
+        .checklist ol { margin: 0; padding-left: 22px; }
+        .checklist li { margin-bottom: 6px; font-size: 13.5px; }
+        .toc { background: #f4f6f9; border: 1px solid #c0cad8; padding: 16px 22px; margin: 20px 0 28px 0; border-radius: 6px; }
+        .toc-title { font-weight: bold; color: #1e3a5f; font-size: 14px; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+        .toc ol { margin: 0; padding-left: 22px; }
+        .toc li { margin-bottom: 4px; font-size: 13.5px; }
+        .toc a { color: #1e3a5f; text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+        .footnote { font-size: 11.5px; color: #666; font-style: italic; }
+        .formula { font-family: 'Courier New', monospace; background: #fffbe6; padding: 10px 14px; border-left: 3px solid #b58900; margin: 8px 0; font-size: 12.5px; }
+        .page-break { page-break-before: always; }
+        @media print {
+            .no-print { display: none; }
+            body { margin: 0; max-width: 100%; }
+            .section, .form-frame, .notary-block { page-break-inside: avoid; }
+            .sov-table { font-size: 10.5px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+         NON-PRINT REVIEW DISCLAIMER
+         ============================================================ -->
+    <div class="no-print" style="background: #fff3cd; border: 2px solid #856404; padding: 18px; border-radius: 8px; margin-bottom: 24px;">
+        <strong style="color: #856404; font-size: 16px;">CRITICAL — REVIEW CONTRACT TERMS BEFORE FIRST USE</strong>
+        <p style="margin: 8px 0 0 0; font-size: 13.5px;">
+            This Application for Payment package is an industry-standard equivalent of the AIA Document G702 (Application and Certificate for Payment) and AIA Document G703 (Continuation Sheet) workflow. <strong>It is NOT an AIA document and is not interchangeable with AIA forms when the underlying contract specifies AIA forms.</strong> If your owner-contractor agreement (or the prime contract on a public project) requires use of AIA G702/G703 specifically, obtain those forms through the AIA Documents on Demand service or your AIA chapter — they are copyrighted and licensed per use. This package is appropriate when the contract permits "industry-standard" or "equivalent" payment application forms (the majority of private commercial work), or when the GC and owner have agreed to use a custom format. <strong>Verify the format requirement against the contract for every project before first billing</strong>. Many large institutional owners (hospitals, universities, federal agencies, large publicly-traded clients) explicitly require AIA forms; many smaller commercial owners do not. The numerical logic, retainage math, and certification framework in this package are industry-standard regardless of which form is used.
+        </p>
+    </div>
+
+    <!-- ============================================================
+         HEADER
+         ============================================================ -->
+    <div class="header">
+        <div class="form-title">APPLICATION AND CERTIFICATE FOR PAYMENT</div>
+        <div class="form-subtitle">Cover Sheet &middot; Schedule of Values &middot; Continuation Sheet</div>
+        <div class="doc-meta">
+            Project: <span class="field">[Project Name]</span> &nbsp;|&nbsp;
+            Application No.: <span class="field">[#]</span> &nbsp;|&nbsp;
+            Period: <span class="field">[Start Date]</span> through <span class="field">[End Date]</span>
+        </div>
+    </div>
+
+    <div class="notice">
+        <strong>How this document works.</strong> Every monthly progress payment from owner to GC on a commercial project follows the same three-document workflow: (1) the <em>Application for Payment</em> cover sheet computes the dollar amount due this period from the cumulative work-in-place and stored materials data; (2) the <em>Schedule of Values</em> is the line-item breakdown of the original contract sum, agreed at contract execution and rarely revised mid-project except by change order; (3) the <em>Continuation Sheet</em> is the per-period progress tracker that reports for each line item how much has been completed (previous + this period), how much material is stored on or off site, what percentage is complete, and what retainage is being held. The Continuation Sheet feeds the totals at the bottom of the cover sheet. Together the three documents are the contractor's monthly invoice and the architect's monthly certification — there is rarely any third document that a commercial GC submits to bill an owner during construction.
+    </div>
+
+    <!-- ============================================================
+         TABLE OF CONTENTS
+         ============================================================ -->
+    <div class="toc">
+        <div class="toc-title">Table of Contents</div>
+        <ol>
+            <li><a href="#sec-workflow">The Pay-App Workflow — Who Does What and When</a></li>
+            <li><a href="#sec-checklist">Pre-Submission Checklist (24 Items)</a></li>
+            <li><a href="#sec-cover">Application for Payment — Cover Sheet</a></li>
+            <li><a href="#sec-sov">Schedule of Values — Line-Item Breakdown of Contract Sum</a></li>
+            <li><a href="#sec-continuation">Continuation Sheet — Per-Period Progress Detail</a></li>
+            <li><a href="#sec-stored">Stored-Materials Documentation</a></li>
+            <li><a href="#sec-retainage">Retainage Mechanics + Reduction Triggers</a></li>
+            <li><a href="#sec-changeorders">Change Orders — How They Roll Into the Pay-App</a></li>
+            <li><a href="#sec-co-attachments">Required Attachments by Period</a></li>
+            <li><a href="#sec-disputes">Common Dispute Triggers + How to Pre-empt</a></li>
+        </ol>
+    </div>
+
+    <!-- ============================================================
+         1. THE PAY-APP WORKFLOW
+         ============================================================ -->
+    <div class="section" id="sec-workflow">
+        <div class="section-title">1. The Pay-App Workflow — Who Does What and When</div>
+        <p>Commercial pay-app workflow follows the contract-stipulated cycle, typically monthly with billing cutoff and submission deadlines specified in the General Conditions. The standard cycle:</p>
+
+        <table class="data-table">
+            <tr><th>Step</th><th>Who</th><th>What</th><th>Typical Timing</th></tr>
+            <tr>
+                <td><strong>1. Cutoff</strong></td>
+                <td>GC project manager + accountant</td>
+                <td>Calculate cumulative completion percentages by line item against work-in-place + stored materials as of the billing cutoff date</td>
+                <td>25th–28th of month</td>
+            </tr>
+            <tr>
+                <td><strong>2. Sub bill collection</strong></td>
+                <td>GC accountant</td>
+                <td>Receive subcontractor pay applications for the same period; reconcile to GC's own progress assessment</td>
+                <td>1st–3rd of month</td>
+            </tr>
+            <tr>
+                <td><strong>3. Pencil draft</strong></td>
+                <td>GC project manager</td>
+                <td>Walk the project with the architect/owner's rep; agree on completion percentages line-by-line; pre-empt disputes before the formal application is submitted</td>
+                <td>3rd–5th of month</td>
+            </tr>
+            <tr>
+                <td><strong>4. Formal submission</strong></td>
+                <td>GC accountant or project manager</td>
+                <td>Submit Application for Payment cover + Continuation Sheet + required attachments (lien waivers, COI updates, stored-materials documentation, change order log)</td>
+                <td>5th–10th of month</td>
+            </tr>
+            <tr>
+                <td><strong>5. Architect review + certification</strong></td>
+                <td>Architect (or owner's representative)</td>
+                <td>Review against project observation; certify the amount earned; may modify amount with notice and basis</td>
+                <td>10th–15th of month</td>
+            </tr>
+            <tr>
+                <td><strong>6. Owner payment</strong></td>
+                <td>Owner accountant</td>
+                <td>Pay certified amount within contract-stipulated period (typically Net 30 from architect's certification)</td>
+                <td>30 days from certification</td>
+            </tr>
+            <tr>
+                <td><strong>7. Sub payment</strong></td>
+                <td>GC accountant</td>
+                <td>Pay each subcontractor their portion of the certified amount within contract-stipulated period (typically 7–14 days from receipt of owner payment, with conditional waivers exchanged at the same time)</td>
+                <td>Within 7–14 days of owner payment</td>
+            </tr>
+        </table>
+
+        <div class="practice-note">
+            <span class="label">The pencil draft is the single most important step.</span>
+            Many GCs skip step 3 — submit a formal Application for Payment cold, hope the architect agrees with the percentages, then fight when the architect modifies down. The pencil draft is a 30-minute walk with the architect at the project, line-item by line-item, with both parties agreeing on the percent complete BEFORE the formal submission. When the formal application matches the pencil-draft agreement, the architect certification is a rubber stamp and payment hits on time. When the pencil draft is skipped, the average payment delay extends by 2–3 weeks per cycle.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         2. PRE-SUBMISSION CHECKLIST
+         ============================================================ -->
+    <div class="section" id="sec-checklist">
+        <div class="section-title">2. Pre-Submission Checklist (24 Items)</div>
+        <div class="checklist">
+            <ol>
+                <li><strong>Pencil draft signed.</strong> Architect or owner's rep has agreed in writing (email or initialed pencil-draft sheet) on the line-item percentages for this period.</li>
+                <li><strong>Application number is sequential.</strong> No skipped or duplicated numbers from prior periods. Owner accounting flags non-sequential apps.</li>
+                <li><strong>Period dates match billing cycle.</strong> Period start = day after prior period end; period end = contract-stipulated cutoff.</li>
+                <li><strong>Original contract sum matches the executed contract.</strong> Verify against the signed Owner-Contractor Agreement.</li>
+                <li><strong>All approved change orders are listed in the change order log.</strong> Each with CO number, date, dollar amount, and net cumulative effect.</li>
+                <li><strong>Pending change orders excluded from contract sum.</strong> Pending change orders may be listed for owner awareness but are NOT in the revised contract sum until executed.</li>
+                <li><strong>Schedule of Values totals to the original contract sum.</strong> Reconcile line-item sum to contract amount.</li>
+                <li><strong>Continuation Sheet line items match Schedule of Values.</strong> Same line numbers, same descriptions, same scheduled values. Any line item changes required a contract amendment.</li>
+                <li><strong>Work-completed-this-period is supportable.</strong> Each percentage is backed by photos, daily reports, and architect observation. Material that has been ordered but not delivered is NOT work in place.</li>
+                <li><strong>Stored materials are documented.</strong> Bills of sale, paid invoices, photos of stored materials with project signage, and (for off-site storage) signed warehouse receipts and insurance riders covering the stored value.</li>
+                <li><strong>Retainage withheld at contract-stipulated rate.</strong> Typical: 10% on completed work and stored materials. Some contracts step down retainage at 50% completion.</li>
+                <li><strong>Less previous certificates is correct.</strong> Sum of all prior certified amounts. Reconcile to the prior month's Application for Payment cover sheet.</li>
+                <li><strong>Current payment due is positive.</strong> If negative (overbilled prior period), reconcile and discuss with owner before submission.</li>
+                <li><strong>Lien waivers attached for prior period payment.</strong> Conditional partial waiver from GC; conditional partial waivers from each sub for the prior period's billed amount.</li>
+                <li><strong>Lien waivers attached for current period (conditional on payment).</strong> Conditional waiver from GC; conditional waivers from each sub for the current period billed amount.</li>
+                <li><strong>Certificate of Insurance current.</strong> If COI expires before contract-stipulated period (typically 30 days into the future), provide updated COI with the application.</li>
+                <li><strong>Performance + payment bond status current.</strong> If bonded, no notice of bond claims or surety actions.</li>
+                <li><strong>Schedule of Values + Continuation Sheet subtotals match.</strong> Subtotals by CSI Division (Division 02 site work, Division 03 concrete, etc.) reconcile across both documents.</li>
+                <li><strong>Sales tax line item present (if applicable).</strong> States that require sales tax on construction materials must show it as a separate line item or rolled into material cost per state rule.</li>
+                <li><strong>Bond premium recovery line item billed correctly.</strong> If the contract reimburses bond premium as a pass-through, billed in proportion to revenue earned that period.</li>
+                <li><strong>Prevailing wage / Davis-Bacon certifications attached.</strong> For federal-funded or Davis-Bacon projects, certified payrolls for the period attached.</li>
+                <li><strong>Schedule update attached.</strong> If contract requires monthly schedule update, attach current schedule reflecting actual progress.</li>
+                <li><strong>Two original signatures + notary on cover sheet.</strong> Contractor's certification signed and notarized; architect's certificate completed by architect at next step.</li>
+                <li><strong>Distribution list complete.</strong> Original to architect, copies to owner, lender (if applicable), surety (if bonded), GC project file.</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         3. APPLICATION FOR PAYMENT — COVER SHEET
+         ============================================================ -->
+    <div class="section" id="sec-cover">
+        <div class="section-title">3. Application for Payment — Cover Sheet</div>
+        <p>The cover sheet is the summary document. The numerical heart is the Calculation block (lines 1–9 below) which derives the current payment due from the cumulative completion data on the Continuation Sheet. The certification blocks (contractor's certification + architect's certificate) make the document an enforceable invoice and an enforceable certification.</p>
+
+        <div class="form-frame">
+            <div class="form-frame-title">Application and Certificate for Payment</div>
+            <div class="form-frame-sub">Industry-standard equivalent of AIA G702 — verify contract permits this format</div>
+
+            <div class="sub-title">Project Identification</div>
+            <table class="data-table">
+                <tr><td class="label">Project Name:</td><td><span class="field">[Full project name as on contract]</span></td></tr>
+                <tr><td class="label">Project Address:</td><td><span class="field">[Street, City, State, ZIP]</span></td></tr>
+                <tr><td class="label">Owner:</td><td><span class="field">[Owner legal name]</span><br><span class="field">[Owner address]</span></td></tr>
+                <tr><td class="label">Contractor (GC):</td><td><span class="field">[GC legal name]</span><br><span class="field">[GC address]</span><br>License No.: <span class="field">[State contractor license]</span></td></tr>
+                <tr><td class="label">Architect / Engineer:</td><td><span class="field">[Architect firm name]</span><br><span class="field">[Architect address]</span><br>License No.: <span class="field">[State architect license]</span></td></tr>
+                <tr><td class="label">Owner-Contractor Contract:</td><td>Dated <span class="field">[Contract date]</span> &middot; Contract No. <span class="field">[Contract reference]</span></td></tr>
+                <tr><td class="label">Application Number:</td><td><span class="field">[Sequential #]</span></td></tr>
+                <tr><td class="label">Application Date:</td><td><span class="field">[Date submitted]</span></td></tr>
+                <tr><td class="label">Period From:</td><td><span class="field">[Period start]</span></td></tr>
+                <tr><td class="label">Period To:</td><td><span class="field">[Period end]</span></td></tr>
+                <tr><td class="label">Project No. (Owner):</td><td><span class="field">[Owner internal project #]</span></td></tr>
+                <tr><td class="label">Project No. (Architect):</td><td><span class="field">[Architect project #]</span></td></tr>
+                <tr><td class="label">Project No. (Contractor):</td><td><span class="field">[GC internal job #]</span></td></tr>
+            </table>
+
+            <div class="sub-title" style="margin-top: 24px;">Calculation — Current Payment Due</div>
+            <table class="calc-table">
+                <tr>
+                    <th width="50">Line</th>
+                    <th>Item</th>
+                    <th width="160">Amount</th>
+                </tr>
+                <tr>
+                    <td class="line-num">1</td>
+                    <td class="line-label">ORIGINAL CONTRACT SUM<br><span style="font-weight: normal; font-size: 12px; color: #555;">(per executed Owner-Contractor Agreement)</span></td>
+                    <td class="line-amount">$<span class="field">[Original sum]</span></td>
+                </tr>
+                <tr>
+                    <td class="line-num">2</td>
+                    <td class="line-label">NET CHANGE BY CHANGE ORDERS<br><span style="font-weight: normal; font-size: 12px; color: #555;">(sum of all approved change orders to date — see attached change order log)</span></td>
+                    <td class="line-amount">$<span class="field">[Net change]</span></td>
+                </tr>
+                <tr class="subtotal">
+                    <td class="line-num">3</td>
+                    <td class="line-label">CONTRACT SUM TO DATE<br><span style="font-weight: normal; font-size: 12px; color: #555;">(Line 1 + Line 2)</span></td>
+                    <td class="line-amount">$<span class="field">[Sum]</span></td>
+                </tr>
+                <tr>
+                    <td class="line-num">4</td>
+                    <td class="line-label">TOTAL COMPLETED &amp; STORED TO DATE<br><span style="font-weight: normal; font-size: 12px; color: #555;">(Column G total from Continuation Sheet)</span></td>
+                    <td class="line-amount">$<span class="field">[Total earned]</span></td>
+                </tr>
+                <tr>
+                    <td class="line-num">5</td>
+                    <td class="line-label">RETAINAGE<br>
+                        <span style="font-weight: normal; font-size: 12px; color: #555;">5a. <span class="field">[%]</span>% of Completed Work: $<span class="field">[Amount]</span></span><br>
+                        <span style="font-weight: normal; font-size: 12px; color: #555;">5b. <span class="field">[%]</span>% of Stored Material: $<span class="field">[Amount]</span></span><br>
+                        <span style="font-weight: normal; font-size: 12px; color: #555;">Total Retainage (5a + 5b)</span></td>
+                    <td class="line-amount">$<span class="field">[Total retainage]</span></td>
+                </tr>
+                <tr class="subtotal">
+                    <td class="line-num">6</td>
+                    <td class="line-label">TOTAL EARNED LESS RETAINAGE<br><span style="font-weight: normal; font-size: 12px; color: #555;">(Line 4 − Line 5 Total)</span></td>
+                    <td class="line-amount">$<span class="field">[Earned net retainage]</span></td>
+                </tr>
+                <tr>
+                    <td class="line-num">7</td>
+                    <td class="line-label">LESS PREVIOUS CERTIFICATES FOR PAYMENT<br><span style="font-weight: normal; font-size: 12px; color: #555;">(Line 6 from prior Certificate)</span></td>
+                    <td class="line-amount">$<span class="field">[Prior payments]</span></td>
+                </tr>
+                <tr class="total">
+                    <td class="line-num">8</td>
+                    <td class="line-label">CURRENT PAYMENT DUE</td>
+                    <td class="line-amount">$<span class="field">[Current payment]</span></td>
+                </tr>
+                <tr>
+                    <td class="line-num">9</td>
+                    <td class="line-label">BALANCE TO FINISH, PLUS RETAINAGE<br><span style="font-weight: normal; font-size: 12px; color: #555;">(Line 3 − Line 6)</span></td>
+                    <td class="line-amount">$<span class="field">[Balance + retainage]</span></td>
+                </tr>
+            </table>
+
+            <div class="formula">
+                Reconciliation check: Line 6 + Line 9 = Line 3 (must hold every period). Line 8 = Line 6 − Line 7 (current period payment). Line 4 = Continuation Sheet Column G total (the cumulative work-in-place + stored materials drives the cover sheet, not the other way around).
+            </div>
+
+            <div class="sub-title" style="margin-top: 24px;">Change Order Summary</div>
+            <table class="data-table">
+                <tr>
+                    <th>Period</th>
+                    <th>Additions ($)</th>
+                    <th>Deductions ($)</th>
+                </tr>
+                <tr>
+                    <td>Total approved through previous month</td>
+                    <td class="amount">$<span class="field">[Prior +]</span></td>
+                    <td class="amount">$<span class="field">[Prior −]</span></td>
+                </tr>
+                <tr>
+                    <td>Approved this month (numbers <span class="field">[CO #s]</span>)</td>
+                    <td class="amount">$<span class="field">[This +]</span></td>
+                    <td class="amount">$<span class="field">[This −]</span></td>
+                </tr>
+                <tr style="background: #fdf6e3; font-weight: bold;">
+                    <td>Totals</td>
+                    <td class="amount">$<span class="field">[Total +]</span></td>
+                    <td class="amount">$<span class="field">[Total −]</span></td>
+                </tr>
+                <tr style="background: #1e3a5f; color: #fff; font-weight: bold;">
+                    <td>NET CHANGE BY CHANGE ORDERS (carry to Line 2)</td>
+                    <td class="amount" colspan="2">$<span class="field">[Net]</span></td>
+                </tr>
+            </table>
+
+            <div class="sub-title" style="margin-top: 24px;">Contractor's Certification</div>
+            <p style="font-size: 13.5px;">The undersigned Contractor certifies that to the best of the Contractor's knowledge, information, and belief the Work covered by this Application for Payment has been completed in accordance with the Contract Documents, that all amounts have been paid by the Contractor for Work for which previous Certificates for Payment were issued and payments received from the Owner, and that current payment shown herein is now due.</p>
+
+            <div class="signature-block">
+                <p style="font-size: 13px;">CONTRACTOR: <span class="field">[Contractor legal name]</span></p>
+                <div class="signature-line">
+                    By: <span class="field">[Authorized signature]</span><br>
+                    Printed Name: <span class="field">[Name]</span><br>
+                    Title: <span class="field">[Title]</span><br>
+                    Date: <span class="field">[Date]</span>
+                </div>
+            </div>
+
+            <div class="notary-block">
+                <div class="notary-title">Notary Acknowledgment</div>
+                <p style="font-size: 12.5px;">State of <span class="field">[State]</span> &middot; County of <span class="field">[County]</span></p>
+                <p style="font-size: 12.5px;">On <span class="field">[Date]</span>, before me, <span class="field">[Notary Name]</span>, a Notary Public in and for said State, personally appeared <span class="field">[Signer Name]</span>, who proved to me on the basis of satisfactory evidence to be the person whose name is subscribed to the within instrument, and acknowledged that he/she/they executed the same in his/her/their authorized capacity, and that by his/her/their signature on the instrument the entity upon behalf of which the person acted executed the instrument.</p>
+                <p style="font-size: 12.5px;">I certify under PENALTY OF PERJURY under the laws of the State of <span class="field">[State]</span> that the foregoing paragraph is true and correct.</p>
+                <div style="margin-top: 24px; font-size: 12.5px;">
+                    Notary Signature: <span class="field">[Signature]</span><br>
+                    Commission Expires: <span class="field">[Date]</span><br>
+                    (Affix seal)
+                </div>
+            </div>
+
+            <div class="sub-title" style="margin-top: 28px;">Architect's Certificate for Payment</div>
+            <p style="font-size: 13.5px;">In accordance with the Contract Documents, based on on-site observations and the data comprising this Application, the Architect certifies to the Owner that to the best of the Architect's knowledge, information, and belief the Work has progressed as indicated, the quality of the Work is in accordance with the Contract Documents, and the Contractor is entitled to payment of the AMOUNT CERTIFIED.</p>
+
+            <table class="data-table" style="margin-top: 12px;">
+                <tr>
+                    <td class="label">AMOUNT CERTIFIED:</td>
+                    <td class="amount">$<span class="field">[Certified amount]</span></td>
+                </tr>
+                <tr>
+                    <td class="label" colspan="2" style="background: #fff3cd; font-weight: normal; font-style: italic; font-size: 12.5px;">
+                        (Attach explanation if amount certified differs from amount applied. Initial all changes on this Application and on the Continuation Sheet that are consistent with the modified amount.)
+                    </td>
+                </tr>
+            </table>
+
+            <div class="signature-block">
+                <p style="font-size: 13px;">ARCHITECT: <span class="field">[Architect firm name]</span></p>
+                <div class="signature-line">
+                    By: <span class="field">[Architect signature]</span><br>
+                    Printed Name: <span class="field">[Name]</span><br>
+                    Title: <span class="field">[Title]</span><br>
+                    Date: <span class="field">[Date]</span>
+                </div>
+                <p style="margin-top: 16px; font-size: 12.5px; font-style: italic;">This Certificate is not negotiable. The AMOUNT CERTIFIED is payable only to the Contractor named herein. Issuance, payment, and acceptance of payment are without prejudice to any rights of the Owner or Contractor under this Contract.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         4. SCHEDULE OF VALUES
+         ============================================================ -->
+    <div class="section" id="sec-sov">
+        <div class="section-title">4. Schedule of Values — Line-Item Breakdown of Contract Sum</div>
+        <p>The Schedule of Values (SOV) is the contractor's allocation of the original contract sum across line items, organized by CSI MasterFormat division and section. The SOV is agreed at contract execution (or shortly after, on contracts where it's developed during the first 30 days), reviewed by the architect, and rarely revised mid-project except via change order. The Continuation Sheet (next section) tracks completion percentages against this baseline every period.</p>
+
+        <div class="practice-note">
+            <span class="label">SOV is where contractors win or lose retainage.</span>
+            Front-loading the SOV (assigning higher values to early-period activities like site mobilization, foundation, framing) lets the GC bill higher percentages early and effectively float less working capital. Back-loading is the opposite — pushes the contractor's exposure into the back of the project. Sophisticated owners and architects scrutinize the SOV at submittal and reject obvious front-loading. The recommended approach: cost-allocate honestly to the actual labor + material + sub cost of each line, plus a defensible markup. A SOV that survives architect scrutiny on day one earns trust that compounds through every monthly application thereafter.
+        </div>
+
+        <div class="form-frame">
+            <div class="form-frame-title">Schedule of Values</div>
+            <div class="form-frame-sub">Project: <span class="field">[Project name]</span> &middot; Contract Sum: $<span class="field">[Original contract sum]</span></div>
+
+            <table class="sov-table">
+                <tr>
+                    <th width="50">Item No.</th>
+                    <th width="80">CSI Section</th>
+                    <th>Description of Work</th>
+                    <th width="110">Scheduled Value</th>
+                    <th width="60">% of Total</th>
+                </tr>
+
+                <tr class="header-row">
+                    <td colspan="5">DIVISION 01 — GENERAL REQUIREMENTS</td>
+                </tr>
+                <tr>
+                    <td class="center">01-01</td>
+                    <td class="center">01 31 19</td>
+                    <td>Project Management &amp; Coordination</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr>
+                    <td class="center">01-02</td>
+                    <td class="center">01 32 16</td>
+                    <td>Construction Progress Schedule</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr>
+                    <td class="center">01-03</td>
+                    <td class="center">01 50 00</td>
+                    <td>Temporary Facilities &amp; Controls (site fence, trailer, utilities, dumpsters)</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr>
+                    <td class="center">01-04</td>
+                    <td class="center">01 71 23</td>
+                    <td>Field Engineering &amp; Layout</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr>
+                    <td class="center">01-05</td>
+                    <td class="center">01 77 00</td>
+                    <td>Closeout Procedures</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr class="subtotal-row">
+                    <td colspan="3">DIVISION 01 SUBTOTAL</td>
+                    <td class="amount">$<span class="field">[Subtotal]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+
+                <tr class="header-row">
+                    <td colspan="5">DIVISION 02 — EXISTING CONDITIONS</td>
+                </tr>
+                <tr>
+                    <td class="center">02-01</td>
+                    <td class="center">02 41 00</td>
+                    <td>Demolition (interior + exterior selective demo)</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr>
+                    <td class="center">02-02</td>
+                    <td class="center">02 82 00</td>
+                    <td>Asbestos Abatement (if applicable)</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr class="subtotal-row">
+                    <td colspan="3">DIVISION 02 SUBTOTAL</td>
+                    <td class="amount">$<span class="field">[Subtotal]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+
+                <tr class="header-row">
+                    <td colspan="5">DIVISION 03 — CONCRETE</td>
+                </tr>
+                <tr>
+                    <td class="center">03-01</td>
+                    <td class="center">03 30 00</td>
+                    <td>Cast-in-Place Concrete (foundations, walls, slabs)</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr>
+                    <td class="center">03-02</td>
+                    <td class="center">03 35 00</td>
+                    <td>Concrete Finishing</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr class="subtotal-row">
+                    <td colspan="3">DIVISION 03 SUBTOTAL</td>
+                    <td class="amount">$<span class="field">[Subtotal]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+
+                <tr class="header-row">
+                    <td colspan="5">DIVISION 04 — MASONRY (if applicable)</td>
+                </tr>
+                <tr>
+                    <td class="center">04-01</td>
+                    <td class="center">04 22 00</td>
+                    <td>Concrete Unit Masonry / 04 21 13 Brick Veneer</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr class="subtotal-row">
+                    <td colspan="3">DIVISION 04 SUBTOTAL</td>
+                    <td class="amount">$<span class="field">[Subtotal]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+
+                <tr class="header-row">
+                    <td colspan="5">DIVISION 05 — METALS</td>
+                </tr>
+                <tr>
+                    <td class="center">05-01</td>
+                    <td class="center">05 12 00</td>
+                    <td>Structural Steel Framing</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr>
+                    <td class="center">05-02</td>
+                    <td class="center">05 31 00</td>
+                    <td>Steel Decking</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr class="subtotal-row">
+                    <td colspan="3">DIVISION 05 SUBTOTAL</td>
+                    <td class="amount">$<span class="field">[Subtotal]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+
+                <tr class="header-row">
+                    <td colspan="5">DIVISION 06 — WOOD, PLASTICS, COMPOSITES</td>
+                </tr>
+                <tr>
+                    <td class="center">06-01</td>
+                    <td class="center">06 10 00</td>
+                    <td>Rough Carpentry (framing, sheathing)</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr>
+                    <td class="center">06-02</td>
+                    <td class="center">06 40 00</td>
+                    <td>Architectural Woodwork (millwork, casework)</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr class="subtotal-row">
+                    <td colspan="3">DIVISION 06 SUBTOTAL</td>
+                    <td class="amount">$<span class="field">[Subtotal]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+
+                <tr class="header-row">
+                    <td colspan="5">DIVISION 07 — THERMAL &amp; MOISTURE PROTECTION</td>
+                </tr>
+                <tr>
+                    <td class="center">07-01</td>
+                    <td class="center">07 21 00</td>
+                    <td>Thermal Insulation</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr>
+                    <td class="center">07-02</td>
+                    <td class="center">07 50 00</td>
+                    <td>Membrane Roofing / Single-Ply / Built-Up</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr>
+                    <td class="center">07-03</td>
+                    <td class="center">07 92 00</td>
+                    <td>Joint Sealants / Caulking</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr class="subtotal-row">
+                    <td colspan="3">DIVISION 07 SUBTOTAL</td>
+                    <td class="amount">$<span class="field">[Subtotal]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+
+                <tr class="header-row">
+                    <td colspan="5">DIVISION 08 — OPENINGS</td>
+                </tr>
+                <tr>
+                    <td class="center">08-01</td>
+                    <td class="center">08 11 00</td>
+                    <td>Metal Doors &amp; Frames</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr>
+                    <td class="center">08-02</td>
+                    <td class="center">08 14 00</td>
+                    <td>Wood Doors</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr>
+                    <td class="center">08-03</td>
+                    <td class="center">08 41 00</td>
+                    <td>Entrances &amp; Storefronts (commercial glazing)</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr class="subtotal-row">
+                    <td colspan="3">DIVISION 08 SUBTOTAL</td>
+                    <td class="amount">$<span class="field">[Subtotal]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+
+                <tr class="header-row">
+                    <td colspan="5">DIVISION 09 — FINISHES</td>
+                </tr>
+                <tr>
+                    <td class="center">09-01</td>
+                    <td class="center">09 21 16</td>
+                    <td>Gypsum Board Assemblies (drywall + framing)</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr>
+                    <td class="center">09-02</td>
+                    <td class="center">09 30 00</td>
+                    <td>Tiling</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr>
+                    <td class="center">09-03</td>
+                    <td class="center">09 65 00</td>
+                    <td>Resilient Flooring (LVT, vinyl)</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr>
+                    <td class="center">09-04</td>
+                    <td class="center">09 91 00</td>
+                    <td>Painting &amp; Coating</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr class="subtotal-row">
+                    <td colspan="3">DIVISION 09 SUBTOTAL</td>
+                    <td class="amount">$<span class="field">[Subtotal]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+
+                <tr class="header-row">
+                    <td colspan="5">DIVISION 10 — SPECIALTIES</td>
+                </tr>
+                <tr>
+                    <td class="center">10-01</td>
+                    <td class="center">10 14 00</td>
+                    <td>Signage</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr>
+                    <td class="center">10-02</td>
+                    <td class="center">10 28 00</td>
+                    <td>Toilet, Bath &amp; Laundry Accessories</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr class="subtotal-row">
+                    <td colspan="3">DIVISION 10 SUBTOTAL</td>
+                    <td class="amount">$<span class="field">[Subtotal]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+
+                <tr class="header-row">
+                    <td colspan="5">DIVISION 21 — FIRE SUPPRESSION</td>
+                </tr>
+                <tr>
+                    <td class="center">21-01</td>
+                    <td class="center">21 13 00</td>
+                    <td>Fire-Suppression Sprinkler Systems</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr class="subtotal-row">
+                    <td colspan="3">DIVISION 21 SUBTOTAL</td>
+                    <td class="amount">$<span class="field">[Subtotal]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+
+                <tr class="header-row">
+                    <td colspan="5">DIVISION 22 — PLUMBING</td>
+                </tr>
+                <tr>
+                    <td class="center">22-01</td>
+                    <td class="center">22 00 00</td>
+                    <td>Plumbing (rough-in, fixtures, trim)</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr class="subtotal-row">
+                    <td colspan="3">DIVISION 22 SUBTOTAL</td>
+                    <td class="amount">$<span class="field">[Subtotal]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+
+                <tr class="header-row">
+                    <td colspan="5">DIVISION 23 — HEATING, VENTILATING &amp; AIR CONDITIONING (HVAC)</td>
+                </tr>
+                <tr>
+                    <td class="center">23-01</td>
+                    <td class="center">23 00 00</td>
+                    <td>HVAC (equipment, ductwork, controls)</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr>
+                    <td class="center">23-02</td>
+                    <td class="center">23 09 00</td>
+                    <td>Building Automation System (BAS) &amp; Controls</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr>
+                    <td class="center">23-03</td>
+                    <td class="center">23 05 93</td>
+                    <td>Testing, Adjusting, Balancing (TAB)</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr class="subtotal-row">
+                    <td colspan="3">DIVISION 23 SUBTOTAL</td>
+                    <td class="amount">$<span class="field">[Subtotal]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+
+                <tr class="header-row">
+                    <td colspan="5">DIVISION 26 — ELECTRICAL</td>
+                </tr>
+                <tr>
+                    <td class="center">26-01</td>
+                    <td class="center">26 00 00</td>
+                    <td>Electrical (rough-in, gear, fixtures, devices)</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr>
+                    <td class="center">26-02</td>
+                    <td class="center">26 09 23</td>
+                    <td>Lighting Control Devices</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr class="subtotal-row">
+                    <td colspan="3">DIVISION 26 SUBTOTAL</td>
+                    <td class="amount">$<span class="field">[Subtotal]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+
+                <tr class="header-row">
+                    <td colspan="5">DIVISION 27 — COMMUNICATIONS</td>
+                </tr>
+                <tr>
+                    <td class="center">27-01</td>
+                    <td class="center">27 10 00</td>
+                    <td>Structured Cabling (Cat6/6A, fiber backbone)</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr class="subtotal-row">
+                    <td colspan="3">DIVISION 27 SUBTOTAL</td>
+                    <td class="amount">$<span class="field">[Subtotal]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+
+                <tr class="header-row">
+                    <td colspan="5">DIVISION 28 — ELECTRONIC SAFETY &amp; SECURITY</td>
+                </tr>
+                <tr>
+                    <td class="center">28-01</td>
+                    <td class="center">28 31 00</td>
+                    <td>Fire Detection &amp; Alarm</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr>
+                    <td class="center">28-02</td>
+                    <td class="center">28 13 00</td>
+                    <td>Access Control &amp; Intrusion Detection</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr class="subtotal-row">
+                    <td colspan="3">DIVISION 28 SUBTOTAL</td>
+                    <td class="amount">$<span class="field">[Subtotal]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+
+                <tr class="header-row">
+                    <td colspan="5">DIVISION 31 — EARTHWORK</td>
+                </tr>
+                <tr>
+                    <td class="center">31-01</td>
+                    <td class="center">31 23 00</td>
+                    <td>Excavation, Backfill, Compaction</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr class="subtotal-row">
+                    <td colspan="3">DIVISION 31 SUBTOTAL</td>
+                    <td class="amount">$<span class="field">[Subtotal]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+
+                <tr class="header-row">
+                    <td colspan="5">DIVISION 32 — EXTERIOR IMPROVEMENTS</td>
+                </tr>
+                <tr>
+                    <td class="center">32-01</td>
+                    <td class="center">32 12 16</td>
+                    <td>Asphalt Paving</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr>
+                    <td class="center">32-02</td>
+                    <td class="center">32 17 23</td>
+                    <td>Pavement Markings</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr>
+                    <td class="center">32-03</td>
+                    <td class="center">32 90 00</td>
+                    <td>Planting / Landscaping</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr class="subtotal-row">
+                    <td colspan="3">DIVISION 32 SUBTOTAL</td>
+                    <td class="amount">$<span class="field">[Subtotal]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+
+                <tr class="header-row">
+                    <td colspan="5">PROJECT OVERHEAD &amp; PROFIT</td>
+                </tr>
+                <tr>
+                    <td class="center">99-01</td>
+                    <td class="center">—</td>
+                    <td>General Conditions (project staff, supervision, equipment)</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr>
+                    <td class="center">99-02</td>
+                    <td class="center">—</td>
+                    <td>Insurance / Bond Premiums (pass-through if contract permits)</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+                <tr>
+                    <td class="center">99-03</td>
+                    <td class="center">—</td>
+                    <td>Contractor's Fee / Profit</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                </tr>
+
+                <tr class="total-row">
+                    <td colspan="3">TOTAL — ORIGINAL CONTRACT SUM</td>
+                    <td class="amount">$<span class="field">[Total]</span></td>
+                    <td class="center">100.00%</td>
+                </tr>
+            </table>
+
+            <p class="footnote" style="margin-top: 14px;">Add or remove divisions as the project scope dictates — a tenant fit-out may have no Division 03 concrete, a site work package may consist almost entirely of Divisions 31 and 32. The CSI MasterFormat 2020 codes shown are conventional choices; verify against the specifications for your project.</p>
+        </div>
+
+        <div class="practice-note">
+            <span class="label">Subdividing line items.</span>
+            On large or complex projects, divisions are subdivided further so progress can be tracked at finer granularity. For example, Division 03 on a multi-story building might break into 03-01 Foundations, 03-02 Slab on Grade, 03-03 Elevated Slabs Level 1, 03-04 Elevated Slabs Level 2, etc. The general rule: a SOV line item should be small enough to track meaningfully and large enough to be worth tracking separately. Industry rule of thumb: for a $1M project, 30–50 line items; for $5M, 60–100; for $20M+, 120–200+. Too few line items obscures progress; too many becomes unmanageable.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         5. CONTINUATION SHEET
+         ============================================================ -->
+    <div class="section page-break" id="sec-continuation">
+        <div class="section-title">5. Continuation Sheet — Per-Period Progress Detail</div>
+        <p>The Continuation Sheet is the workhorse document — submitted with every monthly Application for Payment, reporting line-item progress against the Schedule of Values. The Total Completed and Stored to Date column (Column G) feeds Line 4 of the cover sheet. Format below mirrors the AIA G703 industry standard.</p>
+
+        <div class="form-frame">
+            <div class="form-frame-title">Continuation Sheet</div>
+            <div class="form-frame-sub">Project: <span class="field">[Project name]</span> &middot; Application No. <span class="field">[#]</span> &middot; Period Ending <span class="field">[Date]</span></div>
+
+            <table class="sov-table">
+                <tr>
+                    <th width="40">A<br>Item No.</th>
+                    <th width="160">B<br>Description of Work</th>
+                    <th width="80">C<br>Scheduled Value</th>
+                    <th width="75">D<br>Work Completed — From Previous Application</th>
+                    <th width="75">E<br>Work Completed — This Period</th>
+                    <th width="75">F<br>Materials Presently Stored (not in D or E)</th>
+                    <th width="75">G<br>Total Completed &amp; Stored to Date (D+E+F)</th>
+                    <th width="50">% (G/C)</th>
+                    <th width="75">H<br>Balance to Finish (C − G)</th>
+                    <th width="60">Retainage (if variable rate)</th>
+                </tr>
+
+                <tr class="header-row">
+                    <td colspan="10">Example — first three line items shown; full Continuation Sheet replicates every SOV line</td>
+                </tr>
+
+                <tr>
+                    <td class="center">01-01</td>
+                    <td>Project Mgmt &amp; Coordination</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="amount">$<span class="field">[D]</span></td>
+                    <td class="amount">$<span class="field">[E]</span></td>
+                    <td class="amount">$<span class="field">[F]</span></td>
+                    <td class="amount">$<span class="field">[G]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                    <td class="amount">$<span class="field">[H]</span></td>
+                    <td class="amount">$<span class="field">[Ret]</span></td>
+                </tr>
+                <tr>
+                    <td class="center">01-03</td>
+                    <td>Temp Facilities &amp; Controls</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="amount">$<span class="field">[D]</span></td>
+                    <td class="amount">$<span class="field">[E]</span></td>
+                    <td class="amount">$<span class="field">[F]</span></td>
+                    <td class="amount">$<span class="field">[G]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                    <td class="amount">$<span class="field">[H]</span></td>
+                    <td class="amount">$<span class="field">[Ret]</span></td>
+                </tr>
+                <tr>
+                    <td class="center">03-01</td>
+                    <td>Cast-in-Place Concrete</td>
+                    <td class="amount">$<span class="field">[Amt]</span></td>
+                    <td class="amount">$<span class="field">[D]</span></td>
+                    <td class="amount">$<span class="field">[E]</span></td>
+                    <td class="amount">$<span class="field">[F]</span></td>
+                    <td class="amount">$<span class="field">[G]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                    <td class="amount">$<span class="field">[H]</span></td>
+                    <td class="amount">$<span class="field">[Ret]</span></td>
+                </tr>
+                <tr>
+                    <td class="center">…</td>
+                    <td><em>(Continue for all SOV line items)</em></td>
+                    <td class="amount">…</td>
+                    <td class="amount">…</td>
+                    <td class="amount">…</td>
+                    <td class="amount">…</td>
+                    <td class="amount">…</td>
+                    <td class="center">…</td>
+                    <td class="amount">…</td>
+                    <td class="amount">…</td>
+                </tr>
+
+                <tr class="total-row">
+                    <td colspan="2">GRAND TOTALS</td>
+                    <td class="amount">$<span class="field">[Total C]</span></td>
+                    <td class="amount">$<span class="field">[Total D]</span></td>
+                    <td class="amount">$<span class="field">[Total E]</span></td>
+                    <td class="amount">$<span class="field">[Total F]</span></td>
+                    <td class="amount">$<span class="field">[Total G]</span></td>
+                    <td class="center"><span class="field">[%]</span></td>
+                    <td class="amount">$<span class="field">[Total H]</span></td>
+                    <td class="amount">$<span class="field">[Total Ret]</span></td>
+                </tr>
+            </table>
+
+            <p class="footnote" style="margin-top: 14px;">
+                <strong>Column definitions.</strong> A: SOV Item Number (matches Schedule of Values). B: Description of Work (matches SOV). C: Scheduled Value (from SOV). D: Cumulative work completed through prior period (= Column G of prior period). E: Work completed this period (must be supportable by photos / observation). F: Materials stored on or off site for this project (not yet incorporated in the work). G: D + E + F (cumulative completed + stored). %: G ÷ C (cumulative percent complete by line). H: C − G (balance to finish). Retainage column shows the retainage held against this line if a variable retainage rate is in effect (e.g., 10% on completed work, 5% on stored materials).
+            </p>
+        </div>
+
+        <div class="formula">
+            Reconciliation: sum of Column G (all line items) = Line 4 of Application for Payment cover sheet (Total Completed and Stored to Date). If these don't match, fix the Continuation Sheet before submitting.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         6. STORED MATERIALS
+         ============================================================ -->
+    <div class="section" id="sec-stored">
+        <div class="section-title">6. Stored-Materials Documentation</div>
+        <p>Owners pay for materials stored for the project even before they are physically incorporated into the work — but only with proper documentation. The standard owner requirement for any stored-materials billing is:</p>
+
+        <ol style="font-size: 13.5px;">
+            <li><strong>Bill of sale or paid invoice</strong> — proof that the contractor (or sub) has paid for the materials and holds title.</li>
+            <li><strong>Photos</strong> — materials stored, with project signage and dated.</li>
+            <li><strong>For on-site storage:</strong> photos showing materials within the project's site fence or in a secure project-site location.</li>
+            <li><strong>For off-site storage:</strong>
+                <ul>
+                    <li>Signed warehouse receipt identifying the materials, the project, and the contractor as owner</li>
+                    <li>Insurance rider naming the owner as additional insured for the stored value</li>
+                    <li>Bonded warehouse OR contractor-controlled storage facility</li>
+                    <li>Owner's right of inspection acknowledged in writing</li>
+                </ul>
+            </li>
+            <li><strong>Lien waiver from the supplier</strong> — for materials over a contract-stipulated threshold (often $50K), the supplier provides a conditional partial waiver upon owner payment.</li>
+            <li><strong>Materials NOT yet billed in prior periods.</strong> Once stored materials are incorporated into the work, they move from Column F to Columns D/E on the Continuation Sheet — they are NOT double-billed.</li>
+        </ol>
+
+        <div class="practice-note">
+            <span class="label">The 30-day storage rule.</span>
+            Many contracts include an unwritten convention (or written rule) that stored materials may only be billed if the contractor reasonably expects to incorporate them into the work within 30–60 days. Materials sitting in storage for 90+ days raise architect concern that the contractor is using owner financing for inventory unrelated to the project. If you anticipate longer storage, raise it with the architect upfront and document the schedule justification.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         7. RETAINAGE MECHANICS
+         ============================================================ -->
+    <div class="section" id="sec-retainage">
+        <div class="section-title">7. Retainage Mechanics + Reduction Triggers</div>
+        <p>Retainage (sometimes "retention" — same thing) is the portion of each progress payment withheld by the owner to incentivize the contractor to complete the project, including punch list, closeout documents, and warranty obligations. Retainage releases at substantial completion (in part) and final completion (in full). Standard structures:</p>
+
+        <table class="data-table">
+            <tr>
+                <th>Structure</th>
+                <th>Description</th>
+                <th>When You'd See It</th>
+            </tr>
+            <tr>
+                <td><strong>Flat retainage</strong></td>
+                <td>10% withheld from every progress payment, never reduced until substantial completion (then released to 5% pending punch list, 0% at final)</td>
+                <td>Most common on private commercial work</td>
+            </tr>
+            <tr>
+                <td><strong>Step-down retainage</strong></td>
+                <td>10% withheld until 50% complete, then reduced to 5% on subsequent billings (or no further retainage withheld), pending substantial completion</td>
+                <td>Common on AIA-form contracts and on contracts where the contractor negotiated retainage relief</td>
+            </tr>
+            <tr>
+                <td><strong>Variable rate retainage</strong></td>
+                <td>10% on completed work, 5% on stored materials (or other split rates by line item)</td>
+                <td>Common on owner-financed projects where the lender treats stored materials differently from work in place</td>
+            </tr>
+            <tr>
+                <td><strong>Statutory retainage caps</strong></td>
+                <td>Some states cap retainage on public works at a specific percentage (5% in CA public projects per Cal. Pub. Cont. Code § 7201; 5% in NY state public works; 10% in TX public works) and require step-down at specified completion thresholds</td>
+                <td>Public works in regulated states</td>
+            </tr>
+        </table>
+
+        <div class="sub-title">Retainage reduction triggers</div>
+        <ul style="font-size: 13.5px;">
+            <li><strong>50% completion:</strong> step-down to 5% retainage on subsequent billings (if step-down structure)</li>
+            <li><strong>Substantial completion:</strong> retainage released down to a balance equal to 2x the dollar value of remaining punch list (industry rule of thumb), pending punch list completion</li>
+            <li><strong>Final completion + acceptance:</strong> full retainage released within contract-stipulated period (typically 30–60 days from final acceptance and submission of all closeout documents)</li>
+            <li><strong>Lien-free certification:</strong> final retainage release commonly conditioned on submission of unconditional final waivers from GC and all subs/suppliers, plus consent of surety</li>
+        </ul>
+
+        <div class="practice-note">
+            <span class="label">Subcontractor flow-down.</span>
+            The retainage structure between owner and GC must flow down to the subcontract relationships — if the owner withholds 10% from the GC, the GC should withhold 10% from each sub on the corresponding portion of work. Mismatched retainage structures (where the GC withholds more or less than the owner does) create cash-flow risk to whichever party is over-funding. Confirm flow-down is set up in every subcontract before the first sub progress payment.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         8. CHANGE ORDERS — INTERACTION WITH PAY-APP
+         ============================================================ -->
+    <div class="section" id="sec-changeorders">
+        <div class="section-title">8. Change Orders — How They Roll Into the Pay-App</div>
+        <p>Change orders modify the contract sum, the contract time, or both. Once approved, they:</p>
+
+        <ol style="font-size: 13.5px;">
+            <li>Increase (or decrease) the contract sum on Line 2 of the Application for Payment cover sheet (Net Change by Change Orders)</li>
+            <li>Are reflected in the Change Order Summary table on the cover sheet</li>
+            <li>Add (or modify) a line item to the Schedule of Values — typically appended at the end of the SOV with a Change Order reference number (e.g., "CO-001 Add additional storefront", scheduled value $X)</li>
+            <li>Appear on the Continuation Sheet as a billable line item once work begins on the change order scope</li>
+        </ol>
+
+        <p style="font-size: 13.5px;">Pending change orders (proposed but not yet executed) do NOT roll into the pay-app. They are tracked separately and may be referenced in the cover-letter narrative but do not affect the dollar calculation. Some GCs include a "Pending Change Order Log" as an attachment for owner awareness.</p>
+
+        <p style="font-size: 13.5px;">Field directives or construction change directives (CCDs — work the architect or owner directs the contractor to perform pending negotiation of price) are a separate animal — work proceeds, time-and-materials cost is tracked, and the dollar amount is incorporated into a subsequent change order. Until the change order is executed, the work performed under a CCD may be billed at cost (with no markup) on a separate Continuation Sheet line, or held off the pay-app pending negotiation, depending on contract terms.</p>
+
+        <div class="practice-note">
+            <span class="label">Don't bill against a pending change order as if it were approved.</span>
+            One of the most common pay-app disputes: contractor includes work performed against a pending change order on the Continuation Sheet, treating the proposed change-order amount as if it's part of the contract sum. Architect rejects, owner gets nervous, payment delays. Discipline: only execute change orders are in the SOV; only executed change orders are billed against. CCD work is tracked separately until executed.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         9. ATTACHMENTS BY PERIOD
+         ============================================================ -->
+    <div class="section" id="sec-co-attachments">
+        <div class="section-title">9. Required Attachments by Period</div>
+        <p>The standard pay-app submission package includes more than just the cover sheet and Continuation Sheet. Typical required attachments:</p>
+
+        <table class="data-table">
+            <tr>
+                <th>Attachment</th>
+                <th>Required When</th>
+            </tr>
+            <tr>
+                <td><strong>Conditional partial lien waiver from GC</strong></td>
+                <td>Every period — for the current period billed amount</td>
+            </tr>
+            <tr>
+                <td><strong>Conditional partial lien waivers from all subs</strong></td>
+                <td>Every period — for each sub's current period billing</td>
+            </tr>
+            <tr>
+                <td><strong>Unconditional lien waivers (GC + subs) for prior period</strong></td>
+                <td>Every period after the first — for the prior period's actually-paid amount</td>
+            </tr>
+            <tr>
+                <td><strong>Updated Certificate of Insurance</strong></td>
+                <td>When prior COI within 30 days of expiration</td>
+            </tr>
+            <tr>
+                <td><strong>Stored-materials documentation</strong></td>
+                <td>Any period including stored materials (Column F &gt; 0)</td>
+            </tr>
+            <tr>
+                <td><strong>Updated change order log</strong></td>
+                <td>Every period — even if no new COs this period</td>
+            </tr>
+            <tr>
+                <td><strong>Schedule update</strong></td>
+                <td>Per contract — typically monthly with the application</td>
+            </tr>
+            <tr>
+                <td><strong>Certified payrolls (Davis-Bacon / prevailing wage projects)</strong></td>
+                <td>Every period on federal-funded or state prevailing-wage projects</td>
+            </tr>
+            <tr>
+                <td><strong>Quality control / non-conformance reports</strong></td>
+                <td>If contract requires; per project</td>
+            </tr>
+            <tr>
+                <td><strong>Safety incident summary</strong></td>
+                <td>If contract requires; per project</td>
+            </tr>
+            <tr>
+                <td><strong>Bond status acknowledgment from surety</strong></td>
+                <td>On bonded projects — typically every period or per contract</td>
+            </tr>
+            <tr>
+                <td><strong>Pencil-draft sign-off</strong></td>
+                <td>Optional but highly recommended — emailed agreement from architect on percentages before formal submission</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- ============================================================
+         10. COMMON DISPUTE TRIGGERS
+         ============================================================ -->
+    <div class="section" id="sec-disputes">
+        <div class="section-title">10. Common Dispute Triggers + How to Pre-empt</div>
+        <p>The 10 most common pay-app disputes — and the practice that prevents each.</p>
+
+        <ol style="font-size: 13.5px;">
+            <li><strong>Front-loaded SOV.</strong> Contractor assigns disproportionately high values to early activities (mobilization, foundation) to bill more in early months. <em>Pre-empt:</em> cost-allocate the SOV honestly at contract execution; expect architect to scrutinize.</li>
+            <li><strong>Overstated completion percentages.</strong> Contractor's pencil draft claims 80% on a line that's visually 60%. <em>Pre-empt:</em> walk the project with the architect before formal submission; only bill what's defensible by photo + observation.</li>
+            <li><strong>Stored materials with thin documentation.</strong> Contractor bills $50K of stored materials with only a photo and no bill of sale or warehouse receipt. <em>Pre-empt:</em> assemble the full stored-materials package (bill of sale + photos + warehouse receipt + insurance rider for off-site) before billing; if any element is missing, defer to next period.</li>
+            <li><strong>Pending change orders included in contract sum.</strong> Pre-empt as discussed in Section 8 — only executed COs in the contract sum.</li>
+            <li><strong>Missing or stale lien waivers.</strong> Architect rejects the application until all waivers are in. <em>Pre-empt:</em> collect waivers from every sub during the first week of the month; do not submit incomplete.</li>
+            <li><strong>COI expired or about to expire.</strong> Architect won't certify until COI is current. <em>Pre-empt:</em> calendar COI renewal dates and submit updated COI 60 days ahead of expiration.</li>
+            <li><strong>Sub progress dispute spilling onto GC's pay-app.</strong> Sub claims more progress than GC's accountant verified; sub then disputes GC's flow-down payment as short. <em>Pre-empt:</em> reconcile sub pay-app to GC's progress assessment before incorporating into the GC's Continuation Sheet.</li>
+            <li><strong>Retainage flow-down mismatch.</strong> GC withholds 10% from subs while owner withholds only 5% from GC, or vice versa, generating cash-flow asymmetry. <em>Pre-empt:</em> mirror retainage flow-down in every subcontract to match the prime contract.</li>
+            <li><strong>Schedule update missing.</strong> Application rejected because the monthly schedule update wasn't attached. <em>Pre-empt:</em> include schedule update in the standing pay-app package; deliver every period.</li>
+            <li><strong>Negative current payment due (overbilled prior period).</strong> Cumulative completion has decreased (e.g., a line item was overcompleted last period and corrected this period). <em>Pre-empt:</em> reconcile carefully; discuss with owner before submission so the architect doesn't first see a negative number unexplained.</li>
+        </ol>
+
+        <div class="practice-note">
+            <span class="label">The pay-app is also a relationship instrument.</span>
+            A clean, well-documented, on-time pay-app — submitted with all attachments, all percentages defensible, all waivers in order — builds owner and architect trust over the project. A sloppy pay-app (missing attachments, percentages that don't reconcile, late submission) accumulates suspicion. By month 6, the trustworthy contractor is getting paid in 25 days; the suspect contractor is getting paid in 50 days, with every billing scrutinized line-by-line. Over a 12-month project, the difference compounds to weeks of cash-flow and meaningful interest cost. Operate every pay-app like the relationship depends on it — because it does.
+        </div>
+    </div>
+
+    <!-- ============================================================
+         CLOSING DISCLAIMER
+         ============================================================ -->
+    <div class="section">
+        <div class="warning">
+            <strong>Closing reminder.</strong> This Application for Payment package is intended for use on private commercial projects where the contract permits "industry-standard" or "equivalent" payment application forms. <strong>Where the underlying contract specifies AIA Document G702/G703 by name (or where the owner's lender or surety requires AIA forms), use the AIA forms.</strong> The numerical logic, retainage math, certification framework, and CSI-coded Schedule of Values structure in this package are industry-standard regardless of which form is used. For public works projects, federal projects (Miller Act), or state projects (Little Miller Act), additional certifications and forms (certified payrolls, MBE/WBE participation reports, EEO compliance) typically apply — verify against the prime contract and applicable state and federal regulations. Have construction counsel review your pay-app workflow on first use of this package and on any material change to your contract structure.
+        </div>
+
+        <p class="footnote">Document version: 2026-05-15 (v1.0). Industry pay-app workflow current as of January 2026 — verify retainage caps, certification requirements, and prevailing-wage thresholds against the contract for every project. Maintained as part of the ContrPro Complete tier — General Contractor suite.</p>
+    </div>
+
+</body>
+</html>
