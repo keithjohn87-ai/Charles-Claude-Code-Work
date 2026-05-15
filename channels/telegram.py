@@ -100,10 +100,36 @@ async def _on_voice(update: Update, ctx: ContextTypes.DEFAULT_TYPE) -> None:
             log.warning("voice-out failed (text reply already sent): %s", e)
 
 
+_heartbeat_task: asyncio.Task | None = None
+
+
 async def _post_init(app: Application) -> None:
     """Spawn the heartbeat loop on the same asyncio loop as Telegram polling."""
-    asyncio.create_task(heartbeat.loop())
+    global _heartbeat_task
+    _heartbeat_task = asyncio.create_task(heartbeat.loop())
     log.info("heartbeat task spawned")
+
+
+async def _post_shutdown(app: Application) -> None:
+    """Cancel the heartbeat task before the loop closes — kills the
+    'Task was destroyed but it is pending!' asyncio error on every
+    launchctl kickstart.
+
+    Bounded wait: if a heartbeat tick is mid-respond chain (synchronous MLX
+    HTTP call), the cancel can't interrupt it. Capping the await at 2s
+    keeps the watchdog's 15s kickstart timeout from blowing up — we'd
+    rather print a noisy asyncio warning once than fail the kickstart.
+    """
+    global _heartbeat_task
+    if _heartbeat_task and not _heartbeat_task.done():
+        _heartbeat_task.cancel()
+        try:
+            await asyncio.wait_for(_heartbeat_task, timeout=2.0)
+            log.info("heartbeat task cancelled")
+        except asyncio.CancelledError:
+            log.info("heartbeat task cancelled")
+        except asyncio.TimeoutError:
+            log.warning("heartbeat task didn't ack cancel within 2s — letting process exit anyway")
 
 
 def run() -> None:
@@ -116,6 +142,7 @@ def run() -> None:
         Application.builder()
         .token(TELEGRAM_BOT_TOKEN)
         .post_init(_post_init)
+        .post_shutdown(_post_shutdown)
         .build()
     )
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, _on_message))

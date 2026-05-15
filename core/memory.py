@@ -185,9 +185,34 @@ CREATE INDEX IF NOT EXISTS idx_john_prefs_category ON john_prefs(category);
 
 @contextmanager
 def _conn() -> Iterator[sqlite3.Connection]:
+    """Open a connection to memory.db.
+
+    Per-connection PRAGMAs applied:
+      - journal_mode=WAL  → readers don't block writers (and vice versa).
+                            Set on every connection but only takes effect
+                            on the FIRST connection that can grab an
+                            exclusive lock. Persists in the DB file.
+      - busy_timeout=30000 (30s) → wait this long for a writer's lock
+                            before raising "database is locked". Default
+                            is 5s, which is too short with 3 live
+                            processes (warroom + agent + behavior_watchdog)
+                            doing concurrent work. 2026-05-12: a 4h CC
+                            run died at the supersede pre-mark step when
+                            the watchdog held a write lock for ~11s
+                            during auto-consolidation.
+    """
     Path(DB_PATH).parent.mkdir(parents=True, exist_ok=True)
-    c = sqlite3.connect(DB_PATH)
+    c = sqlite3.connect(DB_PATH, timeout=30.0)
     c.row_factory = sqlite3.Row
+    # PRAGMA journal_mode=WAL — sticky setting on the DB file. The first
+    # connection that can promote sets it; subsequent connections inherit.
+    # If we can't get the exclusive lock right now, it's already WAL or
+    # the next connection will pick it up — non-fatal either way.
+    try:
+        c.execute("PRAGMA journal_mode=WAL")
+    except sqlite3.OperationalError:
+        pass
+    c.execute("PRAGMA busy_timeout=30000")
     try:
         yield c
         c.commit()
@@ -1376,6 +1401,7 @@ def reflect_daily() -> dict:
     day_ago = (now - timedelta(hours=24)).isoformat(timespec="milliseconds").replace("+00:00", "Z")
     two_weeks_ago = (now - timedelta(days=14)).isoformat(timespec="milliseconds").replace("+00:00", "Z")
     thirty_days_ago = (now - timedelta(days=30)).isoformat(timespec="milliseconds").replace("+00:00", "Z")
+    seven_days_ago = (now - timedelta(days=7)).isoformat(timespec="milliseconds").replace("+00:00", "Z")
 
     with _conn() as c:
         # New facts in last 24h, grouped by topic
@@ -1403,7 +1429,8 @@ def reflect_daily() -> dict:
         ).fetchall()
         thin_topics = [r["name"] for r in thin_rows]
 
-        # Auto-supersede facts not used in 30+ days AND created over 30 days ago
+        # Auto-supersede general facts not used in 30+ days AND created over 30 days ago.
+        # Skip facts under leaf-of-system_health topics — those get the aggressive 7d sweep below.
         cold_facts_marked = c.execute(
             "UPDATE long_term_facts SET tags = tags || ',superseded,superseded_by:age_30d' "
             "WHERE (last_used_at IS NULL OR last_used_at < ?) "
@@ -1412,6 +1439,19 @@ def reflect_daily() -> dict:
             "AND topic NOT IN (SELECT name FROM topics WHERE parent_topic_id IS NOT NULL "
             "                  OR fact_count > 50)",  # don't mark facts under big or hierarchical topics
             (thirty_days_ago, thirty_days_ago),
+        ).rowcount
+
+        # Aggressive 7-day prune for housekeeping topics under system_health.
+        # These topics (intra_call_loop, tool_error_storm, kickstart, manual_reset, etc.)
+        # accumulate operational noise that has no long-term value past a week.
+        cold_facts_marked += c.execute(
+            "UPDATE long_term_facts SET tags = tags || ',superseded,superseded_by:age_7d_sysh' "
+            "WHERE (last_used_at IS NULL OR last_used_at < ?) "
+            "AND created_at < ? "
+            "AND tags NOT LIKE '%superseded%' "
+            "AND topic IN (SELECT t.name FROM topics t JOIN topics p ON t.parent_topic_id=p.id "
+            "              WHERE p.name='system_health')",
+            (seven_days_ago, seven_days_ago),
         ).rowcount
 
     # Recompute summaries for topics with > 3 new facts

@@ -162,8 +162,24 @@ def _count_search_commands(in_flight: dict[str, int]) -> int:
     return n
 
 
-def check_pre_call(name: str, args: dict[str, Any]) -> str | None:
-    """Return a short-circuit error string, or None to let the call proceed."""
+def check_pre_call(name: str, args: dict[str, Any]) -> tuple[str, str] | None:
+    """Return a short-circuit (message, category) tuple, or None to proceed.
+
+    The category is one of the values in ToolResult's error-category set
+    (validation / blocked / network / timeout / internal) — added 2026-05-14
+    per Harness Audit Fix #2 so the model can pick the right reaction:
+      - blocked  → safety guard says "you already tried, will fail again";
+                   the model should pivot to a different tool, not retry.
+      - cached   → not an error; the data is a fresh cache hit. Empty
+                   category, mapped to status=ok by from_legacy_str().
+      - other categories (network/timeout/internal) come from dispatch
+                   itself (e.g. handler exceptions) — pre-call guards
+                   always use "blocked" since by definition we KNOW
+                   the call would fail or repeat.
+
+    Backwards-compat caller signature (dispatch) handles the tuple form;
+    no external callers exist as of 2026-05-14.
+    """
 
     # 1) Self-querying memory via shell — redirect.
     if name == "exec_shell":
@@ -176,10 +192,32 @@ def check_pre_call(name: str, args: dict[str, Any]) -> str | None:
                 "  - recall(query='...') for fact lookups\n"
                 "  - search_facts(query='...') for keyword search across facts\n"
                 "  - list_goals() / append_goal_note() for goal state\n"
-                "Re-emit your tool_call with one of those instead of sqlite3."
+                "Re-emit your tool_call with one of those instead of sqlite3.",
+                "blocked",
             )
 
-        # 1a) Search-loop nudge: if Charles has run 4+ exec_shell with grep/find
+        # 1a-cc) Common Crawl runner via shell — redirect to dedicated tool.
+        # Charles keeps reaching for `python -m core.cc_runner` via exec_shell
+        # because John's prompt literally says "use exec_shell". exec_shell has
+        # a 60-300s timeout and no progress visibility — wrong shape for this
+        # operation. The dedicated `run_cc_build` tool runs in a background
+        # thread, returns immediately, and pairs with `cc_status` for polling.
+        if "core.cc_runner" in cmd or "cc_runner" in cmd:
+            return (
+                "[error] you tried to run the Common Crawl ingester via "
+                "exec_shell. That's the wrong tool — exec_shell has a "
+                "subprocess timeout (60-300s) and the cc_runner takes hours. "
+                "Use the dedicated tool instead:\n"
+                "  run_cc_build(config_name='p2_qwen36', max_batches=2)\n"
+                "It spawns a background thread and returns immediately. Then "
+                "call cc_status() to poll progress. The user named exec_shell "
+                "in their prompt, but the dedicated tool is the right shape — "
+                "John's directive is about the OUTCOME (run the smoke test), "
+                "not the literal tool name.",
+                "blocked",
+            )
+
+        # 1b) Search-loop nudge: if Charles has run 4+ exec_shell with grep/find
         # in this respond chain, he's probably keyword-fishing instead of
         # reading the source. Nudge him to pivot.
         if _looks_like_search_command(cmd):
@@ -197,7 +235,8 @@ def check_pre_call(name: str, args: dict[str, Any]) -> str | None:
                         "(check long_term_facts via recall() for known paths)\n"
                         "  2. OR ask the user to clarify what they're "
                         "looking for\n"
-                        "Do NOT run another grep/find. Pivot now."
+                        "Do NOT run another grep/find. Pivot now.",
+                        "blocked",
                     )
 
     # 2) URL block-list (browse_url, browser_screenshot).
@@ -212,7 +251,8 @@ def check_pre_call(name: str, args: dict[str, Any]) -> str | None:
                     f"[error] you already tried this URL earlier in this "
                     f"conversation and it failed: reason={reason}, url={url}. "
                     f"Move on — pick a different source or skip this item. "
-                    f"Do NOT retry it; the result will be the same."
+                    f"Do NOT retry it; the result will be the same.",
+                    "blocked",
                 )
 
     # 3) In-flight duplicate (same tool + same args within ONE respond chain).
@@ -234,14 +274,16 @@ def check_pre_call(name: str, args: dict[str, Any]) -> str | None:
                     f"exact arguments {attempt_n} TIMES in this response chain. "
                     f"The result will not change. You are looping — pick a "
                     f"DIFFERENT tool or call complete_goal/cancel_goal if you're "
-                    f"done. Do NOT call {name}() with these arguments again."
+                    f"done. Do NOT call {name}() with these arguments again.",
+                    "blocked",
                 )
             return (
                 f"[error] you already called {name}() with these exact "
                 f"arguments earlier in this same response chain (attempt #{attempt_n}). "
                 f"Calling it again won't change the result. Use the result "
                 f"you already have, or call a DIFFERENT tool with DIFFERENT args. "
-                f"Continuing to retry this same call will exhaust your tool budget."
+                f"Continuing to retry this same call will exhaust your tool budget.",
+                "blocked",
             )
         # Will mark this signature as seen AFTER pre-checks pass — see mark_in_flight().
 
@@ -269,11 +311,14 @@ def check_pre_call(name: str, args: dict[str, Any]) -> str | None:
                     f"  - OR call list_goals(status='all') to see your prior "
                     f"goal notes which often have what you're looking for.\n"
                     f"Do NOT make another narrow recall — your schema "
-                    f"assumption is wrong."
+                    f"assumption is wrong.",
+                    "blocked",
                 )
 
     # 4) read_file de-dup within a respond chain — return cached content
-    #    fingerprint instead of the full file.
+    #    fingerprint instead of the full file. NOT an error: cached hit is
+    #    a successful tool call with a hint. Empty category → dispatch maps
+    #    via from_legacy_str which sees no "[error]" prefix → status=ok.
     if name == "read_file":
         path = (args.get("path") or "").strip()
         recent = _recent_reads.get()
@@ -285,7 +330,8 @@ def check_pre_call(name: str, args: dict[str, Any]) -> str | None:
                 f"It hasn't changed since you read it 2 seconds ago. Use the "
                 f"content you already have in context. If you genuinely need "
                 f"to re-read because you suspect the file changed, call "
-                f"exec_shell with `stat {path!r}` first to verify the mtime."
+                f"exec_shell with `stat {path!r}` first to verify the mtime.",
+                "",
             )
 
     return None
@@ -364,10 +410,17 @@ def post_call(name: str, args: dict[str, Any], result: str) -> None:
             _track_recall_result(args.get("query") or "", result)
 
         # Cache successful read_file by path (only if it didn't error).
+        # Note: post-Fix #2 (2026-05-14), errors render as "[error]" OR
+        # "[error:category]" (e.g. "[error:validation]"). Match the broader
+        # "[error" prefix so categorized errors don't slip into the cache.
         if name == "read_file":
             path = (args.get("path") or "").strip()
             recent = _recent_reads.get()
-            if path and recent is not None and not result.startswith("[error]") and not result.startswith("[cached"):
+            if (
+                path and recent is not None
+                and not result.startswith("[error")
+                and not result.startswith("[cached")
+            ):
                 recent[path] = hashlib.sha256(result.encode("utf-8", errors="replace")).hexdigest()
     except Exception as e:  # noqa: BLE001 — guards must never break the dispatcher
         log.warning("post_call hook failed for %s: %s", name, e)
@@ -397,11 +450,14 @@ def _persist_blocked_url(conv_id: str, url: str, reason: str) -> None:
 
 
 def _rehydrate_block_list(conv_id: str) -> None:
-    """On respond_started, load any persisted blocked URLs for this conv from
-    long_term_facts back into _BLOCKED_URLS so the in-memory check_pre_call
-    short-circuits work after a process restart."""
+    """On respond_started, load all persisted blocked URLs (from any conv) into
+    this conv's _BLOCKED_URLS. Cross-channel: a dead URL discovered in
+    JOHN_CHARLES is also dead in CHARLES_LOG and vice versa — no point letting
+    Charles re-burn the time on the same 404 just because the prior hit
+    happened in the other channel.
+    """
     from core import memory as _mem
-    facts = _mem.search_facts(f"conv:{conv_id[:30]}", limit=100)
+    facts = _mem.search_facts("BLOCKED_URL", limit=500)
     n = 0
     for f in facts:
         tags = (f.get("tags") or "").lower()
@@ -414,10 +470,12 @@ def _rehydrate_block_list(conv_id: str) -> None:
             continue
         url = m.group(2)
         reason = m.group(3)
+        if url in _BLOCKED_URLS[conv_id]:
+            continue
         _BLOCKED_URLS[conv_id][url] = reason
         n += 1
     if n:
-        log.info("rehydrated %d blocked URLs for conv=%s", n, conv_id)
+        log.info("rehydrated %d blocked URLs (cross-channel) for conv=%s", n, conv_id)
 
 
 # ---------------------------------------------------------------------------

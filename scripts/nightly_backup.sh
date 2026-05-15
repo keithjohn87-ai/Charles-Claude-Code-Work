@@ -38,4 +38,20 @@ else
     echo "[~] no origin remote configured — skipping push (set one up to enable cloud backup)"
 fi
 
+# 4. Rotate large logs. Anything > 10MB gets gzipped with date suffix.
+#    Keeps 7 days of rotated logs, deletes older.
+echo "[*] log rotation pass"
+LOGDIR=/Users/home/charles/logs
+for f in "$LOGDIR"/charles.launchd.err.log "$LOGDIR"/charles.launchd.out.log "$LOGDIR"/warroom.err.log "$LOGDIR"/warroom.out.log "$LOGDIR"/behavior_watchdog.log; do
+    [ -f "$f" ] || continue
+    size=$(stat -f%z "$f" 2>/dev/null || stat -c%s "$f" 2>/dev/null)
+    if [ "${size:-0}" -gt 10485760 ]; then
+        ts=$(date +%Y%m%d-%H%M%S)
+        gzip -c "$f" > "${f}.${ts}.gz" && : > "$f"
+        echo "[*] rotated $(basename "$f") ($((size / 1024 / 1024))MB -> ${f}.${ts}.gz)"
+    fi
+done
+# Drop rotated logs older than 7 days
+find "$LOGDIR" -name "*.gz" -mtime +7 -delete 2>/dev/null
+
 echo "[$(date)] nightly_backup done"

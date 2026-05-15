@@ -5,14 +5,25 @@ conversation_id from SQLite and prepends them to the prompt. Each user
 message and final assistant reply is also persisted, so Charles is
 continuous across Telegram messages — not a goldfish.
 
-INVARIANT (cemented 2026-05-10): JOHN_CHARLES is a clean dialog channel.
-Only `role='user'` and `role='assistant'` (final replies) persist there.
-Tool calls, tool results, and mid-chain "let me X" assistant turns are
-NOT logged in JOHN_CHARLES — only in CHARLES_LOG. The chain's in-memory
-`history` keeps full plumbing for the model. See:
-  - memory: feedback_john_charles_clean_dialog.md
-  - architecture: project_two_channel_architecture.md
-JOHN_CHARLES tool-round budget is also tighter (5 vs 25) — relational
+JOHN_CHARLES UI cleanliness (revised 2026-05-12): the relational channel
+appears as a clean dialog (user message → assistant final reply) in John's
+UI, but the underlying DB now keeps the FULL plumbing — tool_call
+assistant rows, tool result rows, every mid-chain text. The clean-up is
+done at READ time by warroom/state.conversation_history(), which filters
+out role='tool', role='progress', and content-less tool-call stubs.
+
+The 2026-05-10 invariant ("strip at write time") had a fatal side effect:
+Charles couldn't see his own tool history on follow-up turns. He'd take
+his prior text claim ("Kicked off CC, 2 batches") at face value, find no
+tool_call evidence in his loaded history, conclude he must have
+hallucinated, and report to John "no crawl started" — even when the run
+had actually succeeded. The 2026-05-12 CC incident exposed it.
+
+The model still sees the full chain on every respond() via
+memory.recent_history(), which only filters role='progress'. UI stays
+clean. Charles stops gaslighting himself. Best of both.
+
+JOHN_CHARLES tool-round budget is still tighter (5 vs 25) — relational
 chat doesn't need 25 tool rounds to answer "how's it going?".
 """
 from __future__ import annotations
@@ -29,7 +40,7 @@ import tools  # noqa: F401  — import side-effect: registers all tools
 from core import channels, memory
 from core.inference import complete
 from core.prompts import build_system_prompt
-from core.tools import REGISTRY, dispatch  # select_tools still in core.tools, kept for future
+from core.tools import REGISTRY, core_tools, dispatch, select_tools, tool_tier
 
 log = logging.getLogger("charles.agent")
 
@@ -106,6 +117,72 @@ def _intra_call_loop_detected(recent_assistant_texts: list[str]) -> str | None:
     return f"intra-call repetition: {pairs_above}/{len(window)} pairs near-identical" if pairs_above >= 1 else None
 
 
+# Dispatch-guard (2026-05-12 — two Charles hallucinations of run_cc_build):
+# When the model emits text claiming to have just performed an action
+# ("kicked off X", "ran X", "called X") but no tool_call was actually
+# emitted across the chain, the claim is false. Force a synthetic retry
+# that names the lie explicitly and gives the model one more chance to
+# either ACTUALLY call the tool OR revise the text. Cap at MAX_GUARD_RETRIES
+# per chain so we never spin forever.
+
+_VERB_GROUP = (
+    r"kicked\s+off|kicked\s+it\s+off|"
+    r"fired|fired\s+off|"
+    r"ran|i\s+ran|"
+    r"called|invoked|"
+    r"executed|"
+    r"started|spawned|dispatched|triggered|"
+    r"sent|saved|stored|wrote|updated|posted|published|"
+    r"scheduled|launched"
+)
+
+# Match a past-tense action verb either:
+#   - at the very start of the message (after optional markdown markers), OR
+#   - immediately after a sentence-end (. ! ? : ;) + whitespace, optionally
+#     wrapped in markdown emphasis chars
+# (?=...) lookahead is used for the trailing terminator so markdown like
+# `_called_` (where _ is a regex word char and \b fails) still matches.
+_PAST_TENSE_ACTION = re.compile(
+    r"(?:^|[.!?:;]\s+|^\s+)"          # start-of-text OR after sentence break
+    r"[*_`]*\s*"                       # optional markdown emphasis
+    r"(?P<verb>" + _VERB_GROUP + r")"
+    r"(?=[\s*_`,.;:!?'\"\)\]]|$)",     # terminator: whitespace, markdown, punct, or end
+    re.IGNORECASE | re.MULTILINE,
+)
+
+# Tools that wouldn't be silently faked — those that need a clear external
+# effect AND that we've actually seen hallucinated. Adding to this list is
+# how to make the guard stricter for a specific tool that's been spoofed.
+_DISPATCH_GUARD_RETRIES = 2
+
+
+def _hallucinated_tool_action(content: str, chain_tool_call_count: int) -> str | None:
+    """If the assistant text leads with a past-tense action verb AND the
+    entire chain so far has produced zero tool_calls, return the matched
+    verb. The caller forces a synthetic retry.
+
+    False-positive guard rails:
+      - Only fires when the WHOLE chain has zero tool_calls. If any prior
+        round actually called a tool, the claim is at worst stale, not
+        invented.
+      - Only inspects the first ~120 chars of the reply (the lead). A reply
+        that opens with narration first then talks about a past action
+        wouldn't be a false claim.
+    """
+    if chain_tool_call_count > 0:
+        return None
+    text = (content or "").strip()
+    if not text:
+        return None
+    # Inspect the first ~200 chars — the lead is where the action claim
+    # would be. .search not .match because the verb can come after a
+    # short preamble ("Mornin', John. Kicked off...").
+    m = _PAST_TENSE_ACTION.search(text[:200])
+    if not m:
+        return None
+    return m.group("verb").lower()
+
+
 def respond(message: str, conversation_id: str | None = None) -> str:
     # Register a stop event for this conv so request_stop() can cancel us
     stop_event: threading.Event | None = None
@@ -146,9 +223,33 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
         except Exception as e:  # noqa: BLE001
             log.exception("loop-recovery check failed (continuing): %s", e)
 
-        prior = memory.recent_history(conversation_id, max_chars=HISTORY_CHAR_BUDGET)
+        # Adaptive context window — short user messages (greetings, single-line
+        # acks) get a slim history slice. The 2026-05-11 "Are you awake → 800-
+        # word CC report" failure was Charles overfitting on prior CC chatter
+        # surrounding a fresh greeting. Strip the noise; let him answer the
+        # actual message at face value.
+        _msg_stripped = (message or "").strip()
+        _is_short_msg = len(_msg_stripped) < 30
+        _looks_like_greeting = bool(_msg_stripped) and any(
+            _msg_stripped.lower().startswith(p)
+            for p in (
+                "hi", "hey", "hello", "yo", "sup", "morning", "afternoon",
+                "evening", "you up", "you there", "are you", "still there",
+                "still up", "you awake", "thanks", "thank you", "ty", "ok",
+                "okay", "k", "got it", "cool", "nice",
+            )
+        )
+        if _is_short_msg or _looks_like_greeting:
+            adaptive_budget = max(2000, HISTORY_CHAR_BUDGET // 8)
+            prior = memory.recent_history(conversation_id, max_chars=adaptive_budget)
+            log.info(
+                "loaded %d prior turns for conv=%s (ADAPTIVE: short/greeting msg, budget=%d chars)",
+                len(prior), conversation_id, adaptive_budget,
+            )
+        else:
+            prior = memory.recent_history(conversation_id, max_chars=HISTORY_CHAR_BUDGET)
+            log.info("loaded %d prior turns for conv=%s", len(prior), conversation_id)
         history.extend(prior)
-        log.info("loaded %d prior turns for conv=%s", len(prior), conversation_id)
 
     # Auto-recall: before letting the model see the user message, run a
     # cheap keyword search over long_term_facts. If past sessions saved
@@ -197,23 +298,55 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
         except Exception:  # noqa: BLE001
             pass
 
-    # Send all registered tool schemas every turn. Total schema cost at M2 is
-    # ~200 tokens — worth it to eliminate the "tool present but not loaded"
-    # failure mode where the model narrates a call as text instead of emitting
-    # a real tool_call. When the toolset grows past ~10, reintroduce
-    # select_tools gating.
-    api_tools = [t.openai_schema() for t in REGISTRY.values()] or None
+    # Tool tiering (audit 2026-05-11): with 70+ registered tools, sending
+    # every schema every turn was burning ~5k tokens. Now:
+    #   - CORE tools (~25): always sent, stable across turns → MLX cache hits
+    #   - ON_DEMAND: selected per-turn by trigger match against the latest
+    #     user message; only loaded on the first round of a chain so
+    #     mid-chain rounds keep the cache warm
+    #   - SYSTEM_ONLY: never sent (called by scheduler/heartbeat directly)
+    last_user_msg = ""
+    for m in reversed(history):
+        if m.get("role") == "user":
+            last_user_msg = m.get("content") or ""
+            break
+    # Harness Fix #3 (2026-05-14): adaptive schema budget for on-demand tools.
+    # Short / relational messages get a tighter budget (1500 tokens); longer
+    # autonomous-channel messages get the looser 3000-token allowance the
+    # audit recommends. This cuts the 78-tool-registry overhead from
+    # ~15.6k tokens down to a bounded per-turn amount.
+    _short_message = len(last_user_msg) < 200
+    schema_budget = 1500 if _short_message else 3000
+    selected_on_demand = (
+        select_tools(
+            last_user_msg,
+            max_tools=5,
+            schema_token_budget=schema_budget,
+        )
+        if last_user_msg
+        else []
+    )
+    selected_names: set[str] = {t.name for t in selected_on_demand}
+    api_tools_list = list(core_tools()) + selected_on_demand
+    api_tools = [t.openai_schema() for t in api_tools_list] or None
 
     total_chars = sum(len(m.get("content") or "") for m in history)
     log.info(
-        "respond start: prompt_chars=%d turns_in_prompt=%d tools=%s",
+        "respond start: prompt_chars=%d turns_in_prompt=%d core=%d on_demand=%d "
+        "schema_budget=%d short_msg=%s tools=%s",
         total_chars,
         len(history) - 1,
-        [t.name for t in REGISTRY.values()],
+        len(core_tools()),
+        len(selected_on_demand),
+        schema_budget,
+        _short_message,
+        [t.name for t in api_tools_list],
     )
 
     final_text = ""
     recent_assistant_texts: list[str] = []  # for intra-call loop detection
+    chain_tool_call_count = 0  # dispatch-guard: total tool_calls across rounds
+    dispatch_guard_retries = 0  # dispatch-guard: synthetic retries used so far
     max_rounds = (
         MAX_TOOL_ROUNDS_RELATIONAL
         if conversation_id == channels.JOHN_CHARLES
@@ -235,7 +368,30 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
         # Subsequent rounds get more headroom because tool_call arguments
         # (e.g., a long write_file content) legitimately need it.
         round_max_tokens = 1500 if round_n == 0 else 4000
-        text, msg, usage = complete(history, tools=api_tools, max_tokens=round_max_tokens)
+        # Mid-chain rounds (after the first) drop on_demand schemas — they
+        # were either consumed in round 0 or won't be needed. Keeping CORE
+        # only on subsequent rounds preserves the MLX prompt cache prefix
+        # since the tool list stops changing between rounds.
+        round_tools = api_tools if round_n == 0 else (
+            [t.openai_schema() for t in core_tools()] or None
+        )
+        # Per-channel thinking policy (2026-05-12 reliability experiment):
+        # ON for autonomous channels (CHARLES_LOG, CLAUDE_CODE, goal/
+        # heartbeat prefixes) — reliability matters, latency doesn't.
+        # OFF for JOHN_CHARLES — John's waiting on the reply, snap > deep.
+        # The non-thinking path stays identical to prior behavior; the
+        # thinking path adds ~5-15× latency per round but the Qwen3
+        # reasoning trace catches multi-step coherence failures (tool
+        # hallucination, stale-claim drift) that 3B active params drop.
+        thinking_on = (
+            conversation_id is not None
+            and conversation_id != channels.JOHN_CHARLES
+        )
+        text, msg, usage = complete(
+            history, tools=round_tools,
+            max_tokens=round_max_tokens,
+            thinking=thinking_on,
+        )
         log.info(
             "round=%d usage=%s tool_calls=%d",
             round_n,
@@ -262,8 +418,67 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
         round_text = (msg.content or "").strip()
         if round_text:
             recent_assistant_texts.append(round_text)
+        chain_tool_call_count += len(msg.tool_calls or [])
 
         if not msg.tool_calls:
+            # Dispatch-guard: catch "I kicked off / ran / called X" claims
+            # when the model never actually emitted a tool_call for X.
+            # Twice on 2026-05-12 Charles claimed to have run run_cc_build
+            # without doing so, gaslighting John about CC progress. Force
+            # one synthetic retry per chain (up to _DISPATCH_GUARD_RETRIES)
+            # that names the lie and demands either a real tool_call or a
+            # corrected reply. Fires only when the WHOLE chain has had
+            # zero tool_calls — a stale claim about an earlier successful
+            # call is not flagged.
+            hallucinated_verb = _hallucinated_tool_action(
+                msg.content or "", chain_tool_call_count
+            )
+            if hallucinated_verb and dispatch_guard_retries < _DISPATCH_GUARD_RETRIES:
+                dispatch_guard_retries += 1
+                log.warning(
+                    "DISPATCH GUARD: round=%d conv=%s claimed action %r without "
+                    "any tool_call. Forcing retry %d/%d. Text head=%r",
+                    round_n, conversation_id, hallucinated_verb,
+                    dispatch_guard_retries, _DISPATCH_GUARD_RETRIES,
+                    round_text[:120],
+                )
+                # Keep the bad assistant turn in the in-memory chain only —
+                # the model needs to see what it just said to revise it,
+                # but the user shouldn't see this gaslight in JOHN_CHARLES.
+                history.append({
+                    "role": "assistant",
+                    "content": msg.content or "",
+                })
+                history.append({
+                    "role": "user",
+                    "content": (
+                        f"STOP. Your last reply opened with {hallucinated_verb!r} "
+                        f"— you described an ACTION you performed. But no "
+                        f"tool_call was emitted in this entire chain. The claim "
+                        f"is therefore false.\n\n"
+                        f"Two options for this turn:\n"
+                        f"  (a) Actually call the tool now. Emit a real "
+                        f"tool_call this turn. If you don't know which tool, "
+                        f"check the available tool list and pick the right one.\n"
+                        f"  (b) If no action was actually needed, rewrite your "
+                        f"reply to remove the false action claim. State what "
+                        f"you DID do (read context, etc.) and what's blocking, "
+                        f"in past tense, accurately.\n\n"
+                        f"Do NOT apologize. Do NOT narrate intent. Either emit "
+                        f"the tool_call or emit the corrected text."
+                    ),
+                })
+                # Audit the incident so we can see how often this fires
+                # and what triggered it. Tag for watchdog observability.
+                try:
+                    memory.add_fact(
+                        f"Dispatch guard fired: conv={conversation_id} round={round_n} "
+                        f"verb={hallucinated_verb!r} text_head={round_text[:200]!r}",
+                        tags="incident,dispatch_guard,auto,tool_hallucination",
+                    )
+                except Exception:  # noqa: BLE001
+                    pass
+                continue  # retry — next round of complete()
             final_text = text
             break
 
@@ -306,13 +521,22 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
             "content": msg.content or "",
             "tool_calls": tool_calls_payload,
         })
-        # Persistence policy: in JOHN_CHARLES (the relational chat), the user
-        # only wants to see his own messages and Charles's FINAL reply — not
-        # the tool plumbing or "let me X" intermediate narration. So skip
-        # logging mid-chain assistant turns + tool calls for that channel.
-        # The chain's in-memory `history` still has them for the model.
-        # CHARLES_LOG keeps the full record (it's the operational stream).
-        if conversation_id and conversation_id != channels.JOHN_CHARLES:
+        # Persistence policy (revised 2026-05-12): always log mid-chain
+        # tool_call assistant turns + tool result turns, even on JOHN_CHARLES.
+        # The original policy stripped them so John's UI stayed clean — but
+        # the side effect was that Charles, on the NEXT follow-up question
+        # from John, couldn't see his own prior tool actions. He'd look at
+        # his last turn ("Kicked off CC, 2 batches…"), find no tool_call
+        # backing it up in his history view, conclude he must have
+        # hallucinated, and report back to John "no crawl was started" —
+        # even though the run had actually succeeded. 2026-05-12 incident.
+        #
+        # Cleanliness for John's UI is now enforced at READ time in
+        # warroom/state.conversation_history() — it filters out role='tool'
+        # and content-less assistant tool-call turns. Charles still sees
+        # the full chain via memory.recent_history(), which only excludes
+        # role='progress'.
+        if conversation_id:
             memory.log_assistant_tool_calls(conversation_id, msg.content or "", tool_calls_payload)
 
         for tc in msg.tool_calls:
@@ -328,11 +552,22 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
                 except Exception:  # noqa: BLE001
                     pass
 
-            result = dispatch(tc.function.name, tc.function.arguments)
+            envelope = dispatch(tc.function.name, tc.function.arguments, cancel_event=stop_event)
+            # As of 2026-05-14 (Harness Fix #1), dispatch returns a JSON
+            # ToolResult envelope: {"status","message","data","category"}.
+            # The model history shows a human-readable rendering — status
+            # tag at the start ("[ok]"/"[error:validation]"/"[blocked]") so
+            # the parse signal is unambiguous and never buried in prose.
+            # If somehow we get a non-envelope string (legacy path that
+            # bypassed dispatch), ToolResult.parse() falls back gracefully.
+            from core.tools import ToolResult  # late import to avoid cycle
+            parsed = ToolResult.parse(envelope)
+            result = parsed.render()
             log.info(
-                "tool=%s args=%r result_chars=%d",
+                "tool=%s args=%r status=%s result_chars=%d",
                 tc.function.name,
                 tc.function.arguments[:200],
+                parsed.status,
                 len(result),
             )
             history.append({
@@ -340,9 +575,12 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
                 "tool_call_id": tc.id,
                 "content": result,
             })
-            # Same persistence policy as the assistant-turn log above: don't
-            # pollute JOHN_CHARLES with tool result rows.
-            if conversation_id and conversation_id != channels.JOHN_CHARLES:
+            # Persist tool results on every channel including JOHN_CHARLES —
+            # Charles needs to see his own prior tool outcomes when answering
+            # follow-up questions. UI cleanliness handled at read-time in
+            # warroom/state.conversation_history(). See the long comment
+            # above the assistant-turn persist for the 2026-05-12 reasoning.
+            if conversation_id:
                 memory.log_tool_result(conversation_id, tc.id, result)
                 # Update the ticker with the OUTCOME so the next round can
                 # overwrite with its own present-tense action.

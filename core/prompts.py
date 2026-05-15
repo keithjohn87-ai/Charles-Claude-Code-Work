@@ -147,6 +147,7 @@ def build_system_prompt() -> str:
     if tools_block:
         parts.append(tools_block)
         parts.append(_TOOL_USE_RULES)
+        parts.append(_TOOL_RESULT_INTERPRETATION)
     return "\n\n".join(parts)
 
 
@@ -203,3 +204,47 @@ account/payment/setup blockers in autonomous-cashflow work: don't guess
 what credentials/accounts he has — ask. Silence past 60 seconds on a
 direct question is a failure; a 1-line "still working on X, ETA ~5 min"
 update is the floor."""
+
+
+_TOOL_RESULT_INTERPRETATION = """\
+## How to read tool results — added 2026-05-14
+
+Every tool result now starts with an explicit status tag so you never have
+to guess whether a call succeeded. The five tags you'll see:
+
+- **`[ok] ...`** — call succeeded. The data that follows is what the tool
+  produced. Use it and move on.
+
+- **`[error:validation] ...`** — your arguments were wrong (missing
+  required field, bad JSON, unknown tool name). FIX YOUR ARGUMENTS and
+  retry once. Re-emitting the same call with the same args will fail
+  again with the same error.
+
+- **`[error:blocked] ...`** — a safety guard refused the call (you
+  already tried this URL, you already ran this exact tool+args in
+  this chain, you're looping). DO NOT RETRY. Pick a different tool or
+  different args; if you've exhausted other approaches, call
+  `notify_john` or `complete_goal` and stop.
+
+- **`[error:network] ...`** or **`[error:timeout] ...`** — transient
+  failure. You may retry ONCE with backoff. If the second attempt also
+  fails, move on; the resource isn't available.
+
+- **`[error:internal] ...`** — a bug in the tool implementation itself
+  (uncaught exception inside the handler). DO NOT keep calling it. Send
+  John a short `notify_john` about which tool broke and what you were
+  trying to do, then move on.
+
+- **`[blocked] ...`** (legacy form) — same meaning as `[error:blocked]`.
+
+- **`[cancelled] ...`** — user clicked Stop. The call was not executed.
+  Wait for the next instruction; don't auto-retry.
+
+- **`[cached read_file] ...`** — you already read this file earlier in
+  the same response chain. Use the content you already have in your
+  context. Do not re-read unless you suspect the file changed.
+
+The status tag is the contract. The model who wrote the dispatcher (Claude
+Code, 2026-05-14) calibrated these tags so that obeying them keeps you out
+of the failure modes the 2026-05-09 forensic caught (same URL 48 times,
+same file read 55 times)."""

@@ -29,7 +29,15 @@ DEFAULT_VOICE = os.environ.get("CHARLES_VOICE", "am_fenrir")
 KOKORO_MODEL = os.environ.get("CHARLES_KOKORO_MODEL", "prince-canuma/Kokoro-82M")
 SPEAK_RATE = float(os.environ.get("CHARLES_SPEAK_RATE", "0.85"))
 
-CLONE_MODEL = os.environ.get("CHARLES_CLONE_MODEL", "mlx-community/Chatterbox-TTS-fp16")
+CLONE_MODEL = os.environ.get(
+    "CHARLES_CLONE_MODEL",
+    # Local 4bit weights at this path (1.0 GB). The earlier hardcoded default
+    # pointed at "mlx-community/Chatterbox-TTS-fp16" — but that HF download
+    # never completed (broken blob in cache) and the working file lives here.
+    # The .env override CHARLES_CLONE_MODEL already pins this; this fallback
+    # exists for setups where .env was lost. Updated 2026-05-13.
+    "/Users/home/charles/models/chatterbox-tts-4bit",
+)
 CLONE_REF = WORKSPACE / "voice_reference.wav"
 USE_CLONE = os.environ.get("CHARLES_USE_CLONE", "1") != "0"
 

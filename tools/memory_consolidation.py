@@ -20,10 +20,10 @@ Charles can also call this on demand. Default is dry_run=False (real changes).
 from __future__ import annotations
 
 import logging
+import re
 import sqlite3
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
-from difflib import SequenceMatcher
 from pathlib import Path
 
 from core.tools import tool
@@ -33,12 +33,30 @@ log = logging.getLogger("charles.memory_consolidation")
 
 DB_PATH = Path("/Users/home/charles/workspace/memory.db")
 MEMORY_DIR = Path("/Users/home/charles/workspace/memory")
-SIMILARITY_THRESHOLD = 0.78  # 78% similar = treat as duplicate
+SIMILARITY_THRESHOLD = 0.65  # 65% Jaccard overlap on token sets = duplicate
+
+# Hard cap on facts considered per single consolidation call. 2026-05-12: the
+# prior implementation used difflib.SequenceMatcher in an O(N×G) grouping
+# loop. With ~1800 facts in a 24h window post-CC, that pegged a CPU core for
+# 5+ min while holding a write transaction — DB locked, services starved,
+# CC runner thread crashed. Token-set Jaccard is O(N×G) but each comparison
+# is microseconds instead of milliseconds. The cap is a defense-in-depth
+# guard for runaway growth (e.g. a goal generating thousands of notes).
+MAX_FACTS_PER_RUN = 2000
+
+# Token-cache for the Jaccard pass within one consolidate call. Maps
+# fact_id → frozenset of normalized tokens. Built once per fact, reused
+# across O(N×G) comparisons.
+_TOKEN_SPLIT = re.compile(r"[a-z0-9]+")
 
 
 def _conn() -> sqlite3.Connection:
-    con = sqlite3.connect(str(DB_PATH))
+    con = sqlite3.connect(str(DB_PATH), timeout=30.0)
     con.row_factory = sqlite3.Row
+    # Inherit the WAL setting (set on connect — sticky on the file, but the
+    # busy_timeout is per-connection). 30s gives writers room when a long
+    # transaction is in flight elsewhere.
+    con.execute("PRAGMA busy_timeout=30000")
     return con
 
 
@@ -53,13 +71,32 @@ def _primary_tag(tags: str) -> str:
     return parts[0] if parts else "untagged"
 
 
-def _similar(a: str, b: str) -> float:
-    if not a or not b:
+def _tokens(s: str) -> frozenset[str]:
+    """Lowercase, strip non-alphanumeric, return frozenset of tokens.
+    Truncates to first 500 chars before tokenizing — most duplicate signal
+    is in the opening of the fact, and capping bounds the comparison cost.
+    """
+    if not s:
+        return frozenset()
+    return frozenset(_TOKEN_SPLIT.findall(s[:500].lower()))
+
+
+def _similar(a_tokens: frozenset[str], b_tokens: frozenset[str]) -> float:
+    """Jaccard similarity on pre-computed token sets. O(min(|a|, |b|)).
+
+    Was difflib.SequenceMatcher.ratio() before 2026-05-12 — that was
+    O(min(|a|, |b|)²) per call and tanked the watchdog. Jaccard is
+    looser (treats word order / phrasing as equivalent) but that's
+    actually CLOSER to what consolidation wants: catch "same content,
+    minor formatting drift" without burning cycles.
+    """
+    if not a_tokens or not b_tokens:
         return 0.0
-    # Quick prefix check — most duplicates start the same way
-    if a[:60].lower() == b[:60].lower():
-        return 1.0
-    return SequenceMatcher(None, a[:500], b[:500]).ratio()
+    intersect = len(a_tokens & b_tokens)
+    if not intersect:
+        return 0.0
+    union = len(a_tokens | b_tokens)
+    return intersect / union
 
 
 def _pick_canonical(group: list[sqlite3.Row]) -> tuple[int, list[int]]:
@@ -103,13 +140,21 @@ def consolidate_memory(window_hours: int = 24, dry_run: bool = False) -> str:
     rows = cur.execute(
         "SELECT id, fact, tags, created_at FROM long_term_facts "
         "WHERE created_at >= ? AND tags NOT LIKE '%superseded%' "
-        "ORDER BY id",
-        (cutoff,),
+        "ORDER BY id DESC LIMIT ?",
+        (cutoff, MAX_FACTS_PER_RUN),
     ).fetchall()
 
     if not rows:
         con.close()
         return f"(no facts in last {window_hours}h)"
+
+    capped = len(rows) >= MAX_FACTS_PER_RUN
+
+    # Pre-compute token sets ONCE per fact (was being re-tokenized on every
+    # comparison before the 2026-05-12 fix — wasted ~95% of the wall time).
+    token_cache: dict[int, frozenset[str]] = {
+        r["id"]: _tokens(r["fact"]) for r in rows
+    }
 
     # Group by primary tag
     by_tag: dict[str, list[sqlite3.Row]] = defaultdict(list)
@@ -121,12 +166,32 @@ def consolidate_memory(window_hours: int = 24, dry_run: bool = False) -> str:
     by_tag_summary: list[str] = []
 
     for tag, facts in by_tag.items():
-        # Build dup groups via single-pass similarity
-        groups: list[list[sqlite3.Row]] = []
+        # Quick prefix-bucket pass: facts whose first-60-char prefix matches
+        # (case-insensitive) are auto-grouped. Catches near-exact duplicates
+        # in O(N) instead of O(N×G).
+        prefix_buckets: dict[str, list[sqlite3.Row]] = defaultdict(list)
         for f in facts:
+            prefix = (f["fact"] or "")[:60].lower()
+            prefix_buckets[prefix].append(f)
+
+        # Now fall through to Jaccard for facts that didn't match a prefix.
+        # Each prefix bucket with len > 1 is its own group; singletons go
+        # into the Jaccard pass to catch reworded duplicates.
+        groups: list[list[sqlite3.Row]] = []
+        singletons: list[sqlite3.Row] = []
+        for _, bucket in prefix_buckets.items():
+            if len(bucket) > 1:
+                groups.append(bucket)
+            else:
+                singletons.append(bucket[0])
+
+        # Jaccard pass over singletons only — bounded by |singletons|×|groups|
+        for f in singletons:
+            f_tok = token_cache[f["id"]]
             placed = False
             for g in groups:
-                if _similar(f["fact"], g[0]["fact"]) >= SIMILARITY_THRESHOLD:
+                rep_tok = token_cache[g[0]["id"]]
+                if _similar(f_tok, rep_tok) >= SIMILARITY_THRESHOLD:
                     g.append(f)
                     placed = True
                     break

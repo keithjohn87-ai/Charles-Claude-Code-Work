@@ -27,3 +27,4 @@ openclaw_install.txt
 models/
 workspace/google_oauth_client.json
 workspace/gmail_token.json
+.aider*

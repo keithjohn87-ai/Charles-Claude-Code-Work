@@ -23,13 +23,46 @@ _READ_CAP = 64_000  # chars; truncate huge files to keep replies sane
 def read_file(path: str) -> str:
     p = Path(path).expanduser()
     if not p.exists():
-        return f"[error] no such file: {p}"
+        # Help Charles find the right path next try — show what's actually
+        # in the parent directory + suggest closest matches. Cuts the
+        # 7+ "no such file" loops where Charles invents paths.
+        return _path_not_found_with_suggestions(p)
     if not p.is_file():
         return f"[error] not a file: {p}"
     data = p.read_text(errors="replace")
     if len(data) > _READ_CAP:
         return data[:_READ_CAP] + f"\n... [truncated, file is {len(data)} chars total]"
     return data
+
+
+def _path_not_found_with_suggestions(missing: Path) -> str:
+    """Return an error that includes a directory listing + closest-match hints."""
+    import difflib
+    parent = missing.parent
+    out = [f"[error] no such file: {missing}"]
+    # Walk up until we find a parent that DOES exist
+    walked_up = False
+    while not parent.exists() and parent != parent.parent:
+        parent = parent.parent
+        walked_up = True
+    if walked_up:
+        out.append(f"  (closest existing parent: {parent})")
+    if parent.exists() and parent.is_dir():
+        try:
+            entries = sorted(p.name for p in parent.iterdir())
+        except PermissionError:
+            entries = []
+        if entries:
+            close = difflib.get_close_matches(missing.name, entries, n=3, cutoff=0.4)
+            if close:
+                out.append(f"  Did you mean: {', '.join(repr(c) for c in close)}?")
+            shown = entries[:20]
+            out.append(f"  Files in {parent}:")
+            for e in shown:
+                out.append(f"    - {e}")
+            if len(entries) > 20:
+                out.append(f"    …and {len(entries) - 20} more")
+    return "\n".join(out)
 
 
 @tool(

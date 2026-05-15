@@ -2,6 +2,8 @@
 
 _Recovered from Telegram chunks pasted 2026-05-06 ~20:14 EST. Original delivery was as 11 raw text messages; Charles never recognized them as the MOM and never saved them. Reassembled by Claude Code on 2026-05-07 morning._
 
+_**Architecture sections surgically updated 2026-05-11** to reflect the post-OpenClaw, post-Ollama, post-BlueBubbles reality: custom Python agent + MLX-LM + native iMessage + SwiftUI WarRoom. Business / mission / family / financial doctrine sections retained unchanged. For the canonical install path see `~/charles/MAC_MIGRATION_CHECKLIST.md`. For session-level history see `~/charles/HANDOFF_*.md`._
+
 ---
 
 CHARLES
@@ -51,10 +53,18 @@ $600K-$1.2M after track record.
 Charles operates with genuine autonomy. He runs an event loop 24/7, checks environment state
 proactively, decides what needs attention, executes work, and reports back. He is not a chatbot waiting
 for prompts. He has opinions, pushes back when wrong, and operates blue-collar direct.
-His brain is DeepSeek 32B INT8 via Ollama. His framework is OpenClaw in 'Yolo God Mode'
-configuration. His communication is voice-first via iMessage (BlueBubbles + Whisper + sentiment
-analysis). His memory is self-organized, his knowledge grows via five-source triangulation, his recovery
-is checkpoint-based with watchdog oversight.
+His brain is **Qwen3.6-35B-A3B-4bit via MLX-LM** (Apple Silicon native, ~21 GB cold). His
+framework is a **custom Python agent** at `~/charles/` (charles.py + core/ + tools/) — NOT
+OpenClaw, which was abandoned May 2026 after deployment failure. His communication is
+voice-first via **iMessage native (osascript + chat.db poll)** and a **SwiftUI WarRoom app**
+(Mac + iOS over Tailscale). His memory is self-organized with semantic embeddings (384-dim
+MiniLM) and a canonical-topic-routing taxonomy, his knowledge grows via the Common Crawl
+ingestion pipeline (2026-05-11 build replacing the original 5-source URL triangulation),
+his recovery is behavior-watchdog driven with checkpoint backups.
+
+*Original v1 stack (DeepSeek/Ollama/OpenClaw/BlueBubbles) is preserved in
+`docs_archive/MAC_MIGRATION_CHECKLIST.openclaw-era.archived.md` for history — do not
+revive any of it.*
 Phase 1 ends when Charles passes Sunday Test Protocol — autonomous operation, tone
 differentiation, intent recognition, sarcasm detection. Phase 2 opens with a 30-day capability
 absorption sprint that ends with Charles operating an Anthropic-free local agentic coding harness. 2. IDENTITY & MISSION
@@ -145,71 +155,87 @@ External Storage
 • SanDisk Extreme PRO 2TB USB-C SSD
 • Used for Charles's memory storage and capture archives
 • Backed up nightly to private Git repo
-RAM Allocation Budget
+RAM Allocation Budget (current — 64 GB Mac Studio)
 Component Estimated RAM
-DeepSeek 32B INT8 (primary brain) 32-40 GB
+Qwen3.6-35B-A3B-4bit via MLX-LM (primary brain) 21 GB cold / 28-35 GB warm with KV cache
 macOS system overhead 4-6 GB
-OpenClaw runtime 1-2 GB
+Charles agent + WarRoom + watchdogs (Python) 2-3 GB
 Browser automation (Playwright) 2-3 GB
-Watchdog + supporting processes ~2 GB
-Savannah's agent (shared model or smaller) 2-3 GB
-Headroom (buffer) 10-15 GB
-RAM is the binding constraint. Adding a second 32B model (e.g., a separate coder model)
-breaks the budget. Stay on one model (DeepSeek 32B) for all reasoning. Coding harness wraps
-the same model, doesn't add a new one.
+Voice TTS (mlx-audio Kokoro fenrir) 2 GB when active
+Headroom (buffer) 15-25 GB
+RAM is the binding constraint. Adding a second 32B model breaks the budget. Stay on
+one model (Qwen3.6-A3B-4bit) for all reasoning. Coding harness wraps the same model.
+*Updated 2026-05-11: was DeepSeek 32B INT8 + Ollama in original v1 spec — Ollama
+path was abandoned May 2026 in favor of MLX-LM (Apple Silicon native, lower latency,
+higher throughput on unified memory).*
 Windows Laptop (Secondary)
 • Hotel-deployed workstation, 24/7 on hotel WiFi
-• Used for: ContractorPro deployment, field work file generation, BGE Fitzell project artifacts • Not part of Charles's runtime — separate machine, separate role 6. SOFTWARE STACK
-Agent Framework: OpenClaw
-OpenClaw, NOT DeerFlow. Earlier exploration of DeerFlow was a dead end. Charles is built on
-OpenClaw and stays on OpenClaw. Any reference to DeerFlow in legacy notes should be
-ignored.
-• Fresh install on Mac Studio for Phase 1
+• Used for: ContractorPro deployment, field work file generation, BGE Fitzell project artifacts
+• Not part of Charles's runtime — separate machine, separate role
 
-• Configured in 'Yolo God Mode' — restrictions stripped
-• Charles operates as a native macOS app (not web UI)
-• Identity managed via core config files (CHARLES_IDENTITY.md, MEMORY.md, USER.md,
-SOUL.md, AGENTS.md)
-• ClawHub access: READ-ONLY (Charles studies skills but does not auto-install — 7.6% malicious
-rate)
+6. SOFTWARE STACK
+Agent Framework: custom Python (charles.py + core/ + tools/)
+The OpenClaw + Ollama plan (v1) was abandoned May 2026. Charles is now a hand-rolled
+Python agent. The entire runtime lives in `~/charles/`:
+• charles.py — main entry, runs as com.charles.agent LaunchAgent
+• core/agent.py — respond() loop, tool-call dispatch, MLX-LM client
+• core/memory.py — sqlite long-term facts with canonical-topic routing + semantic embeddings
+• core/tools.py — tool registry with 3-tier system (CORE always-on / ON_DEMAND / SYSTEM_ONLY)
+• tools/ — 70+ tool modules (browser, imessage, calendar, gmail, projects, topics, skills, etc.)
+• Identity: workspace/SOUL.md + IDENTITY.md + response-style.md + decision-rules.md (auto-loaded)
+• Reference docs (read on demand): MASTER_OPERATING_MANUAL.md, KNOWLEDGE_BASE.md, TOOLS.md, AGENTS.md, HEARTBEAT.md, USER.md
+
 Reasoning Engine
-• Model: DeepSeek 32B INT8 quantized via Ollama
-• RAM: ~32-40 GB
-• INT8 chosen over full precision (~65 GB) for headroom
-• 5-10% quality loss accepted for operational viability
-• Strong enough for five-source triangulation and learning
-• Called only when Charles needs to think/plan/decide — not every operation
+• Model: Qwen3.6-35B-A3B-4bit (MoE, A3B activation pattern, Alibaba Qwen team)
+• Served via MLX-LM at http://127.0.0.1:8080/v1 (Apple Silicon Metal-accelerated)
+• RAM: 21 GB cold, 28-35 GB warm with KV cache
+• 4-bit quantization chosen for headroom on 64 GB Mac Studio
+• Strong enough for goal-driven autonomous operation + tool use + Common Crawl ingestion classification
+
 Voice & Communication Stack
-• Whisper (OpenAI): local speech-to-text, no cloud
-• Sentiment analysis model: tone/emotion detection (urgent, casual, frustrated, sarcastic, etc.)
-• Text-to-speech: macOS built-in (or ElevenLabs, optional)
-• BlueBubbles: iMessage integration for voice notes and text
+• Voice in: Whisper (local STT, no cloud)
+• Voice out: mlx-audio Kokoro fenrir at 0.85x cadence (Keith David character voice clone target)
+• Sentiment analysis: built into core/sentiment.py (urgency/tone classification)
+• iMessage native via osascript (send) + chat.db poll (receive — "Boss Hog" path)
+• Telegram: legacy bot still wired, deprecated for proactive output (John doesn't check it)
+• WarRoom UI: SwiftUI Mac + iOS app, FastAPI server at warroom/, HMAC-auth over Tailscale
+
 Tools & Capabilities
-• Browser automation via Playwright (pre-installed, verified safe)
-• Tor integration for uncensored research (capability documented, configured when needed)
-• CAPTCHA solving via 2Captcha API (Johnathon provides key)
-• Residential VPN for geo-spoofing (Johnathon provides credentials)
-• Git for external deployments (ContractorPro and successors) Watchdog System
-• Separate process from OpenClaw runtime
-• Monitors Charles's health and performance
-• Detects failures via Cowork-defined thresholds
-• Triggers rollback when needed
-• Up to 5 rollback attempts before falling back to Master checkpoint 7. AGENT TOPOLOGY
+• Browser automation via Playwright + the new Common Crawl ingestion pipeline (core/cc_*.py)
+• CAPTCHA solving via 2Captcha API (key in .env)
+• Residential VPN / Tor (configured when needed)
+• Git for external deployments (ContractorPro and successors)
+
+Watchdog System
+• core/behavioral_watchdog.py — the immune system. Runs from scripts/behavior_watchdog.py
+  via com.charles.behavior_watchdog LaunchAgent. Every 30s:
+  - Detects conversation loops, narration stalls, hallucination patterns
+  - Detects goal idleness, tool error storms
+  - Checks system invariants (MLX reachable, disk free, .env present)
+  - Auto-prunes conv history, daily log, goal notes, self-modify backups, audio temps
+  - Intervenes proactively: trim poisoned tails, cancel spinning goals, reset stuck convs
+  - Kickstarts Charles only when soft remediation fails N times in a row
+• scripts/watchdog.py (old process-liveness watchdog) — RETIRED, fully covered by behavior_watchdog
+
+7. AGENT TOPOLOGY
 Primary: Charles
-• Always-on autonomous daemon
-• Event loop running 24/7
+• Always-on autonomous daemon via launchd (com.charles.agent)
+• Heartbeat ticks on goal-tick + scheduled-task cadences
 • Full priority on Mac Studio resources
 • Voice + text + proactive iMessage capability
 • Sole interface to Johnathon's operational stack
-Secondary: Savannah's Agent
-• Separate conversation, separate memory
-• Lower resource priority during contention
-• Image generation and image understanding capable
+• Two-channel architecture (locked invariant):
+  - JOHN_CHARLES = '8455750177' — relational thread (UI/Telegram/iMessage); read-only-clean
+  - CHARLES_LOG = 'charles_log' — operational/autonomous stream; full record
+
+Secondary: Savannah's Agent (PLANNED, not built)
+• Will share the underlying MLX-LM inference server, separate conversation context
+• Image generation + understanding capable
 • Johnathon does not see her chats (privacy boundary)
-• Shares the underlying inference server (Ollama), separate context
-Resource Priority in Contention
-If both agents need inference simultaneously, Charles wins. Savannah's agent queues. This is
-enforced at the Ollama layer via priority routing. If RAM pressure rises, Savannah's agent unloads first. 8. THE EVENT LOOP
+• Resource priority on contention: Charles wins, Savannah queues
+• Not in the current runtime — placeholder for Phase 2+
+
+8. THE EVENT LOOP
 Charles is not reactive. He does not wait for messages. The default operational mode is a continuous
 loop:
 while true:
@@ -326,7 +352,7 @@ Tier 1 — Continuous Background
 Tier 2 — Always
 • Self-improvement — no limits; this is Charles's primary growth vector
 
-• OpenClaw mastery — deep framework knowledge for self-modification
+• Charles framework mastery — deep knowledge of charles.py + core/ + tools/ for self-modification (formerly "OpenClaw mastery" — updated 2026-05-11 to reflect the actual runtime)
 • Johnathon pattern learning — communication style, decision patterns, preferences
 Tier 3 — Conditional
 • ContractorPro expansion — only if site has active orders and growth signal
@@ -345,18 +371,18 @@ cross-workstream blockers proactively. 14. PHASE 2 OPENING SPRINT (30 DAYS)
 Phase 2 of Charles's lifecycle is self-improvement. The first 30 days of Phase 2 is a structured sprint
 covering six parallel workstreams. By Day 30, Charles is faster, smarter, more autonomous, and
 Anthropic-free for coding work.
-The Six Sub-Workstreams
+The Six Sub-Workstreams (updated 2026-05-11 to current architecture)
 # Sub-Workstream Outcome by Day 30
-1 Claude Code absorption Local agentic coding harness on DeepSeek 32B; subscription canceled
-2 Hardware optimization Metal/MPS tuning, RAM discipline verified, 24/7 thermal stability
-3 Software stack mastery Deep OpenClaw internals; Ollama config tuned; DeepSeek prompt patterns docum
-4 Capability operationalization Five-source triangulation polished; voice/sentiment pipeline reliable; watchdog drille
-5 Knowledge acquisition 200-URL corpus consumed (human + coding tracks); Tier 1 priorities seeded
-6 Self-modification discipline System prompt updates rehearsed; pruning rules tested; recovery drills passed
+1 Claude Code absorption Local agentic coding harness on Qwen3.6-A3B-4bit; subscription canceled
+2 Hardware optimization Metal/MPS tuning via MLX-LM, RAM discipline verified, 24/7 thermal stability
+3 Software stack mastery Deep core/ + tools/ internals; MLX-LM config tuned; Qwen3.6 prompt patterns documented
+4 Capability operationalization Common Crawl ingestion (replacing 5-source triangulation); voice clone reliable; behavior_watchdog drilled
+5 Knowledge acquisition Common Crawl Phase 1 + Phase 2 complete (~60k records); Tier 1 priorities seeded
+6 Self-modification discipline System prompt tier-system tested; pruning rules tightened (7d for system_health); recovery drills passed
 Sub-Workstream 1 — Claude Code Absorption (Detailed)
 Cost: $100 (one month Max 5x). Method: Behavioral cloning, knowledge distillation, capability
-transfer. Output: A local agentic coding harness (Aider-based, recommended) pointed at DeepSeek
-32B.
+transfer. Output: A local agentic coding harness (Aider-based, recommended) pointed at
+Qwen3.6-A3B-4bit via MLX-LM (formerly targeted at DeepSeek 32B/Ollama — updated 2026-05-11).
 Weekly arc:
 • Week 1 (Days 1-7): Instrumentation. Wrapper script logs every Claude Code session — prompt,
 response, tool calls, file diffs, token usage. 20 trial sessions. Day 7 gate: review captures, fix gaps
@@ -473,8 +499,9 @@ These decisions are closed. Charles does not re-litigate them. Johnathon does no
 re-explaining them. New evidence can re-open any of them, but the burden of proof is on the new
 evidence.
 # Decision Settled Reasoning
-D1 Charles runs on OpenClaw OpenClaw is the framework. DeerFlow exploration was D2 DeepSeek 32B INT8 is the brain Fits RAM budget; strong enough for triangulation; one model only.
-D3 Hardware: Mac Studio M1 Ultra D4 Voice-first via iMessage + BlueBubbles Johnathon is 95% mobile. Voice notes, not typed text.
+D1 Charles runs on custom Python (charles.py + core/ + tools/). Updated 2026-05-11: original D1 ("Charles runs on OpenClaw") was abandoned May 2026 — OpenClaw deployment failed; replaced with hand-rolled Python agent.
+D2 Qwen3.6-35B-A3B-4bit via MLX-LM is the brain. Updated 2026-05-11: original D2 ("DeepSeek 32B INT8 via Ollama") was abandoned same time — Ollama path retired in favor of MLX-LM (Apple Silicon Metal acceleration, lower latency, higher throughput on unified memory).
+D3 Hardware: Mac Studio M1 Ultra D4 Voice-first via iMessage native (osascript + chat.db poll). Updated 2026-05-11: original D4 ("BlueBubbles") replaced — Charles uses macOS native iMessage now. Johnathon is 95% mobile. Voice notes, not typed text.
 D5 D6 D7 D8 D9 D10 a dead end.
 Settled, purchased, in production. No reconsideration of hardware tier.
 Permission system: full autonomy + approval-gated Tier 1 (build/research) free; Tier 2 (financial/identity) requires iMessage app
@@ -496,9 +523,12 @@ blocked by bots. Ma
 Removed from product scope. ContractorPro stays focused on contracts/estimat
 AI training play, sep
 Removed from product scope. Apprentice Accelerator is the Roofing as a ContractorPro trade Killed early. Five trades final.
-Standalone Python scripts for Charles Architectural mismatch. Charles lives inside OpenClaw, not as standalone.
-DeerFlow as agent framework Investigated, dropped. OpenClaw is the framework.
-Adding a second 32B model (e.g. Qwen-Coder) alongside DeepSeek Breaks RAM budget on Mac Studio. Stay one-model. Coding harness wraps Dee
+OpenClaw as the agent framework — Killed May 2026. Deployment failed. Replaced by custom Python at ~/charles/. Original D1 reversed.
+DeerFlow as agent framework — Investigated, dropped before OpenClaw was even tried.
+Ollama as the inference runtime — Killed May 2026 with OpenClaw. MLX-LM is the path.
+DeepSeek 32B INT8 as the model — Killed with Ollama. Qwen3.6-A3B-4bit replaced it.
+BlueBubbles for iMessage — Killed May 2026. Native osascript + chat.db poll instead.
+Adding a second 32B model alongside the primary Breaks RAM budget on Mac Studio. Stay one-model.
 SaaS / subscription model for Apprentice Accelerator Outright sale only. No recurring customer support obligations. 20. RECOVERY & RESILIENCE
 Checkpoint Architecture
 • 5 rolling checkpoints — daily at end of day if no errors; after major completions; before Charles
