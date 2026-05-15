@@ -76,11 +76,19 @@ def is_stop_pending(conversation_id: str | None) -> bool:
 
 MAX_TOOL_ROUNDS = 25
 
-# JOHN_CHARLES (the relational chat) caps tool rounds tighter than the
-# autonomous side — answering "how's it going?" should not take 20 tool
-# rounds. Charles's autonomous goal work runs in CHARLES_LOG and has the
-# full 25-round budget for actual heavy work.
-MAX_TOOL_ROUNDS_RELATIONAL = 5
+# JOHN_CHARLES (the relational chat) historically capped tool rounds tight
+# (was 5) on the theory that "how's it going?" should not take 20 rounds.
+# But John uses JOHN_CHARLES for real engineering work too — "fix this config
+# and re-run it" needs find → edit → run → verify, which is ~6 rounds before
+# corrective steps. The 5-cap was force-summarizing those mid-task and making
+# Charles look incompetent (2026-05-15 incident: Charles edited cc_configs.py
+# successfully but the round cap fired before he could run cc_build to verify;
+# John saw "Updated…" instead of "Updated, restarted, here's the result").
+# Bumped to 15: still tight enough that pure chit-chat can't spin to 25,
+# loose enough that real fix-this work completes in one turn. The intra-call
+# repetition guard (~85% similarity, 3-round window) and dispatch-guard
+# (no-tool-call hallucination detector) still backstop true runaways.
+MAX_TOOL_ROUNDS_RELATIONAL = 15
 HISTORY_CHAR_BUDGET = 4000
 
 # Intra-call repetition guard: if the assistant emits substantially identical
