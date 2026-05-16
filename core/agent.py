@@ -363,6 +363,17 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
     # mid-chain without recognizing the escalation. This catches that case.
     chain_set_goal_called = False
     chain_nudged_set_goal = False
+    # 2026-05-16: STUCK DETECTOR — track recent tool result statuses across the
+    # chain. When the last STUCK_WINDOW tool calls all returned errors (any
+    # category — validation, blocked, network, timeout, internal), Charles is
+    # wedged: keeps trying things, keeps getting errors, will eventually burn
+    # the whole round budget without producing useful output. Inject a one-time
+    # synthetic prompt forcing him to stop, name what's broken, and either
+    # change approach or escalate via notify_john. Distinct from the existing
+    # in-flight dedup guard (which catches identical-args repeats) and the
+    # intra-call loop guard (which catches near-identical assistant text).
+    chain_recent_tool_statuses: list[str] = []  # rolling window of last N
+    chain_stuck_nudged = False
     max_rounds = (
         MAX_TOOL_ROUNDS_RELATIONAL
         if conversation_id == channels.JOHN_CHARLES
@@ -583,6 +594,12 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
             from core.tools import ToolResult  # late import to avoid cycle
             parsed = ToolResult.parse(envelope)
             result = parsed.render()
+            # Stuck-detector telemetry (2026-05-16): keep a rolling window of
+            # the last STUCK_WINDOW tool result statuses so we can detect an
+            # error-only streak (Charles wedged on a problem).
+            chain_recent_tool_statuses.append(parsed.status)
+            if len(chain_recent_tool_statuses) > 5:
+                chain_recent_tool_statuses.pop(0)
             log.info(
                 "tool=%s args=%r status=%s result_chars=%d",
                 tc.function.name,
@@ -663,6 +680,63 @@ def _respond_impl(message: str, conversation_id: str | None, stop_event: threadi
                     f"set_goal nudge fired: conv={conversation_id} round={round_n} "
                     f"tool_calls={chain_tool_call_count}",
                     tags="incident,set_goal_nudge,auto",
+                )
+            except Exception:  # noqa: BLE001
+                pass
+
+        # 2026-05-16: STUCK DETECTOR — if the last 3 tool calls in this chain
+        # all returned errors (any category), Charles is wedged. Keeps trying
+        # things, keeps getting errors, will eventually burn the round budget
+        # without producing useful output. Inject a one-time synthetic prompt
+        # forcing him to STOP, name what's broken, and either change approach
+        # or escalate via notify_john. Distinct from the in-flight dedup guard
+        # (identical-args repeats) and intra-call loop guard (near-identical
+        # text). This catches DIFFERENT-args-but-all-erroring patterns —
+        # Charles trying multiple approaches that all fail.
+        _STUCK_WINDOW = 3
+        _ERROR_STATUSES = {"error", "blocked", "cancelled"}
+        if (
+            not chain_stuck_nudged
+            and len(chain_recent_tool_statuses) >= _STUCK_WINDOW
+            and all(s in _ERROR_STATUSES for s in chain_recent_tool_statuses[-_STUCK_WINDOW:])
+        ):
+            chain_stuck_nudged = True
+            log.warning(
+                "STUCK DETECTOR fired conv=%s round=%d — last %d tool statuses: %s",
+                conversation_id, round_n, _STUCK_WINDOW,
+                chain_recent_tool_statuses[-_STUCK_WINDOW:],
+            )
+            history.append({
+                "role": "user",
+                "content": (
+                    "[harness reminder — not from John] Your last "
+                    f"{_STUCK_WINDOW} tool calls all returned errors "
+                    f"(statuses: {chain_recent_tool_statuses[-_STUCK_WINDOW:]}). "
+                    "You are wedged. Continuing to retry variations of the "
+                    "same approach will burn your round budget without "
+                    "producing useful output.\n\n"
+                    "STOP and do exactly ONE of the following this round:\n"
+                    "  (a) Write a SHORT plain-text reply (no tool calls) "
+                    "naming exactly what's broken and what you've ruled out. "
+                    "Then stop — let John see the dead-end so he can redirect.\n"
+                    "  (b) If you have a genuinely different approach not yet "
+                    "tried (different tool, different angle, different "
+                    "interpretation of the request), describe it in one "
+                    "sentence and try it as your next tool call.\n"
+                    "  (c) If you've truly exhausted approaches and the work "
+                    "is blocked on something only John can resolve "
+                    "(credentials, missing file, ambiguous directive), call "
+                    "notify_john with a short message describing the block.\n\n"
+                    "Do NOT acknowledge this reminder in your reply to John. "
+                    "Just act on it."
+                ),
+            })
+            # Audit so we can see how often this fires and tune thresholds.
+            try:
+                memory.add_fact(
+                    f"Stuck detector fired: conv={conversation_id} round={round_n} "
+                    f"recent_statuses={chain_recent_tool_statuses[-_STUCK_WINDOW:]}",
+                    tags="incident,stuck_detector,auto",
                 )
             except Exception:  # noqa: BLE001
                 pass
