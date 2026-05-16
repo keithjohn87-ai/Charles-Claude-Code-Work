@@ -1,0 +1,24 @@
+{
+  "source": "mac_claude_code",
+  "version": "v3 (synthetic + contamination filters)",
+  "total_pairs": 402,
+  "drops": {
+    "synthetic_user": 727,
+    "contam_asst": 1,
+    "length": 8,
+    "empty": 0
+  },
+  "split": {
+    "train": 362,
+    "valid": 40,
+    "seed": 20260516
+  },
+  "filters_applied": [
+    "role=user with text content (not tool_result-wrapped)",
+    "user-side synthetic markers excluded: <task-notification>, <command-*>, <system-reminder>, /loop, slash preambles, session-resume preambles",
+    "assistant-side contamination excluded: rate-limit msgs, interrupt markers, (no content) placeholders",
+    "length cap: user 3-8000 chars, assistant 5-4000 chars"
+  ],
+  "qa_pass": "50-pair manual spot-check 2026-05-16 \u2014 1 contam found (rate-limit), now filtered",
+  "NOTE": "Mac Claude Code only \u2014 does NOT include claude.ai, Cowork, mobile (pending John)."
+}
