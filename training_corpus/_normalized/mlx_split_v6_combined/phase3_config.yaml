@@ -1,0 +1,60 @@
+# MLX-LM LoRA Phase 3 (real training) config
+# Drafted 2026-05-16 after smoke run (100 iters, broken adapter — see SMOKE_NOTES.md)
+#
+# Key changes vs smoke:
+#   learning_rate: 1e-4 → 1e-5  (10x cut; matches mlx-lm CONFIG_DEFAULTS)
+#   num_layers:    4   → 16     (was undersized for behavior LoRA)
+#   rank:          8   → 16     (more capacity for John-voice + operator pattern)
+#   scale:         20  → 12     (less aggressive adapter influence to avoid collapse)
+#   iters:         100 → 1500   (long enough for real convergence)
+#   batch_size:    1   → 1      (kept; pushing higher risks OOM with 16 layers)
+#   steps_per_eval: 25 → 100    (less eval interrupt; smoother trajectory)
+#   val_batches:   10  → 25     (bigger eval sample = less noisy val loss)
+#
+# Run with:
+#   launchctl bootout gui/$(id -u)/com.mlx.server
+#   mlx_lm.lora -c .../mlx_split_v6_combined/phase3_config.yaml
+#   launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.mlx.server.plist
+#
+# Estimated wall time: 1500 iters × ~3 sec/iter = ~75 min (Charles offline ~1.5 hr)
+
+model: "mlx-community/Qwen3.6-35B-A3B-4bit"
+train: true
+data: "/Users/home/charles/training_corpus/_normalized/mlx_split_v6_combined"
+fine_tune_type: "lora"
+optimizer: "adamw"
+mask_prompt: true
+
+# Real training scale
+num_layers: 16
+batch_size: 1
+iters: 1500
+learning_rate: 1.0e-5
+max_seq_length: 2048
+grad_checkpoint: true
+
+# Eval cadence — every 100 iters, bigger eval sample
+steps_per_report: 50
+steps_per_eval: 100
+val_batches: 25
+save_every: 100
+
+adapter_path: "/Users/home/charles/training_corpus/_normalized/mlx_split_v6_combined/phase3_adapter"
+seed: 20260516
+
+# LoRA hyperparams — less aggressive than smoke
+lora_parameters:
+  rank: 16
+  scale: 12.0
+  dropout: 0.05
+
+# Pass criteria for Phase 3:
+#   1. Doesn't OOM (smoke peaked 41GB on 4 layers; 16 layers may push to ~50GB)
+#   2. Val loss curve drops below initial baseline by ≥10% (kickoff doc Phase 4 criterion)
+#   3. Best checkpoint (lowest val loss) produces COHERENT text in inference test
+#   4. Coherent text on a small prompt set demonstrating: John-voice match, operator
+#      pattern terseness, tool-call format preserved on a tool-requiring prompt
+#
+# If pass: proceed to Phase 4 full eval gate (Sunday Test + tool-call adherence + etc)
+# If OOM: drop num_layers 16→12 or 8, or disable grad_checkpoint test
+# If garbage: drop LR further (1e-5 → 5e-6), drop scale (12 → 8)

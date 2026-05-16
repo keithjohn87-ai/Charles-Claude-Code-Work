@@ -55,3 +55,8 @@ training_corpus/_normalized/*.jsonl
 training_corpus/_normalized/**/train.jsonl
 training_corpus/_normalized/**/valid.jsonl
 training_corpus/_normalized/**/_audit_with_meta.jsonl
+# LoRA adapter checkpoints — 256MB each, broken smoke artifacts. Local-only.
+training_corpus/_normalized/**/smoke_adapter/
+training_corpus/_normalized/**/phase3_adapter/
+training_corpus/_normalized/**/*_adapter/
+training_corpus/_normalized/**/*.log

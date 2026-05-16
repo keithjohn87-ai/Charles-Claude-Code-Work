@@ -1,0 +1,63 @@
+# MLX-LM LoRA smoke-training config (Phase 2 step 2)
+# Tiny run to verify the tooling works end-to-end before committing to real training.
+# Per LORA_SESSION_KICKOFF.md: 50 examples × 100 iters × rank 8.
+#
+# Run with:
+#   mlx_lm.lora -c /Users/home/charles/training_corpus/_normalized/mlx_split_v6_combined/smoke_config.yaml
+#
+# Or directly:
+#   mlx_lm.lora \
+#     --model mlx-community/Qwen3.6-35B-A3B-4bit \
+#     --train \
+#     --data /Users/home/charles/training_corpus/_normalized/mlx_split_v6_combined \
+#     --fine-tune-type lora \
+#     --iters 100 \
+#     --batch-size 1 \
+#     --num-layers 4 \
+#     --learning-rate 1e-4 \
+#     --adapter-path /Users/home/charles/training_corpus/_normalized/mlx_split_v6_combined/smoke_adapter \
+#     --steps-per-report 10 \
+#     --steps-per-eval 25 \
+#     --max-seq-length 2048 \
+#     --grad-checkpoint \
+#     --seed 20260516
+
+model: "mlx-community/Qwen3.6-35B-A3B-4bit"
+train: true
+data: "/Users/home/charles/training_corpus/_normalized/mlx_split_v6_combined"
+fine_tune_type: "lora"
+optimizer: "adamw"
+mask_prompt: true
+
+# Smoke-test scale — KEEP SMALL on first run
+num_layers: 4              # Only fine-tune last 4 layers (low memory, fast iter)
+batch_size: 1              # 64GB unified mem with MLX server already loaded → must be tight
+iters: 100                 # 100 iters of 1 batch each
+learning_rate: 1.0e-4      # Conservative for LoRA on small dataset
+max_seq_length: 2048       # Most of our pairs fit; longer pairs get truncated
+grad_checkpoint: true      # Memory-saving recompute trick
+
+steps_per_report: 10       # Loss line every 10 steps
+steps_per_eval: 25         # Validation pass every 25 steps
+val_batches: 10            # Cap eval to 10 batches for speed
+save_every: 25             # Checkpoint every 25 iters
+
+adapter_path: "/Users/home/charles/training_corpus/_normalized/mlx_split_v6_combined/smoke_adapter"
+seed: 20260516
+
+# LoRA-specific hyperparams (mlx_lm reads from a "lora_parameters" block)
+lora_parameters:
+  rank: 8                  # Small rank — fast, less expressive
+  scale: 20.0
+  dropout: 0.0
+
+# Pass criteria for the smoke run:
+#   1. Doesn't OOM
+#   2. Train loss drops monotonically across the 100 iters
+#   3. Validation loss drops or stays flat (NOT rising — that's overfit-on-tiny-set)
+#   4. Adapter file lands at smoke_adapter/adapters.safetensors
+#   5. mlx_lm.fuse can roundtrip-load it cleanly
+#
+# If pass: graduate to Phase 3 real training (rank=16-32, 1000-2000 iters, more layers).
+# If OOM: stop MLX server first OR fetch full-precision base + train with grad-checkpoint.
+# If loss not dropping: data format issue OR learning rate wrong.
