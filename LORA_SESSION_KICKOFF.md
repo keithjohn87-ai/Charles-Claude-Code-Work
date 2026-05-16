@@ -58,6 +58,7 @@ python -m mlx_lm.fuse --model <base> --adapter-path <lora_out> --save-path <fuse
 | John's curated training files (per `USER.md` / `KNOWLEDGE_BASE.md`) | unknown | High quality if John blesses them |
 | Older conversation exports / backups (`workspace/memory.db.pre-*`) | unknown | Worth auditing — likely thousands of pre-pruned turns |
 | The current Claude Code session transcripts (e.g., this very session) | substantial | High-quality operator/consultant pattern examples — THIS IS THE GOLD |
+| **John's Claude.ai conversation history (export)** | potentially THOUSANDS of pairs across months | **THE LARGEST + HIGHEST-QUALITY source available.** John's actual voice, John's actual question-framing, Claude's actual responses (the literal target behavior). Confirmed by John 2026-05-16: "I was intending on using my Claude history as well." Export via claude.ai → Settings → Data Privacy → Export. Filter for Charles-relevant patterns (construction, AI building, operator workflows). **Caution:** Claude responses run longer/more verbose than Charles's persona prescribes — may need a filter pass that keeps short/direct/action-oriented responses and skips verbose explainers, to avoid diluting Charles's "operator over warmth" tightness. Also: privacy filter pass (third-party info, sensitive personal context) before any of it goes into model weights. |
 
 **Implication:** the most fertile training data may not be memory.db — it may be:
 1. The **pre-prune memory.db backups** at `workspace/memory.db.pre-cc-20260511-*` and similar
