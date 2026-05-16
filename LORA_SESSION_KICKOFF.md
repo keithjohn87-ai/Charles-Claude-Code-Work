@@ -2,6 +2,9 @@
 
 **Date drafted:** 2026-05-16
 **Status:** PROJECT GREENLIT — pivot from harness work confirmed by John 2026-05-16 ~16:00 EST: "Probably going into Model tweaks. Charles seems to be working through things on his own with issues. So we will let him ride for a bit and get Qwen up to snuff."
+
+**LATEST (2026-05-16 evening):** Phase 1 corpus prep + Phase 2 smoke training COMPLETE. v6 combined corpus is at `training_corpus/_normalized/mlx_split_v6_combined/` (3,331 pairs). Smoke run verified the mlx-lm LoRA toolchain works end-to-end. Smoke adapter is broken (default hyperparams too aggressive) — full diagnostics + Phase 3 hyperparam recommendation in `training_corpus/_normalized/mlx_split_v6_combined/SMOKE_NOTES.md`. Phase 3 config ready for review at `phase3_config.yaml` in that same dir. Awaiting John's greenlight to fire Phase 3 (~75min wall time).
+
 **Read this FIRST when the next session opens.** It contains the decision context, hardware constraints, training-data assessment, tooling status, recommended phase plan, and risk register so we don't re-litigate scope each time.
 
 ---
