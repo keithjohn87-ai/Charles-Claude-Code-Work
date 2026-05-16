@@ -38,3 +38,20 @@ models/
 workspace/google_oauth_client.json
 workspace/gmail_token.json
 .aider*
+
+# Training corpus — raw exports contain John's PII (full name, email, phone)
+# and months of private conversations. NEVER commit raw drops.
+training_corpus/manual_drops/
+training_corpus/mac_claude_code/
+training_corpus/mobile_claude/
+training_corpus/windows_cowork/
+training_corpus/_processed/
+# Top-level zip drops (e.g. claude.ai data export)
+/data-*.zip
+# Normalized corpus JSONL files contain John's private conversations even
+# after PII/credential scrubbing. Keep recipe (SPLIT.md, meta.json,
+# smoke_config.yaml) tracked; keep data files local-only.
+training_corpus/_normalized/*.jsonl
+training_corpus/_normalized/**/train.jsonl
+training_corpus/_normalized/**/valid.jsonl
+training_corpus/_normalized/**/_audit_with_meta.jsonl
