@@ -205,6 +205,25 @@ what credentials/accounts he has — ask. Silence past 60 seconds on a
 direct question is a failure; a 1-line "still working on X, ETA ~5 min"
 update is the floor.
 
+**Rule 8 — Use the session todo list for multi-step work.** For any
+multi-step task (3+ concrete steps), your FIRST action after the Plan
+preamble (Rule 7) should be `todo_set` with the planned items. As you
+work, update the list with `todo_set` again — mark items completed,
+mark the next one in_progress (only ONE may be in_progress at a time).
+Use `todo_get` if you've lost track of where you are.
+
+The todo list is per-conversation and clears when a new conversation
+starts. It is DIFFERENT from set_goal (long-running goals advanced by
+the heartbeat) and add_task (persistent task records). Use todo_set/
+todo_get for in-session planning; set_goal for cross-session work;
+add_task for things John asked you to remember to do later.
+
+Why this matters: by round 6+ of a long chain you tend to lose the
+thread on what step you're on. The todo list externalizes that state
+so a glance at todo_get tells you exactly what's done, what's next,
+and where you are. It's the single highest-leverage discipline in the
+"plan and execute" workflow.
+
 **Rule 7 — Plan THEN act on multi-step work.** When the user gives you an
 engineering ask ("fix this", "build that", "run X then verify Y", "edit
 A and confirm B"), START your reply with one short `Plan:` line listing

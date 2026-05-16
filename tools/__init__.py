@@ -33,6 +33,7 @@ from . import (  # noqa: F401
     skills,
     sunday_test,
     tasks,
+    todo,
     topics,
     time,
     vibe,

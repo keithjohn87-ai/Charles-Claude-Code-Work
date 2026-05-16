@@ -207,6 +207,11 @@ CORE_TOOLS: set[str] = {
     "send_imessage", "recent_imessages",
     # Goal + task ops Charles needs in normal chat
     "list_goals", "append_goal_note", "list_open_tasks", "add_task",
+    # Lightweight session-scoped todo list (Claude Code's TodoWrite, ported
+    # 2026-05-16). Distinct from set_goal/add_task — in-session planning
+    # for the current chain only. CORE so it's always available to plan
+    # before multi-step work fires off.
+    "todo_set", "todo_get",
     # New learning-tree surfaces (Charles is gradually adopting them)
     "recall_topic", "topic_list", "john_says", "john_pref_categories",
     "skill_log_use",

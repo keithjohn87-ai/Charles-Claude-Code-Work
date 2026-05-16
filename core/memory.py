@@ -29,7 +29,42 @@ from config import WORKSPACE
 
 # Tool results in history get truncated to this size — full result still goes
 # to the live turn that generated it; this is just for replay.
-TOOL_RESULT_LOG_CAP = 2000
+#
+# 2026-05-16: bumped from 2000 → 4000 chars AND switched from head-only
+# truncation to head+tail with a middle marker. Tail-of-output is usually
+# higher-information than head-of-output (exit codes, error tracebacks at
+# the end, the actual answer in long file reads). Old head-only cap was
+# silently dropping the answer on Charles's follow-up questions about
+# prior tool results. See _truncate_smart() below.
+TOOL_RESULT_LOG_CAP = 4000
+_TRUNCATE_HEAD_FRACTION = 0.40  # 40% head + 60% tail
+
+
+def _truncate_smart(content: str, max_chars: int = TOOL_RESULT_LOG_CAP) -> str:
+    """Truncate a long string while preserving both head and tail context.
+
+    Old behavior (head-only): dropped the tail, losing exit codes, error
+    tracebacks, and the actual answer in long file dumps.
+
+    New behavior: keeps the first `_TRUNCATE_HEAD_FRACTION * max_chars`
+    chars + a middle marker + the last (1 - _TRUNCATE_HEAD_FRACTION) *
+    max_chars chars. Total output stays bounded by max_chars + the
+    marker length (~80 chars).
+
+    No-op if content fits within max_chars.
+    """
+    if len(content) <= max_chars:
+        return content
+    head_chars = int(max_chars * _TRUNCATE_HEAD_FRACTION)
+    tail_chars = max_chars - head_chars
+    dropped = len(content) - max_chars
+    head = content[:head_chars]
+    tail = content[-tail_chars:]
+    return (
+        f"{head}\n"
+        f"...[+{dropped:,} chars truncated from middle — head and tail preserved]...\n"
+        f"{tail}"
+    )
 
 DB_PATH = WORKSPACE / "memory.db"
 
@@ -310,13 +345,13 @@ def log_assistant_tool_calls(
 
 
 def log_tool_result(conversation_id: str, tool_call_id: str, content: str) -> None:
-    """Persist a tool result in conversation history (truncated for replay)."""
-    truncated = content
-    if len(content) > TOOL_RESULT_LOG_CAP:
-        truncated = (
-            content[:TOOL_RESULT_LOG_CAP]
-            + f"\n...[+{len(content) - TOOL_RESULT_LOG_CAP} chars truncated]"
-        )
+    """Persist a tool result in conversation history (truncated for replay).
+
+    Uses head+tail truncation (see _truncate_smart) so Charles's replay sees
+    both the start of the output AND the end (where exit codes, error
+    tracebacks, and answers in long file dumps live).
+    """
+    truncated = _truncate_smart(content)
     with _conn() as c:
         c.execute(
             "INSERT INTO conversations (conversation_id, role, content, tool_call_id) "

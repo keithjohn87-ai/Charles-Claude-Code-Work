@@ -46,6 +46,7 @@ import contextvars
 import hashlib
 import json
 import logging
+import os
 import re
 from collections import defaultdict
 from typing import Any
@@ -347,6 +348,49 @@ def check_pre_call(name: str, args: dict[str, Any]) -> tuple[str, str] | None:
                 f"exec_shell with `stat {path!r}` first to verify the mtime.",
                 "",
             )
+
+    # 5) Read-before-Edit enforcement (2026-05-16, ported from Claude Code's
+    #    Edit tool). Modifying a file you haven't seen the current contents
+    #    of is the "Charles broke a working file by editing based on stale
+    #    state" class of bug. Force a read_file first.
+    #
+    #    Allow:
+    #      - Brand-new files (path doesn't exist on disk; nothing to stale-read)
+    #      - The path is in _recent_reads (read_file called this chain)
+    #
+    #    Block:
+    #      - Path exists on disk + not in _recent_reads → error directing to
+    #        call read_file first.
+    #
+    #    Skipped intentionally:
+    #      - Tracking exec_shell-style reads (cat/head/tail). Simpler to require
+    #        the canonical read_file tool, which also benefits from the
+    #        recent-read cache and the structured ToolResult envelope.
+    if name in ("write_file", "self_modify", "self_patch"):
+        path = (args.get("path") or "").strip()
+        if path:
+            try:
+                exists = os.path.exists(path)
+            except Exception:  # noqa: BLE001
+                exists = False
+            recent = _recent_reads.get()
+            already_read = recent is not None and path in recent
+            if exists and not already_read:
+                return (
+                    f"[error] You are about to {name}({path!r}) but you have "
+                    f"NOT called read_file({path!r}) in this response chain. "
+                    f"The file exists on disk and may have changed since you "
+                    f"last saw it (or you may be working from a stale memory "
+                    f"of its contents). Modifying a file based on stale state "
+                    f"is the most common way Charles silently breaks working "
+                    f"files.\n\n"
+                    f"Required next step: call read_file({path!r}) FIRST. The "
+                    f"recent-read cache will return the content quickly. THEN "
+                    f"re-emit this {name} call.\n\n"
+                    f"(Brand-new files — paths that don't yet exist — are "
+                    f"exempt from this guard since there's nothing to read.)",
+                    "validation",
+                )
 
     return None
 
