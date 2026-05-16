@@ -45,7 +45,7 @@ def _cdx_client():
     # unreachable (HTTP 000 = connection refused, 120s timeout). Use "cc"
     # source (index.commoncrawl.org) as primary. "ia" as fallback with short
     # timeout so a down IA service doesn't block the whole query.
-    return cdx_toolkit.CDXFetcher(source="cc")
+    return cdx_toolkit.CDXFetcher(source="ia")
 
 
 def _trafilatura():
@@ -389,6 +389,7 @@ def ingest_batch(
             text,
             required_keywords=config.get("required_keywords"),
             min_keyword_hits=config.get("min_keyword_hits", 2),
+            min_chars=config.get("min_chars", 500),
         )
         if not ok:
             log.debug("filtered %s: %s", rec.url, reason)
