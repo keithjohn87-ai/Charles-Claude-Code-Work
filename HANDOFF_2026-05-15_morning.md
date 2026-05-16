@@ -248,10 +248,48 @@ When the next session opens (after this one wraps):
 ### Commits this morning on Charles main
 
 ```
+80146ac Charles harness Tier 1 — all 3 items shipped
 8c2a6bb Charles harness fix #6: stuck detector + harness-gap audit roadmap
 ```
 
-— Claude Code, 2026-05-16 ~11:15 EST
+### Tier 1 of HARNESS_GAP_AUDIT_2026-05-16.md — COMPLETE (commit `80146ac`)
+
+After John's 10:57 UTC greenlight ("burn in the tier 1"), shipped all three Tier-1 items in sequence (smallest first for momentum, biggest last):
+
+**1. READ-BEFORE-EDIT ENFORCEMENT** (`core/tool_guards.py`)
+- Before `write_file`/`self_modify`/`self_patch` on an EXISTING path, the file must have been read with `read_file` in the same chain.
+- Brand-new files (path doesn't exist on disk) are exempt — nothing to stale-read.
+- Returns `[error:validation]` directing Charles to call read_file first.
+- Catches the "Charles edited based on stale memory of file contents" class of bugs.
+- 7/7 unit tests pass (new file allowed, existing-without-read blocked, read-then-write allowed, self_modify/self_patch both blocked, read_file always allowed).
+
+**2. TOOL RESULT INTELLIGENT TRUNCATION** (`core/memory.py`)
+- Was: head-only truncation at 2000 chars — silently dropped the tail (where exit codes, error tracebacks, answers in long file dumps live).
+- Now: head+tail with middle marker at 4000 chars (40% head / 60% tail).
+- New `_truncate_smart()` helper.
+- 5/5 unit tests pass including a Python-traceback test where the actual error message lives at the tail; that error message now survives the truncation.
+
+**3. TODOWRITE-EQUIVALENT** (`tools/todo.py` + registry + Rule 8 in prompts.py)
+- Two new CORE-tier tools: `todo_set(items)` and `todo_get()`.
+- Items: `{content (imperative), activeForm (present-progressive), status (pending/in_progress/completed)}`.
+- Only ONE in_progress at a time (validated).
+- Storage: `workspace/todo_<conv_id>.json`. Lifetime: per conversation_id.
+- Distinct from `set_goal` (long-running, heartbeat-advanced) and `add_task` (persistent, async). This one is in-session planning for the current chain only.
+- Added Rule 8 to prompts.py: directs Charles to call `todo_set` FIRST after the Plan: preamble for any 3+-step task, then update as items transition status.
+- 6/6 functional tests pass — registration, formatted output, multi-in_progress rejection, empty-content rejection, invalid-status rejection.
+
+**Tool count change:** 80 registered total (was 78), 32 in CORE tier (was 30 — +2 for todo_set/todo_get). Both processes restarted on the new code (agent PID 19542, warroom PID 19544 verified post-kickstart).
+
+### What's left from the audit (Tier 2 — design-session needed)
+
+Per `HARNESS_GAP_AUDIT_2026-05-16.md`:
+- Sub-agent spawning (Task tool equivalent) — but `call_claude` operator/consultant bridge already covers most of this when John flips on the Anthropic API key
+- Prompt-size discipline + auto-trim — system prompt now at 32,153 chars (Rule 8 added 1K). Gated by Sunday Test per existing memory.
+- Parallel tool calls per round — model-behavior experiment
+
+Charles harness is now substantially closer to Claude Code's operational baseline. Remaining gap is mostly **model intelligence** (Qwen 3.6-A3B vs Sonnet/Opus class) and the strategic LoRA fine-tune is the next-after-harness step (per `project_qwen_lora_customization.md` — explicitly greenlit by John 2026-05-16 10:23 UTC).
+
+— Claude Code, 2026-05-16 ~13:00 EST
 
 **Queued (in priority order, will spawn one at a time):**
 1. Contractor Marketing Playbook from scratch — biggest content task (~10-20K words). Spawn after Lien lands.
