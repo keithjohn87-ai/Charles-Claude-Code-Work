@@ -248,9 +248,28 @@ When the next session opens (after this one wraps):
 ### Commits this morning on Charles main
 
 ```
+[Tier 2 #1 commit pending] Parallel tool calls Rule 9 shipped
 80146ac Charles harness Tier 1 — all 3 items shipped
 8c2a6bb Charles harness fix #6: stuck detector + harness-gap audit roadmap
 ```
+
+### Tier 2 of HARNESS_GAP_AUDIT_2026-05-16.md — IN PROGRESS
+
+After John's 12:02 UTC greenlight ("start on tier 2. Keep the handover updated as it ships in case you ping the ceiling"), driving through the remaining audit items. Updating this handoff incrementally per his instruction.
+
+**Tier 2 #1: PARALLEL TOOL CALLS — SHIPPED** (`core/prompts.py` Rule 9)
+- Added Rule 9 to system prompt directing Charles to batch independent tool calls in ONE round (read 3 files = 1 round, not 3) with concrete GOOD/BAD examples
+- The dispatcher already supports multiple tool_calls per round (`for tc in msg.tool_calls`) — the gap was model behavior, not infrastructure
+- 5x latency win on multi-read orientation chains (1 round of inference vs 5)
+- System prompt now 33,700 chars (Rule 9 added 1,547)
+- Both processes restarted on the new prompt
+
+Validation requires real-world observation — model behavior change rather than mechanical change. Watch for batched tool_calls in `charles.launchd.err.log` over the next few Charles interactions.
+
+**Tier 2 #2: SUB-AGENT SPAWNING — IN PROGRESS**
+- Building `tools/subagent.py` with `delegate_subagent(task: str)` — spawns a fresh `agent.respond()` call with a new conv_id (`subagent:<parent>:<n>`), runs to completion, returns the final reply to the parent chain
+- Single-threaded MLX means no parallelism benefit; the value is CONTEXT ISOLATION (delegate research-heavy work without bloating parent's context)
+- Status: implementation in flight
 
 ### Tier 1 of HARNESS_GAP_AUDIT_2026-05-16.md — COMPLETE (commit `80146ac`)
 

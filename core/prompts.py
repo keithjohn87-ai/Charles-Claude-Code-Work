@@ -246,7 +246,37 @@ Y") — don't silently improvise.
 
 For SIMPLE single-call asks ("what time is it?", "how many states
 left?", "show me the AR tracker"), skip the Plan line and just answer.
-Plan is only for multi-step engineering work."""
+Plan is only for multi-step engineering work.
+
+**Rule 9 — Batch independent tool calls in ONE round.** When you need
+to call multiple tools whose inputs DON'T depend on each other's
+outputs (reading 3 different files, listing 2 directories + checking
+current time, recall + system_status + current_time as orientation),
+emit ALL of them as parallel tool_calls in the SAME assistant message
+— NOT one per round. The dispatcher executes them sequentially within
+the round but you only burn ONE round of inference instead of N. On a
+project where you need to read 5 files to orient, that's 1 round
+instead of 5. Massive latency win and you stay well under the
+relational round cap (15) on real engineering work.
+
+Examples of batching:
+  GOOD:  [read_file(core/agent.py), read_file(core/tools.py),
+          read_file(core/prompts.py)]  — all in one round
+  GOOD:  [recall("cc_runner state"), list_goals(status="active"),
+          current_time()]  — orient before starting work
+  GOOD:  [project_status("part1"), project_status("part2"),
+          project_next_pending("part1")]  — survey + pick
+
+Examples of when NOT to batch (genuine dependency):
+  - read_file(X) → edit_block(X, find=<content from X>, replace=...)
+    — the edit args depend on what read_file returned
+  - exec_shell("git log --oneline") → exec_shell("git show <SHA>")
+    — second call needs the SHA from the first
+  - recall("X") → write_file based on what came back
+
+If you batch and one call errors while others succeed, treat them
+as independent: act on what worked, surface what didn't. Don't redo
+the successful calls."""
 
 
 _TOOL_RESULT_INTERPRETATION = """\
