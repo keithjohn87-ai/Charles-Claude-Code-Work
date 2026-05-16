@@ -26,12 +26,18 @@ optimizer: "adamw"
 mask_prompt: true
 
 # Real training scale
-num_layers: 16
+# 2026-05-16 history:
+#   #1: num_layers=16, max_seq=2048 — OOM'd iter 1 forward/backward.
+#   #2: num_layers=8,  max_seq=2048 — OOM'd iter 100 right after save.
+#   #3 (current): num_layers=8, max_seq=1024 — half the activation memory.
+#   Resuming from iter-100 checkpoint (1GB saved cleanly before OOM #2).
+num_layers: 8
 batch_size: 1
 iters: 1500
 learning_rate: 1.0e-5
-max_seq_length: 2048
+max_seq_length: 1024
 grad_checkpoint: true
+resume_adapter_file: "/Users/home/charles/training_corpus/_normalized/mlx_split_v6_combined/phase3_adapter/adapters.safetensors"
 
 # Eval cadence — every 100 iters, bigger eval sample
 steps_per_report: 50

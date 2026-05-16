@@ -60,3 +60,9 @@ training_corpus/_normalized/**/smoke_adapter/
 training_corpus/_normalized/**/phase3_adapter/
 training_corpus/_normalized/**/*_adapter/
 training_corpus/_normalized/**/*.log
+# A/B test staging (just a copy of the adapter under test — local-only)
+training_corpus/_normalized/**/_ab_staged/
+# A/B result JSONs contain model outputs that quote training-data fragments.
+# Keep them local-only.
+training_corpus/_normalized/**/ab_results_*.json
+training_corpus/_normalized/**/ab_run_*.log
