@@ -1,0 +1,34 @@
+# Phase 3 v3 config — revert to v6 attempt#3 EXACT hyperparams, run on v7 corpus
+# Drafted 2026-05-16 after v2 hit NaN at iter 50 at both LR 5e-5 and LR 2e-5.
+#
+# Strategy: isolate the change. v6 attempt#3 ran cleanly at LR 1e-5 etc.
+# Now run that EXACT config on v7 data. If clean → corpus is fine, can iterate
+# hyperparams. If NaN → v7 corpus has a problem to find.
+
+model: "mlx-community/Qwen3.6-35B-A3B-4bit"
+train: true
+data: "/Users/home/charles/training_corpus/_normalized/mlx_split_v7_1_curated"
+fine_tune_type: "lora"
+optimizer: "adamw"
+# Removed weight_decay — v2 had 0.01 and it (combined with higher LR) NaN'd
+mask_prompt: true
+
+num_layers: 8
+batch_size: 1
+iters: 500
+learning_rate: 1.0e-5
+max_seq_length: 1024
+grad_checkpoint: true
+
+steps_per_report: 25
+steps_per_eval: 50
+val_batches: 25
+save_every: 50
+
+adapter_path: "/Users/home/charles/training_corpus/_normalized/mlx_split_v7_1_curated/phase3_v4_adapter"
+seed: 20260516
+
+lora_parameters:
+  rank: 16
+  scale: 12.0
+  dropout: 0.05
