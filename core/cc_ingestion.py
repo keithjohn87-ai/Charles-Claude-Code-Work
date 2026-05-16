@@ -186,9 +186,9 @@ def fetch_warc_main(record: CDXRecord) -> str | None:
     """
     import requests
     url = f"https://data.commoncrawl.org/{record.filename}"
-    headers = {"Range": f"bytes={record.offset}-{record.offset + record.length - 1}"}
+    # No Range headers — gateway drops them on ~80% of files
     try:
-        r = requests.get(url, headers=headers, timeout=30)
+        r = requests.get(url, timeout=30)
         r.raise_for_status()
     except Exception as e:  # noqa: BLE001
         log.warning("WARC fetch failed for %s: %s", record.url, e)
