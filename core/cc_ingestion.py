@@ -40,12 +40,77 @@ log = logging.getLogger("charles.cc_ingestion")
 
 
 def _cdx_client():
-    import cdx_toolkit
-    # Fix 2026-05-16: Internet Archive CDX service (source="ia") is down/
-    # unreachable (HTTP 000 = connection refused, 120s timeout). Use "cc"
-    # source (index.commoncrawl.org) as primary. "ia" as fallback with short
-    # timeout so a down IA service doesn't block the whole query.
-    return cdx_toolkit.CDXFetcher(source="ia")
+    import requests
+    import json
+    
+    # Fix 2026-05-16v2: index.commoncrawl.org (source="cc") is down — TLS 
+    # connects but returns empty bodies. CDXFetcher library hangs on both 
+    # sources (library bug in myrequests_get handling empty responses). 
+    # web.archive.org/cdx (source="ia") works via raw requests.get(). 
+    # Direct wrapper below — bypasses CDXFetcher entirely.
+    
+    def _do_query(url_pattern, from_ts="20200101", to_ts=None, limit=1000):
+        params = {
+            "url": url_pattern,
+            "output": "json",
+            "from": from_ts,
+        }
+        if to_ts:
+            params["to"] = to_ts
+        params["limit"] = limit
+        
+        try:
+            r = requests.get(
+                "https://web.archive.org/cdx/search/cdx",
+                params=params,
+                timeout=120,
+            )
+            r.raise_for_status()
+        except Exception as e:
+            log.error("CDX query failed for %r: %s", url_pattern, e)
+            return []
+        
+        text = r.text.strip()
+        if not text:
+            return []
+        
+        try:
+            lines = json.loads(text)
+        except json.JSONDecodeError:
+            log.error("Failed to parse CDX response for %r", url_pattern)
+            return []
+        
+        if not lines or not isinstance(lines, list) or len(lines) < 2:
+            return []
+        
+        # IA CDX JSON output: [[field_names], [values], ...]
+        fields = lines[0]
+        records = []
+        for values in lines[1:]:
+            if len(values) != len(fields):
+                continue
+            hit = dict(zip(fields, values))
+            try:
+                records.append({
+                    "url": hit["url"],
+                    "timestamp": hit["timestamp"],
+                    "filename": hit["filename"],
+                    "offset": hit["offset"],
+                    "length": hit["length"],
+                    "mime": hit.get("mime", ""),
+                    "status": hit.get("status", ""),
+                })
+            except (KeyError, ValueError) as e:
+                log.warning("malformed CDX hit, skipping: %s", e)
+        
+        return records
+    
+    class DirectCDXClient:
+        """Bypasses CDXFetcher; provides .iter() compatible with original API."""
+        def iter(self, url_pattern, **kwargs):
+            return iter(_do_query(url_pattern, **kwargs))
+    
+    return DirectCDXClient()
 
 
 def _trafilatura():
