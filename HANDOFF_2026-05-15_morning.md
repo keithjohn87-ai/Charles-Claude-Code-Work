@@ -248,7 +248,9 @@ When the next session opens (after this one wraps):
 ### Commits this morning on Charles main
 
 ```
-[Tier 2 #1 commit pending] Parallel tool calls Rule 9 shipped
+[Tier 2 #2 commit pending] Sub-agent spawning + handoff update
+fd08dce Tier 2 #1: parallel tool calls Rule 9 + handoff update
+0bc6ad5 Live-update handoff with Tier 1 completion
 80146ac Charles harness Tier 1 — all 3 items shipped
 8c2a6bb Charles harness fix #6: stuck detector + harness-gap audit roadmap
 ```
@@ -266,10 +268,36 @@ After John's 12:02 UTC greenlight ("start on tier 2. Keep the handover updated a
 
 Validation requires real-world observation — model behavior change rather than mechanical change. Watch for batched tool_calls in `charles.launchd.err.log` over the next few Charles interactions.
 
-**Tier 2 #2: SUB-AGENT SPAWNING — IN PROGRESS**
-- Building `tools/subagent.py` with `delegate_subagent(task: str)` — spawns a fresh `agent.respond()` call with a new conv_id (`subagent:<parent>:<n>`), runs to completion, returns the final reply to the parent chain
-- Single-threaded MLX means no parallelism benefit; the value is CONTEXT ISOLATION (delegate research-heavy work without bloating parent's context)
-- Status: implementation in flight
+**Tier 2 #2: SUB-AGENT SPAWNING — SHIPPED** (`tools/subagent.py`)
+- New ON_DEMAND tool: `delegate_subagent(task: str, context: str = "")` — spawns a fresh `agent.respond()` call with a namespaced conv_id (`subagent:<parent>:<depth>:<n>`), runs to completion with full max_rounds budget, returns the final reply text to the parent chain
+- Single-threaded MLX means no parallelism benefit today; the value is CONTEXT ISOLATION (delegate research-heavy work without bloating parent's context). API shaped so future multi-instance backend would give parallelism for free
+- Recursion depth capped at `MAX_SUBAGENT_DEPTH = 2` via `contextvars.ContextVar` — sub-of-sub allowed, sub-of-sub-of-sub blocked. Prevents runaway spawn chains
+- Result truncated head+tail at 8000 chars before returning to parent (sub-agents may be verbose; parent's context budget is precious)
+- Distinct from `call_claude` (operator/consultant bridge to Anthropic API for intelligence boost) — this is a FRESH local Charles for context isolation only
+- Tool count now 81 (was 80; +1 for delegate_subagent). Tier: on_demand (triggers: "delegate", "subagent", "spawn", "research subtask")
+- 2/2 unit tests pass — depth-cap fires at max, ContextVar resets cleanly
+
+**Tier 2 #3: PROMPT-SIZE DISCIPLINE — DEFERRED**
+- Per `feedback_prompt_size_policy.md`, any prompt-size cuts must pass the Sunday Test. Can't responsibly ship in this session; needs John's sign-off cycle.
+- Current system prompt: 33,700 chars (pre-Tier-2: 32,153; +1,547 for Rule 9)
+- Recommendation: when next harness session opens, audit Rules 1-9 + grounding + tool-use-rules sections for cargo-cult vs load-bearing content. Aim for 20K-25K target. Run Sunday Test before deploying.
+
+### Tier 2 status
+
+- ✅ #1 Parallel tool calls (Rule 9) — shipped commit `fd08dce`
+- ✅ #2 Sub-agent spawning (`tools/subagent.py`) — shipped this commit
+- ⏸️ #3 Prompt-size discipline — deferred (Sunday Test gate)
+
+Tier 2 effectively complete. The remaining Tier 3 items (system reminder hooks, specialized agent types, chapter markers, output-style enforcement) are lower priority and best left to a focused future session.
+
+### Where the harness now stands
+
+Charles harness is substantially closer to Claude Code's operational baseline. The session shipped:
+- 6 harness fixes ranging from prompt rules (Rule 7-9) to dispatch-layer guards (Read-before-Edit, stuck detector) to new tools (todo_set/todo_get, delegate_subagent) to data-handling (smart truncation)
+- 2 new CORE tier tools, 1 new ON_DEMAND tool (81 total now)
+- System prompt grew 31,109 → 33,700 chars (Rules 8 + 9 added; Rule 1-7 unchanged)
+
+Remaining major gap is **model intelligence** (Qwen 3.6-A3B vs Sonnet/Opus class). The `call_claude` operator/consultant bridge handles the residual when John flips on the API key. The strategic LoRA fine-tune is the next-after-harness step (per `project_qwen_lora_customization.md` — explicitly greenlit by John 2026-05-16 10:23 UTC).
 
 ### Tier 1 of HARNESS_GAP_AUDIT_2026-05-16.md — COMPLETE (commit `80146ac`)
 

@@ -31,6 +31,7 @@ from . import (  # noqa: F401
     sentiment,
     shell,
     skills,
+    subagent,
     sunday_test,
     tasks,
     todo,
