@@ -299,6 +299,25 @@ Charles harness is substantially closer to Claude Code's operational baseline. T
 
 Remaining major gap is **model intelligence** (Qwen 3.6-A3B vs Sonnet/Opus class). The `call_claude` operator/consultant bridge handles the residual when John flips on the API key. The strategic LoRA fine-tune is the next-after-harness step (per `project_qwen_lora_customization.md` — explicitly greenlit by John 2026-05-16 10:23 UTC).
 
+### 🎯 NEXT SESSION: LoRA fine-tune project (confirmed 2026-05-16 ~16:00 EST)
+
+John's pivot call: "Probably going into Model tweaks. Charles seems to be working through things on his own with issues. So we will let him ride for a bit and get Qwen up to snuff."
+
+**Read first when next session opens:**
+1. `/Users/home/charles/LORA_SESSION_KICKOFF.md` — full project kickoff doc with decision context, hardware audit, training-data reality check (NOT 18K turns — only ~1,461 in current memory.db; mine the pre-prune backups + Claude Code session transcripts for the real corpus), phase plan, eval framework, risk register
+2. Memory: `project_qwen_lora_customization.md` — standing doctrine
+3. Memory: `feedback_model_choice_settled.md` — so you don't accidentally pitch a model swap
+
+**Pre-staged already** (don't re-do):
+- ✅ Tooling installed (mlx_lm 0.31.3 with lora.py + fuse.py at `/Users/home/charles/.venv/lib/python3.11/site-packages/mlx_lm/`)
+- ✅ Hardware audited (M1 Ultra 64GB; full-precision training of 35B is tight but workable with gradient checkpointing)
+- ✅ Model checkpoint located (`~/.cache/huggingface/hub/models--mlx-community--Qwen3.6-35B-A3B-4bit/`)
+- ✅ Training-data sources mapped (5 sources identified in kickoff doc; key insight is that Claude Code session transcripts may be the highest-quality corpus)
+- ✅ Phase plan (5 phases over 1-2 days)
+- ✅ Eval framework (6 eval categories; ALL must pass for deploy)
+
+**First action when next session opens:** read kickoff doc, then run Phase 1 step 1 — audit pre-prune memory.db backups + Claude Code session transcripts to determine the real training-data scale before committing to phase 2 (tooling smoke test) or phase 3 (real training).
+
 ### Tier 1 of HARNESS_GAP_AUDIT_2026-05-16.md — COMPLETE (commit `80146ac`)
 
 After John's 10:57 UTC greenlight ("burn in the tier 1"), shipped all three Tier-1 items in sequence (smallest first for momentum, biggest last):
