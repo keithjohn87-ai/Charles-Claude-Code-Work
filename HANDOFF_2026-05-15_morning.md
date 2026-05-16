@@ -188,6 +188,71 @@ Plus the recovery-monitor scripts commit (with the LaunchAgent plists noted but 
 
 Complete zip emailed to John 16:48 UTC (Gmail msg `19e2c81e0e867cd3`). John will forward to his SME ("someone smarter than me, lol"). Punch list of focus areas + gap-analysis items included in email body so SME has a clear scope rather than a 5,486-line "tell me everything that's wrong" pass.
 
+---
+
+## 2026-05-16 MORNING — Charles harness work
+
+John's directive at session start: continue this session on Charles (24% context remaining; weekly + 5hr buckets reset). ContrPro work continues in next session.
+
+### Audit findings
+
+Charles morning interaction with John (09:44 UTC, "Update on the Common Crawl") was clean:
+- 5 tool calls + final structured summary in 6 rounds
+- Confirms the round-cap bump (5→15) and Rule 7 are working
+- Charles still didn't `set_goal` — but in this case correctly: status query, not multi-step engineering. The set_goal nudge would have fired at round 4+ giving option (b) "skip if finishing in 1-3 more rounds." Working as designed.
+- All 9 LaunchAgents healthy post-reboot; boot-health-check fired and exited cleanly
+
+### Shipped (commit `8c2a6bb`)
+
+**Stuck detector** in `core/agent.py`:
+- Tracks rolling window of last 5 tool result statuses across the chain
+- When the last 3 tool calls all returned errors (any category — error/blocked/cancelled), fires a one-time synthetic `[harness reminder]` user message forcing Charles to STOP and pick exactly one of:
+  - (a) write plain-text reply naming what's broken + what's been ruled out, then stop
+  - (b) describe a genuinely different approach in 1 sentence, try it as next call
+  - (c) call notify_john if blocked on something only John can resolve (creds, missing file, ambiguous directive)
+- Distinct from existing in-flight dedup (catches identical-args repeats) and intra-call loop guard (catches near-identical assistant text). This catches different-args-but-all-erroring patterns — Charles trying multiple approaches that all fail.
+- Audit-tagged `incident,stuck_detector,auto` for observation + threshold tuning
+- Both processes restarted on the new code (PIDs 13840 + 13846 verified post-kickstart)
+
+**HARNESS_GAP_AUDIT_2026-05-16.md** — strategic roadmap doc:
+- Per John's "look at yourself, hard. Then make him that" directive
+- Catalogs all the Claude Code harness patterns Charles ALREADY has (tool tiering, ToolResult envelope, error categories, dispatch-guard, intra-call loop guard, in-flight dedup, narration-stall recovery, set_goal nudge, stuck detector, etc.)
+- Identifies the GAPS in 10 prioritized items, ranked by impact-to-effort
+- **Tier 1 (ship in next session, ~3-4 hours):** TodoWrite-equivalent (lightweight session-scoped task list), Read-before-Edit enforcement (pure bug prevention, no model behavior change), tool result intelligent truncation (fix the recurring "Charles missed the answer because it was past char 2000")
+- **Tier 2 (design-session needed):** sub-agent spawning (Task tool equivalent), prompt-size discipline + auto-trim (gated by Sunday Test), parallel tool calls per round (model behavior experiment)
+- **Tier 3 (lower priority):** system reminder hooks, specialized agent types, chapter markers, output-style enforcement
+
+### Strategic discussion — Qwen model-layer customization
+
+John asked at 11:00 UTC: "Anything to tailor her to us or make her better? I don't know enough to truly speak intelligently, but if it's all ones and zeros, i feel like her code is on the device and we just tweak her a bit."
+
+Saved doctrine to memory at `project_qwen_lora_customization.md`. Honest priority order for model-layer changes:
+
+1. **LoRA fine-tune on Charles's own conversation history** — meaningfully tractable on M1 Ultra 64GB via mlx-lm's LoRA support. Trains a small adapter that bakes John's vocabulary, construction-industry domain, operator/consultant pattern, response style into the model weights instead of the system prompt. Effort: 1-2 focused days. Risk: real (bad fine-tune makes Charles worse; need eval gate). ROI: high. **The strategic NEXT step after harness work plateaus.**
+2. **Speculative decoding** — small Qwen draft, 35B verify. 2-3x speed for free, no quality change. Easy.
+3. **Constrained generation** — JSON schema enforcement on tool calls. Mid-tier value.
+4. **System prompt refinement** — audit 31K-char prompt; cut cargo-cult; gated by Sunday Test per existing memory.
+
+**NOT viable:** full fine-tune (35B doesn't fit in 64GB VRAM for full fine-tune), switching models (settled per `feedback_model_choice_settled.md`), pre-training from scratch (wrong scope).
+
+**Recommendation to John:** keep going on Tier 1 harness work first (cheaper, faster to validate, fixes known specific incidents). LoRA is strategic next-step, not immediate next.
+
+### Next-session pickup
+
+When the next session opens (after this one wraps):
+1. Read this handoff first — should now have full context
+2. Pick up ContrPro work as previously queued (per John's morning directive: "continue with ContrPro after I start a new session")
+3. Charles harness Tier-1 items (TodoWrite, Read-before-Edit, tool-truncation) are well-scoped in `HARNESS_GAP_AUDIT_2026-05-16.md` — build them when there's a focused harness session
+4. Qwen LoRA fine-tune is the strategic NEXT-after-harness-Tier-1 item — needs a focused 1-2 day project session, not a build-as-we-go drop-in
+
+### Commits this morning on Charles main
+
+```
+8c2a6bb Charles harness fix #6: stuck detector + harness-gap audit roadmap
+```
+
+— Claude Code, 2026-05-16 ~11:15 EST
+
 **Queued (in priority order, will spawn one at a time):**
 1. Contractor Marketing Playbook from scratch — biggest content task (~10-20K words). Spawn after Lien lands.
 2. SBA suite refresh — 2026-current SBA program detail + named lenders. Spawn after Marketing if weekly burn allows; else defer to tomorrow's reset.
