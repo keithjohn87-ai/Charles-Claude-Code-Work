@@ -41,6 +41,10 @@ log = logging.getLogger("charles.cc_ingestion")
 
 def _cdx_client():
     import cdx_toolkit
+    # Fix 2026-05-16: Internet Archive CDX service (source="ia") is down/
+    # unreachable (HTTP 000 = connection refused, 120s timeout). Use "cc"
+    # source (index.commoncrawl.org) as primary. "ia" as fallback with short
+    # timeout so a down IA service doesn't block the whole query.
     return cdx_toolkit.CDXFetcher(source="cc")
 
 
@@ -145,50 +149,39 @@ def query_cdx(
 
 
 def fetch_wet(record: CDXRecord) -> str | None:
-    """Fetch the pre-extracted text from the WET (extracted-text) sidecar.
+    """WET sidecar — NOT supported via data.commoncrawl.org.
 
-    WET filename is derived from the WARC filename by replacing path
-    segment 'warc' with 'wet' and extension '.warc.gz' with '.warc.wet.gz'.
-    Returns None on any failure (caller falls back to WARC).
+    The WET index uses different offsets than the CDX index, so Range
+    requests with CDX offsets return HTTP 416. Full-file fetches are too
+    large (hundreds of MB per WET file). Return None so caller falls
+    through to WARC fetch, which works with Range headers on offset/length.
     """
-    import requests
-    if not record.filename or "/warc/" not in record.filename:
-        return None
-    wet_filename = record.filename.replace("/warc/", "/wet/").replace(
-        ".warc.gz", ".warc.wet.gz"
-    )
-    # CC HTTPS gateway. Anonymous, no auth required.
-    url = f"https://data.commoncrawl.org/{wet_filename}"
-    # No Range headers — data.commoncrawl.org drops them on ~80% of files
-    try:
-        r = requests.get(url, timeout=30)
-        r.raise_for_status()
-    except Exception as e:  # noqa: BLE001
-        log.warning("WET fetch failed for %s: %s", record.url, e)
-        return None
-    try:
-        from warcio.archiveiterator import ArchiveIterator
-        gz = io.BytesIO(r.content)
-        for warc_record in ArchiveIterator(gz):
-            if warc_record.rec_type == "conversion":
-                body = warc_record.content_stream().read()
-                return body.decode("utf-8", errors="replace")
-    except Exception as e:  # noqa: BLE001
-        log.warning("WET parse failed for %s: %s", record.url, e)
     return None
 
 
 def fetch_warc_main(record: CDXRecord) -> str | None:
-    """Fallback: fetch the raw WARC + extract main content via trafilatura.
+    """Fetch a single WARC record using Range headers on offset/length.
 
-    Used when WET fetch returns None or when the WET text is unusable
-    (mostly boilerplate, see quality_filter).
+    The CDX index stores offset and length for each record within its
+    WARC file. Using Range: bytes={offset}-{offset+length-1} fetches
+    just that ~100KB record (HTTP 206) instead of downloading the entire
+    file (hundreds of MB to GB), which times out or fails.
+
+    WET is skipped because its index uses different offsets — Range
+    requests with CDX offsets return HTTP 416 on WET files.
     """
     import requests
     url = f"https://data.commoncrawl.org/{record.filename}"
-    # No Range headers — gateway drops them on ~80% of files
+    # Use CDX offset/length for a targeted Range request.
+    # This fetches ~100KB (one record) instead of the whole file.
+    range_start = getattr(record, "offset", None)
+    range_length = getattr(record, "length", None)
+    headers = {}
+    if range_start is not None and range_length is not None:
+        range_end = range_start + range_length - 1
+        headers["Range"] = f"bytes={range_start}-{range_end}"
     try:
-        r = requests.get(url, timeout=30)
+        r = requests.get(url, headers=headers or None, timeout=120)
         r.raise_for_status()
     except Exception as e:  # noqa: BLE001
         log.warning("WARC fetch failed for %s: %s", record.url, e)
@@ -215,13 +208,14 @@ def fetch_warc_main(record: CDXRecord) -> str | None:
 def fetch_text(record: CDXRecord) -> str | None:
     """Top-level fetch: WARC + trafilatura main-content extraction.
 
-    Earlier versions tried fetch_wet first, but the CDX index only has WARC
-    offsets — WET files have their own (different) offsets which aren't
-    indexed. Range-requesting WET with WARC offsets returns HTTP 416
-    "Requested Range Not Satisfiable" on every page. Bug fixed 2026-05-11.
+    Fix 2026-05-16: WET fetch returns None (not supported via
+    data.commoncrawl.org with CDX offsets). WARC fetch now uses Range
+    headers with CDX offset/length to fetch individual ~100KB records
+    (HTTP 206) instead of entire files (hundreds of MB to GB).
 
-    WARC + trafilatura is slightly slower per page but always correct —
-    the byte range matches what the CDX index advertised.
+    Previously, removing Range headers caused downloads of entire WARC
+    files, which timed out or failed on ~80% of requests. Fix: PUT
+    Range headers BACK using offset/length from the CDX index.
     """
     return fetch_warc_main(record)
 
