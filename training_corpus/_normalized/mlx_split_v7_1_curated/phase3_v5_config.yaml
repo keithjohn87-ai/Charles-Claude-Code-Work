@@ -1,0 +1,45 @@
+# Phase 3 v5 config — push harder on stable v4 baseline
+# Drafted 2026-05-16 after v4 ran clean (val 2.606→2.041, 22% drop) but behavior
+# shifted only marginally on A/B. Diagnosis: training stopped before behavior change.
+#
+# Changes vs v4:
+#   num_layers:  8    → 12      (more capacity for behavioral learning)
+#   iters:       500  → 1500    (3x longer — val was still descending at iter 500)
+#
+# Kept stable from v4 (don't change two things at once):
+#   LR 1e-5, rank 16, scale 12, dropout 0.05, no weight_decay, mask_prompt=true,
+#   max_seq=1024, batch=1, grad_checkpoint=true, save_every=50
+#
+# Memory budget:
+#   v4 @ 8 layers peaked at 46GB. 12 layers adds ~50% trainable params (~384M total).
+#   Expect peak ~55-58GB. Within the 64GB headroom John cleared. If OOM, fall back
+#   to num_layers=10.
+#
+# Estimated wall time: 1500 iters × ~1.5 sec = ~38 min (Charles offline ~45 min total)
+
+model: "mlx-community/Qwen3.6-35B-A3B-4bit"
+train: true
+data: "/Users/home/charles/training_corpus/_normalized/mlx_split_v7_1_curated"
+fine_tune_type: "lora"
+optimizer: "adamw"
+mask_prompt: true
+
+num_layers: 12
+batch_size: 1
+iters: 1500
+learning_rate: 1.0e-5
+max_seq_length: 1024
+grad_checkpoint: true
+
+steps_per_report: 50
+steps_per_eval: 100
+val_batches: 25
+save_every: 50
+
+adapter_path: "/Users/home/charles/training_corpus/_normalized/mlx_split_v7_1_curated/phase3_v5_adapter"
+seed: 20260516
+
+lora_parameters:
+  rank: 16
+  scale: 12.0
+  dropout: 0.05
