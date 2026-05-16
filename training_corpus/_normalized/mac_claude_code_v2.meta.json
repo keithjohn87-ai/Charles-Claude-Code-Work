@@ -1,0 +1,19 @@
+{
+  "source": "mac_claude_code",
+  "version": "v2 (synthetic-prompt filter applied)",
+  "extracted_from": "/Users/home/.claude/projects/**/*.jsonl (main sessions only)",
+  "total_pairs_before_filter": 410,
+  "total_pairs_after_outlier_filter": 402,
+  "filters_applied": [
+    "role=user with text content only (excludes tool_result-wrapped synthetic user msgs)",
+    "paired with the immediately-following role=assistant message",
+    "excludes <task-notification>, <command-*>, <system-reminder>, /loop, slash-command preambles, session-resume preambles",
+    "user content 3-8000 chars, assistant content 5-4000 chars"
+  ],
+  "split": {
+    "train": 362,
+    "valid": 40,
+    "seed": 20260516
+  },
+  "NOTE": "Mac Claude Code only \u2014 does NOT include claude.ai export, Cowork, mobile (pending John)."
+}

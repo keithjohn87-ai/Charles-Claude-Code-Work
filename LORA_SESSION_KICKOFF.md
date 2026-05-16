@@ -69,6 +69,22 @@ python -m mlx_lm.fuse --model <base> --adapter-path <lora_out> --save-path <fuse
 
 **Typical LoRA dataset size for behavior tuning:** 500-5000 examples. Below 500 risks underfitting; above 5000 has diminishing returns for behavior (vs domain knowledge, which scales).
 
+### Phase 1 audit results (executed 2026-05-16 evening)
+
+**Memory.db backups: low yield.** 8 pre-prune backups exist but contain mostly overlapping snapshots of the same 2 conv_ids (`charles_log` + Telegram `8455750177`) at different points in time. No meaningful pre-prune corpus hiding in them; current memory.db is the authoritative source for that channel.
+
+**Mac Claude Code transcripts: clean 402-pair training corpus.** Walked 9 main session files at `~/.claude/projects/-Users-home-charles*/*.jsonl` (102 MB total across mains+subagents). Initial naive extraction yielded 1,137 user→assistant pairs but spot-check revealed ~727 were synthetic (`<task-notification>` events, `/loop` slash-command expansions, `<system-reminder>` preambles, etc.) — not real John-typed prompts. After filtering those out **and** dropping length outliers (>8KB user / >4KB asst), we have:
+
+- **402 clean John ↔ Claude Code pairs**
+- Median user message: ~290 chars; median asst reply: ~87 chars (operator-pattern terseness preserved)
+- Split: 362 train / 40 valid (10% holdout, random seed 20260516)
+- Written to `/Users/home/charles/training_corpus/_normalized/mlx_split_v2/{train,valid}.jsonl`
+- Schema: `{"messages": [{"role": "user", "content": "..."}, {"role": "assistant", "content": "..."}]}` — verified against `mlx_lm/tuner/datasets.py:ChatDataset`
+
+**Status against the 500-5000 viable-range:** at 402, we're slightly below the floor on Mac-Code alone. But when John's claude.ai export drops + Cowork + mobile, we'll comfortably clear it. Mac-Code corpus alone is also fine for the Phase 2 smoke-training run.
+
+**Next data step:** wait for John's export drops into `training_corpus/manual_drops/`, then re-run the extraction pipeline with the same synthetic-filter logic.
+
 ---
 
 ## 4. Recommended phase plan (1-2 day project session)
