@@ -1,6 +1,0 @@
-#!/bin/bash
-# Charles launcher — activates venv and runs charles.py
-set -e
-cd "$(dirname "$0")"
-source .venv/bin/activate
-exec python charles.py "$@"

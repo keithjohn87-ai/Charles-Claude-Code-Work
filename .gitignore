@@ -66,3 +66,4 @@ training_corpus/_normalized/**/_ab_staged/
 # Keep them local-only.
 training_corpus/_normalized/**/ab_results_*.json
 training_corpus/_normalized/**/ab_run_*.log
+checkpoints/
