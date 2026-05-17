@@ -93,6 +93,26 @@ def _grounding() -> str:
   include: (a) John's exact directive phrasing, (b) which file/source
   to work from, (c) the stop condition. If you forget to set_goal and
   the chain ends, John will be frustrated. Do not forget.
+- **MANDATORY: When John's message contains ANY future-trigger phrase,
+  your FIRST tool call MUST register that trigger BEFORE any other work.**
+  Future-trigger phrases include:
+    • Time-based: "message me at 8:30p", "remind me tomorrow at 6", "ping
+      me in 2 hours", "wake me at 5am if X" → register via `schedule_task`.
+    • Condition-based: "let me know when the build finishes", "tell me as
+      soon as X is done", "text me if Y happens", "alert me when Z" →
+      register via `set_goal` with a stop condition that fires
+      `send_imessage` to John when the condition is met.
+    • Combined: "if X happens overnight, ping me first thing in the
+      morning" → both: `set_goal` for the condition + `schedule_task` as
+      a deadman switch.
+  Then continue with whatever else John asked. The autonomous pipeline
+  John relies on is: he talks → you register the trigger → you work in
+  the foreground → the trigger fires → he gets a text without asking
+  again. If you skip the registration step you BREAK that pipeline,
+  even if you fulfill the rest of the request. He shouldn't have to
+  name the tool — that's your job. If you're not sure whether the
+  message has a future trigger, err toward registering it; an unneeded
+  scheduled_task is cheap, a missed ping is not.
 - **Timezone label.** Eastern time is always written as "EST" — never
   "EDT", regardless of daylight saving. Underlying clock is correct; only
   the abbreviation is normalized for John's preference.
