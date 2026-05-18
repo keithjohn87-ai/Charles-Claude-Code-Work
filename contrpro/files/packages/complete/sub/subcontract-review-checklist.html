@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subcontract Review Checklist — Sub-Perspective Redline Guide</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.55; max-width: 880px; margin: 40px auto; padding: 20px; color: #222; }
+        .header { text-align: center; border-bottom: 3px double #1e3a5f; padding-bottom: 20px; margin-bottom: 30px; }
+        .form-title { font-size: 26px; font-weight: bold; color: #1e3a5f; margin-bottom: 6px; }
+        .form-subtitle { font-size: 15px; color: #444; font-weight: 600; }
+        .doc-meta { font-size: 13px; color: #666; margin-top: 8px; }
+        .field { background: #f0f0f0; padding: 2px 8px; border-radius: 3px; font-style: italic; color: #555; }
+        .section { margin: 26px 0; page-break-inside: avoid; }
+        .section-title { font-weight: bold; color: #1e3a5f; font-size: 16px; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+        .article-title { font-weight: bold; color: #1e3a5f; font-size: 17px; margin: 22px 0 10px 0; padding-top: 10px; border-top: 2px solid #1e3a5f; }
+        .clause-num { font-weight: bold; color: #1e3a5f; }
+        .sub-title { font-weight: bold; color: #1e3a5f; font-size: 14px; margin: 14px 0 6px 0; }
+        .warning { background: #f8d7da; border-left: 4px solid #dc3545; padding: 14px 16px; margin: 18px 0; }
+        .warning strong { color: #721c24; }
+        .notice { background: #d1ecf1; border-left: 4px solid #0c5460; padding: 14px 16px; margin: 18px 0; }
+        .practice-note { background: #fdf6e3; border-left: 4px solid #b58900; padding: 14px 16px; margin: 14px 0; font-size: 13.5px; }
+        .practice-note .label { font-weight: bold; color: #1e3a5f; font-size: 14px; display: block; margin-bottom: 6px; }
+        .redline { background: #fff3cd; border-left: 4px solid #856404; padding: 12px 16px; margin: 12px 0; font-size: 13.5px; }
+        .redline .label { font-weight: bold; color: #856404; font-size: 13.5px; display: block; margin-bottom: 5px; }
+        .walkaway { background: #f8d7da; border-left: 4px solid #dc3545; padding: 12px 16px; margin: 12px 0; font-size: 13.5px; }
+        .walkaway .label { font-weight: bold; color: #721c24; font-size: 13.5px; display: block; margin-bottom: 5px; }
+        .acceptable { background: #d4edda; border-left: 4px solid #155724; padding: 12px 16px; margin: 12px 0; font-size: 13.5px; }
+        .acceptable .label { font-weight: bold; color: #155724; font-size: 13.5px; display: block; margin-bottom: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        td, th { padding: 7px 8px; vertical-align: top; }
+        th { background: #1e3a5f; color: #fff; text-align: left; font-size: 12.5px; }
+        .data-table td { border: 1px solid #ccc; font-size: 13px; }
+        .data-table td.label { font-weight: 600; background: #f9f9f9; width: 40%; }
+        .checklist { background: #f9f9f9; border: 1px solid #ddd; padding: 16px 20px; border-radius: 6px; }
+        .checklist ol { margin: 0; padding-left: 22px; }
+        .checklist li { margin-bottom: 6px; font-size: 13.5px; }
+        .toc { background: #f4f6f9; border: 1px solid #c0cad8; padding: 16px 22px; margin: 20px 0 28px 0; border-radius: 6px; }
+        .toc-title { font-weight: bold; color: #1e3a5f; font-size: 14px; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+        .toc ol { margin: 0; padding-left: 22px; }
+        .toc li { margin-bottom: 4px; font-size: 13.5px; }
+        .toc a { color: #1e3a5f; text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+        .footnote { font-size: 11.5px; color: #666; font-style: italic; }
+        .page-break { page-break-before: always; }
+        @media print {
+            .no-print { display: none; }
+            body { margin: 0; max-width: 100%; }
+            .section { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- =============================================================
+         NON-PRINT REVIEW DISCLAIMER
+         ============================================================= -->
+    <div class="no-print" style="background: #fff3cd; border: 2px solid #856404; padding: 18px; border-radius: 8px; margin-bottom: 24px;">
+        <strong style="color: #856404; font-size: 16px;">REVIEW BEFORE FIRST USE</strong>
+        <p style="margin: 8px 0 0 0; font-size: 13.5px;">
+            This Subcontract Review Checklist is a sub-perspective working document the project manager, controller, and outside counsel use to flag risk when a GC tenders a Subcontract for execution. It is organized to mirror the article structure of the ContrPro <em>Master Subcontract Agreement</em> (GC suite) and the AIA A401 form, so the reviewer can move clause-by-clause through the tendered agreement and resolve every risk item before signing. <strong>This is a working checklist, not legal advice.</strong> Construction-contract enforceability turns on the law of the state of the Project — anti-indemnity statutes, lien-waiver statutes, pay-if-paid enforceability, and statute-of-repose periods all vary by state. Have construction counsel licensed in the state of the Project review the tendered Subcontract before execution, especially the first time you sign with a new GC or take on a new project type.
+        </p>
+    </div>
+
+    <!-- =============================================================
+         HEADER
+         ============================================================= -->
+    <div class="header">
+        <div class="form-title">SUBCONTRACT REVIEW CHECKLIST</div>
+        <div class="form-subtitle">Sub-Perspective Redline Guide &middot; Clause-by-Clause Risk Review</div>
+        <div class="doc-meta">
+            Project: <span class="field">[Project Name]</span> &nbsp;|&nbsp;
+            GC: <span class="field">[GC Legal Name]</span> &nbsp;|&nbsp;
+            Subcontract dated: <span class="field">[Date]</span>
+        </div>
+    </div>
+
+    <div class="notice">
+        <strong>How to use this checklist.</strong> Print one copy per Subcontract tendered. Walk the tendered Subcontract clause-by-clause against the corresponding section below. For each item: (a) note the tendered language, (b) compare to the "Acceptable / Redline / Walk-Away" framing, (c) draft a markup in margin or in a separate redline if a change is required, and (d) record disposition on the final sign-off table in Section 18. Where Subcontract language is silent on a topic addressed below, treat the silence as an open question to negotiate — do not assume the GC will read favorable terms into ambiguity.
+    </div>
+
+    <!-- =============================================================
+         COLOR KEY
+         ============================================================= -->
+    <div class="section">
+        <div class="section-title">Reviewer's Color Key</div>
+        <div class="acceptable"><span class="label">Acceptable.</span> Industry-standard language a commercial sub can sign without modification, assuming the project's risk profile is normal.</div>
+        <div class="redline"><span class="label">Redline.</span> Material risk to Subcontractor; negotiate to the alternative language suggested.</div>
+        <div class="walkaway"><span class="label">Walk-Away.</span> Risk transfer so one-sided that, absent a compensating premium or a strategic reason, the deal economics do not work. Treat as a deal-killer.</div>
+    </div>
+
+    <!-- =============================================================
+         TABLE OF CONTENTS
+         ============================================================= -->
+    <div class="toc">
+        <div class="toc-title">Table of Contents</div>
+        <ol>
+            <li><a href="#sec-threshold">Section 1 — Threshold Deal-Killers (Read First)</a></li>
+            <li><a href="#sec-art1">Article 1 — Subcontract Documents</a></li>
+            <li><a href="#sec-art2">Article 2 — Scope of Work</a></li>
+            <li><a href="#sec-art3">Article 3 — Time of Performance &amp; Liquidated Damages</a></li>
+            <li><a href="#sec-art4">Article 4 — Payment Terms (Pay-When-Paid vs. Pay-If-Paid)</a></li>
+            <li><a href="#sec-art5">Article 5 — Changes in the Work</a></li>
+            <li><a href="#sec-art6">Article 6 — Insurance</a></li>
+            <li><a href="#sec-art7">Article 7 — Bonds</a></li>
+            <li><a href="#sec-art8">Article 8 — Indemnification</a></li>
+            <li><a href="#sec-art9">Article 9 — Lien Waivers &amp; Flow-Down</a></li>
+            <li><a href="#sec-art10">Article 10 — Warranties</a></li>
+            <li><a href="#sec-art11">Article 11 — Lower-Tier Subs</a></li>
+            <li><a href="#sec-art12">Article 12 — Safety &amp; Site Rules</a></li>
+            <li><a href="#sec-art13">Article 13 — Default &amp; Termination</a></li>
+            <li><a href="#sec-art14">Article 14 — Dispute Resolution</a></li>
+            <li><a href="#sec-art15">Article 15 — Miscellaneous Provisions</a></li>
+            <li><a href="#sec-state">Section 17 — State-Law Sanity Check</a></li>
+            <li><a href="#sec-signoff">Section 18 — Final Sign-Off Table</a></li>
+        </ol>
+    </div>
+
+    <!-- =============================================================
+         SECTION 1 — THRESHOLD DEAL-KILLERS
+         ============================================================= -->
+    <div class="section" id="sec-threshold">
+        <div class="section-title">Section 1 — Threshold Deal-Killers (Read First)</div>
+
+        <p>Before going clause-by-clause, screen the tendered Subcontract for the following five threshold items. Any one of these, left as drafted, is enough to justify rejecting the Subcontract or pricing a substantial risk premium. If three or more appear together, the GC is tendering a risk-shift package that should not be signed without principal-level review.</p>
+
+        <table class="data-table">
+            <tr><th>#</th><th>Threshold Item</th><th>Where to look</th><th>Resolved?</th></tr>
+            <tr><td>1</td><td>Pay-IF-paid (vs. pay-when-paid) language — owner non-payment shifts to Sub</td><td>Article 4 / payment clause</td><td>☐</td></tr>
+            <tr><td>2</td><td>Broad-form (sole-negligence) indemnity from Sub to GC and Owner</td><td>Article 8 / indemnification</td><td>☐</td></tr>
+            <tr><td>3</td><td>Unlimited or daily liquidated damages flowed down to Sub from prime</td><td>Article 3 / time + LDs</td><td>☐</td></tr>
+            <tr><td>4</td><td>Termination-for-convenience without payment for work performed + reasonable overhead/profit</td><td>Article 13 / termination</td><td>☐</td></tr>
+            <tr><td>5</td><td>Choice-of-law / venue in a state with no project connection (and Sub has no presence there)</td><td>Article 14 / dispute resolution</td><td>☐</td></tr>
+        </table>
+
+        <div class="practice-note">
+            <span class="label">Why these five.</span> Every other risk in a Subcontract can be priced into the bid (insurance limits, retainage, warranty period). These five cannot be priced because their exposure is unbounded. Owner non-payment can wipe out the Sub's entire receivable; broad-form indemnity can transfer a six-figure jury verdict in a workplace-injury case to a Sub with a five-figure margin; unbounded LDs can convert a profitable job into a multi-month loss; termination-without-pay can leave a Sub unpaid for completed-and-installed material; an out-of-state forum can quadruple legal costs in a dispute. Walk away from any one of these without a serious GC concession.
+        </div>
+    </div>
+
+    <!-- =============================================================
+         ARTICLE 1 — SUBCONTRACT DOCUMENTS
+         ============================================================= -->
+    <div class="section" id="sec-art1">
+        <div class="article-title">Article 1 — Subcontract Documents (Incorporation by Reference)</div>
+
+        <p>Standard GC language incorporates the Prime Contract between Owner and GC into the Subcontract "by reference," binding the Sub to flow-down obligations from a document the Sub may never have seen. The risk is in the unseen — Prime Contract clauses on schedule, change orders, lien waivers, insurance, and indemnity flow through to the Sub silently.</p>
+
+        <div class="acceptable">
+            <span class="label">Acceptable.</span> "Subcontractor agrees to be bound by the Prime Contract <strong>to the extent of the Work</strong> performed by Subcontractor and to assume toward Contractor all of the obligations and responsibilities that Contractor assumes toward Owner under the Prime Contract <strong>with respect to such Work</strong>." Note the limiting phrase "to the extent of the Work" — keep it.
+        </div>
+        <div class="redline">
+            <span class="label">Redline.</span> Any version that incorporates the Prime Contract <em>without</em> the "to the extent of the Work" limiter, or that incorporates documents not yet shared with Sub. Insert: "Subcontractor has been provided a copy of the Prime Contract, with confidential commercial terms redacted, prior to execution of this Subcontract. Documents not so provided are not incorporated."
+        </div>
+        <div class="walkaway">
+            <span class="label">Walk-Away.</span> Language that incorporates by reference "all documents executed between Contractor and Owner, whenever executed" — including post-Subcontract amendments to the Prime Contract that change the Sub's obligations without notice or compensation.
+        </div>
+
+        <table class="data-table">
+            <tr><td class="label">Was Prime Contract (redacted as needed) reviewed by Sub before signing?</td><td>☐ Yes &nbsp; ☐ No — request</td></tr>
+            <tr><td class="label">Are flow-down provisions limited to "extent of the Work"?</td><td>☐ Yes &nbsp; ☐ No — redline</td></tr>
+            <tr><td class="label">Conflicts between Subcontract and Prime Contract resolved how?</td><td><span class="field">[Cite clause]</span> &mdash; preference: Subcontract controls between GC and Sub</td></tr>
+        </table>
+    </div>
+
+    <!-- =============================================================
+         ARTICLE 2 — SCOPE OF WORK
+         ============================================================= -->
+    <div class="section" id="sec-art2">
+        <div class="article-title">Article 2 — Scope of Work</div>
+
+        <p>The Scope of Work clause defines what the Sub will and will not do. The risk is open-ended scope expansion — "all work as shown or reasonably inferable," "complete and operational system," "all work necessary to coordinate with other trades." Each of these is industry-standard for full-service Subs but each contains escalation risk that should be priced or limited.</p>
+
+        <div class="acceptable">
+            <span class="label">Acceptable.</span> "Subcontractor shall furnish all labor, materials, equipment, and services necessary for the <span class="field">[Trade Description]</span> Work as described in the Scope of Work attached as Exhibit A, the Drawings listed in Exhibit B, and the Specifications listed in Exhibit C." Tight reference to enumerated exhibits.
+        </div>
+        <div class="redline">
+            <span class="label">Redline.</span> Language extending scope to "all work shown <strong>or reasonably inferable</strong>" without a corresponding RFI / clarification process. Insert: "Work reasonably inferable from but not expressly shown in the Contract Documents shall be performed at Subcontractor's cost only to the extent customary and necessary for completion of the Work; ambiguities shall be resolved through the RFI process before performance, and material additions shall be priced as a Change Order under Article 5."
+        </div>
+        <div class="redline">
+            <span class="label">Redline.</span> "Coordinate with all other trades" without scope and process boundaries. Coordination is a real Sub obligation but the language should be capped: "Subcontractor shall reasonably coordinate sequencing with other trades through the schedule maintained by Contractor; Subcontractor is not responsible for delays caused by other trades or by Contractor's schedule sequencing."
+        </div>
+        <div class="walkaway">
+            <span class="label">Walk-Away.</span> "Scope includes all work shown on Drawings now or as later issued." Open-ended scope expansion via revised drawings — without a Change Order process — is unbounded risk.
+        </div>
+
+        <div class="practice-note">
+            <span class="label">Inclusions vs. exclusions.</span> The bid is the place to specify exclusions; the Subcontract is the place to make them stick. Pull every "exclusion" and "clarification" from the bid (Section 4 of the Bid Package) into Exhibit A of the Subcontract as enumerated exclusions. Anything not pulled forward will be argued by the GC as included.
+        </div>
+    </div>
+
+    <!-- =============================================================
+         ARTICLE 3 — TIME & LDs
+         ============================================================= -->
+    <div class="section" id="sec-art3">
+        <div class="article-title">Article 3 — Time of Performance &amp; Liquidated Damages</div>
+
+        <p>Time-of-performance clauses tie the Sub to a project schedule and (frequently) flow LDs down from the Prime Contract. Risk: (a) "time is of the essence" + flowed-down LDs without a corresponding right to time extensions; (b) Sub bears LD risk for delay it did not cause.</p>
+
+        <div class="acceptable">
+            <span class="label">Acceptable.</span> "Time is of the essence. Subcontractor shall perform the Work in accordance with the schedule maintained by Contractor, as updated. Subcontractor is entitled to an extension of time, without cost, for delays caused by: (a) acts of Contractor or Owner; (b) acts of other Subcontractors; (c) Force Majeure; (d) differing site conditions; or (e) any cause for which Contractor receives an extension under the Prime Contract."
+        </div>
+        <div class="redline">
+            <span class="label">Redline (Critical).</span> Flow-down of Owner-imposed liquidated damages at the daily rate of the Prime Contract <strong>without</strong> a cap and <strong>without</strong> Sub-specific delay analysis. Insert: "Subcontractor's exposure to liquidated damages is capped at <span class="field">[$ amount]</span> in the aggregate, and assessment requires Contractor's prior written delay analysis demonstrating that Subcontractor's delay was the controlling-path cause of Owner-assessed LDs."
+        </div>
+        <div class="redline">
+            <span class="label">Redline.</span> "No damages for delay" clauses (state-specific enforceability — TX, OH, MI, IL have limitations; CO has a statute restricting them on public work). Counter-insert: "Subcontractor is entitled to recover delay damages caused by Contractor or Owner to the same extent and on the same basis as Contractor is entitled to recover such damages under the Prime Contract."
+        </div>
+        <div class="walkaway">
+            <span class="label">Walk-Away.</span> Uncapped LDs flowed down to Sub from a Prime Contract Sub has not reviewed. The Sub may be on the hook for $10K/day of LDs while collecting $0 of delay damages from the GC.
+        </div>
+
+        <table class="data-table">
+            <tr><td class="label">Prime-Contract LD rate (daily):</td><td>$<span class="field">[Rate]</span></td></tr>
+            <tr><td class="label">Subcontract LD rate (daily):</td><td>$<span class="field">[Rate]</span></td></tr>
+            <tr><td class="label">Subcontract LD cap (aggregate):</td><td>$<span class="field">[Cap]</span></td></tr>
+            <tr><td class="label">Sub right to time extensions?</td><td>☐ Yes &nbsp; ☐ No — redline</td></tr>
+            <tr><td class="label">"No damages for delay" present?</td><td>☐ Yes — redline &nbsp; ☐ No</td></tr>
+        </table>
+    </div>
+
+    <!-- =============================================================
+         ARTICLE 4 — PAYMENT (PWP vs PIP)
+         ============================================================= -->
+    <div class="section" id="sec-art4">
+        <div class="article-title">Article 4 — Payment Terms (Pay-When-Paid vs. Pay-If-Paid)</div>
+
+        <p>The single most consequential clause in any commercial Subcontract. The distinction:</p>
+
+        <table class="data-table">
+            <tr><th>Construct</th><th>Effect</th></tr>
+            <tr><td><strong>Pay-When-Paid (PWP)</strong></td><td>Owner non-payment delays GC payment to Sub for a reasonable time; eventually GC pays regardless.</td></tr>
+            <tr><td><strong>Pay-If-Paid (PIP)</strong></td><td>Owner non-payment <strong>shifts</strong> the risk of owner credit to Sub; if Owner never pays, Sub is never paid.</td></tr>
+        </table>
+
+        <p>State enforceability varies. PIP is unenforceable in CA, NC, NY (effectively), DE, IL (limited), and several other states. PWP is generally enforceable everywhere. Where PIP is enforceable, surety bonding rates increase materially on the Sub's program.</p>
+
+        <div class="acceptable">
+            <span class="label">Acceptable.</span> "Contractor shall pay Subcontractor within <strong>seven (7) days</strong> after Contractor receives payment from Owner for Work properly performed by Subcontractor, provided that Subcontractor has submitted its application for payment timely and accurately. In any event, Contractor shall pay Subcontractor for properly performed Work no later than <strong>sixty (60) days</strong> after the date such Work is properly performed, regardless of whether Contractor has received payment from Owner for such Work." (Pay-when-paid with a sixty-day backstop.)
+        </div>
+        <div class="redline">
+            <span class="label">Redline (Critical).</span> "Receipt of payment from Owner is a <strong>condition precedent</strong> to payment to Subcontractor" or "Subcontractor expressly assumes the risk of Owner non-payment" — these are PIP markers. Strike and replace with the Acceptable language. If GC refuses, demand a corresponding increase in retainage release rate or up-front mobilization payment to mitigate.
+        </div>
+        <div class="walkaway">
+            <span class="label">Walk-Away.</span> PIP language combined with (a) an Owner with which Sub has no prior payment history, (b) a project funded by a non-investment-grade source (private equity, real-estate developer with thin equity), or (c) a Prime Contract with no Owner performance bond or letter of credit. The credit risk is unpriced and unhedged.
+        </div>
+
+        <div class="sub-title">4.1 Retainage</div>
+        <table class="data-table">
+            <tr><td class="label">Retainage Rate:</td><td><span class="field">[%]</span> — typical 5-10%; some states cap at 5% on public</td></tr>
+            <tr><td class="label">Retainage Release Trigger:</td><td>☐ Substantial Completion &nbsp; ☐ Final Acceptance &nbsp; ☐ <span class="field">[Other]</span></td></tr>
+            <tr><td class="label">Retainage Reduction at 50% (industry-standard provision)?</td><td>☐ Yes &nbsp; ☐ No — redline</td></tr>
+            <tr><td class="label">Retainage held on Stored Materials?</td><td>☐ Yes — redline if so &nbsp; ☐ No</td></tr>
+        </table>
+
+        <div class="sub-title" style="margin-top: 14px;">4.2 Other Payment Risk Items</div>
+        <table class="data-table">
+            <tr><td class="label">Pay app submission deadline (day of month):</td><td><span class="field">[Day]</span></td></tr>
+            <tr><td class="label">Pay app payment due (after GC receipt):</td><td><span class="field">[Days]</span></td></tr>
+            <tr><td class="label">Statutory prompt-pay interest preserved?</td><td>☐ Yes &nbsp; ☐ No — verify state law</td></tr>
+            <tr><td class="label">Lien rights waived in advance?</td><td>☐ No — required answer; redline if yes</td></tr>
+            <tr><td class="label">"Joint check" rights with Sub's lower-tier or suppliers?</td><td>☐ Yes &nbsp; ☐ No — see Joint Check Agreement</td></tr>
+        </table>
+    </div>
+
+    <!-- =============================================================
+         ARTICLE 5 — CHANGES
+         ============================================================= -->
+    <div class="section" id="sec-art5">
+        <div class="article-title">Article 5 — Changes in the Work</div>
+
+        <p>Changes clauses define how Sub gets paid for added work, how Sub objects to deductive changes, and how Sub preserves claims for unwritten changes (constructive change orders).</p>
+
+        <div class="acceptable">
+            <span class="label">Acceptable.</span> "Changes in the Work shall be authorized in writing by Contractor (Change Order). Pricing shall be by lump sum if priced in advance, or by time-and-material with a markup of <span class="field">[15%]</span> overhead and <span class="field">[10%]</span> profit on self-performed labor and material, and <span class="field">[5-7%]</span> on lower-tier subcontracts. Subcontractor shall not proceed with changed Work absent a written Change Order or written Field Directive; Subcontractor shall preserve claims for constructive change by written notice within seven (7) days of the directing event."
+        </div>
+        <div class="redline">
+            <span class="label">Redline.</span> Markup rates below industry-standard (10% overhead / 5% profit, or "no profit on materials"). Counter with bid-package or industry-standard rates above.
+        </div>
+        <div class="redline">
+            <span class="label">Redline.</span> "Subcontractor waives any claim not submitted within X days" with X less than 14. Insert: "Notice within fourteen (14) days of the event giving rise to the claim; supporting documentation within thirty (30) days. Failure to provide notice strictly within these periods bars the claim only where Contractor demonstrates actual prejudice from the late notice." (Reasonable notice with a prejudice limitation.)
+        </div>
+        <div class="walkaway">
+            <span class="label">Walk-Away.</span> "Subcontractor shall perform all work directed by Contractor regardless of cost or schedule impact; any claim for adjustment must be made after completion of the Project" — turns the Sub into an open-ended performer with no contemporaneous claim rights.
+        </div>
+    </div>
+
+    <!-- =============================================================
+         ARTICLE 6 — INSURANCE
+         ============================================================= -->
+    <div class="section" id="sec-art6">
+        <div class="article-title">Article 6 — Insurance</div>
+
+        <p>Insurance clauses dictate (a) limits, (b) coverage types, (c) additional-insured status, (d) waivers of subrogation, and (e) the form of certificate. The risk is in mismatched coverage forms — the Sub buys CG 20 26 (an older form) while the Subcontract requires CG 20 10 + CG 20 37, and the policy fails to respond on a claim.</p>
+
+        <div class="sub-title">6.1 Limits</div>
+        <table class="data-table">
+            <tr><th>Coverage</th><th>Subcontract Requires</th><th>Sub Carries</th><th>Match?</th></tr>
+            <tr><td>CGL — Per Occ.</td><td>$<span class="field">[1M / 2M]</span></td><td>$<span class="field">[Amt]</span></td><td>☐</td></tr>
+            <tr><td>CGL — Aggregate</td><td>$<span class="field">[2M / 4M]</span></td><td>$<span class="field">[Amt]</span></td><td>☐</td></tr>
+            <tr><td>Excess / Umbrella</td><td>$<span class="field">[5M+]</span></td><td>$<span class="field">[Amt]</span></td><td>☐</td></tr>
+            <tr><td>Auto</td><td>$<span class="field">[1M]</span></td><td>$<span class="field">[Amt]</span></td><td>☐</td></tr>
+            <tr><td>Worker's Comp</td><td>Statutory</td><td>Statutory</td><td>☐</td></tr>
+            <tr><td>Employer's Liability</td><td>$<span class="field">[1M/1M/1M]</span></td><td>$<span class="field">[Amt]</span></td><td>☐</td></tr>
+            <tr><td>Pollution (if applicable)</td><td>$<span class="field">[Amt]</span></td><td>$<span class="field">[Amt]</span></td><td>☐</td></tr>
+            <tr><td>Professional (if design-build)</td><td>$<span class="field">[Amt]</span></td><td>$<span class="field">[Amt]</span></td><td>☐</td></tr>
+        </table>
+
+        <div class="sub-title" style="margin-top: 14px;">6.2 Additional Insured</div>
+        <div class="acceptable">
+            <span class="label">Acceptable.</span> "Contractor and Owner shall be named as Additional Insureds on Subcontractor's CGL policy on ISO Form CG 20 10 (ongoing operations) and CG 20 37 (completed operations), or equivalent. Coverage shall be primary and non-contributory."
+        </div>
+        <div class="redline">
+            <span class="label">Redline.</span> "Sole-negligence" coverage extension — requiring the Sub's insurance to cover the GC's or Owner's <em>own</em> negligence. Most jurisdictions have anti-indemnity statutes that void this; many policies exclude it. Strike or limit to "to the extent of Subcontractor's negligence."
+        </div>
+        <div class="walkaway">
+            <span class="label">Walk-Away.</span> A required additional-insured form Sub's carrier will not issue. Confirm with broker before signing.
+        </div>
+
+        <div class="sub-title" style="margin-top: 14px;">6.3 Waiver of Subrogation</div>
+        <p>Mutual waiver of subrogation among Owner, GC, and Sub for losses covered by Builder's Risk insurance is industry-standard and acceptable. One-way waiver (Sub waives but GC and Owner retain) is not — redline.</p>
+    </div>
+
+    <!-- =============================================================
+         ARTICLE 7 — BONDS
+         ============================================================= -->
+    <div class="section" id="sec-art7">
+        <div class="article-title">Article 7 — Bonds</div>
+
+        <table class="data-table">
+            <tr><td class="label">Performance Bond required?</td><td>☐ Yes — <span class="field">[100%]</span> of Subcontract Sum &nbsp; ☐ No</td></tr>
+            <tr><td class="label">Payment Bond required?</td><td>☐ Yes — <span class="field">[100%]</span> of Subcontract Sum &nbsp; ☐ No</td></tr>
+            <tr><td class="label">SDI (Subcontractor Default Insurance) in lieu of bonds?</td><td>☐ Yes &nbsp; ☐ No</td></tr>
+            <tr><td class="label">Bond Cost separate line item in Subcontract Sum?</td><td>☐ Yes &nbsp; ☐ No — redline</td></tr>
+            <tr><td class="label">Bond Form (AIA A312 vs. obligee-specific)?</td><td><span class="field">[Form]</span></td></tr>
+            <tr><td class="label">Bonding capacity confirmed with surety before signing?</td><td>☐ Yes &nbsp; ☐ No — confirm</td></tr>
+        </table>
+
+        <div class="redline">
+            <span class="label">Redline.</span> Bond cost rolled into the Subcontract Sum rather than a separate line item — strips Sub of the right to a Change Order if bond requirement is added or modified later. Insert separate-line-item language.
+        </div>
+    </div>
+
+    <!-- =============================================================
+         ARTICLE 8 — INDEMNIFICATION
+         ============================================================= -->
+    <div class="section" id="sec-art8">
+        <div class="article-title">Article 8 — Indemnification</div>
+
+        <p>Indemnification — the Sub's promise to defend and reimburse the GC and Owner for liability — is the second-most consequential clause after payment. The three forms:</p>
+
+        <table class="data-table">
+            <tr><th>Form</th><th>Sub's Exposure</th></tr>
+            <tr><td><strong>Limited (Comparative)</strong></td><td>Sub indemnifies <em>only to the extent of</em> Sub's own negligence. Industry-standard, generally enforceable.</td></tr>
+            <tr><td><strong>Intermediate</strong></td><td>Sub indemnifies for any loss <em>except</em> the GC's sole negligence. Enforceable in many states; voided by anti-indemnity statute in others.</td></tr>
+            <tr><td><strong>Broad-Form</strong></td><td>Sub indemnifies for the GC's <em>own</em> negligence. Voided by anti-indemnity statute in roughly 40 states.</td></tr>
+        </table>
+
+        <div class="acceptable">
+            <span class="label">Acceptable.</span> "To the fullest extent permitted by law, Subcontractor shall indemnify, defend, and hold harmless Contractor and Owner from claims arising out of bodily injury or property damage, <strong>but only to the extent caused by the negligent acts or omissions of Subcontractor or any party for whom Subcontractor is responsible</strong>." (Comparative-negligence-limited indemnity — generally enforceable.)
+        </div>
+        <div class="redline">
+            <span class="label">Redline (Critical).</span> Any "broad-form" indemnity ("Subcontractor shall indemnify regardless of whether caused in part by the negligence of Contractor"). Strike and replace with Acceptable language. If GC will not accept, confirm with counsel that the controlling state's anti-indemnity statute voids the clause — and, even so, demand a redline to avoid litigation cost in enforcing the statute.
+        </div>
+        <div class="walkaway">
+            <span class="label">Walk-Away.</span> Broad-form indemnity combined with (a) requirement to defend the GC at Sub's cost from the first dollar and (b) no insurance program large enough to cover the defense costs. Two-front exposure with no offset.
+        </div>
+    </div>
+
+    <!-- =============================================================
+         ARTICLE 9 — LIEN WAIVERS
+         ============================================================= -->
+    <div class="section" id="sec-art9">
+        <div class="article-title">Article 9 — Lien Waivers &amp; Flow-Down</div>
+
+        <p>Lien waiver clauses require Sub to execute partial and final lien waivers as a condition of payment. Risk: (a) waiving lien rights for amounts not yet paid (front-loaded waiver) and (b) waiving claims, not just liens.</p>
+
+        <div class="acceptable">
+            <span class="label">Acceptable.</span> Conditional partial waiver delivered with each pay app, waiving lien rights only "for amounts <strong>actually received</strong>" through the date of the waiver. Final unconditional waiver delivered upon receipt of final payment.
+        </div>
+        <div class="redline">
+            <span class="label">Redline.</span> Unconditional waiver required before payment is received — particularly common in non-statutory states. Replace with the conditional/unconditional bifurcation above. In states with statutory waiver forms (CA, FL, TX, others), use the statutory form verbatim; non-statutory forms may not be enforceable as waivers.
+        </div>
+        <div class="walkaway">
+            <span class="label">Walk-Away.</span> "Subcontractor waives all rights to liens on the Project as a condition of executing this Subcontract" — pre-furnishing lien waiver. Voided by statute in many states; in the rest, an immediate red flag about the GC's intent.
+        </div>
+
+        <table class="data-table">
+            <tr><td class="label">Partial waiver form (statutory or AIA)?</td><td><span class="field">[Form]</span></td></tr>
+            <tr><td class="label">Conditional on "amounts received"?</td><td>☐ Yes &nbsp; ☐ No — redline</td></tr>
+            <tr><td class="label">Final waiver waives <strong>claims</strong> in addition to liens?</td><td>☐ No — preferred &nbsp; ☐ Yes — redline to limit to liens</td></tr>
+        </table>
+    </div>
+
+    <!-- =============================================================
+         ARTICLE 10 — WARRANTIES
+         ============================================================= -->
+    <div class="section" id="sec-art10">
+        <div class="article-title">Article 10 — Warranties</div>
+
+        <table class="data-table">
+            <tr><td class="label">Warranty Period:</td><td><span class="field">[1 year — standard]</span> from Substantial Completion</td></tr>
+            <tr><td class="label">Extended Warranty for specific components (roofing, mechanical)?</td><td><span class="field">[#]</span> years</td></tr>
+            <tr><td class="label">Statute of Repose (state-specific cap on long-tail claims)?</td><td><span class="field">[Years]</span></td></tr>
+        </table>
+
+        <div class="redline">
+            <span class="label">Redline.</span> "Lifetime" or "perpetual" warranties — outside specific commodity products with manufacturer's warranty (roofing, windows). Limit to 1 year on workmanship + manufacturer warranty pass-through on equipment/products.
+        </div>
+        <div class="redline">
+            <span class="label">Redline.</span> Warranty starting at "Final Acceptance" or "Final Payment" rather than Substantial Completion. The Sub finishes its scope at Substantial Completion; long-tail warranty risk for events after that should not be charged to the Sub.
+        </div>
+    </div>
+
+    <!-- =============================================================
+         ARTICLE 11 — LOWER-TIER SUBS
+         ============================================================= -->
+    <div class="section" id="sec-art11">
+        <div class="article-title">Article 11 — Lower-Tier Subcontractors</div>
+
+        <div class="acceptable">
+            <span class="label">Acceptable.</span> "Subcontractor may engage lower-tier subcontractors and suppliers in the performance of the Work. Lower-tier engagements over <span class="field">[$50,000]</span> require Contractor's written approval, not unreasonably withheld."
+        </div>
+        <div class="redline">
+            <span class="label">Redline.</span> "All lower-tier subcontracts subject to Contractor approval and Contractor's standard terms" — gives the GC veto on Sub's supply chain and may require flow-down terms incompatible with Sub's own subs. Limit approval to threshold dollars + scope criticality.
+        </div>
+    </div>
+
+    <!-- =============================================================
+         ARTICLE 12 — SAFETY
+         ============================================================= -->
+    <div class="section" id="sec-art12">
+        <div class="article-title">Article 12 — Safety &amp; Site Rules</div>
+
+        <p>Standard safety obligations are non-negotiable: OSHA compliance, drug-free workplace, site-specific safety plan, attendance at GC's safety meetings, accident reporting. Risk is in over-broad cost-shifting:</p>
+
+        <div class="redline">
+            <span class="label">Redline.</span> "Subcontractor shall reimburse Contractor for any cost or fine arising from Subcontractor's safety performance" without limitation. Limit to citations actually issued by OSHA naming Sub or arising from Sub's controlled work.
+        </div>
+        <div class="redline">
+            <span class="label">Redline.</span> "Subcontractor shall be responsible for site safety of all trades during Subcontractor's work hours" — only acceptable when Sub is the sole trade on site. Limit to Sub's own crew and work area.
+        </div>
+    </div>
+
+    <!-- =============================================================
+         ARTICLE 13 — DEFAULT & TERMINATION
+         ============================================================= -->
+    <div class="section" id="sec-art13">
+        <div class="article-title">Article 13 — Default &amp; Termination</div>
+
+        <div class="sub-title">13.1 Termination for Default</div>
+        <div class="acceptable">
+            <span class="label">Acceptable.</span> Default termination on written notice + opportunity to cure (<span class="field">[10]</span> business days) + Sub paid for Work properly performed through termination date, less GC's cost to complete.
+        </div>
+        <div class="redline">
+            <span class="label">Redline.</span> Default termination without notice/cure for "any breach" — narrow to "material breach not cured within X days of written notice."
+        </div>
+
+        <div class="sub-title" style="margin-top: 14px;">13.2 Termination for Convenience</div>
+        <div class="acceptable">
+            <span class="label">Acceptable.</span> "Contractor may terminate this Subcontract for convenience upon written notice. Upon such termination, Subcontractor shall be paid for: (a) all Work properly performed through the termination date at the rates set forth in this Subcontract; (b) demobilization costs; (c) cancellation costs on materials ordered and lower-tier subcontracts properly committed; and (d) a reasonable allowance for overhead and profit on the Work performed."
+        </div>
+        <div class="walkaway">
+            <span class="label">Walk-Away.</span> Termination for convenience without (a) payment for Work performed at contract rates, (b) demobilization cost, or (c) overhead/profit on Work performed. The Sub becomes an option that the GC can drop at any time at zero cost.
+        </div>
+    </div>
+
+    <!-- =============================================================
+         ARTICLE 14 — DISPUTE RESOLUTION
+         ============================================================= -->
+    <div class="section" id="sec-art14">
+        <div class="article-title">Article 14 — Dispute Resolution</div>
+
+        <table class="data-table">
+            <tr><td class="label">Forum:</td><td>☐ AAA Arbitration &nbsp; ☐ Litigation in <span class="field">[State courts]</span> &nbsp; ☐ Federal court &nbsp; ☐ ICC / JAMS</td></tr>
+            <tr><td class="label">Venue:</td><td><span class="field">[County / State]</span> — verify reasonable for Sub</td></tr>
+            <tr><td class="label">Choice of Law:</td><td><span class="field">[State]</span> — typically state where Project is located</td></tr>
+            <tr><td class="label">Mediation Prerequisite:</td><td>☐ Yes &nbsp; ☐ No</td></tr>
+            <tr><td class="label">Joinder rights with Owner / other Subs?</td><td>☐ Yes &nbsp; ☐ No — preferred yes</td></tr>
+            <tr><td class="label">Attorney's fees to prevailing party?</td><td>☐ Yes (mutual) &nbsp; ☐ One-way to GC only — redline</td></tr>
+            <tr><td class="label">Jury trial waiver?</td><td>☐ Yes &nbsp; ☐ No</td></tr>
+        </table>
+
+        <div class="redline">
+            <span class="label">Redline.</span> Choice of law / venue in a state with no project connection (e.g., DE choice-of-law on a TN project). Insert state-of-the-Project. Choice-of-law on a Sub's home-state is sometimes negotiable but usually project-state controls.
+        </div>
+        <div class="redline">
+            <span class="label">Redline.</span> One-way prevailing-party attorney's fees (GC recovers if it wins; Sub bears its own if it wins). Make mutual or strike entirely.
+        </div>
+        <div class="walkaway">
+            <span class="label">Walk-Away.</span> Out-of-state forum + GC-only attorney's fees + no joinder rights. Disputes become uneconomic to pursue, which means the Sub has no enforcement mechanism on its own rights.
+        </div>
+    </div>
+
+    <!-- =============================================================
+         ARTICLE 15 — MISCELLANEOUS
+         ============================================================= -->
+    <div class="section" id="sec-art15">
+        <div class="article-title">Article 15 — Miscellaneous Provisions</div>
+
+        <p>The "boilerplate" article that frequently contains traps:</p>
+
+        <ol>
+            <li><strong>Assignment.</strong> One-way assignment (GC can assign; Sub cannot) is industry-standard. Mutual is rare. Check that Sub's assignment to lender (for AR financing) is permitted.</li>
+            <li><strong>Set-off.</strong> GC's right to set off against Sub's pay app for amounts allegedly owed on <em>this</em> Project — acceptable. Set-off across <em>other</em> Projects between the same parties — redline (each project should stand alone).</li>
+            <li><strong>Audit.</strong> GC right to audit Sub's books on T&amp;M work — acceptable. GC right to audit on lump-sum work — redline (no basis for it).</li>
+            <li><strong>Confidentiality.</strong> Reciprocal confidentiality of pricing and project information — acceptable. One-way binding only Sub — redline.</li>
+            <li><strong>Entire Agreement / Integration.</strong> Confirms only the signed Subcontract + Exhibits is binding. Verify that all bid Exceptions/Clarifications are pulled forward into Exhibits.</li>
+            <li><strong>Modifications.</strong> Modifications only in writing signed by both parties. Acceptable and protective for Sub.</li>
+            <li><strong>Survival.</strong> Confirm indemnity, warranties, lien waiver, and confidentiality survive termination — acceptable.</li>
+            <li><strong>Force Majeure.</strong> Mutual; verify pandemic / labor strikes / supply chain disruption are listed. Strike "regardless of foreseeability" if present.</li>
+            <li><strong>Waiver.</strong> No waiver implied by GC's failure to insist on strict performance — standard.</li>
+            <li><strong>Severability.</strong> If one clause is invalid, the rest survives — standard.</li>
+        </ol>
+    </div>
+
+    <!-- =============================================================
+         SECTION 17 — STATE-LAW SANITY CHECK
+         ============================================================= -->
+    <div class="section" id="sec-state">
+        <div class="section-title">Section 17 — State-Law Sanity Check (Pre-Signature)</div>
+
+        <p>Before executing, verify against the law of the Project state:</p>
+
+        <table class="data-table">
+            <tr><td class="label">State of Project:</td><td><span class="field">[State]</span></td></tr>
+            <tr><td class="label">Anti-Indemnity Statute (limits broad-form indemnity)?</td><td>☐ Yes &nbsp; ☐ No — citation: <span class="field">[Statute]</span></td></tr>
+            <tr><td class="label">Pay-If-Paid enforceable in this state?</td><td>☐ Yes &nbsp; ☐ No &nbsp; ☐ Limited</td></tr>
+            <tr><td class="label">Statutory lien waiver form required?</td><td>☐ Yes — Form: <span class="field">[Form]</span> &nbsp; ☐ No</td></tr>
+            <tr><td class="label">Pre-furnishing lien waiver permitted?</td><td>☐ Yes &nbsp; ☐ No</td></tr>
+            <tr><td class="label">Prompt Payment Act applies?</td><td>☐ Yes — Interest rate: <span class="field">[%]</span> &nbsp; ☐ No</td></tr>
+            <tr><td class="label">Statute of Repose / Limitations for construction defect:</td><td><span class="field">[Years]</span></td></tr>
+            <tr><td class="label">Mechanic's lien filing deadline (months after last work):</td><td><span class="field">[Months]</span></td></tr>
+            <tr><td class="label">Public-work bond (Little Miller Act) applies?</td><td>☐ Yes &nbsp; ☐ No</td></tr>
+            <tr><td class="label">Davis-Bacon / state prevailing wage applies?</td><td>☐ Yes &nbsp; ☐ No</td></tr>
+        </table>
+
+        <div class="practice-note">
+            <span class="label">When to escalate.</span> If any answer above is "I don't know," do not sign. Construction-law questions of state enforceability are not solved by reading the statute alone — court decisions interpreting the statute matter. Twenty minutes of construction-counsel time before signing is cheaper than twenty months of litigation after.
+        </div>
+    </div>
+
+    <!-- =============================================================
+         SECTION 18 — FINAL SIGN-OFF
+         ============================================================= -->
+    <div class="section" id="sec-signoff">
+        <div class="section-title">Section 18 — Final Sign-Off Table</div>
+
+        <table class="data-table">
+            <tr><th>Article</th><th>Status</th><th>Disposition</th><th>Reviewer Initials</th></tr>
+            <tr><td>1 — Subcontract Documents</td><td>☐ Accept ☐ Redlined ☐ Open</td><td><span class="field">[Notes]</span></td><td><span class="field">[Initials]</span></td></tr>
+            <tr><td>2 — Scope of Work</td><td>☐ Accept ☐ Redlined ☐ Open</td><td><span class="field">[Notes]</span></td><td><span class="field">[Initials]</span></td></tr>
+            <tr><td>3 — Time / LDs</td><td>☐ Accept ☐ Redlined ☐ Open</td><td><span class="field">[Notes]</span></td><td><span class="field">[Initials]</span></td></tr>
+            <tr><td>4 — Payment / PWP vs PIP</td><td>☐ Accept ☐ Redlined ☐ Open</td><td><span class="field">[Notes]</span></td><td><span class="field">[Initials]</span></td></tr>
+            <tr><td>5 — Changes</td><td>☐ Accept ☐ Redlined ☐ Open</td><td><span class="field">[Notes]</span></td><td><span class="field">[Initials]</span></td></tr>
+            <tr><td>6 — Insurance</td><td>☐ Accept ☐ Redlined ☐ Open</td><td><span class="field">[Notes]</span></td><td><span class="field">[Initials]</span></td></tr>
+            <tr><td>7 — Bonds</td><td>☐ Accept ☐ Redlined ☐ Open</td><td><span class="field">[Notes]</span></td><td><span class="field">[Initials]</span></td></tr>
+            <tr><td>8 — Indemnification</td><td>☐ Accept ☐ Redlined ☐ Open</td><td><span class="field">[Notes]</span></td><td><span class="field">[Initials]</span></td></tr>
+            <tr><td>9 — Lien Waivers</td><td>☐ Accept ☐ Redlined ☐ Open</td><td><span class="field">[Notes]</span></td><td><span class="field">[Initials]</span></td></tr>
+            <tr><td>10 — Warranties</td><td>☐ Accept ☐ Redlined ☐ Open</td><td><span class="field">[Notes]</span></td><td><span class="field">[Initials]</span></td></tr>
+            <tr><td>11 — Lower-Tier Subs</td><td>☐ Accept ☐ Redlined ☐ Open</td><td><span class="field">[Notes]</span></td><td><span class="field">[Initials]</span></td></tr>
+            <tr><td>12 — Safety / Site</td><td>☐ Accept ☐ Redlined ☐ Open</td><td><span class="field">[Notes]</span></td><td><span class="field">[Initials]</span></td></tr>
+            <tr><td>13 — Default / Termination</td><td>☐ Accept ☐ Redlined ☐ Open</td><td><span class="field">[Notes]</span></td><td><span class="field">[Initials]</span></td></tr>
+            <tr><td>14 — Dispute Resolution</td><td>☐ Accept ☐ Redlined ☐ Open</td><td><span class="field">[Notes]</span></td><td><span class="field">[Initials]</span></td></tr>
+            <tr><td>15 — Miscellaneous</td><td>☐ Accept ☐ Redlined ☐ Open</td><td><span class="field">[Notes]</span></td><td><span class="field">[Initials]</span></td></tr>
+            <tr><td>17 — State-Law Sanity</td><td>☐ Accept ☐ Redlined ☐ Open</td><td><span class="field">[Notes]</span></td><td><span class="field">[Initials]</span></td></tr>
+        </table>
+
+        <div class="sub-title" style="margin-top: 18px;">Sign-Off</div>
+        <table class="data-table">
+            <tr><td class="label">Reviewed by (Project Manager):</td><td><span class="field">[Name / Signature / Date]</span></td></tr>
+            <tr><td class="label">Reviewed by (Estimator):</td><td><span class="field">[Name / Signature / Date]</span></td></tr>
+            <tr><td class="label">Reviewed by (Controller):</td><td><span class="field">[Name / Signature / Date]</span></td></tr>
+            <tr><td class="label">Reviewed by (Outside Counsel — required for new GC):</td><td><span class="field">[Name / Signature / Date]</span></td></tr>
+            <tr><td class="label">Approved for Execution (Principal):</td><td><span class="field">[Name / Signature / Date]</span></td></tr>
+        </table>
+    </div>
+
+    <!-- =============================================================
+         CLOSING DISCLAIMER
+         ============================================================= -->
+    <div class="section">
+        <div class="warning">
+            <strong>Closing reminder.</strong> This checklist is a working document, not a substitute for construction counsel. The five threshold deal-killers in Section 1 are the most common loss vectors but not the only ones. Material risks vary by trade (mechanical subs face equipment-procurement risk; steel erectors face crane and rigging risk; electrical subs face long-lead gear risk); the redline guidance above is generic to commercial Subcontracts and must be tailored to the trade and the project. On any Subcontract over <span class="field">[$500K]</span>, on any new GC relationship, and on any public-works project, escalate to outside construction counsel before execution.
+        </div>
+
+        <p class="footnote">Document version: 2026-05-17 (v1.0) — ContrPro Universal Sub Suite. Article structure parallels the ContrPro Master Subcontract Agreement (GC suite) and AIA Document A401 (Standard Form of Agreement Between Contractor and Subcontractor) without reproducing AIA's copyrighted form. State-law citations and statutes-of-repose schedules current as of January 2026; verify against current state code and case law before relying on any specific enforceability conclusion.</p>
+    </div>
+
+</body>
+</html>

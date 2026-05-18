@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bolt Installation &amp; Inspection Guide — RCSC Specification — Steel Erection Trade Pack</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.55; max-width: 880px; margin: 40px auto; padding: 20px; color: #222; }
+        .header { text-align: center; border-bottom: 3px double #1e3a5f; padding-bottom: 20px; margin-bottom: 30px; }
+        .form-title { font-size: 26px; font-weight: bold; color: #1e3a5f; margin-bottom: 6px; }
+        .form-subtitle { font-size: 15px; color: #444; font-weight: 600; }
+        .doc-meta { font-size: 13px; color: #666; margin-top: 8px; }
+        .field { background: #f0f0f0; padding: 2px 8px; border-radius: 3px; font-style: italic; color: #555; }
+        .section { margin: 26px 0; page-break-inside: avoid; }
+        .section-title { font-weight: bold; color: #1e3a5f; font-size: 16px; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+        .article-title { font-weight: bold; color: #1e3a5f; font-size: 17px; margin: 22px 0 10px 0; padding-top: 10px; border-top: 2px solid #1e3a5f; }
+        .clause-num { font-weight: bold; color: #1e3a5f; }
+        .sub-title { font-weight: bold; color: #1e3a5f; font-size: 14px; margin: 14px 0 6px 0; }
+        .warning { background: #f8d7da; border-left: 4px solid #dc3545; padding: 14px 16px; margin: 18px 0; }
+        .warning strong { color: #721c24; }
+        .notice { background: #d1ecf1; border-left: 4px solid #0c5460; padding: 14px 16px; margin: 18px 0; }
+        .practice-note { background: #fdf6e3; border-left: 4px solid #b58900; padding: 14px 16px; margin: 14px 0; font-size: 13.5px; }
+        .practice-note .label { font-weight: bold; color: #1e3a5f; font-size: 14px; display: block; margin-bottom: 6px; }
+        .citation { background: #e9ecef; border-left: 4px solid #495057; padding: 10px 14px; margin: 10px 0; font-size: 12.5px; font-family: 'Courier New', monospace; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        td, th { padding: 7px 8px; vertical-align: top; }
+        th { background: #1e3a5f; color: #fff; text-align: left; font-size: 12.5px; }
+        .data-table td { border: 1px solid #ccc; font-size: 13px; }
+        .data-table td.label { font-weight: 600; background: #f9f9f9; width: 40%; }
+        .checklist { background: #f9f9f9; border: 1px solid #ddd; padding: 16px 20px; border-radius: 6px; }
+        .checklist ol { margin: 0; padding-left: 22px; }
+        .checklist li { margin-bottom: 6px; font-size: 13.5px; }
+        .toc { background: #f4f6f9; border: 1px solid #c0cad8; padding: 16px 22px; margin: 20px 0 28px 0; border-radius: 6px; }
+        .toc-title { font-weight: bold; color: #1e3a5f; font-size: 14px; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+        .toc ol { margin: 0; padding-left: 22px; }
+        .toc li { margin-bottom: 4px; font-size: 13.5px; }
+        .toc a { color: #1e3a5f; text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+        .footnote { font-size: 11.5px; color: #666; font-style: italic; }
+        .page-break { page-break-before: always; }
+        @media print {
+            .no-print { display: none; }
+            body { margin: 0; max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="no-print" style="background: #fff3cd; border: 2px solid #856404; padding: 18px; border-radius: 8px; margin-bottom: 24px;">
+        <strong style="color: #856404; font-size: 16px;">USE WITH THE BOLT INSPECTION LOG (XLSX)</strong>
+        <p style="margin: 8px 0 0 0; font-size: 13.5px;">
+            This guide is the procedural reference for high-strength structural bolting per the RCSC Specification (Research Council on Structural Connections, "Specification for Structural Joints Using High-Strength Bolts"). It pairs with <em>Bolt_Inspection_Log.xlsx</em> which captures the daily install + inspection record. Together they constitute the project's bolt-installation evidence file — required by the AISC Code of Standard Practice and by most commercial Subcontracts for SCI / fatigue-loaded / slip-critical connections.
+        </p>
+    </div>
+
+    <div class="header">
+        <div class="form-title">BOLT INSTALLATION &amp; INSPECTION GUIDE</div>
+        <div class="form-subtitle">RCSC Specification &middot; ASTM F3125 &middot; AISC Code of Standard Practice</div>
+        <div class="doc-meta">
+            Project: <span class="field">[Project Name]</span> &nbsp;|&nbsp;
+            Steel Erector: <span class="field">[Erector Legal Name]</span> &nbsp;|&nbsp;
+            Guide Version: <span class="field">[v1.0 / Date]</span>
+        </div>
+    </div>
+
+    <div class="notice">
+        <strong>What this guide covers.</strong> Bolt grades, when each is used, snug-tight vs pretensioned vs slip-critical connection types, the four pretensioning methods (turn-of-nut, calibrated wrench, twist-off, direct-tension-indicator washer), pre-installation verification (Skidmore-Wilhelm), routine observation during installation, faying-surface preparation for slip-critical joints, and the documentation requirements that survive project closeout. Used alongside the Bolt Inspection Log XLSX for the daily record.
+    </div>
+
+    <div class="toc">
+        <div class="toc-title">Table of Contents</div>
+        <ol>
+            <li><a href="#sec-grades">Section 1 — Bolt Grades (ASTM F3125 / F3148)</a></li>
+            <li><a href="#sec-conn-types">Section 2 — Connection Types &amp; When Each Applies</a></li>
+            <li><a href="#sec-snug">Section 3 — Snug-Tight Joints</a></li>
+            <li><a href="#sec-pretensioned">Section 4 — Pretensioned Joints (Four Methods)</a></li>
+            <li><a href="#sec-slip">Section 5 — Slip-Critical Joints &amp; Faying-Surface Preparation</a></li>
+            <li><a href="#sec-preverify">Section 6 — Pre-Installation Verification (Skidmore-Wilhelm)</a></li>
+            <li><a href="#sec-observe">Section 7 — Routine Observation During Installation</a></li>
+            <li><a href="#sec-inspect">Section 8 — Bolt Inspection &amp; Sampling</a></li>
+            <li><a href="#sec-docs">Section 9 — Documentation &amp; Mill Cert Chain</a></li>
+            <li><a href="#sec-errors">Section 10 — Common Errors</a></li>
+        </ol>
+    </div>
+
+    <div class="section" id="sec-grades">
+        <div class="section-title">Section 1 — Bolt Grades (ASTM F3125 / F3148)</div>
+
+        <div class="citation">
+            ASTM F3125 — Standard Specification for High Strength Structural Bolts and Assemblies (consolidates the legacy A325 / A490 / F1852 / F2280 standards). ASTM F3148 — Standard Specification for High Strength Structural Bolts, Assemblies, with Heavy Hex Head and Heavy Hex Nut (Grade 144 ksi).
+        </div>
+
+        <table class="data-table">
+            <tr><th>Grade</th><th>Tensile Strength</th><th>Use</th><th>Identification</th></tr>
+            <tr><td>F3125 Grade A325 (legacy A325)</td><td>120 ksi (105 ksi min for &gt;1")</td><td>General-use high-strength structural; most common</td><td>Head marked "A325" or "F3125"; nut typically marked grade "2H" / "DH"</td></tr>
+            <tr><td>F3125 Grade A490 (legacy A490)</td><td>150 ksi</td><td>Highest-tension structural; not for galvanizing</td><td>Head marked "A490"; nut "2H" / "DH3"</td></tr>
+            <tr><td>F3125 Grade F1852 (legacy F1852)</td><td>120 ksi</td><td>Twist-off (tension-control) version of A325</td><td>Splined end on bolt; sheared off at proper pretension</td></tr>
+            <tr><td>F3125 Grade F2280 (legacy F2280)</td><td>150 ksi</td><td>Twist-off version of A490</td><td>Splined end on bolt</td></tr>
+            <tr><td>F3148 Grade 144 ksi</td><td>144 ksi</td><td>Newer high-strength bolt; specific use cases</td><td>Head marking per F3148</td></tr>
+        </table>
+
+        <div class="warning">
+            <strong>A490 and F2280 bolts shall NOT be galvanized</strong> (hot-dip or mechanically). Galvanizing causes hydrogen embrittlement at A490/F2280 strength levels. If a galvanized finish is specified in a connection requiring 150 ksi tensile, the engineer of record must redesign with weathering steel + A325/F1852, or with stainless, or with a different protective system. Field substitution of A490 with galvanized bolts is a structural defect.
+        </div>
+    </div>
+
+    <div class="section" id="sec-conn-types">
+        <div class="section-title">Section 2 — Connection Types &amp; When Each Applies</div>
+
+        <p>RCSC Specification defines three connection types. The structural EOR specifies the connection type on the structural drawings (typically a connection schedule on the S-series sheets). The erector implements per drawings — do not change connection type in the field without a signed RFI response.</p>
+
+        <table class="data-table">
+            <tr><th>Connection Type</th><th>When Used</th><th>Installation Requirement</th></tr>
+            <tr><td><strong>Snug-tight</strong></td><td>Standard bearing-type connections (most beam-to-column, beam-to-beam shear connections in commercial work). Static loads. Standard holes.</td><td>"Snug-tight" = the impact wrench impacts a few times OR a worker applies full effort with an ordinary spud wrench. NOT pretensioned. RCSC §8.1.</td></tr>
+            <tr><td><strong>Pretensioned</strong></td><td>Joints subject to fatigue (vibration, crane runways, AISC Appendix 3), oversize / slotted holes, A490 in tension, joints where loosening cannot be tolerated.</td><td>Installed to minimum bolt pretension per RCSC Table 8.1, using one of four methods (Section 4). Not faying-surface specific.</td></tr>
+            <tr><td><strong>Slip-critical</strong></td><td>Joints where slip would impair serviceability (oversize holes, fatigue, long slotted holes, gusset plates with eccentric loads where slip causes fatigue). RCSC §4.3.</td><td>Pretensioned PLUS faying surface prepared to controlled friction class (Class A / B / C per RCSC Table 5.1). Faying-surface prep verified by Class testing OR by manufacturer certification.</td></tr>
+        </table>
+
+        <div class="practice-note">
+            <span class="label">RCSC Table 8.1 minimum pretension (ksi-class).</span> 3/4" A325 = 28 kips minimum pretension; 7/8" A325 = 39 kips; 1" A325 = 51 kips; 3/4" A490 = 35 kips; 7/8" A490 = 49 kips; 1" A490 = 64 kips. These are the targets all four pretensioning methods are calibrated to deliver.
+        </div>
+    </div>
+
+    <div class="section" id="sec-snug">
+        <div class="section-title">Section 3 — Snug-Tight Joints</div>
+
+        <p>"Snug-tight" is the most common connection state on a commercial steel-erection project. The definition is operational, not numerical: all plies of the connection are in firm contact, with the impact wrench having stopped impacting (or full effort applied with an ordinary spud wrench) by an ironworker.</p>
+
+        <ul>
+            <li>Standard bolts: install in pattern from most-rigid to least-rigid part of joint (typically center-out for symmetric, end-in for cantilevered).</li>
+            <li>Visual check: faying surfaces of all plies in firm contact; no gaps visible at the edges; nut and head wrench-tight to each ply.</li>
+            <li>No torque measurement required. No DTI required.</li>
+            <li>Two-bolt minimum at every connection at load release (per OSHA §1926.756(a)(1), already covered in the Site-Specific Erection Plan).</li>
+            <li>Final tightening of remaining bolts: same shift or as soon as practical, before any construction load.</li>
+        </ul>
+    </div>
+
+    <div class="section" id="sec-pretensioned">
+        <div class="section-title">Section 4 — Pretensioned Joints (Four Methods)</div>
+
+        <div class="sub-title">4.1 — Turn-of-Nut Method (RCSC §8.2.1)</div>
+        <p>Snug-tighten first, then rotate the nut (or bolt head) an additional fixed amount based on bolt length and angle of outer faces. Industry-standard for many years; well-understood and inspector-friendly.</p>
+        <table class="data-table">
+            <tr><th>Bolt Length</th><th>Both Faces Perpendicular</th><th>One Face Sloped &lt; 1:20</th><th>Both Faces Sloped &lt; 1:20</th></tr>
+            <tr><td>Up to 4 diameters</td><td>1/3 turn</td><td>1/2 turn</td><td>2/3 turn</td></tr>
+            <tr><td>4 to 8 diameters</td><td>1/2 turn</td><td>2/3 turn</td><td>5/6 turn</td></tr>
+            <tr><td>8 to 12 diameters</td><td>2/3 turn</td><td>5/6 turn</td><td>1 turn</td></tr>
+        </table>
+        <p style="font-size: 12.5px; color: #555;">Reference RCSC Table 8.2 for the authoritative chart including dimensions over 12 diameters.</p>
+
+        <div class="sub-title">4.2 — Calibrated Wrench Method (RCSC §8.2.2)</div>
+        <p>Use an impact wrench or torque wrench calibrated daily on the Skidmore-Wilhelm (Section 6). Calibration sets the wrench to deliver target pretension at 105% of the minimum (per RCSC), accommodating relaxation. Calibration is bolt-lot specific — re-calibrate when changing diameter, grade, length, finish, or lubrication.</p>
+
+        <ul>
+            <li>Calibration: 5 bolts tested at start of shift; minimum 105% target pretension achieved 3 of 5; recheck if lubrication / weather changed substantially.</li>
+            <li>Snug-tighten all bolts before final tightening.</li>
+            <li>Final tighten with calibrated wrench; impact wrench shuts off automatically at target.</li>
+        </ul>
+
+        <div class="sub-title">4.3 — Twist-Off Bolts / Tension-Control (TC) Bolts (RCSC §8.2.3)</div>
+        <p>F1852 or F2280 bolts have a splined end that shears off when the bolt reaches its installation pretension. Installation uses a specialized two-socket installation wrench: inner socket holds the spline, outer socket turns the nut, opposing torque shears the spline at pretension.</p>
+
+        <ul>
+            <li>Snug-tighten first (usually with a separate impact wrench).</li>
+            <li>Final tighten with the TC installation wrench; spline shears = pretension achieved.</li>
+            <li>Inspection: every bolt should have its spline sheared after final tightening.</li>
+            <li>If a TC bolt is removed for any reason, it cannot be reused — replace.</li>
+        </ul>
+
+        <div class="sub-title">4.4 — Direct-Tension-Indicator (DTI) Washers (RCSC §8.2.4)</div>
+        <p>A washer with protrusions on one face; protrusions compress as bolt is tightened. When the average gap between washer and ply reaches a target (typically 0.005" or 0.010"), pretension is achieved. ASTM F959.</p>
+
+        <ul>
+            <li>Place DTI washer under the nut (or under the bolt head, with a regular hardened washer between DTI and ply for slip-critical).</li>
+            <li>Use a feeler gauge to measure gap at multiple points around the washer.</li>
+            <li>DTI gap target varies by bolt diameter and DTI manufacturer — read the package.</li>
+            <li>Refusal-of-feeler indicates correct pretension at that point.</li>
+        </ul>
+
+        <div class="practice-note">
+            <span class="label">Choosing a method.</span> Turn-of-nut is the cheapest (no special tools) but slowest to inspect (inspector watches the rotation). Calibrated wrench is fast in production but requires daily calibration discipline. TC bolts are fast but require buying twist-off-grade bolts (modest premium) and a TC wrench. DTI washers are most inspector-friendly (visible gap-closure evidence on the structure for years) but each washer is an added cost line item. Most commercial projects use a mix: TC for slip-critical and structural moment connections, TOTN for everything else.
+        </div>
+    </div>
+
+    <div class="section" id="sec-slip">
+        <div class="section-title">Section 5 — Slip-Critical Joints &amp; Faying-Surface Preparation</div>
+
+        <div class="citation">
+            RCSC §3.2 — Slip-critical connections; RCSC §5 — Slip-critical connections in slip-critical joints / faying surface conditions. AISC 360 Specification Chapter J.
+        </div>
+
+        <table class="data-table">
+            <tr><th>Friction Class</th><th>Surface Condition</th><th>Slip Coefficient (mean)</th></tr>
+            <tr><td>Class A</td><td>Unpainted clean mill scale, OR blast-cleaned with Class A coating</td><td>0.30</td></tr>
+            <tr><td>Class B</td><td>Blast-cleaned unpainted, OR blast-cleaned with Class B coating</td><td>0.50</td></tr>
+            <tr><td>Class C</td><td>Hot-dip galvanized + wire-brushed</td><td>0.35 (varies — check specific finish)</td></tr>
+        </table>
+
+        <ul>
+            <li>Faying surfaces shall not have paint, mill lacquer, dirt, rust scale (loose), oil, grease, or any foreign matter that would prevent solid metal-to-metal contact.</li>
+            <li>Class B coatings (zinc-rich primers, inorganic zinc) must be certified by manufacturer testing per RCSC §5.3 (slip test); use only certified coatings on slip-critical faying surfaces.</li>
+            <li>If a faying surface is painted by mistake, the paint must be removed by mechanical means (sanding, blasting) over the entire faying area to expose Class A or B minimum, AND the surface re-tested or re-certified.</li>
+            <li>Faying surfaces shall be free of burrs at bolt holes.</li>
+        </ul>
+
+        <div class="warning">
+            <strong>Slip-critical joint with paint contamination = structural defect.</strong> If a connection is specified slip-critical and the faying surface is painted with non-Class-A/B coating, the joint will slip under load and the connection is non-conforming. Mitigation requires either (a) removing the bolt, mechanically cleaning the faying surface, re-bolting; OR (b) an engineering judgment from the EOR redesigning the joint as pretensioned bearing (which requires checking the bearing capacity is adequate for the design loads).
+        </div>
+    </div>
+
+    <div class="section" id="sec-preverify">
+        <div class="section-title">Section 6 — Pre-Installation Verification (Skidmore-Wilhelm)</div>
+
+        <div class="citation">
+            RCSC §7 — Pre-installation Verification. The bolt-nut-washer assembly is tested in a hydraulic bolt-tension calibrator (Skidmore-Wilhelm or equivalent) before installation to confirm that the assembly + the installation method together deliver the required minimum pretension.
+        </div>
+
+        <p>Pre-installation verification is required for ALL pretensioned and slip-critical joints. Frequency:</p>
+
+        <ul>
+            <li>At minimum, daily — first thing each shift.</li>
+            <li>Whenever a different bolt lot is opened.</li>
+            <li>Whenever a different diameter, length, or grade is used.</li>
+            <li>Whenever the installation crew or tool changes.</li>
+            <li>Whenever weather changes substantially (cold-weather lubrication issues, wet bolts).</li>
+        </ul>
+
+        <div class="sub-title">6.1 — Procedure</div>
+        <ol>
+            <li>Install bolt + nut + washer assembly into Skidmore.</li>
+            <li>Snug-tighten per the method being verified (e.g., few impacts for TOTN; partial rotation for calibrated wrench).</li>
+            <li>Apply the final tightening per the method (turn the nut the table-specified rotation; impact at target torque; let the TC bolt shear off; etc.).</li>
+            <li>Read the Skidmore pretension at completion.</li>
+            <li>Pretension shall be at least 105% of the RCSC Table 8.1 minimum (e.g., 7/8" A325 minimum 39 kips → Skidmore must read at least 41 kips).</li>
+            <li>Test minimum of 3 bolt-nut-washer assemblies from the lot; all 3 must pass.</li>
+            <li>Record on the Pre-Installation Verification Log (XLSX). Inspector + Ironworker initial.</li>
+        </ol>
+
+        <table class="data-table" style="margin-top: 14px;">
+            <tr><td class="label">Skidmore-Wilhelm calibration certificate:</td><td>☐ Current — within 12 months</td></tr>
+            <tr><td class="label">Skidmore serial number:</td><td><span class="field">[Serial]</span></td></tr>
+            <tr><td class="label">Bolt lot #s tested for this project:</td><td>Tracked on Bolt Inspection Log XLSX, Bolt Lot Master tab.</td></tr>
+        </table>
+    </div>
+
+    <div class="section" id="sec-observe">
+        <div class="section-title">Section 7 — Routine Observation During Installation</div>
+
+        <div class="citation">
+            RCSC §9.2.1 — Pretensioned connections shall be observed during installation by the inspector to ensure that the selected installation method is used and that proper pretensioning is achieved.
+        </div>
+
+        <p>"Routine observation" means the inspector is present in the work area while bolts are being installed, NOT after-the-fact. The inspector verifies:</p>
+
+        <ul>
+            <li>Pre-installation verification was performed for the lot being installed.</li>
+            <li>All plies are in firm contact before pretensioning starts (snug-tight first).</li>
+            <li>The installation method specified is the method being used (TOTN rotation matches table; calibrated wrench shuts off; TC spline shears; DTI gap closes).</li>
+            <li>The bolt patterns are being tightened systematically (typically center-out).</li>
+            <li>Damaged / out-of-spec bolts and assemblies are removed from service.</li>
+        </ul>
+
+        <p>The inspector does not need to observe every bolt; observation of representative work is sufficient per RCSC §9.2.1, but observation must occur during the installation, not after.</p>
+    </div>
+
+    <div class="section" id="sec-inspect">
+        <div class="section-title">Section 8 — Bolt Inspection &amp; Sampling</div>
+
+        <p>Post-installation inspection is performed by the special inspector (typically a third-party AWS/CWI-certified inspector hired by the owner). The erector cooperates by:</p>
+
+        <ul>
+            <li>Maintaining the Bolt Inspection Log for every connection.</li>
+            <li>Marking installed bolts (typically a paint slash from bolt head across the ply) so missed bolts are visually obvious.</li>
+            <li>Providing the inspector access to connections before fireproofing / cladding closes them up.</li>
+            <li>Repairing any non-conforming bolt installation: typically replace the bolt with a new one, re-pretension; never reuse a tightened bolt.</li>
+        </ul>
+
+        <p>Acceptance sampling per RCSC §9.2.2 / Table 9.2: typically 100% inspection of slip-critical / fatigue-loaded; reduced sampling for routine pretensioned per the SAA's program.</p>
+    </div>
+
+    <div class="section" id="sec-docs">
+        <div class="section-title">Section 9 — Documentation &amp; Mill Cert Chain</div>
+
+        <table class="data-table">
+            <tr><th>Document</th><th>Owner</th><th>Retention</th></tr>
+            <tr><td>Mill Test Report (MTR) / Manufacturer Certification — per bolt lot</td><td>Erector + GC</td><td>Project life + statute of repose</td></tr>
+            <tr><td>Skidmore-Wilhelm calibration certificate</td><td>Erector</td><td>3+ years</td></tr>
+            <tr><td>Pre-Installation Verification Log</td><td>Erector + Inspector</td><td>Project life + statute of repose</td></tr>
+            <tr><td>Bolt Inspection Log (per connection)</td><td>Erector + Inspector</td><td>Project life + statute of repose</td></tr>
+            <tr><td>Faying-Surface Coating Certification (slip-critical)</td><td>Coating manufacturer → fabricator → erector</td><td>Project life + statute of repose</td></tr>
+            <tr><td>Wrench Calibration records (Calibrated Wrench method)</td><td>Erector</td><td>Project life</td></tr>
+            <tr><td>Special Inspector reports</td><td>Owner / SAA</td><td>Owner standard</td></tr>
+        </table>
+    </div>
+
+    <div class="section" id="sec-errors">
+        <div class="section-title">Section 10 — Common Errors</div>
+
+        <ol>
+            <li><strong>Using A490 where galvanized was specified.</strong> See Section 1. Galvanized A490 = embrittlement = structural defect.</li>
+            <li><strong>Snug-tight where pretensioned was specified.</strong> Reading connection schedule incorrectly. The drawings will say SC, FT, PT, or X for the type — verify before installing.</li>
+            <li><strong>Faying surface painted before slip-critical bolting.</strong> The painter ran ahead of schedule. Section 5 mitigation is expensive — flag the schedule risk before the painter starts.</li>
+            <li><strong>Skidmore calibration skipped after lot change.</strong> "We tested last shift" — but this is a different lot. Re-test.</li>
+            <li><strong>Re-using TC bolts.</strong> Once the spline is sheared, the bolt is single-use. Replacing the nut and reinstalling does not restore pretension capacity.</li>
+            <li><strong>Painted-over installed bolts before inspection.</strong> The painter primed before the special inspector visited. Now the inspector cannot verify the installation. Either remove paint (expensive) or replace bolts (more expensive).</li>
+            <li><strong>DTI washer installed under the bolt head instead of under the nut without a hardened washer between.</strong> The DTI is for measurement only; a separate hardened washer is required at the rotating element. Re-do the bolt.</li>
+            <li><strong>Turn-of-nut applied without snug-tight first.</strong> If the plies aren't in firm contact before the rotation starts, the rotation is consumed pulling the plies together, not stretching the bolt. Pretension is not achieved.</li>
+            <li><strong>Inspector signing off after the fact, not during.</strong> "Routine observation" per RCSC §9.2.1 means the inspector is present during installation. Signed-off-after inspection is a documentation finding.</li>
+            <li><strong>Mill Test Reports filed by lot in chronological order, not by bolt lot.</strong> When a connection failure surfaces 5 years later, the litigation team needs the MTR for the SPECIFIC lot used at the SPECIFIC connection. File by lot number, indexed to connections.</li>
+        </ol>
+    </div>
+
+    <div class="section">
+        <div class="warning">
+            <strong>Closing reminder.</strong> Bolted connections are the load path of a steel structure; bolt installation discipline is the difference between a connection that holds and one that doesn't. The RCSC Specification is the authoritative reference — when in doubt, read the spec directly, not an approximation. Pair this guide with the Bolt Inspection Log XLSX, the project's Connection Schedule (S-series sheets), and the Special Inspector's program for the complete bolt installation evidence file.
+        </div>
+
+        <p class="footnote">Document version: 2026-05-17 (v1.0) — ContrPro Steel Erection trade pack. Procedural guidance parallels RCSC Specification (current edition), ASTM F3125 / F3148, and AISC 360 Chapter J without reproducing copyrighted material. Specifications are current as of January 2026; verify against latest RCSC + ASTM publications.</p>
+    </div>
+
+</body>
+</html>

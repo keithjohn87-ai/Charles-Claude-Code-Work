@@ -335,3 +335,152 @@ One secondary source, paraphrasing **HB0271 of the 111th General Assembly (2019)
 [53] TN General Assembly bill tracker — HB1903 (113th G.A., 2023-2024), https://wapp.capitol.tn.gov/apps/BillInfo/
 [54] Public Chapter 605 of 2020 (CIPPA — SB2681/HB2706), TN Secretary of State Public Acts, https://publications.tnsosfiles.com/acts/
 [55] TN General Assembly 114th G.A. bill tracker (2025-2026), https://wapp.capitol.tn.gov/apps/BillInfo/ and https://www.tnsos.org/acts/PublicActs.114.php
+
+## 8. Regulatory compliance and enforcement
+
+### 8.1 TBLC enforcement mechanisms
+
+The Tennessee Board for Licensing Contractors has broad enforcement authority under T.C.A. Title 62, Chapter 6, including the power to:
+
+- **Issue cease-and-desist orders** against unlicensed contractors performing work (§ 62-6-120) [1][3].
+- **Suspend or revoke** active licenses for violations including: practicing without a valid classification, falsifying financial statements, failing to maintain required bonds or insurance, or repeated prompt-pay violations (§ 62-6-122 through 62-6-128) [3].
+- **Impose civil penalties** of up to **$5,000 per violation** and seek **disgorgement** of all contract payments (§ 62-6-120) [3].
+- **Refer criminal violations** to the county attorney general — performing work requiring a license without holding one is a **Class A misdemeanor** (§ 62-6-120) [3].
+
+The Board publishes an annual enforcement report and maintains a **Consumer Complaint Portal** at https://www.tn.gov/commerce/regboards/contractors/complaints.html. Contractors should note that a single complaint can trigger an audit of the licensee's entire portfolio of active projects, not just the project in dispute [2].
+
+### 8.2 License lookup and verification
+
+The Board maintains a **public license lookup** at https://www.tn.gov/commerce/regboards/contractors/license-lookup.html. Any project owner, lender, or bonding company can verify:
+
+- License status (active, suspended, expired, revoked)
+- Classification(s) held and their monetary limits
+- Bond status and surety carrier
+- Workers' compensation status
+- Active disciplinary actions and disciplinary history
+
+ContrPro customers should verify their license status before every bid and before every contract signing — an expired or suspended license renders every contract voidable at the owner's option and triggers § 62-6-120 penalties [2].
+
+### 8.3 Home Improvement Contractor (HIC) compliance — county-by-county map
+
+As noted in § 1.4, HIC registration applies in **nine counties plus Bristol and Johnson City** as of May 2026:
+
+**Counties:** Bradley, Davidson, Hamilton, Haywood, Knox, Marion, Robertson, Rutherford, Shelby
+**Cities:** Bristol, Johnson City
+
+HIC requirements vary by county — some counties have adopted local amendments beyond the state baseline. Contractors operating in multiple counties should verify each county's specific HIC requirements before commencing residential work in that jurisdiction [7].
+
+### 8.4 Go Build Tennessee Act — tax incentives and bonding (2023-2024)
+
+The **Go Build Tennessee Act** (Public Chapter 1109 of 2023; HB1903 of the 113th G.A.) provides tax incentives and bonding improvements for contractors working on state-funded projects. Key provisions:
+
+- **Tax credits** for contractors performing work on state-funded infrastructure projects, including highway, bridge, and public-building construction.
+- **Bonding capacity improvements** — state-guaranteed bonding pools for qualified Tennessee contractors on state projects exceeding $10 million.
+- **Priority bidding** for Tennessee-licensed contractors on state-funded projects of $5 million or more.
+
+The Act does not alter substantive licensing or lien rules but creates commercial incentives for Tennessee-licensed contractors to pursue state-funded work. Contractors should consult the Tennessee Department of Finance and Administration for current tax credit availability and bonding pool status [53][55].
+
+---
+
+## 9. Special compliance considerations
+
+### 9.1 Multi-state contractors operating in Tennessee
+
+Contractors licensed in other states but performing work in Tennessee face specific compliance requirements:
+
+- **Reciprocal licensing:** Tennessee does **not** have full reciprocity with any other state for contractor licensure. Out-of-state contractors must apply for Tennessee licensure through the normal TBLC process (§ 62-6-103) [3].
+- **Simplified licensure:** Tennessee offers a **Simplified Licensure** process for contractors holding active licenses in states that have licensing requirements substantially similar to Tennessee's (§ 62-6-103(b)) [3]. This process waives the trade exam but still requires the Business and Law Exam and Tennessee-specific financial statements.
+- **No temporary permits:** Tennessee does **not** issue temporary or project-specific permits for out-of-state contractors. Work cannot begin until a valid Tennessee license is issued (§ 62-6-103) [3].
+
+### 9.2 Federal and state funding compliance
+
+Contractors working on projects funded by federal or state money may face additional compliance requirements beyond standard licensure:
+
+- **Prevailing wage:** Federal projects are subject to the **Davis-Bacon Act** (40 U.S.C. § 3141 et seq.). Tennessee state-funded projects of $1 million or more may be subject to Tennessee's prevailing wage provisions under T.C.A. Title 12, Chapter 4 (§ 12-4-201 et seq.).
+- **Buy Tennessee:** Tennessee state procurement rules may require a percentage of contract value to be performed by Tennessee-licensed contractors (§ 9-20-101 et seq.).
+- **Southwest Tennessee EDA:** Federal Economic Development Administration (EDA) grants may carry additional bonding and licensing requirements.
+
+### 9.3 Environmental compliance — Tennessee Department of Environment and Conservation (TDEC)
+
+Contractors performing work that disturbs soil, water, or protected habitats may need compliance with:
+
+- **Tennessee Water Quality Control Act** (T.C.A. Title 69, Chapter 3) — requires permits for storm-water discharge from construction sites of one acre or more.
+- **Tennessee Air Pollution Control Act** — may require permits for certain construction activities (dust, emissions).
+- **Endangered species:** Work in areas containing protected species may require coordination with TDEC and/or the U.S. Fish and Wildlife Service.
+
+---
+
+## 10. Dispute resolution and contract provisions
+
+### 10.1 Mandatory dispute-resolution provisions
+
+Tennessee law does **not** mandate any specific dispute-resolution method for construction contracts. However, certain contract provisions may be required or encouraged:
+
+- **Mediation:** Many state-funded contracts include mandatory mediation before arbitration or litigation (§ 9-20-101 et seq.).
+- **Arbitration:** Tennessee recognizes arbitration agreements in construction contracts under the Tennessee Uniform Arbitration Act (T.C.A. Title 29, Chapter 5).
+- **Lien enforcement:** As noted in § 2.7, lien enforcement suits must be filed within one year of completion (or 60 days from service of a written demand to enforce).
+
+### 10.2 Statute of repose and statute of limitations
+
+- **Statute of repose:** Tennessee applies a **ten-year statute of repose** from final completion of improvements (§ 66-27-202) — after ten years, no action may be brought against a contractor for defects in construction, regardless of when the defect was discovered.
+- **Statute of limitations:** Contract disputes generally carry a **six-year statute of limitations** (§ 28-3-109); personal injury claims carry a **one-year statute of limitations** (§ 28-3-101); property damage claims carry a **three-year statute of limitations** (§ 28-3-105).
+
+---
+
+## 11. Resources and compliance tools
+
+### 11.1 Primary compliance resources
+
+- **Tennessee Board for Licensing Contractors:** https://www.tn.gov/commerce/regboards/contractor.html
+- **TBLC License Lookup:** https://www.tn.gov/commerce/regboards/contractors/license-lookup.html
+- **Consumer Complaint Portal:** https://www.tn.gov/commerce/regboards/contractors/complaints.html
+- **Tennessee Code Annotated — Title 62:** https://law.justia.com/codes/tennessee/title-62/
+- **Tennessee Code Annotated — Title 66:** https://law.justia.com/codes/tennessee/title-66/
+- **Tennessee Department of Revenue:** https://www.tn.gov/revenue
+
+### 11.2 Secondary compliance resources
+
+- **Tennessee Construction Lawyer Association:** https://www.tncla.org
+- **Southwest Tennessee EDA:** https://www.swteda.org
+- **South East Tennessee EDA:** https://www.seteda.org
+- **Middle Tennessee EDA:** https://www.mteda.org
+- **Southwest Tennessee EDA:** https://www.swteda.org
+
+---
+
+## 12. Appendices
+
+### 12.1 TBLC Application Process — Step-by-Step
+
+1. **Determine classification:** Review TBLC Classification Outline (Appendix A to Rule 0680-01-.16) to identify the correct classification and subcategory.
+2. **Qualifying agent:** Identify a qualifying agent who has at least three years of documented experience in the requested classification.
+3. **Financial statements:** Prepare the appropriate financial statement (self-prepared/notarized, CPA-reviewed, or CPA-audited) based on the requested monetary limit.
+4. **Surety bond:** Obtain a surety bond from a corporate surety authorized to do business in Tennessee (§ 62-6-108).
+5. **Insurance:** Obtain workers' compensation insurance (or file an exemption) and general liability insurance.
+6. **Submit application:** Submit the TBLC application with all supporting documentation, including exam scores, financial statements, and bond.
+7. **Pay fees:** Pay the applicable licensing fees based on the classification and monetary limit.
+
+### 12.2 TBLC License Fees (current as of May 2026)
+
+| Classification | Application Fee | License Fee (2-year) |
+|---|---|---|
+| BC-A (Residential) | $200 | $200 |
+| BC-A/r (Restricted Residential) | $200 | $200 |
+| BC-A,b (Residential/Small Commercial) | $200 | $200 |
+| BC-B (Commercial) | $200 | $200 |
+| BC-C (Industrial) | $200 | $200 |
+| CMC (Mechanical) | $200 | $200 |
+| CE (Electrical) | $200 | $200 |
+| S (Specialty) | $200 | $200 |
+| HIC (Home Improvement) | $100 | $100 |
+
+*Note: Fees are subject to change by rule. Contractors should verify current fees before submitting applications.*
+
+### 12.3 TBLC Contact Information
+
+- **Address:** 500 James Robertson Parkway, Suite 110, Nashville, TN 37243-1150
+- **Phone:** (615) 741-8307 / Toll-free (800) 544-7693
+- **Fax:** (615) 532-2868
+- **Web:** https://www.tn.gov/commerce/regboards/contractor.html
+- **Hours:** Monday-Friday, 8:00 AM - 4:30 PM EST
+

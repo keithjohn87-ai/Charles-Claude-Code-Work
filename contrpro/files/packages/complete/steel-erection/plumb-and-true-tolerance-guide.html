@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plumb-and-True Tolerance Guide — AISC §7.13 — Steel Erection Trade Pack</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.55; max-width: 880px; margin: 40px auto; padding: 20px; color: #222; }
+        .header { text-align: center; border-bottom: 3px double #1e3a5f; padding-bottom: 20px; margin-bottom: 30px; }
+        .form-title { font-size: 26px; font-weight: bold; color: #1e3a5f; margin-bottom: 6px; }
+        .form-subtitle { font-size: 15px; color: #444; font-weight: 600; }
+        .doc-meta { font-size: 13px; color: #666; margin-top: 8px; }
+        .field { background: #f0f0f0; padding: 2px 8px; border-radius: 3px; font-style: italic; color: #555; }
+        .section { margin: 26px 0; page-break-inside: avoid; }
+        .section-title { font-weight: bold; color: #1e3a5f; font-size: 16px; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+        .article-title { font-weight: bold; color: #1e3a5f; font-size: 17px; margin: 22px 0 10px 0; padding-top: 10px; border-top: 2px solid #1e3a5f; }
+        .sub-title { font-weight: bold; color: #1e3a5f; font-size: 14px; margin: 14px 0 6px 0; }
+        .warning { background: #f8d7da; border-left: 4px solid #dc3545; padding: 14px 16px; margin: 18px 0; }
+        .warning strong { color: #721c24; }
+        .notice { background: #d1ecf1; border-left: 4px solid #0c5460; padding: 14px 16px; margin: 18px 0; }
+        .practice-note { background: #fdf6e3; border-left: 4px solid #b58900; padding: 14px 16px; margin: 14px 0; font-size: 13.5px; }
+        .practice-note .label { font-weight: bold; color: #1e3a5f; font-size: 14px; display: block; margin-bottom: 6px; }
+        .citation { background: #e9ecef; border-left: 4px solid #495057; padding: 10px 14px; margin: 10px 0; font-size: 12.5px; font-family: 'Courier New', monospace; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        td, th { padding: 7px 8px; vertical-align: top; }
+        th { background: #1e3a5f; color: #fff; text-align: left; font-size: 12.5px; }
+        .data-table td { border: 1px solid #ccc; font-size: 13px; }
+        .data-table td.label { font-weight: 600; background: #f9f9f9; width: 40%; }
+        .checklist { background: #f9f9f9; border: 1px solid #ddd; padding: 16px 20px; border-radius: 6px; }
+        .checklist ol { margin: 0; padding-left: 22px; }
+        .checklist li { margin-bottom: 6px; font-size: 13.5px; }
+        .toc { background: #f4f6f9; border: 1px solid #c0cad8; padding: 16px 22px; margin: 20px 0 28px 0; border-radius: 6px; }
+        .toc-title { font-weight: bold; color: #1e3a5f; font-size: 14px; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+        .toc ol { margin: 0; padding-left: 22px; }
+        .toc li { margin-bottom: 4px; font-size: 13.5px; }
+        .toc a { color: #1e3a5f; text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+        .footnote { font-size: 11.5px; color: #666; font-style: italic; }
+        @media print {
+            .no-print { display: none; }
+            body { margin: 0; max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="no-print" style="background: #fff3cd; border: 2px solid #856404; padding: 18px; border-radius: 8px; margin-bottom: 24px;">
+        <strong style="color: #856404; font-size: 16px;">USE WITH THE TOLERANCE SURVEY LOG (XLSX)</strong>
+        <p style="margin: 8px 0 0 0; font-size: 13.5px;">
+            Tolerance compliance per AISC Code of Standard Practice §7.13 is the contractual definition of "plumb and true" for a steel erector. This guide is the procedural reference; <em>Tolerance_Survey_Log.xlsx</em> captures the daily survey record. Together they form the evidence file demonstrating tolerance acceptance — which is the gate for cladding, MEP, and finish trades to start, and the gate for retainage release on the steel-erection subcontract.
+        </p>
+    </div>
+
+    <div class="header">
+        <div class="form-title">PLUMB-AND-TRUE TOLERANCE GUIDE</div>
+        <div class="form-subtitle">AISC Code of Standard Practice §7.13 &middot; Survey Methodology + Out-of-Tolerance Protocol</div>
+        <div class="doc-meta">
+            Project: <span class="field">[Project Name]</span> &nbsp;|&nbsp;
+            Steel Erector: <span class="field">[Erector Legal Name]</span> &nbsp;|&nbsp;
+            Guide Version: <span class="field">[v1.0 / Date]</span>
+        </div>
+    </div>
+
+    <div class="notice">
+        <strong>Why tolerances matter.</strong> Steel-erection tolerances aren't just a contract clause — they're the dimensional handoff to every downstream trade. Curtainwall anchors miss when columns are out of plumb; raised-floor systems heave when floor levels are off; mechanical equipment doesn't sit flat when beams cup or twist. The cost of correcting an out-of-tolerance condition rises geometrically with each downstream trade that builds on it. Survey early, document deviations, and resolve via RFI BEFORE the cladding sub mobilizes.
+    </div>
+
+    <div class="toc">
+        <div class="toc-title">Table of Contents</div>
+        <ol>
+            <li><a href="#sec-framework">Section 1 — AISC §7.13 Framework</a></li>
+            <li><a href="#sec-responsibilities">Section 2 — Erector vs. Fabricator vs. Owner Responsibilities</a></li>
+            <li><a href="#sec-anchor">Section 3 — Anchor Rod Tolerances</a></li>
+            <li><a href="#sec-column">Section 4 — Column Plumb Tolerance</a></li>
+            <li><a href="#sec-member">Section 5 — Member Straightness &amp; Camber</a></li>
+            <li><a href="#sec-elevation">Section 6 — Floor Elevation &amp; Levelness</a></li>
+            <li><a href="#sec-drift">Section 7 — Building Drift / Sway</a></li>
+            <li><a href="#sec-survey-method">Section 8 — Survey Methods &amp; Equipment</a></li>
+            <li><a href="#sec-survey-cadence">Section 9 — Survey Cadence (When &amp; How Often)</a></li>
+            <li><a href="#sec-out">Section 10 — Out-of-Tolerance Protocol</a></li>
+            <li><a href="#sec-asbuilt">Section 11 — As-Built Survey &amp; Sign-Off</a></li>
+        </ol>
+    </div>
+
+    <div class="section" id="sec-framework">
+        <div class="section-title">Section 1 — AISC §7.13 Framework</div>
+
+        <div class="citation">
+            AISC Code of Standard Practice for Steel Buildings and Bridges (current edition), Section 7.13 — Tolerances. Defines the standard tolerances applicable to structural steel erection on commercial U.S. building projects. The §7.13 tolerances are the default — they apply unless the Contract Documents specify tighter or different tolerances.
+        </div>
+
+        <p>The §7.13 framework is built on three layers:</p>
+
+        <ol>
+            <li><strong>Mill tolerances</strong> (ASTM A6, A500, A53, etc.) — the rolled-section out-of-straightness, sweep, and camber from the steel mill. These travel with the section as delivered to the fabricator. The erector is not responsible for these.</li>
+            <li><strong>Fabrication tolerances</strong> (AISC §6.4) — cut-to-length, hole spacing, bolt-pattern position, splice fit-up. Owned by the fabricator. The erector is not responsible for these.</li>
+            <li><strong>Erection tolerances</strong> (AISC §7.13) — column plumb, member position, floor elevation, building drift. <strong>This is the erector's domain.</strong> This guide is about Section 7.13.</li>
+        </ol>
+
+        <div class="practice-note">
+            <span class="label">Contract Documents can tighten — or override — §7.13.</span> Some specs (especially for AESS, hospitals with surgical equipment, microelectronics fabs, MRI suites) impose tolerances well tighter than §7.13. Some specs reference §7.13 verbatim. A few specs are silent and §7.13 applies by default. Read the Division 05 12 23 spec section before bid and before survey — if the spec is tighter, the survey must measure to the tighter standard, the productivity rate slows, and the bid should have priced the premium.
+        </div>
+    </div>
+
+    <div class="section" id="sec-responsibilities">
+        <div class="section-title">Section 2 — Erector vs. Fabricator vs. Owner Responsibilities</div>
+
+        <table class="data-table">
+            <tr><th>Tolerance Item</th><th>Responsible Party</th><th>Acceptance Document</th></tr>
+            <tr><td>Anchor rod position + stickup</td><td>Owner / Concrete sub</td><td>Anchor-rod survey delivered to erector before erection</td></tr>
+            <tr><td>Section straightness as delivered</td><td>Fabricator (within ASTM mill tolerance)</td><td>MTR + visual receipt at site</td></tr>
+            <tr><td>Section cut-to-length, hole pattern, bolt hole position</td><td>Fabricator</td><td>Shop-drawing approval + shop QA</td></tr>
+            <tr><td>Column plumb after erection</td><td>Erector</td><td>Plumb survey log + AISC §7.13.1.2</td></tr>
+            <tr><td>Beam level + camber preservation</td><td>Erector</td><td>Floor elevation survey log</td></tr>
+            <tr><td>Building drift</td><td>Erector (under the §7.13 envelope)</td><td>Floor-to-floor offset survey at top-out</td></tr>
+            <tr><td>Adjacent-trade interface (cladding embeds, MEP)</td><td>Negotiated — see Pre-Erection Meeting</td><td>Per Subcontract / interface drawings</td></tr>
+        </table>
+
+        <p>Disputes over which party owns an out-of-tolerance condition are common; the AISC §4.4 General Conditions and the §7.13 tolerance schedule are the controlling references. Resolve via RFI — do not allow a dispute to delay downstream trades.</p>
+    </div>
+
+    <div class="section" id="sec-anchor">
+        <div class="section-title">Section 3 — Anchor Rod Tolerances</div>
+
+        <table class="data-table">
+            <tr><th>Tolerance</th><th>Limit</th><th>AISC §</th></tr>
+            <tr><td>Anchor rod position — single rod within a pattern</td><td>±1/8" max from theoretical</td><td>AISC §7.5.1</td></tr>
+            <tr><td>Anchor rod pattern position from column line</td><td>±1/4" max</td><td>AISC §7.5.1</td></tr>
+            <tr><td>Anchor rod stickup above top of concrete</td><td>±1/8" max</td><td>AISC §7.5.2</td></tr>
+            <tr><td>Anchor rod plumb (vertical alignment)</td><td>1:40 max deviation</td><td>AISC §7.5.2</td></tr>
+        </table>
+
+        <div class="practice-note">
+            <span class="label">Anchor rods are upstream of the erector.</span> Per the Pre-Erection Meeting (§1926.752(a) notification), the controlling contractor delivers an anchor-rod survey BEFORE the erector starts. The erector verifies the survey on receipt; out-of-tolerance rods are remediated by the concrete sub under the EOR's direction (NEVER by the erector field-modifying the rod per OSHA §1926.755(b)). If you find a survey error in the field, RFI immediately — don't try to make a base plate work on a non-conforming pattern.
+        </div>
+    </div>
+
+    <div class="section" id="sec-column">
+        <div class="section-title">Section 4 — Column Plumb Tolerance</div>
+
+        <div class="citation">
+            AISC §7.13.1.2 — Individual columns shall be plumb within a tolerance of 1:500 of the column length from the top of the base plate to the top of the column (or the top of the splice on a multi-story column).
+        </div>
+
+        <table class="data-table">
+            <tr><th>Column Length</th><th>Allowable Plumb Deviation (1:500)</th><th>Practical Note</th></tr>
+            <tr><td>10 ft</td><td>0.24" (≈ 1/4")</td><td>Hard to measure precisely with a plumb bob; total station recommended</td></tr>
+            <tr><td>15 ft</td><td>0.36" (≈ 3/8")</td><td>Single-story commercial typical</td></tr>
+            <tr><td>20 ft</td><td>0.48" (≈ 1/2")</td><td>Tall single-story / industrial</td></tr>
+            <tr><td>30 ft</td><td>0.72" (≈ 3/4")</td><td>Multi-story column to first splice</td></tr>
+            <tr><td>40 ft</td><td>0.96" (≈ 1")</td><td>Column to second splice; building footprint critical</td></tr>
+            <tr><td>60 ft</td><td>1.44"</td><td>Mid-rise — drift accumulation becomes the dominant concern</td></tr>
+        </table>
+
+        <div class="sub-title">4.1 — Exterior Columns (AESS or Cladding-Critical)</div>
+        <p>For exterior columns visible in the finished structure, OR exterior columns that anchor curtainwall, the Contract Documents typically tighten this. Common tightened tolerance: 1:1000 column plumb, AND no more than 1" total deviation from column line at any elevation. Verify against the project spec.</p>
+
+        <div class="sub-title">4.2 — Plumb Direction Convention</div>
+        <p>Plumb deviation is reported as the offset at the top of the column from the theoretical plumb-vertical from the base plate, in inches, in two directions (North-South and East-West, OR X and Y of the grid). Sign convention: positive in the direction of grid increase.</p>
+    </div>
+
+    <div class="section" id="sec-member">
+        <div class="section-title">Section 5 — Member Straightness &amp; Camber</div>
+
+        <ul>
+            <li><strong>Beam straightness (sweep + camber):</strong> per ASTM A6 mill tolerance — typically 1/8" per 10 ft for hot-rolled W shapes. The erector preserves the as-delivered straightness; if a beam arrives twisted or hogged from shipping, document on the Daily Field Report and request fabricator replacement.</li>
+            <li><strong>Specified camber preservation:</strong> beams cambered per shop drawings (typically composite floor beams) must arrive with the camber and be installed so it remains. The erector should not force-set a cambered beam in a way that loses camber.</li>
+            <li><strong>Bowed columns:</strong> a column out of straightness exceeding ASTM A6 mill tolerance is a fabrication issue and should be returned to the fabricator. Field straightening requires EOR approval and is generally not advisable.</li>
+            <li><strong>Twisted members:</strong> rolled section twist (per ASTM A6) typically 1:1000 of length. Twist must be checked at receipt and accommodated by the connection configuration — if twist causes mis-alignment of bolt holes, that's a fab issue, not an erection issue.</li>
+        </ul>
+    </div>
+
+    <div class="section" id="sec-elevation">
+        <div class="section-title">Section 6 — Floor Elevation &amp; Levelness</div>
+
+        <table class="data-table">
+            <tr><th>Tolerance Item</th><th>Limit</th><th>AISC §</th></tr>
+            <tr><td>Beam top elevation (level along length)</td><td>±1/8" from theoretical</td><td>AISC §7.13.1.4</td></tr>
+            <tr><td>Beam-to-beam connection elevation match</td><td>±1/8"</td><td>AISC §7.13.1.4</td></tr>
+            <tr><td>Floor-to-floor height (multi-story)</td><td>±1/4"</td><td>AISC §7.13.1.4</td></tr>
+            <tr><td>Composite floor — top of deck elevation</td><td>±1/4" before concrete pour (deck only); ±1/8" of finished slab after pour (concrete sub responsible)</td><td>Project spec</td></tr>
+        </table>
+
+        <p>Floor-elevation survey is critical for composite-floor projects where the concrete sub follows the erector — discrepancies in deck elevation translate to over- or under-pour of slab thickness, which is a real cost line item the concrete sub will backcharge if the erector misses the tolerance.</p>
+    </div>
+
+    <div class="section" id="sec-drift">
+        <div class="section-title">Section 7 — Building Drift / Sway</div>
+
+        <p>Drift = the cumulative horizontal offset of the building's exterior columns from their theoretical column line, measured at any elevation. AISC §7.13.1.3:</p>
+
+        <table class="data-table">
+            <tr><th>Drift Item</th><th>Limit</th></tr>
+            <tr><td>Exterior column drift from column line — multi-story</td><td>1:500 of total column height from base</td></tr>
+            <tr><td>Drift at corner columns — typical limit</td><td>±1" plus 1/2" per story above 20 floors</td></tr>
+            <tr><td>Lateral envelope (worst-case 4-corner deviation)</td><td>Per Contract Documents — often 1.5× single-column drift</td></tr>
+        </table>
+
+        <p>Drift is the most critical tolerance for tall buildings with curtainwall. Curtainwall anchor positions in the field are set to the as-built drift — if drift exceeds the curtainwall sub's allowance, the anchors require shimming, the panels require trimming, or the cladding design requires modification. Document drift early; coordinate with the cladding sub at the Pre-Erection Meeting.</p>
+    </div>
+
+    <div class="section" id="sec-survey-method">
+        <div class="section-title">Section 8 — Survey Methods &amp; Equipment</div>
+
+        <table class="data-table">
+            <tr><th>Method</th><th>Best Use</th><th>Accuracy</th><th>Notes</th></tr>
+            <tr><td>Total Station (robotic or manual)</td><td>Column plumb, drift, position verification</td><td>±1/16" at typical range</td><td>Industry standard for commercial steel surveying</td></tr>
+            <tr><td>GPS / RTK</td><td>Large-footprint / industrial sites</td><td>±1/2" RTK</td><td>Useful for site layout; less common for column plumb</td></tr>
+            <tr><td>Plumb bob</td><td>Short columns (≤ 20 ft), spot checks</td><td>±1/8" — wind-sensitive</td><td>Cheap; backup tool, not primary</td></tr>
+            <tr><td>Laser plummet (zenith / nadir)</td><td>High-rise vertical reference</td><td>±1/16" at 100 ft</td><td>Used for tower-crane and core-wall verification</td></tr>
+            <tr><td>Optical level</td><td>Floor elevations, top-of-beam checks</td><td>±1/16" at 100 ft</td><td>Combine with total station for full set</td></tr>
+            <tr><td>Spirit level (4-ft / 6-ft)</td><td>Beam-by-beam in-place check</td><td>±1/16"</td><td>Field check before final tighten</td></tr>
+        </table>
+
+        <p>Total station is the standard for commercial work. Set up benchmark control points before erection starts (typically two reference monuments outside the building footprint, established by the GC's surveyor). The erector's surveyor (in-house or subbed) ties columns back to the benchmarks at each plumb-up.</p>
+    </div>
+
+    <div class="section" id="sec-survey-cadence">
+        <div class="section-title">Section 9 — Survey Cadence (When &amp; How Often)</div>
+
+        <table class="data-table">
+            <tr><th>Survey Event</th><th>When</th><th>What's Measured</th></tr>
+            <tr><td>Pre-erection benchmark</td><td>Before first column set</td><td>Reference monuments + column-line offsets verified against GC surveyor's layout</td></tr>
+            <tr><td>Initial column plumb</td><td>After every column set, before next column on the same grid</td><td>Plumb at top of column; adjusted via diagonal bracing</td></tr>
+            <tr><td>Bay plumb-up</td><td>After every 2-bay placement (typical) — before next bay framing</td><td>Plumb of all columns in placed bays; full survey, recorded</td></tr>
+            <tr><td>Floor / level survey</td><td>After each floor's beams + decking complete, before concrete pour</td><td>Top-of-deck elevations vs. theoretical; floor-to-floor heights</td></tr>
+            <tr><td>Top-out survey</td><td>After last column / beam set</td><td>Full as-built — drift, plumb, elevation envelope</td></tr>
+            <tr><td>Pre-cladding survey</td><td>Before curtainwall sub mobilizes</td><td>Drift envelope, exterior column position, embed verification</td></tr>
+            <tr><td>Substantial completion survey</td><td>At handover</td><td>As-built record for Owner's archives</td></tr>
+        </table>
+    </div>
+
+    <div class="section" id="sec-out">
+        <div class="section-title">Section 10 — Out-of-Tolerance Protocol</div>
+
+        <ol>
+            <li><strong>Discover.</strong> Survey crew measures and identifies a deviation exceeding §7.13 (or tighter spec) tolerance. Document on Tolerance Survey Log with measured value, theoretical, deviation, location, and date.</li>
+            <li><strong>Stop adjacent work.</strong> If the deviation affects an in-progress bay (e.g., a column out of plumb that subsequent beams will frame to), pause erection of dependent members until resolved. Continuing to frame to an out-of-tolerance column compounds the deviation.</li>
+            <li><strong>Investigate root cause.</strong> Common causes: anchor-rod position error (concrete sub), shipping damage to member, base-plate shim error, temperature differential (sun on one side), inadequate diagonal bracing during cure of column splice.</li>
+            <li><strong>Attempt field correction.</strong> If the column is still adjustable (no permanent splice / cap connection complete), re-plumb via diagonal bracing. Re-survey to confirm.</li>
+            <li><strong>RFI to EOR.</strong> If field correction is not possible OR the deviation exceeds what diagonal bracing can correct, issue an RFI to the EOR describing the deviation, the cause, and proposed remedy. EOR options: accept as-is (re-engineer the connection geometry, modify cladding), require correction (cut + re-erect), require additional reinforcement.</li>
+            <li><strong>Document resolution.</strong> Update the Tolerance Survey Log with the resolution (RFI #, EOR response, corrective action taken, re-survey confirmation).</li>
+            <li><strong>Notify downstream trades.</strong> If the out-of-tolerance condition affects cladding, MEP, or finish trades, notify the GC PM so coordination meetings can address it.</li>
+        </ol>
+
+        <div class="warning">
+            <strong>The deviation log is the litigation record.</strong> Out-of-tolerance steel-erection conditions are a common driver of construction defect claims — both because they sometimes cause real downstream failures (cladding leak, MEP misalignment), and because they're easy for an unhappy owner to seize on years later. A complete, signed, dated, contemporaneous Tolerance Survey Log showing each deviation, its resolution, and the EOR's acceptance is the erector's strongest defense. Conversely, gaps in the log invite hostile reconstruction of what "must have happened."
+        </div>
+    </div>
+
+    <div class="section" id="sec-asbuilt">
+        <div class="section-title">Section 11 — As-Built Survey &amp; Sign-Off</div>
+
+        <p>At substantial completion of steel erection (typically just before fireproofing / cladding starts), perform a full as-built survey:</p>
+
+        <ul>
+            <li>Plan position of every primary column at base and at top of each splice.</li>
+            <li>Floor-to-floor elevation at four corners + center of each floor.</li>
+            <li>Exterior building envelope drift profile, plotted by elevation.</li>
+            <li>Anchor-bolt / connection points for cladding embeds.</li>
+            <li>Any documented deviations that did not require remediation (EOR-accepted as-is).</li>
+        </ul>
+
+        <p>Submit the as-built survey to the GC and EOR for written acceptance. EOR acceptance triggers:</p>
+
+        <ol>
+            <li>Cladding sub mobilization (anchors set to as-built).</li>
+            <li>MEP rough-in continuation in completed bays.</li>
+            <li>Retainage release per Subcontract Section 4 (typically partial release at structural Substantial Completion).</li>
+        </ol>
+
+        <table class="data-table">
+            <tr><td class="label">As-built survey complete:</td><td>☐ Date: <span class="field">[Date]</span></td></tr>
+            <tr><td class="label">EOR review:</td><td>☐ Date: <span class="field">[Date]</span></td></tr>
+            <tr><td class="label">EOR acceptance letter on file:</td><td>☐ Yes — Letter dated <span class="field">[Date]</span></td></tr>
+            <tr><td class="label">Cladding sub notified:</td><td>☐ Yes — Date <span class="field">[Date]</span></td></tr>
+            <tr><td class="label">Retainage reduction requested:</td><td>☐ Yes — Pay App # <span class="field">[#]</span></td></tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <div class="warning">
+            <strong>Closing reminder.</strong> AISC §7.13 tolerance compliance is the contractual definition of "plumb and true" — but the survey, the documentation, and the EOR's acceptance are the operational outputs that gate downstream trades and retainage. Build the tolerance survey into your daily workflow (not an end-of-job check-the-box); document every deviation contemporaneously; resolve via RFI before the cladding sub mobilizes. Pair this guide with <em>Tolerance_Survey_Log.xlsx</em> for the daily record.
+        </div>
+
+        <p class="footnote">Document version: 2026-05-17 (v1.0) — ContrPro Steel Erection trade pack. Procedural guidance parallels the AISC Code of Standard Practice for Steel Buildings and Bridges (current edition), AISC §7.13 and ASTM A6 without reproducing copyrighted material. Specifications are current as of January 2026; verify against latest AISC + ASTM publications.</p>
+    </div>
+
+</body>
+</html>

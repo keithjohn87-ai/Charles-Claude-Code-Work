@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Field Report Template &amp; Guide — Universal Sub Suite</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.55; max-width: 880px; margin: 40px auto; padding: 20px; color: #222; }
+        .header { text-align: center; border-bottom: 3px double #1e3a5f; padding-bottom: 20px; margin-bottom: 30px; }
+        .form-title { font-size: 26px; font-weight: bold; color: #1e3a5f; margin-bottom: 6px; }
+        .form-subtitle { font-size: 15px; color: #444; font-weight: 600; }
+        .doc-meta { font-size: 13px; color: #666; margin-top: 8px; }
+        .field { background: #f0f0f0; padding: 2px 8px; border-radius: 3px; font-style: italic; color: #555; }
+        .section { margin: 26px 0; page-break-inside: avoid; }
+        .section-title { font-weight: bold; color: #1e3a5f; font-size: 16px; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+        .article-title { font-weight: bold; color: #1e3a5f; font-size: 17px; margin: 22px 0 10px 0; padding-top: 10px; border-top: 2px solid #1e3a5f; }
+        .sub-title { font-weight: bold; color: #1e3a5f; font-size: 14px; margin: 14px 0 6px 0; }
+        .warning { background: #f8d7da; border-left: 4px solid #dc3545; padding: 14px 16px; margin: 18px 0; }
+        .warning strong { color: #721c24; }
+        .notice { background: #d1ecf1; border-left: 4px solid #0c5460; padding: 14px 16px; margin: 18px 0; }
+        .practice-note { background: #fdf6e3; border-left: 4px solid #b58900; padding: 14px 16px; margin: 14px 0; font-size: 13.5px; }
+        .practice-note .label { font-weight: bold; color: #1e3a5f; font-size: 14px; display: block; margin-bottom: 6px; }
+        .form-block { border: 2px solid #1e3a5f; padding: 18px; margin: 18px 0; background: #ffffff; }
+        .form-block .form-block-title { font-weight: bold; color: #1e3a5f; text-transform: uppercase; letter-spacing: 1px; font-size: 13px; margin-bottom: 14px; padding-bottom: 6px; border-bottom: 1px solid #ccc; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        td, th { padding: 7px 8px; vertical-align: top; }
+        th { background: #1e3a5f; color: #fff; text-align: left; font-size: 12.5px; }
+        .data-table td { border: 1px solid #ccc; font-size: 13px; }
+        .data-table td.label { font-weight: 600; background: #f9f9f9; width: 40%; }
+        .checklist { background: #f9f9f9; border: 1px solid #ddd; padding: 16px 20px; border-radius: 6px; }
+        .checklist ol { margin: 0; padding-left: 22px; }
+        .checklist li { margin-bottom: 6px; font-size: 13.5px; }
+        .toc { background: #f4f6f9; border: 1px solid #c0cad8; padding: 16px 22px; margin: 20px 0 28px 0; border-radius: 6px; }
+        .toc-title { font-weight: bold; color: #1e3a5f; font-size: 14px; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+        .toc ol { margin: 0; padding-left: 22px; }
+        .toc li { margin-bottom: 4px; font-size: 13.5px; }
+        .footnote { font-size: 11.5px; color: #666; font-style: italic; }
+        .page-break { page-break-before: always; }
+        .signature-line { border-top: 1px solid #000; width: 360px; margin-top: 40px; padding-top: 5px; font-size: 12.5px; }
+        @media print {
+            .no-print { display: none; }
+            body { margin: 0; max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="no-print" style="background: #fff3cd; border: 2px solid #856404; padding: 18px; border-radius: 8px; margin-bottom: 24px;">
+        <strong style="color: #856404; font-size: 16px;">HOW THIS PACK WORKS</strong>
+        <p style="margin: 8px 0 0 0; font-size: 13.5px;">
+            Sections 1-4 are a guide explaining why a Daily Field Report (DFR) matters, what it captures, and how it functions as evidence in disputes. Sections 5-6 contain the printable DFR form (paper backup for the field) and the closeout/weekly summary form. The companion workbook <em>Daily_Field_Report.xlsx</em> contains a digital version with one tab per day for a full month plus an auto-rolling summary tab. Use the paper form in the field if the digital workflow is impractical; transcribe to the workbook the same day.
+        </p>
+    </div>
+
+    <div class="header">
+        <div class="form-title">DAILY FIELD REPORT</div>
+        <div class="form-subtitle">Template, Guide, &amp; Recordkeeping Workflow for Subcontractor Field Operations</div>
+        <div class="doc-meta">
+            Companion workbook: <em>Daily_Field_Report.xlsx</em>
+        </div>
+    </div>
+
+    <div class="notice">
+        <strong>Why DFRs matter.</strong> The Daily Field Report is the single most important document a sub produces on a construction project. It is the contemporaneous record of what happened on site each day — who was there, what they did, what conditions affected work, what was delivered, what was observed, what was directed, what was disputed. In every meaningful construction dispute — backcharges, change orders, delay claims, defect claims, OSHA disputes — the DFRs of the sub and the GC are the first evidence opened. A complete DFR file is the sub's strongest defense; a thin or missing DFR file is one of the most common reasons subs lose disputes that they should have won on the merits.
+    </div>
+
+    <div class="toc">
+        <div class="toc-title">Table of Contents</div>
+        <ol>
+            <li><a href="#sec-purpose">Section 1 — Why the DFR Exists</a></li>
+            <li><a href="#sec-what">Section 2 — What a DFR Captures</a></li>
+            <li><a href="#sec-discipline">Section 3 — Field Discipline</a></li>
+            <li><a href="#sec-uses">Section 4 — How DFRs Are Used (Disputes, Audits, Closeout)</a></li>
+            <li><a href="#sec-form-daily">Section 5 — Daily Field Report Form (Printable)</a></li>
+            <li><a href="#sec-form-weekly">Section 6 — Weekly Roll-Up Summary (Printable)</a></li>
+            <li><a href="#sec-checklist">Section 7 — Foreman's Pre-Sign Checklist</a></li>
+        </ol>
+    </div>
+
+    <div class="section" id="sec-purpose">
+        <div class="section-title">Section 1 — Why the DFR Exists</div>
+
+        <p>A DFR serves four overlapping purposes:</p>
+
+        <ol>
+            <li><strong>Project-management record.</strong> A real-time record of crew, productivity, weather, schedule, and conditions, used by the PM to manage the project, forecast remaining work, and identify problems early.</li>
+            <li><strong>Evidence preservation.</strong> The first record of an event on the project, written contemporaneously and signed by a participant — the strongest form of evidence in a construction dispute. Memory of an event a year later is impeachable; a contemporaneous DFR is not.</li>
+            <li><strong>Schedule and productivity reporting.</strong> A consolidated daily record that supports the sub's monthly productivity reports, manpower forecasts, and schedule recovery plans.</li>
+            <li><strong>Compliance documentation.</strong> Required by many Subcontracts. On prevailing-wage and federal projects, DFRs support certified-payroll classifications. On safety-sensitive projects, DFRs document toolbox talks, safety meetings, and incidents.</li>
+        </ol>
+
+        <div class="practice-note">
+            <span class="label">DFR vs. Time Card vs. RFI Log.</span> A DFR is broader than a time card (which captures hours only) and more granular than an RFI log (which captures questions only). It is the field foreman's narrative of the day, with supporting structured data. The structure of the DFR matters because (a) it forces the foreman to think about all of the categories that matter and (b) it allows later searches by category ("show me every DFR with a delay code" or "show me every day when more than 8 crew were on this elevation"). The sub's DFR system should support both narrative and structured fields.
+        </div>
+    </div>
+
+    <div class="section" id="sec-what">
+        <div class="section-title">Section 2 — What a DFR Captures</div>
+
+        <table class="data-table">
+            <tr><th>Category</th><th>What to record</th></tr>
+            <tr><td>Identifying info</td><td>Date; day-of-week; DFR number (sequential); project; sub; foreman name</td></tr>
+            <tr><td>Weather</td><td>AM/PM temp; precipitation; wind; impact on work (none / minor / lost time)</td></tr>
+            <tr><td>Crew</td><td>Each worker name; classification; ST/OT hours; tasks (with location/elevation)</td></tr>
+            <tr><td>Subcontractor / lower-tier</td><td>Lower-tier subs on site; their crew counts and scope</td></tr>
+            <tr><td>Equipment on site</td><td>Each piece; owned or rented; operating hours; idle hours</td></tr>
+            <tr><td>Materials delivered or installed</td><td>What arrived; what was installed; quantities; supplier</td></tr>
+            <tr><td>Work performed</td><td>Narrative — what crews accomplished; reference drawings/specs/RFIs</td></tr>
+            <tr><td>Schedule notes</td><td>Activities started / completed; status vs. baseline; lookahead drift</td></tr>
+            <tr><td>Conditions affecting work</td><td>Differing site conditions; missing GC trades; access issues; utilities; inspections</td></tr>
+            <tr><td>Directives / changes</td><td>Any GC directive issued today; T&amp;M tickets opened; RFIs issued or answered</td></tr>
+            <tr><td>Visitors</td><td>Owner, architect, engineer, inspector, AHJ, third-party visit; sign-in if required</td></tr>
+            <tr><td>Safety</td><td>Toolbox topic; near-miss; first aid; incident; PPE compliance audit; OSHA visit</td></tr>
+            <tr><td>Quality</td><td>Inspections passed/failed; testing performed; non-conforming materials</td></tr>
+            <tr><td>Photos</td><td>Photo log: file name / description / time / location; attached separately</td></tr>
+            <tr><td>Open issues</td><td>Issues escalated to the office; follow-up needed</td></tr>
+            <tr><td>Foreman signature + GC field-rep signature (optional)</td><td>Signed at end of shift; same-day countersignature is gold</td></tr>
+        </table>
+    </div>
+
+    <div class="section" id="sec-discipline">
+        <div class="section-title">Section 3 — Field Discipline</div>
+
+        <p>A DFR system is only useful if foremen actually fill it out. The four habits the sub's PM enforces:</p>
+
+        <ol>
+            <li><strong>Same-day rule.</strong> DFRs are completed and signed before the foreman leaves the site for the day. "I'll do it tomorrow morning" is the start of a DFR file with holes.</li>
+            <li><strong>Specific, not generic.</strong> "Worked on south wall framing" is not a DFR entry. "Framed exterior wall sections E-1 through E-4 at south elevation; installed 18 ga metal studs, 16" o.c., 14'-6" tall; awaiting MEP rough-in for ECS-3 routing before sheathing" is. The specific entry is what survives in a dispute; the generic entry is what loses.</li>
+            <li><strong>Photographs every day.</strong> A minimum of 6-8 photos per day, geo-tagged and time-stamped, covering the locations the crew worked. Phone cameras are universally available; the marginal cost is zero; the marginal value in disputes is enormous.</li>
+            <li><strong>Flag conditions immediately.</strong> If a condition affecting work appeared today (a missing trade, an unexpected access restriction, a wet basement, an electrical de-energization), the DFR identifies it AND the foreman raises it the same day with the GC field rep. Quiet documentation that does not result in a directive is later impeached as "you didn't think it was important enough to raise" — defeating the contemporaneous-evidence argument.</li>
+        </ol>
+
+        <div class="warning">
+            <strong>Do not edit DFRs after the fact.</strong> A DFR submitted with the date of work and then edited two weeks later is a fraud vector. The integrity of a contemporaneous record depends on its contemporaneity. If a correction or addition is required, it is made as a new dated entry referring back to the original DFR by number, not as an edit to the original. The same principle applies to digital DFRs: the system should preserve an audit trail.
+        </div>
+    </div>
+
+    <div class="section" id="sec-uses">
+        <div class="section-title">Section 4 — How DFRs Are Used</div>
+
+        <table class="data-table">
+            <tr><th>Use case</th><th>DFR entries that matter</th></tr>
+            <tr><td>Defending a backcharge for "your crew damaged X"</td><td>Crew location entries (showing crew was not at X); photos of X before and after; visitor log (third parties on site at X)</td></tr>
+            <tr><td>Pricing a change order for added work</td><td>Crew hours allocated to the change directive; equipment used; materials consumed; productivity vs. base scope</td></tr>
+            <tr><td>Asserting a delay claim for late GC trade</td><td>Lookahead activities prevented by the missing trade; idle crew hours; rescheduling impact</td></tr>
+            <tr><td>Defending a defect claim post-completion</td><td>Inspections passed on the day of installation; installer's signature; materials traceability</td></tr>
+            <tr><td>Documenting a constructive change (no Change Order issued)</td><td>The directive in the DFR; the foreman's notation that "this exceeds the bid scope per RFI #__"; the field rep's countersignature; preserving claim per Subcontract notice provisions</td></tr>
+            <tr><td>OSHA investigation</td><td>Toolbox topics that day; PPE inspection notes; near-miss entries</td></tr>
+            <tr><td>Closeout punch list dispute</td><td>Inspection records and photos of completed work on date of substantial completion; what was complete vs. punch-list</td></tr>
+        </table>
+    </div>
+
+    <div class="section page-break" id="sec-form-daily">
+        <div class="section-title">Section 5 — Daily Field Report Form (Printable)</div>
+
+        <p style="font-size: 12.5px;"><em>One page per day. Print or save as PDF and store with the project file. The XLSX companion has the same fields in digital form.</em></p>
+
+        <div class="form-block">
+            <div class="form-block-title">Daily Field Report</div>
+
+            <table class="data-table">
+                <tr><td class="label">DFR #:</td><td><span class="field">[Sequential #]</span></td><td class="label">Date:</td><td><span class="field">[Date]</span></td></tr>
+                <tr><td class="label">Day:</td><td><span class="field">[Sun/Mon/...]</span></td><td class="label">Workweek #:</td><td><span class="field">[#]</span></td></tr>
+                <tr><td class="label">Project:</td><td colspan="3"><span class="field">[Project Name]</span></td></tr>
+                <tr><td class="label">Sub:</td><td colspan="3"><span class="field">[Subcontractor Legal Name]</span></td></tr>
+                <tr><td class="label">Foreman:</td><td><span class="field">[Name]</span></td><td class="label">Sub's PM:</td><td><span class="field">[Name]</span></td></tr>
+            </table>
+
+            <div class="sub-title">Weather</div>
+            <table class="data-table">
+                <tr><td class="label">AM Temp / Conditions:</td><td><span class="field">[°F / Clear / Rain / Snow]</span></td></tr>
+                <tr><td class="label">PM Temp / Conditions:</td><td><span class="field">[°F / Clear / Rain / Snow]</span></td></tr>
+                <tr><td class="label">Wind / Visibility:</td><td><span class="field">[mph / Notes]</span></td></tr>
+                <tr><td class="label">Impact on Work:</td><td>☐ None &nbsp; ☐ Minor &nbsp; ☐ Hours lost (specify): <span class="field">[Description]</span></td></tr>
+            </table>
+
+            <div class="sub-title">Sub's Crew On Site</div>
+            <table class="data-table">
+                <tr><th>Name</th><th>Classification</th><th>ST Hrs</th><th>OT Hrs</th><th>Task / Location</th></tr>
+                <tr><td><span class="field">[Name]</span></td><td><span class="field">[Class]</span></td><td><span class="field">[#]</span></td><td><span class="field">[#]</span></td><td><span class="field">[Task]</span></td></tr>
+                <tr><td><span class="field">[Name]</span></td><td><span class="field">[Class]</span></td><td><span class="field">[#]</span></td><td><span class="field">[#]</span></td><td><span class="field">[Task]</span></td></tr>
+                <tr><td><span class="field">[Name]</span></td><td><span class="field">[Class]</span></td><td><span class="field">[#]</span></td><td><span class="field">[#]</span></td><td><span class="field">[Task]</span></td></tr>
+                <tr><td><span class="field">[Name]</span></td><td><span class="field">[Class]</span></td><td><span class="field">[#]</span></td><td><span class="field">[#]</span></td><td><span class="field">[Task]</span></td></tr>
+                <tr><td><span class="field">[Name]</span></td><td><span class="field">[Class]</span></td><td><span class="field">[#]</span></td><td><span class="field">[#]</span></td><td><span class="field">[Task]</span></td></tr>
+                <tr><td><span class="field">[Name]</span></td><td><span class="field">[Class]</span></td><td><span class="field">[#]</span></td><td><span class="field">[#]</span></td><td><span class="field">[Task]</span></td></tr>
+                <tr><td colspan="2"><strong>Crew Totals</strong></td><td><strong><span class="field">[Σ]</span></strong></td><td><strong><span class="field">[Σ]</span></strong></td><td></td></tr>
+            </table>
+
+            <div class="sub-title">Lower-Tier Subs / Suppliers on Site</div>
+            <table class="data-table">
+                <tr><th>Firm</th><th>Trade</th><th>Crew</th><th>Scope Today</th></tr>
+                <tr><td><span class="field">[Firm]</span></td><td><span class="field">[Trade]</span></td><td><span class="field">[#]</span></td><td><span class="field">[Notes]</span></td></tr>
+                <tr><td><span class="field">[Firm]</span></td><td><span class="field">[Trade]</span></td><td><span class="field">[#]</span></td><td><span class="field">[Notes]</span></td></tr>
+            </table>
+
+            <div class="sub-title">Equipment on Site</div>
+            <table class="data-table">
+                <tr><th>Equipment</th><th>Owned / Rented</th><th>Hrs Operating</th><th>Hrs Idle</th><th>Notes</th></tr>
+                <tr><td><span class="field">[Equipment]</span></td><td><span class="field">[Type]</span></td><td><span class="field">[#]</span></td><td><span class="field">[#]</span></td><td><span class="field">[Notes]</span></td></tr>
+                <tr><td><span class="field">[Equipment]</span></td><td><span class="field">[Type]</span></td><td><span class="field">[#]</span></td><td><span class="field">[#]</span></td><td><span class="field">[Notes]</span></td></tr>
+            </table>
+
+            <div class="sub-title">Materials Delivered / Installed</div>
+            <table class="data-table">
+                <tr><th>Material</th><th>Supplier</th><th>Qty Delivered</th><th>Qty Installed</th><th>Location</th></tr>
+                <tr><td><span class="field">[Material]</span></td><td><span class="field">[Supplier]</span></td><td><span class="field">[Qty]</span></td><td><span class="field">[Qty]</span></td><td><span class="field">[Location]</span></td></tr>
+                <tr><td><span class="field">[Material]</span></td><td><span class="field">[Supplier]</span></td><td><span class="field">[Qty]</span></td><td><span class="field">[Qty]</span></td><td><span class="field">[Location]</span></td></tr>
+            </table>
+
+            <div class="sub-title">Work Performed (Narrative)</div>
+            <p style="min-height: 80px; border: 1px dashed #aaa; padding: 10px;"><span class="field">[Specific narrative — locations, drawings/specs referenced, progress, productivity notes]</span></p>
+
+            <div class="sub-title">Conditions Affecting Work</div>
+            <table class="data-table">
+                <tr><td class="label">Differing site conditions:</td><td>☐ None &nbsp; ☐ Yes: <span class="field">[Describe]</span></td></tr>
+                <tr><td class="label">Missing GC trade / access:</td><td>☐ None &nbsp; ☐ Yes: <span class="field">[Describe]</span></td></tr>
+                <tr><td class="label">Utility / power:</td><td>☐ None &nbsp; ☐ Issue: <span class="field">[Describe]</span></td></tr>
+                <tr><td class="label">Inspection / AHJ:</td><td>☐ None &nbsp; ☐ Yes: <span class="field">[Inspector / outcome]</span></td></tr>
+                <tr><td class="label">Idle crew hours due to conditions:</td><td><span class="field">[# / Reason]</span></td></tr>
+            </table>
+
+            <div class="sub-title">Directives, RFIs, T&amp;M Tickets</div>
+            <table class="data-table">
+                <tr><th>#</th><th>Type</th><th>Originator</th><th>Description</th><th>Status</th></tr>
+                <tr><td>1</td><td><span class="field">[Directive / RFI / T&amp;M / Submittal]</span></td><td><span class="field">[GC PM / Field Eng]</span></td><td><span class="field">[Description]</span></td><td><span class="field">[Status]</span></td></tr>
+                <tr><td>2</td><td><span class="field">[Type]</span></td><td><span class="field">[Originator]</span></td><td><span class="field">[Description]</span></td><td><span class="field">[Status]</span></td></tr>
+            </table>
+
+            <div class="sub-title">Visitors</div>
+            <p><span class="field">[Owner / Architect / Engineer / Inspector / AHJ — name, time, purpose]</span></p>
+
+            <div class="sub-title">Safety</div>
+            <table class="data-table">
+                <tr><td class="label">Toolbox topic:</td><td><span class="field">[Topic]</span></td></tr>
+                <tr><td class="label">Near-miss / first aid / incident:</td><td>☐ None &nbsp; ☐ Reported (separate Incident Report)</td></tr>
+                <tr><td class="label">PPE audit notes:</td><td><span class="field">[Notes]</span></td></tr>
+                <tr><td class="label">OSHA visit:</td><td>☐ None &nbsp; ☐ Yes: <span class="field">[Inspector / outcome]</span></td></tr>
+            </table>
+
+            <div class="sub-title">Photos</div>
+            <table class="data-table">
+                <tr><th>File / Frame</th><th>Time</th><th>Location</th><th>Description</th></tr>
+                <tr><td><span class="field">[File]</span></td><td><span class="field">[hh:mm]</span></td><td><span class="field">[Location]</span></td><td><span class="field">[Description]</span></td></tr>
+                <tr><td><span class="field">[File]</span></td><td><span class="field">[hh:mm]</span></td><td><span class="field">[Location]</span></td><td><span class="field">[Description]</span></td></tr>
+                <tr><td><span class="field">[File]</span></td><td><span class="field">[hh:mm]</span></td><td><span class="field">[Location]</span></td><td><span class="field">[Description]</span></td></tr>
+                <tr><td><span class="field">[File]</span></td><td><span class="field">[hh:mm]</span></td><td><span class="field">[Location]</span></td><td><span class="field">[Description]</span></td></tr>
+            </table>
+
+            <div class="sub-title">Open Issues / Escalations to Office</div>
+            <p style="min-height: 50px; border: 1px dashed #aaa; padding: 10px;"><span class="field">[List items for PM follow-up]</span></p>
+
+            <div class="sub-title">Signatures</div>
+            <table class="data-table">
+                <tr><td class="label">Foreman:</td><td><span class="field">[Signature / Print / Date]</span></td></tr>
+                <tr><td class="label">GC Field Rep (countersignature — optional but valuable):</td><td><span class="field">[Signature / Print / Date]</span></td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="section page-break" id="sec-form-weekly">
+        <div class="section-title">Section 6 — Weekly Roll-Up Summary (Printable)</div>
+
+        <p style="font-size: 12.5px;"><em>Completed by Sub's PM at the end of each workweek. Submitted to GC with the weekly progress report.</em></p>
+
+        <div class="form-block">
+            <div class="form-block-title">Weekly Field Report Summary</div>
+
+            <table class="data-table">
+                <tr><td class="label">Project:</td><td><span class="field">[Project Name]</span></td></tr>
+                <tr><td class="label">Sub:</td><td><span class="field">[Subcontractor Legal Name]</span></td></tr>
+                <tr><td class="label">Week Ending:</td><td><span class="field">[Saturday]</span></td></tr>
+                <tr><td class="label">DFRs Included:</td><td><span class="field">[DFR # — DFR #]</span></td></tr>
+            </table>
+
+            <div class="sub-title">Labor &amp; Hours</div>
+            <table class="data-table">
+                <tr><th>Day</th><th>Date</th><th>Crew Size</th><th>ST Hrs</th><th>OT Hrs</th><th>Total</th></tr>
+                <tr><td>Sun</td><td><span class="field">[Date]</span></td><td><span class="field">[#]</span></td><td><span class="field">[#]</span></td><td><span class="field">[#]</span></td><td><span class="field">[#]</span></td></tr>
+                <tr><td>Mon</td><td><span class="field">[Date]</span></td><td><span class="field">[#]</span></td><td><span class="field">[#]</span></td><td><span class="field">[#]</span></td><td><span class="field">[#]</span></td></tr>
+                <tr><td>Tue</td><td><span class="field">[Date]</span></td><td><span class="field">[#]</span></td><td><span class="field">[#]</span></td><td><span class="field">[#]</span></td><td><span class="field">[#]</span></td></tr>
+                <tr><td>Wed</td><td><span class="field">[Date]</span></td><td><span class="field">[#]</span></td><td><span class="field">[#]</span></td><td><span class="field">[#]</span></td><td><span class="field">[#]</span></td></tr>
+                <tr><td>Thu</td><td><span class="field">[Date]</span></td><td><span class="field">[#]</span></td><td><span class="field">[#]</span></td><td><span class="field">[#]</span></td><td><span class="field">[#]</span></td></tr>
+                <tr><td>Fri</td><td><span class="field">[Date]</span></td><td><span class="field">[#]</span></td><td><span class="field">[#]</span></td><td><span class="field">[#]</span></td><td><span class="field">[#]</span></td></tr>
+                <tr><td>Sat</td><td><span class="field">[Date]</span></td><td><span class="field">[#]</span></td><td><span class="field">[#]</span></td><td><span class="field">[#]</span></td><td><span class="field">[#]</span></td></tr>
+                <tr><td colspan="3"><strong>Totals</strong></td><td><strong><span class="field">[Σ]</span></strong></td><td><strong><span class="field">[Σ]</span></strong></td><td><strong><span class="field">[Σ]</span></strong></td></tr>
+            </table>
+
+            <div class="sub-title">Activities Completed This Week</div>
+            <p style="min-height: 80px; border: 1px dashed #aaa; padding: 10px;"><span class="field">[Reference Schedule activity IDs and locations]</span></p>
+
+            <div class="sub-title">Activities In Progress</div>
+            <p style="min-height: 60px; border: 1px dashed #aaa; padding: 10px;"><span class="field">[List]</span></p>
+
+            <div class="sub-title">Lookahead — Next 2 Weeks</div>
+            <p style="min-height: 60px; border: 1px dashed #aaa; padding: 10px;"><span class="field">[Activities planned]</span></p>
+
+            <div class="sub-title">Open Items / Risks / Asks of GC</div>
+            <p style="min-height: 60px; border: 1px dashed #aaa; padding: 10px;"><span class="field">[Items]</span></p>
+
+            <div class="sub-title">Safety Summary</div>
+            <table class="data-table">
+                <tr><td class="label">Recordable incidents this week:</td><td><span class="field">[#]</span></td></tr>
+                <tr><td class="label">Near misses:</td><td><span class="field">[#]</span></td></tr>
+                <tr><td class="label">First aid only:</td><td><span class="field">[#]</span></td></tr>
+                <tr><td class="label">OSHA visits:</td><td><span class="field">[#]</span></td></tr>
+                <tr><td class="label">Toolbox topics covered:</td><td><span class="field">[List]</span></td></tr>
+            </table>
+
+            <div class="signature-line">Submitted by: <span class="field">[Sub PM / Date]</span></div>
+        </div>
+    </div>
+
+    <div class="section" id="sec-checklist">
+        <div class="section-title">Section 7 — Foreman's Pre-Sign Checklist</div>
+        <div class="checklist">
+            <ol>
+                <li>☐ Date and DFR number entered.</li>
+                <li>☐ Crew names, classifications, hours, and tasks all populated — no "see other" or "TBD".</li>
+                <li>☐ Crew hour totals add up to the daily timecard total.</li>
+                <li>☐ Weather entered, with impact on work flagged if any.</li>
+                <li>☐ Equipment list complete.</li>
+                <li>☐ Materials delivered logged (with delivery ticket attached or referenced).</li>
+                <li>☐ Work-performed narrative is specific — references drawings, specs, locations.</li>
+                <li>☐ Conditions affecting work flagged where applicable.</li>
+                <li>☐ Any directive / RFI / T&amp;M issued today is captured.</li>
+                <li>☐ At least six photos taken; photo log entries populated.</li>
+                <li>☐ Open issues escalated to office in writing.</li>
+                <li>☐ Foreman signature applied.</li>
+                <li>☐ GC field rep countersignature requested (collect when possible — same-day is gold).</li>
+                <li>☐ Filed in project DFR folder (paper) and uploaded to project drive (digital) the same day.</li>
+            </ol>
+        </div>
+
+        <p class="footnote">Document version: 2026-05-17 (v1.0) — ContrPro Universal Sub Suite. The Daily Field Report form structure mirrors common commercial industry practice. Use the companion <em>Daily_Field_Report.xlsx</em> for the digital workflow; retain paper or scanned DFRs for 3-7 years per the controlling Subcontract and applicable statute-of-repose.</p>
+    </div>
+
+</body>
+</html>

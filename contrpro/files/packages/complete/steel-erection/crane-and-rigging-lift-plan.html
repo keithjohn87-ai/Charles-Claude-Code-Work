@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crane &amp; Rigging Lift Plan — Steel Erection Trade Pack</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.55; max-width: 880px; margin: 40px auto; padding: 20px; color: #222; }
+        .header { text-align: center; border-bottom: 3px double #1e3a5f; padding-bottom: 20px; margin-bottom: 30px; }
+        .form-title { font-size: 26px; font-weight: bold; color: #1e3a5f; margin-bottom: 6px; }
+        .form-subtitle { font-size: 15px; color: #444; font-weight: 600; }
+        .doc-meta { font-size: 13px; color: #666; margin-top: 8px; }
+        .field { background: #f0f0f0; padding: 2px 8px; border-radius: 3px; font-style: italic; color: #555; }
+        .section { margin: 26px 0; page-break-inside: avoid; }
+        .section-title { font-weight: bold; color: #1e3a5f; font-size: 16px; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+        .article-title { font-weight: bold; color: #1e3a5f; font-size: 17px; margin: 22px 0 10px 0; padding-top: 10px; border-top: 2px solid #1e3a5f; }
+        .clause-num { font-weight: bold; color: #1e3a5f; }
+        .sub-title { font-weight: bold; color: #1e3a5f; font-size: 14px; margin: 14px 0 6px 0; }
+        .warning { background: #f8d7da; border-left: 4px solid #dc3545; padding: 14px 16px; margin: 18px 0; }
+        .warning strong { color: #721c24; }
+        .notice { background: #d1ecf1; border-left: 4px solid #0c5460; padding: 14px 16px; margin: 18px 0; }
+        .practice-note { background: #fdf6e3; border-left: 4px solid #b58900; padding: 14px 16px; margin: 14px 0; font-size: 13.5px; }
+        .practice-note .label { font-weight: bold; color: #1e3a5f; font-size: 14px; display: block; margin-bottom: 6px; }
+        .citation { background: #e9ecef; border-left: 4px solid #495057; padding: 10px 14px; margin: 10px 0; font-size: 12.5px; font-family: 'Courier New', monospace; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        td, th { padding: 7px 8px; vertical-align: top; }
+        th { background: #1e3a5f; color: #fff; text-align: left; font-size: 12.5px; }
+        .data-table td { border: 1px solid #ccc; font-size: 13px; }
+        .data-table td.label { font-weight: 600; background: #f9f9f9; width: 40%; }
+        .checklist { background: #f9f9f9; border: 1px solid #ddd; padding: 16px 20px; border-radius: 6px; }
+        .checklist ol { margin: 0; padding-left: 22px; }
+        .checklist li { margin-bottom: 6px; font-size: 13.5px; }
+        .toc { background: #f4f6f9; border: 1px solid #c0cad8; padding: 16px 22px; margin: 20px 0 28px 0; border-radius: 6px; }
+        .toc-title { font-weight: bold; color: #1e3a5f; font-size: 14px; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+        .toc ol { margin: 0; padding-left: 22px; }
+        .toc li { margin-bottom: 4px; font-size: 13.5px; }
+        .toc a { color: #1e3a5f; text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+        .footnote { font-size: 11.5px; color: #666; font-style: italic; }
+        .page-break { page-break-before: always; }
+        .form-block { border: 2px solid #1e3a5f; padding: 18px; margin: 18px 0; background: #ffffff; }
+        .form-block-title { font-weight: bold; color: #1e3a5f; text-transform: uppercase; letter-spacing: 1px; font-size: 13px; margin-bottom: 14px; padding-bottom: 6px; border-bottom: 1px solid #ccc; }
+        .signature-line { border-top: 1px solid #000; width: 360px; margin-top: 40px; padding-top: 5px; font-size: 12.5px; }
+        @media print {
+            .no-print { display: none; }
+            body { margin: 0; max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="no-print" style="background: #fff3cd; border: 2px solid #856404; padding: 18px; border-radius: 8px; margin-bottom: 24px;">
+        <strong style="color: #856404; font-size: 16px;">USE WITH THE CRITICAL LIFT CALCULATOR (XLSX)</strong>
+        <p style="margin: 8px 0 0 0; font-size: 13.5px;">
+            This Lift Plan is the procedural document; the math lives in <em>Critical_Lift_Calculator.xlsx</em>. Together they form a complete Critical Lift Plan compliant with 29 CFR 1926 Subpart CC (Cranes &amp; Derricks). Routine production lifts use Section 4 (Standard Lift Procedure) only; Critical lifts trigger Section 5+ and require the calculator + a written permit (Section 11) signed by the Lift Director before the lift begins.
+        </p>
+    </div>
+
+    <div class="header">
+        <div class="form-title">CRANE &amp; RIGGING LIFT PLAN</div>
+        <div class="form-subtitle">29 CFR 1926 Subpart CC Compliance &middot; Standard + Critical Lift Procedures</div>
+        <div class="doc-meta">
+            Project: <span class="field">[Project Name]</span> &nbsp;|&nbsp;
+            Steel Erector: <span class="field">[Erector Legal Name]</span> &nbsp;|&nbsp;
+            Plan Version: <span class="field">[v1.0 / Date]</span>
+        </div>
+    </div>
+
+    <div class="notice">
+        <strong>When this plan applies.</strong> Every crane lift on a steel-erection project shall be performed in accordance with Section 4 below (Standard Lift Procedure). Lifts meeting the Critical Lift Criteria in Section 5 require additional steps: a separate Critical Lift Plan worksheet (use <em>Critical_Lift_Calculator.xlsx</em>), a pre-lift huddle with all participants, EOR review when lifting over occupied structure, and a written Critical Lift Permit (Section 11) signed by the Lift Director before the load leaves the ground.
+    </div>
+
+    <div class="toc">
+        <div class="toc-title">Table of Contents</div>
+        <ol>
+            <li><a href="#sec-roles">Section 1 — Roles &amp; Qualifications (1926.1427-1432)</a></li>
+            <li><a href="#sec-equipment">Section 2 — Equipment &amp; Inspections (1926.1412)</a></li>
+            <li><a href="#sec-rigging">Section 3 — Rigging Standards (1926.251 / ASME B30.9)</a></li>
+            <li><a href="#sec-standard">Section 4 — Standard Lift Procedure</a></li>
+            <li><a href="#sec-critical">Section 5 — Critical Lift Criteria &amp; Required Steps</a></li>
+            <li><a href="#sec-tandem">Section 6 — Tandem Lift Addendum</a></li>
+            <li><a href="#sec-personnel">Section 7 — Personnel Platform ("Man Basket") Addendum (1926.1431)</a></li>
+            <li><a href="#sec-energized">Section 8 — Energized Power Line Clearance (1926.1408)</a></li>
+            <li><a href="#sec-ground">Section 9 — Ground Conditions &amp; Bearing Pressure (1926.1402)</a></li>
+            <li><a href="#sec-stop">Section 10 — Stop-Work Triggers</a></li>
+            <li><a href="#sec-permit">Section 11 — Critical Lift Permit (Printable)</a></li>
+        </ol>
+    </div>
+
+    <div class="section" id="sec-roles">
+        <div class="section-title">Section 1 — Roles &amp; Qualifications</div>
+
+        <div class="citation">
+            29 CFR 1926.1427 — Operator certification; 1926.1428 — Signal person qualifications; 1926.1429 — Signals; 1926.1430 — Training; 1926.1432 — Multiple-crane/derrick lifts; ASME B30.5 — Mobile and locomotive cranes.
+        </div>
+
+        <table class="data-table">
+            <tr><th>Role</th><th>Qualification</th><th>Designation</th></tr>
+            <tr><td>Operator (1926.1427)</td><td>NCCCO, state-licensed, OEM-certified, or audited employer program — type-specific. Medical fitness current within 12 months.</td><td>Per shift, on the crane.</td></tr>
+            <tr><td>Lift Director (1926.1432(b))</td><td>Person designated in writing by the employer; experienced in crane operations and rigging; responsible for the planning and execution of the lift.</td><td>Per lift. May be foreman or site super for routine lifts; senior PM or crane vendor lead for critical.</td></tr>
+            <tr><td>Signal Person (1926.1428)</td><td>Qualified by third-party qualifier OR by employer's qualified evaluator — knowledge of standard signals + crane dynamics.</td><td>Required whenever the lift site is not in full direct view of the operator.</td></tr>
+            <tr><td>Rigger (1926.251 / ASME B30.9)</td><td>Trained in sling selection, capacity calculation, hitch geometry, sling-inspection criteria.</td><td>Selects and applies the rigging; verifies before lift.</td></tr>
+            <tr><td>Spotter — energized lines (1926.1408(c))</td><td>Dedicated to watching crane proximity to power lines. Separate from signal person.</td><td>Required when working within Table A clearance plus 20 ft.</td></tr>
+            <tr><td>Tagline Handler(s)</td><td>Trained in tagline use; minimum two tag lines on any load &gt; 2,000 lb.</td><td>One per tag line.</td></tr>
+        </table>
+
+        <table class="data-table" style="margin-top: 14px;">
+            <tr><td class="label">Designated Lift Director for this project:</td><td><span class="field">[Name + signed designation letter on file]</span></td></tr>
+            <tr><td class="label">Designated Operator(s):</td><td><span class="field">[Name(s) — NCCCO/state # — expiration]</span></td></tr>
+            <tr><td class="label">Designated Signal Person(s):</td><td><span class="field">[Name(s)]</span></td></tr>
+            <tr><td class="label">Rigger:</td><td><span class="field">[Name + ASME B30.9 trained]</span></td></tr>
+        </table>
+    </div>
+
+    <div class="section" id="sec-equipment">
+        <div class="section-title">Section 2 — Equipment &amp; Inspections</div>
+
+        <table class="data-table">
+            <tr><th>Inspection</th><th>Frequency</th><th>Reference</th><th>Last performed</th></tr>
+            <tr><td>Daily / shift</td><td>Each shift before use</td><td>1926.1412(d)</td><td>Daily Field Report</td></tr>
+            <tr><td>Monthly</td><td>Every month</td><td>1926.1412(e)</td><td><span class="field">[Date]</span></td></tr>
+            <tr><td>Annual / comprehensive</td><td>Every 12 months</td><td>1926.1412(f)</td><td><span class="field">[Date / Certified Inspector]</span></td></tr>
+            <tr><td>Modified, repaired, adjusted</td><td>After any modification</td><td>1926.1412(g)</td><td>As-occurs</td></tr>
+            <tr><td>Post-assembly</td><td>After assembly before use</td><td>1926.1412(c)</td><td>As-occurs</td></tr>
+            <tr><td>Wire rope</td><td>Per ASME B30.5 + 1926.1413</td><td>1926.1413</td><td>Daily + monthly</td></tr>
+        </table>
+
+        <div class="sub-title">2.1 — Crane Identification</div>
+        <table class="data-table">
+            <tr><td class="label">Make / Model:</td><td><span class="field">[Make / Model]</span></td></tr>
+            <tr><td class="label">Capacity (boom configuration):</td><td><span class="field">[Tons]</span></td></tr>
+            <tr><td class="label">Boom length:</td><td><span class="field">[ft]</span></td></tr>
+            <tr><td class="label">Jib / fly configuration:</td><td><span class="field">[Length + offset]</span></td></tr>
+            <tr><td class="label">Counterweight:</td><td><span class="field">[lbs]</span></td></tr>
+            <tr><td class="label">Reeving:</td><td><span class="field">[# parts of line]</span></td></tr>
+            <tr><td class="label">Hook block weight:</td><td><span class="field">[lbs]</span></td></tr>
+        </table>
+    </div>
+
+    <div class="section" id="sec-rigging">
+        <div class="section-title">Section 3 — Rigging Standards</div>
+
+        <div class="citation">
+            29 CFR 1926.251 — Rigging equipment for material handling; ASME B30.9 — Slings; ASME B30.10 — Hooks; ASME B30.20 — Below-the-hook lifting devices; ASME B30.26 — Rigging hardware.
+        </div>
+
+        <div class="sub-title">3.1 — Sling Selection &amp; Capacity</div>
+        <ul>
+            <li>Sling rated capacity at the actual hitch (vertical / choker / basket) must equal or exceed the share of the load on that sling, with appropriate de-rating for sling angle.</li>
+            <li>Sling angle below 60° from horizontal de-rates capacity sharply — sling load = (load × share) ÷ sin(angle). At 30° the sling sees 2× the vertical share.</li>
+            <li>Choker hitch capacity is 75% of vertical for synthetic; 80% for wire rope.</li>
+            <li>Wire-rope clips installed per 1926.251(c)(5) Table H-20 — number, spacing, torque.</li>
+            <li>Synthetic slings inspected for cuts, snags, melted fibers, broken stitching, missing tag, sun damage.</li>
+            <li>Sling tags must be legible and intact. Untagged slings are removed from service.</li>
+        </ul>
+
+        <div class="sub-title">3.2 — Hardware</div>
+        <ul>
+            <li>Shackles: bolt or screw-pin, rated capacity stamped, no field substitutions, no painted-over capacity stamps.</li>
+            <li>Hooks: rated capacity, equipped with safety latch (closed when in use), no spreading or wear &gt;10% of original section.</li>
+            <li>Eyebolts: shoulder type only for angular loads; torqued to manufacturer spec; thread engagement minimum 1× diameter.</li>
+            <li>Spreader bars: rated and certified; rigging hooks at correct geometry for the pick.</li>
+        </ul>
+
+        <div class="sub-title">3.3 — Tag Lines</div>
+        <p>Minimum two tag lines for any load &gt; 2,000 lb. Tag lines installed and tested before the load leaves the ground. Tag line operators positioned outside the exclusion zone, in clear sight of the signal person.</p>
+    </div>
+
+    <div class="section" id="sec-standard">
+        <div class="section-title">Section 4 — Standard Lift Procedure</div>
+
+        <div class="checklist">
+            <ol>
+                <li>☐ Pre-shift crane inspection completed and signed off.</li>
+                <li>☐ Pre-shift rigging inspection — slings, shackles, hooks, tag lines — completed.</li>
+                <li>☐ Load chart referenced; Lift Director confirms pick weight is within capacity at the lift radius (apply de-rating for outrigger config, on-rubber if not outrigged, side-load, etc.).</li>
+                <li>☐ Ground conditions confirmed adequate (firm, level, blocked under outriggers; mat / pad if soft).</li>
+                <li>☐ Swing path surveyed — overhead obstructions, energized lines, adjacent structures.</li>
+                <li>☐ Energized power line clearance verified per §1926.1408 Table A; spotter assigned if within trigger distance.</li>
+                <li>☐ Exclusion zone established below the load and along the swing path; signage / barriers as needed.</li>
+                <li>☐ Tag lines attached (minimum two for loads &gt; 2,000 lb).</li>
+                <li>☐ Communication channel confirmed (radio frequency + verbal handshake with operator).</li>
+                <li>☐ Lift Director's GO command before lift.</li>
+                <li>☐ Initial lift — load raised just off support, paused, all rigging verified visually + audibly (no creak / pop).</li>
+                <li>☐ Slow swing to placement point.</li>
+                <li>☐ Connectors at receiving position with PPE + fall protection compliant.</li>
+                <li>☐ Load placed; minimum two bolts installed wrench-tight per §1926.756(a)(1) before load release.</li>
+                <li>☐ Load released from rigging; tag lines retrieved after bolts are in.</li>
+                <li>☐ Operator returns block to neutral / safe position.</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="section" id="sec-critical">
+        <div class="section-title">Section 5 — Critical Lift Criteria &amp; Required Steps</div>
+
+        <div class="sub-title">5.1 — Criteria (any one triggers Critical)</div>
+        <table class="data-table">
+            <tr><td>Pick weight ≥ 75% of crane rated capacity at the lift radius</td><td>☐ Trigger</td></tr>
+            <tr><td>Multi-crane (tandem) lift</td><td>☐ Trigger — see Section 6</td></tr>
+            <tr><td>Personnel suspended on the load ("man basket")</td><td>☐ Trigger — see Section 7</td></tr>
+            <tr><td>Lift over occupied structure (occupied at time of lift OR cannot be evacuated)</td><td>☐ Trigger — EOR review required</td></tr>
+            <tr><td>Lift over public way / energized lines without engineered clearance</td><td>☐ Trigger</td></tr>
+            <tr><td>Lift requires crane to be on-rubber (no outriggers)</td><td>☐ Trigger</td></tr>
+            <tr><td>Lift requires reaching over the rear of the crane</td><td>☐ Trigger</td></tr>
+            <tr><td>Element weight ≥ 40,000 lb (firm-specific threshold; verify against company policy)</td><td>☐ Trigger</td></tr>
+            <tr><td>Lift uses non-standard rigging (custom spreader, unusual geometry, unbalanced load)</td><td>☐ Trigger</td></tr>
+            <tr><td>Other principal-designated critical lift</td><td>☐ Trigger</td></tr>
+        </table>
+
+        <div class="sub-title">5.2 — Required Critical-Lift Steps</div>
+        <ol>
+            <li><strong>Engineering review.</strong> Critical Lift Calculator XLSX completed; calculator outputs reviewed by Lift Director + a qualified person (in-house engineer or crane vendor lead).</li>
+            <li><strong>EOR notification</strong> (when over occupied structure, atypical rigging, or where the prime contract specifies).</li>
+            <li><strong>Pre-lift huddle.</strong> Every participant in the lift attends: operator, signal person, rigger, tag-line handlers, connectors, Lift Director, safety officer, GC rep. Walk the procedure, confirm communication, confirm exclusion zone.</li>
+            <li><strong>Written Critical Lift Permit.</strong> Section 11 form completed and signed. Posted at the crane during the lift.</li>
+            <li><strong>Weather window.</strong> Wind sustained ≤ 20 mph, gust ≤ 30 mph (more conservative than routine). No precipitation that affects rigging visibility.</li>
+            <li><strong>Trial lift.</strong> For personnel-platform lifts ONLY (1926.1431) — required by regulation; for other critical lifts, an inch-up confirmation is sufficient.</li>
+            <li><strong>Stop-work authority.</strong> Any participant may stop the lift at any moment for any reason; permit is voided and re-issued only after the issue is corrected.</li>
+            <li><strong>Post-lift review.</strong> Within 24 hours, the Lift Director documents any deviation from plan and what was learned, for future critical-lift planning.</li>
+        </ol>
+    </div>
+
+    <div class="section" id="sec-tandem">
+        <div class="section-title">Section 6 — Tandem Lift Addendum</div>
+
+        <div class="citation">
+            29 CFR 1926.1432(a) — Multiple crane/derrick lifts—supplemental requirements. A qualified person must develop a plan; plan reviewed by all operators; lift conducted at slow speeds with simultaneous movement.
+        </div>
+
+        <table class="data-table">
+            <tr><td class="label">Crane 1 (lead):</td><td><span class="field">[Make/Model — capacity — operator]</span></td></tr>
+            <tr><td class="label">Crane 2 (assist):</td><td><span class="field">[Make/Model — capacity — operator]</span></td></tr>
+            <tr><td class="label">Capacity check — each crane:</td><td>☐ Calculator confirms each crane carries ≤ 75% of capacity at its respective radius</td></tr>
+            <tr><td class="label">Operators training together:</td><td>☐ Joint pre-lift walk-through completed</td></tr>
+            <tr><td class="label">Single Lift Director with override authority:</td><td><span class="field">[Name]</span></td></tr>
+            <tr><td class="label">Communication channel:</td><td><span class="field">[Single radio channel — all operators + signal person]</span></td></tr>
+            <tr><td class="label">Sequence of movements:</td><td><span class="field">[Documented — pick / level / swing / set]</span></td></tr>
+            <tr><td class="label">EOR review:</td><td>☐ Reviewed — date <span class="field">[Date]</span></td></tr>
+        </table>
+
+        <div class="warning">
+            <strong>Tandem lift failure modes.</strong> Most tandem-lift incidents are not crane failures — they are coordination failures. The lead operator initiates a move the assist operator was not expecting; the load shifts; the assist crane gets side-loaded; the assist crane fails or drops the load. The fix: a single Lift Director with override authority on a single radio channel, simultaneous slow movements only, and operators who have either trained together OR rehearsed the lift sequence on the ground before the actual lift. Do not run a tandem lift on field improvisation.
+        </div>
+    </div>
+
+    <div class="section" id="sec-personnel">
+        <div class="section-title">Section 7 — Personnel Platform ("Man Basket") Addendum (29 CFR 1926.1431)</div>
+
+        <div class="citation">
+            29 CFR 1926.1431(a) — The use of equipment to hoist employees is prohibited except where the employer demonstrates that the erection, use, and dismantling of conventional means of reaching the worksite (e.g., a personnel hoist, ladder, stairway, aerial lift, elevating work platform, or scaffold) would be more hazardous, or is not possible because of structural design or worksite conditions.
+        </div>
+
+        <p><strong>Use only when conventional means are more hazardous.</strong> If a scissor lift, boom lift, scaffold, or stair-built reach is feasible, that method is required. The personnel-platform option is a last resort.</p>
+
+        <table class="data-table">
+            <tr><td class="label">Justification for platform use:</td><td><span class="field">[Why conventional means are more hazardous / not possible]</span></td></tr>
+            <tr><td class="label">Platform certification:</td><td>☐ Engineered and certified to ASME B30.23 + 1926.1431(e); rated load capacity stamped</td></tr>
+            <tr><td class="label">Trial lift completed (1926.1431(k)(1)):</td><td>☐ Yes — date/time <span class="field">[Date]</span></td></tr>
+            <tr><td class="label">Pre-lift meeting (1926.1431(k)(2)):</td><td>☐ Conducted with all participants</td></tr>
+            <tr><td class="label">Crane load limit (1926.1431(c)):</td><td>Hoisted load + platform + occupants + tools ≤ 50% of crane's rated capacity at radius.</td></tr>
+            <tr><td class="label">Occupant PFAS (1926.1431(k)(10)):</td><td>☐ Each occupant uses a body harness or restraint belt attached to platform or crane lower load block (NOT to the crane's load line)</td></tr>
+            <tr><td class="label">Operator stays at controls (1926.1431(k)(9)):</td><td>☐ Operator remains at controls the entire time the platform is occupied</td></tr>
+            <tr><td class="label">Free fall prevention:</td><td>☐ Crane equipped with anti-two-block, load-limiter, brakes; no free fall in raise or lower</td></tr>
+        </table>
+    </div>
+
+    <div class="section" id="sec-energized">
+        <div class="section-title">Section 8 — Energized Power Line Clearance (29 CFR 1926.1408)</div>
+
+        <table class="data-table">
+            <tr><th>Line Voltage (phase to phase)</th><th>Minimum Clearance — Operating</th><th>Minimum Clearance — Traveling</th></tr>
+            <tr><td>0 to 50 kV</td><td>10 ft (3.05 m)</td><td>4 ft (1.22 m)</td></tr>
+            <tr><td>Over 50 kV to 200 kV</td><td>15 ft (4.6 m)</td><td>10 ft (3.05 m)</td></tr>
+            <tr><td>Over 200 kV to 350 kV</td><td>20 ft (6.1 m)</td><td>15 ft (4.6 m)</td></tr>
+            <tr><td>Over 350 kV to 500 kV</td><td>25 ft (7.62 m)</td><td>20 ft (6.1 m)</td></tr>
+            <tr><td>Over 500 kV to 750 kV</td><td>35 ft (10.67 m)</td><td>30 ft (9.14 m)</td></tr>
+            <tr><td>Over 750 kV to 1000 kV</td><td>45 ft (13.72 m)</td><td>40 ft (12.19 m)</td></tr>
+            <tr><td>Over 1000 kV</td><td>(Established by utility / engineer)</td><td>(Established by utility / engineer)</td></tr>
+        </table>
+
+        <div class="sub-title">8.1 — Encroachment Prevention Measures (Required Per 1926.1408(a)(2))</div>
+        <ol>
+            <li>De-energize and ground the line — confirmed in writing by utility.</li>
+            <li>OR maintain the Table A clearance, with: (a) planning meeting before the lift, (b) dedicated spotter, (c) visible warning device (banner / cone / proximity alarm), (d) operator orientation, (e) elevated warning line (tape / barrier) where applicable.</li>
+            <li>OR insulating link/barrier between the line and crane (engineered, not improvised).</li>
+        </ol>
+
+        <table class="data-table" style="margin-top: 14px;">
+            <tr><td class="label">Lines on this project:</td><td><span class="field">[Voltage(s) + utility company + position relative to crane swing]</span></td></tr>
+            <tr><td class="label">Method selected:</td><td>☐ De-energize &nbsp; ☐ Maintain Table A + spotter &nbsp; ☐ Insulating barrier</td></tr>
+            <tr><td class="label">Spotter assigned:</td><td><span class="field">[Name]</span></td></tr>
+            <tr><td class="label">Utility 24-hour contact:</td><td><span class="field">[Name + phone]</span></td></tr>
+        </table>
+    </div>
+
+    <div class="section" id="sec-ground">
+        <div class="section-title">Section 9 — Ground Conditions &amp; Bearing Pressure (29 CFR 1926.1402)</div>
+
+        <table class="data-table">
+            <tr><td class="label">Ground bearing capacity at crane positions (soils report):</td><td><span class="field">[psf]</span></td></tr>
+            <tr><td class="label">Outrigger pad / mat dimensions:</td><td><span class="field">[L × W × thickness — material]</span></td></tr>
+            <tr><td class="label">Ground bearing pressure at max lift (calculated):</td><td><span class="field">[psf — see Critical Lift Calculator]</span></td></tr>
+            <tr><td class="label">Slope at crane position:</td><td><span class="field">[% — crane manufacturer's max slope]</span></td></tr>
+            <tr><td class="label">Underground utilities / voids in crane footprint:</td><td>☐ None identified by 811 ticket &nbsp; ☐ Variance — see EOR memo</td></tr>
+            <tr><td class="label">Below-grade structures (vaults, parking levels):</td><td>☐ Verified by EOR — load distribution OK &nbsp; ☐ N/A</td></tr>
+            <tr><td class="label">Rain / freeze-thaw effect on ground:</td><td>☐ Site Super reassesses after weather events</td></tr>
+        </table>
+
+        <div class="practice-note">
+            <span class="label">Outrigger pads, not outrigger mats.</span> Outrigger PADS are the small steel/wood piece directly under the float; outrigger MATS are the larger structural mat (typically crane-vendor supplied or job-built timber crib) that distributes load over a wider area. Soft soils, recent fill, or below-grade structures require mats sized by a qualified person — pads alone are insufficient. The Critical Lift Calculator computes the bearing pressure; the mat size is sized to keep pressure below the soils report capacity with a factor of safety (typically 2.0).
+        </div>
+    </div>
+
+    <div class="section" id="sec-stop">
+        <div class="section-title">Section 10 — Stop-Work Triggers</div>
+
+        <p>Any one of the following triggers an immediate stop. The Lift Director (or any participant with stop-work authority) calls "STOP" on the radio channel. The operator brings the load to a safe position. Resume only after the trigger condition is resolved.</p>
+
+        <table class="data-table">
+            <tr><th>Trigger</th><th>Required Response</th></tr>
+            <tr><td>Wind sustained &gt;25 mph (routine) / &gt;20 mph (critical)</td><td>Set the load and ground the crane (boom down / parking position).</td></tr>
+            <tr><td>Wind gust &gt;35 mph (routine) / &gt;30 mph (critical)</td><td>Set the load and ground the crane.</td></tr>
+            <tr><td>Lightning within 6 miles</td><td>Personnel off the crane; load set; crane grounded. Resume 30 min after last strike.</td></tr>
+            <tr><td>Heavy rain affecting visibility</td><td>Set the load; reassess after rain abates.</td></tr>
+            <tr><td>Power-line encroachment alarm or visible approach</td><td>Stop motion; back off to clearance; reassess.</td></tr>
+            <tr><td>Crane functional fault (LMI, anti-two-block, brake, hoist)</td><td>Set the load on closest stable support; lock out the crane.</td></tr>
+            <tr><td>Rigging anomaly (audible pop, visible deformation, sling shift)</td><td>Set the load; remove damaged rigging from service.</td></tr>
+            <tr><td>Personnel in exclusion zone</td><td>Hold load; clear zone; resume.</td></tr>
+            <tr><td>Ground settlement / outrigger sinking</td><td>Set the load; reassess ground; re-pad.</td></tr>
+            <tr><td>Communication failure (radio or signal)</td><td>Hold load until communication restored.</td></tr>
+            <tr><td>Operator unable to continue safely</td><td>Set the load; transition to backup operator; reassess.</td></tr>
+        </table>
+    </div>
+
+    <div class="section page-break" id="sec-permit">
+        <div class="section-title">Section 11 — Critical Lift Permit (Printable)</div>
+
+        <p style="font-size: 12.5px;"><em>Print one copy per critical lift. Complete during pre-lift huddle. Sign at bottom. Post at crane during the lift. File in project record after.</em></p>
+
+        <div class="form-block">
+            <div class="form-block-title">Critical Lift Permit</div>
+
+            <table class="data-table">
+                <tr><td class="label">Permit No.:</td><td><span class="field">[Seq #]</span></td><td class="label">Date / Time:</td><td><span class="field">[Date / HH:MM]</span></td></tr>
+                <tr><td class="label">Project:</td><td colspan="3"><span class="field">[Project Name]</span></td></tr>
+                <tr><td class="label">Lift Description:</td><td colspan="3"><span class="field">[e.g., Set transfer girder TG-3 at Gridline G/4, El. 38'-0", weight 58,200 lb]</span></td></tr>
+                <tr><td class="label">Crane(s):</td><td colspan="3"><span class="field">[Make/Model + capacity]</span></td></tr>
+                <tr><td class="label">Lift radius / capacity:</td><td><span class="field">[ft / lb]</span></td><td class="label">% capacity:</td><td><span class="field">[%]</span></td></tr>
+                <tr><td class="label">Critical trigger(s) (Section 5):</td><td colspan="3"><span class="field">[Which trigger(s)]</span></td></tr>
+            </table>
+
+            <div class="sub-title">Pre-Lift Verification (Lift Director to confirm each)</div>
+            <ul>
+                <li>☐ Calculator XLSX completed and reviewed.</li>
+                <li>☐ Pre-lift huddle held with operator, signal person, rigger, connectors, tag-line handlers, safety officer.</li>
+                <li>☐ Crane inspected this shift; no defects.</li>
+                <li>☐ Rigging inspected; sling angle ≥ 60°; capacity adequate for share + angle de-rate.</li>
+                <li>☐ Ground bearing pressure within soils-report capacity (with factor of safety).</li>
+                <li>☐ Energized-line clearance verified per Section 8.</li>
+                <li>☐ Exclusion zone established; barriers / signage in place.</li>
+                <li>☐ Tag lines attached and tested.</li>
+                <li>☐ Communication channel confirmed; backup channel identified.</li>
+                <li>☐ Weather check — wind ≤ thresholds; no precipitation issue; no lightning &lt; 6 mi.</li>
+                <li>☐ Receiving connectors in position with PFAS.</li>
+                <li>☐ EOR review (if over occupied structure): date <span class="field">[Date]</span>.</li>
+                <li>☐ Stop-work authority confirmed; every participant briefed.</li>
+            </ul>
+
+            <div class="sub-title">Lift Director Approval</div>
+            <div class="signature-line">Lift Director: <span class="field">[Name / Signature / Date / Time]</span></div>
+
+            <div class="sub-title" style="margin-top: 14px;">Post-Lift Outcome</div>
+            <table class="data-table">
+                <tr><td class="label">Lift outcome:</td><td>☐ As planned &nbsp; ☐ Deviations: <span class="field">[Describe]</span></td></tr>
+                <tr><td class="label">Stop-work events:</td><td>☐ None &nbsp; ☐ Documented separately</td></tr>
+                <tr><td class="label">Lessons learned (for future planning):</td><td><span class="field">[Notes]</span></td></tr>
+            </table>
+
+            <div class="signature-line">Lift Director (post-lift): <span class="field">[Signature / Date]</span></div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="warning">
+            <strong>Closing reminder.</strong> Crane and rigging failures are typically catastrophic. The procedural rigor in this plan exists because the consequence of getting it wrong is fatal. No production schedule justifies compromising the standard lift procedure or the critical lift criteria. The Lift Director's stop-work authority is absolute; any participant may invoke it for any reason without justification. <strong>Have a qualified crane consultant or experienced erection-firm principal review this plan as adapted to your specific project before first use.</strong>
+        </div>
+
+        <p class="footnote">Document version: 2026-05-17 (v1.0) — ContrPro Steel Erection trade pack. Procedures parallel 29 CFR 1926 Subpart CC, ASME B30.5 / B30.9 / B30.10 / B30.20 / B30.23 / B30.26, and AISC Code of Standard Practice without reproducing copyrighted material. Federal regulations current as of January 2026; verify against latest CFR + ASME publications.</p>
+    </div>
+
+</body>
+</html>

@@ -7,7 +7,7 @@ script handles the HTML→DOCX leg; Google Docs round-trip works natively
 from the same .docx via "File → Open" or Drive upload.
 
 Strategy:
-  - Inputs: any .html under contrpro/files/packages/<tier>/documents/ or .../gc/
+  - Inputs: any .html under contrpro/files/packages/<tier>/documents/ or .../gc/ or .../sub/ or .../steel-erection/
   - Output: <basename>.docx alongside the source HTML
   - Uses python-docx (already installed; no system pandoc required)
   - Preserves: H1-H6 headings, paragraphs, bold/italic, ordered + unordered
@@ -181,7 +181,7 @@ def main():
     args = ap.parse_args()
 
     root = Path(args.root)
-    html_files = sorted([p for p in root.glob("**/*.html") if "documents" in p.parts or "gc" in p.parts])
+    html_files = sorted([p for p in root.glob("**/*.html") if "documents" in p.parts or "gc" in p.parts or "sub" in p.parts or "steel-erection" in p.parts])
 
     print(f"Found {len(html_files)} HTML files under {root}")
     print()
