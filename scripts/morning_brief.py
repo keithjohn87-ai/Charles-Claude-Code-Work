@@ -275,8 +275,8 @@ def fetch_weather(location: str = "Dundalk,MD") -> str:
     # Bucket hours into Morning (6-9), Lunch (9-13), Afternoon (13-17)
     buckets = {"Morning  6-9am": [], "Lunch   9-1pm": [], "Afternoon 1-5pm": []}
     for h in hourly:
-        t = int(h["time"])  # 0, 300, 600, 900, 1200, 1500, 1800, 2100
-        hour = t // 60
+        t = int(h["time"])  # HHMM format: 0=00:00, 300=03:00, 600=06:00, 900=09:00, 1200=12:00, 1500=15:00, 1800=18:00, 2100=21:00
+        hour = t // 100
         if 6 <= hour < 9:
             bucket = "Morning  6-9am"
         elif 9 <= hour < 13:
