@@ -57,7 +57,6 @@ _TRUSTED_SERVICE_SENDERS = [
     r"businessprofile",
     r"microsoft.*email", r"microsoft.*account",
     r"appstore@insideapple", r"applemusic@insideapple",
-    r"noreply@redditmail\.com$",
 ]
 
 # ---- Junk sender patterns (email addresses / domains) ----
