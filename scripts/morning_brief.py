@@ -318,7 +318,9 @@ def compose_brief() -> str:
 
     lines = [f"Morning brief — {date_label}"]
     if weather:
-        lines.append(f"Dundalk: {weather}")
+        # Weather is multi-line; indent each line so it nests under the brief
+        for wline in weather.splitlines():
+            lines.append(f"  {wline}")
     lines.append("")
     lines.append("Overnight:")
     lines.append(
