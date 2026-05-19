@@ -165,6 +165,9 @@ def _classify(sender: str, subject: str) -> str:
     # Junk sender patterns — check BEFORE business senders
     # so noreply@redditmail.com and messages-noreply@linkedin.com
     # get caught as junk before generic noreply@ matches business
+    # BUT exempt trusted service providers from generic noreply rule
+    if any(re.search(p, sender_lower) for p in _TRUSTED_SERVICE_SENDERS):
+        return "business"
     if any(re.search(p, sender_lower) for p in _JUNK_SENDER_PATTERNS):
         return "junk"
 
