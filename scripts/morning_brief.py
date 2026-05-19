@@ -242,19 +242,66 @@ def pull_in_flight() -> list[str]:
 
 
 def fetch_weather(location: str = "Dundalk,MD") -> str:
-    """Fetch a one-line weather summary from wttr.in. No API key, no Charles
-    dependency, no MLX. Returns '' on any error so the brief still composes."""
-    import urllib.parse, urllib.request
-    fmt = "%C %t (feels %f), wind %w, sunrise %S, sunset %s"
-    url = f"https://wttr.in/{urllib.parse.quote(location)}?format={urllib.parse.quote(fmt)}"
+    """Fetch today's detailed forecast from wttr.in JSON. No API key, no
+    Charles dependency, no MLX.  Returns a multi-line weather block or ''
+    on any error so the brief still composes.
+
+    Output format:
+      Weather (Dundalk,MD): High 97° / Low 64°  UV 9
+      Morning  6-9am:  66-76°  hum 69-88%  rain 0%
+      Lunch   9am-1pm:  76-91°  hum 46-69%  rain 0%
+      Afternoon 1-5pm:  91-96°  hum 38-46%  rain 0%
+    """
+    import urllib.parse, urllib.request, json
+    url = f"https://wttr.in/{urllib.parse.quote(location)}?format=j1"
     try:
         req = urllib.request.Request(url, headers={"User-Agent": "curl/8"})
         with urllib.request.urlopen(req, timeout=8) as r:
-            text = r.read().decode("utf-8", errors="replace").strip()
-        return text if text and "Unknown location" not in text else ""
+            data = json.loads(r.read().decode("utf-8", errors="replace"))
     except Exception as e:  # noqa: BLE001
         log.warning("weather fetch failed: %s", e)
         return ""
+
+    days = data.get("weather", [])
+    if not days:
+        return ""
+
+    today = days[0]
+    high_f = today.get("maxtempF", "?")
+    low_f  = today.get("mintempF", "?")
+    uv     = today.get("uvIndex", "?")
+    hourly = today.get("hourly", [])
+
+    # Bucket hours into Morning (6-9), Lunch (9-13), Afternoon (13-17)
+    buckets = {"Morning  6-9am": [], "Lunch   9-1pm": [], "Afternoon 1-5pm": []}
+    for h in hourly:
+        t = int(h["time"])  # 0, 300, 600, 900, 1200, 1500, 1800, 2100
+        hour = t // 60
+        if 6 <= hour < 9:
+            bucket = "Morning  6-9am"
+        elif 9 <= hour < 13:
+            bucket = "Lunch   9-1pm"
+        elif 13 <= hour < 17:
+            bucket = "Afternoon 1-5pm"
+        else:
+            continue  # skip overnight hours
+        buckets[bucket].append(h)
+
+    lines = [f"Weather ({location}): High {high_f}° / Low {low_f}°  UV {uv}"]
+    for label, entries in buckets.items():
+        if not entries:
+            continue
+        temps = [int(e["tempF"]) for e in entries]
+        hums  = [e["humidity"] for e in entries]
+        rains = [int(e["chanceofrain"]) for e in entries]
+        mn_t, mx_t = min(temps), max(temps)
+        mn_h, mx_h = min(hums), max(hums)
+        mn_r, mx_r = min(rains), max(rains)
+        lines.append(
+            f"  {label}:  {mn_t}-{mx_t}°  hum {mn_h}-{mx_h}%  rain {mn_r}-{mx_r}%"
+        )
+
+    return "\n".join(lines)
 
 
 def compose_brief() -> str:
