@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Grounding &amp; Bonding Guide — Electrical Trade Pack</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.55; max-width: 880px; margin: 40px auto; padding: 20px; color: #222; }
+        .header { text-align: center; border-bottom: 3px double #1e3a5f; padding-bottom: 20px; margin-bottom: 30px; }
+        .form-title { font-size: 26px; font-weight: bold; color: #1e3a5f; margin-bottom: 6px; }
+        .form-subtitle { font-size: 15px; color: #444; font-weight: 600; }
+        .section { margin: 26px 0; page-break-inside: avoid; }
+        .section-title { font-weight: bold; color: #1e3a5f; font-size: 16px; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+        .sub-title { font-weight: bold; color: #1e3a5f; font-size: 14px; margin: 14px 0 6px 0; }
+        .warning { background: #f8d7da; border-left: 4px solid #dc3545; padding: 14px 16px; margin: 18px 0; }
+        .notice { background: #d1ecf1; border-left: 4px solid #0c5460; padding: 14px 16px; margin: 18px 0; }
+        .practice-note { background: #fdf6e3; border-left: 4px solid #b58900; padding: 14px 16px; margin: 14px 0; font-size: 13.5px; }
+        .practice-note .label { font-weight: bold; color: #1e3a5f; font-size: 14px; display: block; margin-bottom: 6px; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        td, th { padding: 7px 8px; vertical-align: top; }
+        th { background: #1e3a5f; color: #fff; text-align: left; font-size: 12.5px; }
+        .data-table td { border: 1px solid #ccc; font-size: 13px; }
+        .data-table td.label { font-weight: 600; background: #f9f9f9; }
+        .toc { background: #f4f6f9; border: 1px solid #c0cad8; padding: 16px 22px; margin: 20px 0 28px 0; border-radius: 6px; }
+        .toc-title { font-weight: bold; color: #1e3a5f; font-size: 14px; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+        .toc ol { margin: 0; padding-left: 22px; }
+        @media print { body { margin: 0; max-width: 100%; } .section { page-break-inside: avoid; } }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="form-title">GROUNDING &amp; BONDING GUIDE</div>
+    <div class="form-subtitle">NEC 2023 Article 250 &middot; IEEE 142 &middot; IEEE 81</div>
+</div>
+
+<div class="notice">
+    <strong>Purpose.</strong> Field reference for grounding-electrode system, equipment grounding,
+    bonding, ground-resistance testing, and acceptance documentation. Companion <em>Ground
+    Resistance Test Log</em> XLSX captures every 3-point + clamp-on test for AHJ submission.
+</div>
+
+<div class="toc">
+    <div class="toc-title">Contents</div>
+    <ol>
+        <li>Grounding vs Bonding — Definitions</li>
+        <li>Grounding Electrode System (GES) — NEC 250.50-66</li>
+        <li>Equipment Grounding Conductor (EGC)</li>
+        <li>Bonding (Service + Building + Metal Piping)</li>
+        <li>Sizing Tables (Grounding Electrode + EGC)</li>
+        <li>Ground Resistance Testing (IEEE 81)</li>
+        <li>Connection Methods</li>
+        <li>Special Locations (Healthcare / Pool / Solar)</li>
+        <li>Common Errors</li>
+        <li>Test + Acceptance Procedures</li>
+    </ol>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 1 — Grounding vs Bonding</div>
+    <ul>
+        <li><strong>Grounding</strong> — connection to earth via grounding electrode system (rods,
+            plates, building steel, water pipe, etc.).</li>
+        <li><strong>Bonding</strong> — connection of metallic components to provide a low-impedance
+            fault-current path back to the source.</li>
+        <li>Grounding and bonding are TWO DIFFERENT FUNCTIONS that must both be performed properly.
+            Grounding establishes earth reference; bonding ensures fault clearing.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 2 — Grounding Electrode System (NEC 250.50-66)</div>
+    <p>NEC 250.50 requires ALL of the following present at the building to be bonded together
+    into the GES:</p>
+    <ul>
+        <li><strong>Metal underground water pipe</strong> in direct contact with earth ≥10 ft (250.52(A)(1)).</li>
+        <li><strong>Metal in-ground support structure</strong> (concrete-encased rebar / Ufer) — 250.52(A)(3).</li>
+        <li><strong>Concrete-encased electrode (Ufer)</strong> — minimum 20 ft of #4 AWG bare copper
+            OR 1/2" rebar in foundation footing, in direct contact with earth.</li>
+        <li><strong>Ground ring</strong> — at least 20 ft of #2 AWG bare copper buried at least 30" deep.</li>
+        <li><strong>Rod / pipe electrode</strong> — 5/8" × 8 ft min, driven full length, 6" max above ground.</li>
+        <li><strong>Plate electrode</strong> — at least 2 sq ft surface area.</li>
+        <li><strong>Other listed local metal underground systems</strong>.</li>
+    </ul>
+    <div class="warning">
+        <strong>WARNING — single rod requires verification.</strong>
+        NEC 250.53(A)(2) — if a single rod is the only electrode AND ground resistance is &gt;25Ω,
+        add a second electrode (≥6 ft apart). Most jurisdictions require ground-resistance test
+        results to confirm compliance. Don't skip the test.
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 3 — Equipment Grounding Conductor (EGC)</div>
+    <p>NEC 250.118 lists acceptable EGCs:</p>
+    <ul>
+        <li>Copper / aluminum conductor in conduit.</li>
+        <li>RMC, IMC, EMT (where listed as EGC).</li>
+        <li>MC cable (with metal sheath listed as EGC) or AC cable.</li>
+        <li>Type AC armored cable (with proper bonding strip).</li>
+        <li>Flex / liquid-tight only with length limits + separate EGC if longer than spec.</li>
+    </ul>
+    <p>NEC 250.122 sizes the EGC based on circuit ampacity. Larger feeder → larger EGC.</p>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 4 — Bonding</div>
+    <ul>
+        <li><strong>Service bonding</strong> — main bonding jumper connects grounded conductor (neutral)
+            to grounding electrode + equipment grounding bus AT THE SERVICE only. NEC 250.24.</li>
+        <li><strong>Separately derived systems</strong> — generators, transformers — system bonding
+            jumper at the source side. NEC 250.30.</li>
+        <li><strong>Metal water piping</strong> — bonded per NEC 250.104(A): water pipe within 5 ft
+            of entry must be bonded; sizing per 250.66.</li>
+        <li><strong>Metal gas piping</strong> — bonded per NEC 250.104(B). CSST manufacturer may require
+            additional bonding for lightning protection — verify per CSST listing.</li>
+        <li><strong>Metal building structure</strong> — bonded per NEC 250.104(C) for buildings supplied
+            by feeder or branch circuit.</li>
+        <li><strong>Pools + spas</strong> — equipotential bonding per Article 680.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 5 — Sizing Tables</div>
+    <div class="sub-title">Grounding Electrode Conductor (Table 250.66)</div>
+    <table class="data-table">
+        <tr><th>Largest ungrounded service-entrance conductor / equivalent for parallel sets</th><th>Copper GEC</th><th>Aluminum GEC</th></tr>
+        <tr><td>2 AWG or smaller</td><td>8 AWG</td><td>6 AWG</td></tr>
+        <tr><td>1 AWG or 1/0</td><td>6 AWG</td><td>4 AWG</td></tr>
+        <tr><td>2/0 or 3/0</td><td>4 AWG</td><td>2 AWG</td></tr>
+        <tr><td>Over 3/0 through 350 kcmil</td><td>2 AWG</td><td>1/0 AWG</td></tr>
+        <tr><td>Over 350 through 600 kcmil</td><td>1/0 AWG</td><td>3/0 AWG</td></tr>
+        <tr><td>Over 600 through 1100 kcmil</td><td>2/0 AWG</td><td>4/0 AWG</td></tr>
+        <tr><td>Over 1100 kcmil</td><td>3/0 AWG</td><td>250 kcmil</td></tr>
+    </table>
+    <div class="sub-title">Equipment Grounding Conductor (Table 250.122)</div>
+    <table class="data-table">
+        <tr><th>Rating of OCPD (A)</th><th>Copper EGC</th><th>Aluminum EGC</th></tr>
+        <tr><td>15 A</td><td>14 AWG</td><td>12 AWG</td></tr>
+        <tr><td>20 A</td><td>12 AWG</td><td>10 AWG</td></tr>
+        <tr><td>60 A</td><td>10 AWG</td><td>8 AWG</td></tr>
+        <tr><td>100 A</td><td>8 AWG</td><td>6 AWG</td></tr>
+        <tr><td>200 A</td><td>6 AWG</td><td>4 AWG</td></tr>
+        <tr><td>400 A</td><td>3 AWG</td><td>1 AWG</td></tr>
+        <tr><td>600 A</td><td>1 AWG</td><td>2/0 AWG</td></tr>
+        <tr><td>1200 A</td><td>3/0 AWG</td><td>250 kcmil</td></tr>
+    </table>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 6 — Ground Resistance Testing (IEEE 81)</div>
+    <ul>
+        <li><strong>3-point fall-of-potential</strong> — gold standard for new installations.
+            Drive auxiliary electrodes; measure resistance at 62% spacing.</li>
+        <li><strong>Clamp-on</strong> — non-invasive but only valid where multiple ground paths form
+            a loop. Useful for follow-up but not the initial acceptance.</li>
+        <li><strong>Soil resistivity</strong> — Wenner 4-point method when designing the GES for
+            critical loads (data centers, hospitals).</li>
+        <li>NEC 250.53(A)(2) single-rod threshold: ≤25Ω OR drive a second electrode.</li>
+        <li>Critical installations may spec ≤5Ω or ≤3Ω — verify spec.</li>
+        <li>Document on Ground Resistance Test Log XLSX.</li>
+    </ul>
+    <div class="practice-note">
+        <span class="label">Practice note — seasonal variation.</span>
+        Ground resistance varies with soil moisture. A 5Ω reading in spring can become 25Ω in
+        summer. For critical installations, document the test in worst-case (dry) conditions if
+        possible OR derate by a factor per IEEE 142 guidance.
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 7 — Connection Methods</div>
+    <ul>
+        <li><strong>Acorn clamp</strong> — for ground rod to bare copper. Listed for direct burial
+            (250.70). One ground rod connection per clamp typically.</li>
+        <li><strong>Compression connector</strong> — for cable-to-rebar / cable-to-cable.
+            Listed for application.</li>
+        <li><strong>Exothermic weld (Cad-weld)</strong> — permanent connection. Required by many
+            specs for grounding electrode connections in critical installations.</li>
+        <li><strong>Bus connections</strong> — proper torque to mfr specs. Anti-oxidant compound on
+            aluminum connections.</li>
+        <li>All connections accessible per 250.68 except direct-buried, encased, or otherwise
+            permitted.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 8 — Special Locations</div>
+    <ul>
+        <li><strong>Healthcare</strong> (Article 517) — patient-care areas have additional bonding requirements.
+            Operating rooms + critical-care areas require redundant equipment grounding.</li>
+        <li><strong>Pools + Spas</strong> (Article 680) — equipotential bonding grid bonds all metallic
+            components within 5 ft horizontally + 12 ft vertically of pool perimeter.</li>
+        <li><strong>Solar PV</strong> (Article 690) — DC + AC equipment grounding; metal frames bonded;
+            specific listed grounding hardware.</li>
+        <li><strong>Generators</strong> (Article 445) — bonding of generator frame; system bonding jumper
+            location depends on whether separately derived.</li>
+        <li><strong>Hazardous locations</strong> (Articles 500-516) — explosion-proof bonding fittings;
+            no flex bonded through bushings only.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 9 — Common Errors</div>
+    <ol>
+        <li>Single ground rod with no resistance test (NEC 250.53 violation).</li>
+        <li>Main bonding jumper omitted at service.</li>
+        <li>Separately-derived system bonded at downstream panel instead of at the source.</li>
+        <li>Water pipe bonding tap &gt; 5 ft from entry.</li>
+        <li>EGC undersized for branch / feeder OCPD (Table 250.122 missed).</li>
+        <li>Aluminum EGC at termination without anti-oxidant + torque verification.</li>
+        <li>Flex used as EGC beyond length / size allowance (250.118).</li>
+        <li>Metal water pipe used as sole grounding electrode (NEC 250.52 requires additional electrode).</li>
+        <li>Concrete-encased electrode (Ufer) omitted on new construction with rebar foundation.</li>
+        <li>Ground bus connections not torqued per spec.</li>
+    </ol>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 10 — Test + Acceptance Procedures</div>
+    <ul>
+        <li>Visual inspection — every connection accessible, properly torqued, oxidation-free,
+            UL-listed components.</li>
+        <li>Continuity test — every EGC + GEC to its termination.</li>
+        <li>3-point fall-of-potential ground resistance test — record values; submit to AHJ.</li>
+        <li>Compare against spec / NEC 250.53.</li>
+        <li>Document on Ground Resistance Test Log XLSX with date, tester, equipment serial,
+            and result.</li>
+        <li>Photograph each grounding electrode + connection before backfill / encasement.</li>
+    </ul>
+</div>
+
+<div class="notice" style="margin-top: 30px;">
+    <strong>Document version:</strong> Grounding + Bonding Guide v1.0 — 2026-05-19.
+    ContrPro Complete Tier · Electrical Trade Pack. NEC 2023 references — verify local
+    amendments + project spec. IEEE 81 / 142 referenced; consult standards for full procedure.
+</div>
+
+</body>
+</html>

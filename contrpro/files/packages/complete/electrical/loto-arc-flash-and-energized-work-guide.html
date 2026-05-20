@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LOTO + Arc-Flash + Energized Work Guide — Electrical Trade Pack</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.55; max-width: 880px; margin: 40px auto; padding: 20px; color: #222; }
+        .header { text-align: center; border-bottom: 3px double #1e3a5f; padding-bottom: 20px; margin-bottom: 30px; }
+        .form-title { font-size: 26px; font-weight: bold; color: #1e3a5f; margin-bottom: 6px; }
+        .form-subtitle { font-size: 15px; color: #444; font-weight: 600; }
+        .section { margin: 26px 0; page-break-inside: avoid; }
+        .section-title { font-weight: bold; color: #1e3a5f; font-size: 16px; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+        .sub-title { font-weight: bold; color: #1e3a5f; font-size: 14px; margin: 14px 0 6px 0; }
+        .warning { background: #f8d7da; border-left: 4px solid #dc3545; padding: 14px 16px; margin: 18px 0; }
+        .notice { background: #d1ecf1; border-left: 4px solid #0c5460; padding: 14px 16px; margin: 18px 0; }
+        .practice-note { background: #fdf6e3; border-left: 4px solid #b58900; padding: 14px 16px; margin: 14px 0; font-size: 13.5px; }
+        .practice-note .label { font-weight: bold; color: #1e3a5f; font-size: 14px; display: block; margin-bottom: 6px; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        td, th { padding: 7px 8px; vertical-align: top; }
+        th { background: #1e3a5f; color: #fff; text-align: left; font-size: 12.5px; }
+        .data-table td { border: 1px solid #ccc; font-size: 13px; }
+        .data-table td.label { font-weight: 600; background: #f9f9f9; }
+        .toc { background: #f4f6f9; border: 1px solid #c0cad8; padding: 16px 22px; margin: 20px 0 28px 0; border-radius: 6px; }
+        .toc-title { font-weight: bold; color: #1e3a5f; font-size: 14px; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+        .toc ol { margin: 0; padding-left: 22px; }
+        @media print { body { margin: 0; max-width: 100%; } .section { page-break-inside: avoid; } }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="form-title">LOTO + ARC-FLASH + ENERGIZED WORK GUIDE</div>
+    <div class="form-subtitle">29 CFR 1910.147 &middot; NFPA 70E 2024 &middot; OSHA 1926 Subpart K &middot; NEC 110.16</div>
+</div>
+
+<div class="notice">
+    <strong>Purpose.</strong> Field reference for safe interaction with electrical energy.
+    Covers lockout/tagout procedure, arc-flash boundary + PPE selection, energized work
+    permit issuance + control, voltage testing, and incident response. Companion <em>Energized
+    Work Permit + LOTO Log</em> XLSX captures every permit + LOTO event.
+</div>
+
+<div class="toc">
+    <div class="toc-title">Contents</div>
+    <ol>
+        <li>Hierarchy of Controls — De-Energize First</li>
+        <li>LOTO Step-by-Step</li>
+        <li>Voltage Verification (Test-the-Tester)</li>
+        <li>Energized Work Permit (EWP)</li>
+        <li>Arc-Flash Boundary + PPE Categories</li>
+        <li>Shock Protection Boundaries</li>
+        <li>Arc-Rated PPE Selection Matrix</li>
+        <li>Qualified vs Unqualified Persons</li>
+        <li>NEC 110.16 Field Labeling</li>
+        <li>Incident Response</li>
+    </ol>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 1 — Hierarchy of Controls — De-Energize First</div>
+    <p>OSHA + NFPA 70E require: de-energize first. Energized work is the last resort, allowed
+    only when:</p>
+    <ul>
+        <li>De-energization creates a greater hazard (life-safety circuits, ventilation).</li>
+        <li>De-energization is infeasible (troubleshooting, voltage measurement).</li>
+        <li>Operation involves voltages &lt; 50 V with no exposure to arc-flash hazard.</li>
+    </ul>
+    <p>If any of the above apply, an Energized Work Permit (EWP) must be issued + signed.</p>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 2 — LOTO Step-by-Step</div>
+    <ol>
+        <li><strong>Identify energy sources.</strong> All of them — utility, generator, UPS, battery, control,
+            stored mechanical / hydraulic / pneumatic.</li>
+        <li><strong>Notify affected persons.</strong> Coordinate with building operations on live-building projects.</li>
+        <li><strong>Open the disconnect / breaker.</strong> Verify position visually + by labeling.</li>
+        <li><strong>Apply lock + tag.</strong> Each worker applies their OWN lock. Multiple workers → multi-lock hasp.</li>
+        <li><strong>Test for absence of voltage.</strong> Use a known-good meter. TEST THE TESTER on a live source
+            BEFORE the verification AND AFTER. Confirms your meter is working.</li>
+        <li><strong>Discharge stored energy.</strong> Capacitors, springs, hydraulic accumulators.</li>
+        <li><strong>Perform work.</strong></li>
+        <li><strong>On completion:</strong> remove tools, notify affected persons, remove personal lock + tag, restore energy.</li>
+    </ol>
+    <div class="warning">
+        <strong>WARNING — never remove another worker's lock.</strong>
+        Exceptions per 1910.147(e)(3) require: (a) worker not on site, (b) reasonable effort to
+        contact, (c) verification of safety before removing, (d) inform worker before they resume.
+        Document every supervisor-removal. Most electrocutions involve removed locks.
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 3 — Voltage Verification ("Test-the-Tester")</div>
+    <ul>
+        <li>Use a meter rated for the voltage class being tested (CAT II / III / IV).</li>
+        <li>Test the meter on a known-live source BEFORE the verification.</li>
+        <li>Verify zero voltage on the de-energized circuit — phase-to-phase, phase-to-ground.</li>
+        <li>Test the meter again on the known-live source AFTER the verification. Confirms the meter
+            didn't fail to a "zero" reading during the test.</li>
+        <li>Document on the LOTO log + EWP.</li>
+    </ul>
+    <div class="practice-note">
+        <span class="label">Practice note — meter category ratings.</span>
+        Use CAT IV meters for utility service + outdoor work, CAT III for distribution panels +
+        feeders, CAT II for receptacle-level work. Using an under-rated meter on high-energy
+        equipment can cause the meter to arc-fault during a transient — the most common cause
+        of meter-related arc-flash injuries.
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 4 — Energized Work Permit (EWP)</div>
+    <p>Required for any energized work over 50 V. Per NFPA 70E 110.4. The permit documents the
+    risk assessment, controls, and signatures.</p>
+    <table class="data-table">
+        <tr><td class="label">Work description</td><td><span class="field">What is being done + why de-energization is infeasible</span></td></tr>
+        <tr><td class="label">Equipment + voltage</td><td><span class="field">Equipment ID + nominal voltage + available fault current</span></td></tr>
+        <tr><td class="label">Shock boundary</td><td><span class="field">Limited / Restricted approach boundary distances</span></td></tr>
+        <tr><td class="label">Arc-flash boundary</td><td><span class="field">From engineered study or 70E Table 130.5(C)</span></td></tr>
+        <tr><td class="label">Incident energy</td><td><span class="field">cal/cm² at working distance</span></td></tr>
+        <tr><td class="label">Required PPE</td><td><span class="field">PPE Category + specific items verified on site</span></td></tr>
+        <tr><td class="label">Qualified worker(s)</td><td><span class="field">Name + qualification per 1910.332 + 70E 110.6</span></td></tr>
+        <tr><td class="label">Job briefing</td><td><span class="field">Performed + documented</span></td></tr>
+        <tr><td class="label">Tool verification</td><td><span class="field">Insulated tools + meters within cert</span></td></tr>
+        <tr><td class="label">Signatures</td><td><span class="field">Qualified employee + supervisor + safety officer</span></td></tr>
+    </table>
+    <p>Log every issued EWP on the companion XLSX.</p>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 5 — Arc-Flash Boundary + PPE Categories</div>
+    <p>Project-specific engineered arc-flash study (if available) controls. Without a study,
+    NFPA 70E Table 130.7(C)(15)(a)/(b) defaults apply by equipment class.</p>
+    <table class="data-table">
+        <tr><th>PPE Cat</th><th>Min Incident Energy (cal/cm²)</th><th>Arc-Rated Clothing</th><th>Other PPE</th></tr>
+        <tr><td>1</td><td>4</td><td>AR shirt + pants OR coverall (4 cal/cm²)</td><td>Hard hat, AR face shield, safety glasses, AR gloves + leather, ear inserts</td></tr>
+        <tr><td>2</td><td>8</td><td>AR shirt + pants OR coverall (8 cal/cm²)</td><td>+ AR balaclava</td></tr>
+        <tr><td>3</td><td>25</td><td>AR shirt + pants + coverall OR AR flash suit jacket + pants (25)</td><td>+ AR hood with arc-rated viewing window</td></tr>
+        <tr><td>4</td><td>40</td><td>AR flash suit jacket + pants OR coverall (40)</td><td>+ AR hood</td></tr>
+    </table>
+    <div class="warning">
+        <strong>WARNING — incident energy &gt; 40 cal/cm².</strong>
+        NFPA 70E 130.7(A) advises NO live work without specifically engineered controls
+        (remote racking, isolation). Arc-blast pressure becomes lethal even with PPE on.
+        Treat as a stop-work threshold.
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 6 — Shock Protection Boundaries</div>
+    <table class="data-table">
+        <tr><th>Voltage (V phase-to-ground)</th><th>Limited Approach (Exposed Movable Cond)</th><th>Restricted Approach</th></tr>
+        <tr><td>50 - 300</td><td>10 ft 0 in (avoid contact)</td><td>Avoid contact</td></tr>
+        <tr><td>301 - 750</td><td>3 ft 6 in</td><td>1 ft 0 in</td></tr>
+        <tr><td>751 V - 15 kV</td><td>5 ft 0 in</td><td>2 ft 2 in</td></tr>
+        <tr><td>15 kV - 36 kV</td><td>6 ft 0 in</td><td>2 ft 7 in</td></tr>
+    </table>
+    <p>Exact values from NFPA 70E Table 130.4(E)(a) — fixed-circuit / exposed-movable distances.
+    Round up + verify against current edition.</p>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 7 — Arc-Rated PPE Selection Matrix (NFPA 70E 130.7)</div>
+    <p>Each worker performing work within the arc-flash boundary must be equipped with arc-rated
+    PPE at or above the incident energy. Layering: arc-rated outer layer +
+    natural-fiber inner layer (no synthetic). PPE is verified daily before each EWP.</p>
+    <ul>
+        <li>Arc-rated head protection — hard hat with AR face shield or hood.</li>
+        <li>Hearing protection — ear-canal inserts (foam plugs).</li>
+        <li>Arc-rated eyewear — safety glasses (worn UNDER face shield).</li>
+        <li>Arc-rated hand protection — rubber insulating gloves with leather protectors;
+            test gloves per ASTM F496 every 6 months.</li>
+        <li>Arc-rated foot protection — dielectric or EH-rated leather boots.</li>
+        <li>Non-conductive tools — insulated to test voltage rating; visually inspect for cuts.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 8 — Qualified vs Unqualified Persons</div>
+    <p>OSHA 1910.332 + NFPA 70E 110.6 require workers exposed to electrical hazards be
+    "qualified" — trained in:</p>
+    <ul>
+        <li>Skills + techniques to distinguish exposed live parts from other parts.</li>
+        <li>Skills + techniques to determine nominal voltage.</li>
+        <li>Clearance distances + voltages.</li>
+        <li>Selection + use of test instruments.</li>
+        <li>Practices of safe work near energized equipment.</li>
+        <li>How to apply LOTO.</li>
+        <li>Recognition + avoidance of electrical hazards.</li>
+    </ul>
+    <p>Training documented + refreshed per the employer's program (typically annually). An
+    unqualified person may not enter the limited-approach boundary of an exposed energized
+    conductor without escort + direct supervision by a qualified person.</p>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 9 — NEC 110.16 Field Labeling</div>
+    <ul>
+        <li>Switchboards, panelboards, industrial control panels, meter socket enclosures, and
+            motor control centers in non-dwelling occupancies require a permanent warning label.</li>
+        <li>Label content: warning of arc-flash + shock hazard, equipment ID, date applied.</li>
+        <li>NEC 110.16(B) — service equipment ≥1200 A in non-dwelling: label must also include
+            nominal voltage, available fault current, clearing time of OCPD, date.</li>
+        <li>Engineered arc-flash study labels add: incident energy at working distance, arc-flash
+            boundary distance, required PPE category.</li>
+        <li>Verify labels before energizing; replace any damaged labels promptly.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 10 — Incident Response</div>
+    <ul>
+        <li><strong>Electrical contact victim</strong> — never touch a victim still in contact with energy.
+            Cut power first or use insulated rescue equipment.</li>
+        <li><strong>Arc-flash victim</strong> — burns are the immediate hazard. Cool with water
+            (clean), cover with sterile dressing if available, transport to ER. Eye exposure to
+            arc light → ophthalmology evaluation even if no immediate symptom.</li>
+        <li><strong>Trapped worker in energized enclosure</strong> — emergency call, follow site
+            EAP. Coordinate with controlling contractor on rescue without secondary contact.</li>
+        <li><strong>Investigation</strong> — document the incident under OSHA 1904.39 if hospitalization
+            within 24 hours. Preserve scene + meters / tools / PPE.</li>
+    </ul>
+    <div class="warning">
+        <strong>WARNING — second-victim is the rescuer.</strong>
+        Most secondary injuries are would-be rescuers who entered without their own PPE +
+        verification. Train every worker on the "cut power first / use insulated rescue
+        equipment" rule in toolbox talks before the first energized-work day.
+    </div>
+</div>
+
+<div class="notice" style="margin-top: 30px;">
+    <strong>Document version:</strong> LOTO + Arc-Flash + Energized Work Guide v1.0 — 2026-05-19.
+    ContrPro Complete Tier · Electrical Trade Pack. Not legal advice. Not a substitute for an
+    engineered arc-flash study by a qualified PE.
+</div>
+
+</body>
+</html>

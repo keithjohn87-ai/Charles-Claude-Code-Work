@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Site-Specific Mechanical (HVAC) Safety + QC Plan — Mechanical Trade Pack</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.55; max-width: 880px; margin: 40px auto; padding: 20px; color: #222; }
+        .header { text-align: center; border-bottom: 3px double #1e3a5f; padding-bottom: 20px; margin-bottom: 30px; }
+        .form-title { font-size: 26px; font-weight: bold; color: #1e3a5f; margin-bottom: 6px; }
+        .form-subtitle { font-size: 15px; color: #444; font-weight: 600; }
+        .doc-meta { font-size: 13px; color: #666; margin-top: 8px; }
+        .field { background: #f0f0f0; padding: 2px 8px; border-radius: 3px; font-style: italic; color: #555; }
+        .section { margin: 26px 0; page-break-inside: avoid; }
+        .section-title { font-weight: bold; color: #1e3a5f; font-size: 16px; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+        .sub-title { font-weight: bold; color: #1e3a5f; font-size: 14px; margin: 14px 0 6px 0; }
+        .warning { background: #f8d7da; border-left: 4px solid #dc3545; padding: 14px 16px; margin: 18px 0; }
+        .notice { background: #d1ecf1; border-left: 4px solid #0c5460; padding: 14px 16px; margin: 18px 0; }
+        .practice-note { background: #fdf6e3; border-left: 4px solid #b58900; padding: 14px 16px; margin: 14px 0; font-size: 13.5px; }
+        .practice-note .label { font-weight: bold; color: #1e3a5f; font-size: 14px; display: block; margin-bottom: 6px; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        td, th { padding: 7px 8px; vertical-align: top; }
+        th { background: #1e3a5f; color: #fff; text-align: left; font-size: 12.5px; }
+        .data-table td { border: 1px solid #ccc; font-size: 13px; }
+        .data-table td.label { font-weight: 600; background: #f9f9f9; width: 38%; }
+        .toc { background: #f4f6f9; border: 1px solid #c0cad8; padding: 16px 22px; margin: 20px 0 28px 0; border-radius: 6px; }
+        .toc-title { font-weight: bold; color: #1e3a5f; font-size: 14px; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+        .toc ol { margin: 0; padding-left: 22px; }
+        .footnote { font-size: 11.5px; color: #666; font-style: italic; }
+        .signature-line { border-top: 1px solid #000; width: 360px; margin-top: 50px; padding-top: 5px; font-size: 12.5px; }
+        @media print { .no-print { display: none; } body { margin: 0; max-width: 100%; } .section { page-break-inside: avoid; } }
+    </style>
+</head>
+<body>
+
+<div class="no-print" style="background: #fff3cd; border: 2px solid #856404; padding: 18px; border-radius: 8px; margin-bottom: 24px;">
+    <strong style="color: #856404; font-size: 16px;">TAILOR + SIGN BEFORE FIRST ROUGH-IN</strong>
+    <p style="margin: 8px 0 0 0; font-size: 13.5px;">
+        This Site-Specific Mechanical Plan ("SSMP") is the mechanical contractor's project-specific
+        compliance roadmap covering AHJ coordination, the inspection sequence, refrigerant handling
+        (EPA 608), hot work + brazing, lifting + rigging of heavy equipment, confined-space entry
+        in mechanical rooms, hazmat encountered, ICRA / occupied-building considerations, and
+        multi-trade coordination. Walk it with the GC + AHJ inspector at pre-construction; sign at
+        Section 16. OSHA Multi-Employer Citation Policy applies — GC + mech contractor jointly
+        citable.
+    </p>
+</div>
+
+<div class="header">
+    <div class="form-title">SITE-SPECIFIC MECHANICAL SAFETY + QC PLAN</div>
+    <div class="form-subtitle">IMC / UMC &middot; ASHRAE 62.1 + 90.1 + 15 &middot; SMACNA &middot; NFPA 90A &middot; EPA 608 &middot; OSHA 1926</div>
+    <div class="doc-meta">
+        Project: <span class="field">[Project Name]</span> &nbsp;|&nbsp;
+        Mechanical Contractor: <span class="field">[Contractor Legal Name]</span> &nbsp;|&nbsp;
+        Plan Version: <span class="field">[v1.0 / Date]</span>
+    </div>
+</div>
+
+<div class="notice">
+    <strong>Purpose.</strong> The Site-Specific Mechanical Plan is the mechanical contractor's
+    project-specific roadmap for safe, code-compliant performance from underground utility
+    rough-in through TAB + commissioning. Controlling reference for mechanical superintendent,
+    sheet-metal + pipefitter journeymen, refrigeration technicians, GC safety officer, AHJ
+    mechanical inspector. Living document — revise when scope, sequence, or conditions change.
+</div>
+
+<div class="toc">
+    <div class="toc-title">Table of Contents</div>
+    <ol>
+        <li>Parties &amp; Project Identification</li>
+        <li>Permits, AHJ &amp; Code Edition</li>
+        <li>Inspection Sequence (UG / Rough / Equipment / Final)</li>
+        <li>Mechanical Scope of Work</li>
+        <li>Refrigerant Handling (EPA 608) + ASHRAE 15 Compliance</li>
+        <li>Hot Work — Brazing, Welding, Soldering</li>
+        <li>Confined-Space Entry (Mech Rooms / Plenums)</li>
+        <li>Heavy Equipment Lifting + Rigging</li>
+        <li>Working at Heights (Roof Units, Mech Penthouses)</li>
+        <li>Hazmat Encountered (Asbestos / Lead / Mold)</li>
+        <li>Indoor Air Quality + Construction-Phase IAQ (ASHRAE 62.1)</li>
+        <li>Multi-Trade Coordination</li>
+        <li>Occupied-Building / ICRA / Live-Cutover</li>
+        <li>TAB + Commissioning Touchpoints</li>
+        <li>Emergency Response + Stop-Work Triggers</li>
+        <li>Signatures</li>
+    </ol>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 1 — Parties &amp; Project Identification</div>
+    <table class="data-table">
+        <tr><td class="label">Project Name</td><td><span class="field">[Project]</span></td></tr>
+        <tr><td class="label">Owner</td><td><span class="field">[Owner + Rep]</span></td></tr>
+        <tr><td class="label">General Contractor</td><td><span class="field">[GC + Project Manager]</span></td></tr>
+        <tr><td class="label">Mechanical Engineer of Record</td><td><span class="field">[MEP firm + EOR]</span></td></tr>
+        <tr><td class="label">Mechanical Contractor</td><td><span class="field">[Contractor Legal Name]</span></td></tr>
+        <tr><td class="label">State License #</td><td><span class="field">[# + Master Mech of Record]</span></td></tr>
+        <tr><td class="label">Mechanical Superintendent</td><td><span class="field">[Name + Phone]</span></td></tr>
+        <tr><td class="label">Sheet-Metal Foreman</td><td><span class="field">[Name + Phone]</span></td></tr>
+        <tr><td class="label">Pipefitter Foreman</td><td><span class="field">[Name + Phone]</span></td></tr>
+        <tr><td class="label">Refrigeration Lead (EPA 608)</td><td><span class="field">[Name + cert #]</span></td></tr>
+        <tr><td class="label">Total Tonnage</td><td><span class="field">[T]</span></td></tr>
+        <tr><td class="label">Total Supply CFM</td><td><span class="field">[CFM]</span></td></tr>
+    </table>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 2 — Permits, AHJ &amp; Code Edition</div>
+    <table class="data-table">
+        <tr><td class="label">Mechanical Permit #</td><td><span class="field">[#]</span></td></tr>
+        <tr><td class="label">Gas Piping Permit (if separate)</td><td><span class="field">[#]</span></td></tr>
+        <tr><td class="label">AHJ — Mechanical Inspector</td><td><span class="field">[Name + Cell]</span></td></tr>
+        <tr><td class="label">Adopted Mechanical Code</td><td><span class="field">[IMC 2024 / UMC 2024 / local]</span></td></tr>
+        <tr><td class="label">Adopted Energy Code</td><td><span class="field">[IECC 2021 / ASHRAE 90.1-2019]</span></td></tr>
+        <tr><td class="label">Adopted Fuel Gas Code</td><td><span class="field">[IFGC 2024 / NFPA 54]</span></td></tr>
+        <tr><td class="label">Adopted Ventilation Standard</td><td><span class="field">[ASHRAE 62.1]</span></td></tr>
+        <tr><td class="label">Adopted Refrigeration Standard</td><td><span class="field">[ASHRAE 15]</span></td></tr>
+        <tr><td class="label">EPA 608 Certification</td><td><span class="field">[Tech name + cert level + exp]</span></td></tr>
+    </table>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 3 — Inspection Sequence</div>
+    <table class="data-table">
+        <tr><th>Inspection</th><th>Trigger</th><th>What Gets Inspected</th></tr>
+        <tr><td class="label">UG / In-Slab</td><td>Pre-pour</td><td>Refrigerant line sleeves, hydronic UG piping, gas service entry, condensate stub-outs</td></tr>
+        <tr><td class="label">Rough-In</td><td>Pre-drywall</td><td>Ductwork seismic + support, sealed joints, fire/smoke damper UL listing, hydronic + gas piping support spacing, condensate slope</td></tr>
+        <tr><td class="label">Pressure / Leak Tests</td><td>Pre-cover</td><td>Gas (IFGC 406), hydronic 1.5× working OR 100 psi, refrigerant nitrogen pressure test, ductwork leakage per SMACNA</td></tr>
+        <tr><td class="label">Equipment Set</td><td>After rigging</td><td>Anchor + seismic restraints, vibration isolators, clearance + service access, T&amp;P piping, code venting</td></tr>
+        <tr><td class="label">TAB + Cx</td><td>Pre-final</td><td>Air + water balance reports, sequence-of-ops verification, integration testing</td></tr>
+        <tr><td class="label">Final</td><td>Pre-TCO</td><td>Filters installed, all systems labeled, all required filters / dampers operative, IAQ flush-out documented if required</td></tr>
+    </table>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 4 — Mechanical Scope of Work</div>
+    <table class="data-table">
+        <tr><th>CSI Code</th><th>System</th><th>Scope</th></tr>
+        <tr><td>23 05-09</td><td>Common Work + Insulation + Controls</td><td><span class="field">BY US</span></td></tr>
+        <tr><td>23 21</td><td>Hydronic Piping + Pumps</td><td><span class="field">BY US</span></td></tr>
+        <tr><td>23 22</td><td>Steam + Condensate</td><td><span class="field">[scope]</span></td></tr>
+        <tr><td>23 31-37</td><td>Ductwork + Accessories + Air Outlets</td><td><span class="field">BY US</span></td></tr>
+        <tr><td>23 52-57</td><td>Boilers + Heat Exchangers</td><td><span class="field">[scope — start-up by vendor?]</span></td></tr>
+        <tr><td>23 62-65</td><td>DX + Chillers + Cooling Towers</td><td><span class="field">[scope]</span></td></tr>
+        <tr><td>23 72-73</td><td>ERV + AHU + RTU</td><td><span class="field">[scope + crane lifts]</span></td></tr>
+        <tr><td>23 81-83</td><td>Unitary HVAC + Radiant</td><td><span class="field">[scope]</span></td></tr>
+        <tr><td>22 13/22 14</td><td>Plumbing — sanitary / storm (cross-ref)</td><td><span class="field">BY OTHERS</span></td></tr>
+        <tr><td>26 27-28</td><td>Electrical — power to mech equipment</td><td><span class="field">BY OTHERS — final-connection scope split</span></td></tr>
+        <tr><td>27 21</td><td>BAS / Controls integration</td><td><span class="field">[BY US / specialty sub]</span></td></tr>
+    </table>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 5 — Refrigerant Handling (EPA 608) + ASHRAE 15</div>
+    <ul>
+        <li><strong>Technician certification</strong> — EPA 608 Type II (high-pressure systems) or
+            Type III (low-pressure) required for any refrigerant work. Universal cert covers all.
+            Document each tech's cert + expiry.</li>
+        <li><strong>Recovery</strong> — recover refrigerant to EPA standards before opening any system.
+            Use certified recovery machine + DOT-rated cylinders. Log recovery on Refrigerant Log.</li>
+        <li><strong>Leak detection</strong> — required after any service work; use electronic detector,
+            soap test, OR refrigerant trace.</li>
+        <li><strong>ASHRAE 15</strong> — refrigerant classification (A1, A2L, A3, etc.) + machinery
+            room ventilation per Standard 15.</li>
+        <li><strong>Refrigerant labeling</strong> — equipment labeled with refrigerant type +
+            amount per ASHRAE 15.</li>
+        <li><strong>R-410A + replacements</strong> — confirm phase-down schedule + EPA SNAP listing
+            for project HVAC refrigerant.</li>
+    </ul>
+    <div class="warning">
+        <strong>WARNING — A2L refrigerants are mildly flammable.</strong>
+        R-32, R-454B, R-1234yf require LFL detection, leak-tight installation, and proper
+        machinery-room ventilation per ASHRAE 15. Brazing on A2L systems requires nitrogen purge
+        + ignition-source-free environment + post-braze leak test.
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 6 — Hot Work — Brazing, Welding, Soldering</div>
+    <ul>
+        <li>Daily Hot Work Permit from GC. Don't pre-pull.</li>
+        <li>35-ft combustible clearance + welding blankets / FR tarps on remainder.</li>
+        <li>Fire watch during work + 30-min cooldown (60 min some AHJs).</li>
+        <li>Fire extinguisher (A + B + C) within 10 ft.</li>
+        <li>Verify smoke detector status with GC; restore by end of shift.</li>
+        <li><strong>Brazing under nitrogen</strong> — required on refrigerant + medical-gas piping.
+            5-10 SCFH nitrogen purge during entire braze. Prevents scale inside pipe.</li>
+        <li><strong>Welder qualification</strong> — pipe welding per ASME Section IX where applicable.
+            Joint testing per spec.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 7 — Confined-Space Entry (Mech Rooms / Plenums)</div>
+    <ul>
+        <li>Mechanical rooms + plenum chases often qualify as confined spaces or permit-required
+            confined spaces (PRCS) — limited entry/exit + atmospheric hazards (refrigerant leaks,
+            fuel-gas, combustion products from gas-fired equipment).</li>
+        <li>Atmospheric test before entry: oxygen → flammable → toxic.</li>
+        <li>Continuous ventilation if combustion equipment is operating during the entry.</li>
+        <li>Permit + entry supervisor + attendant + rescue per 1910.146.</li>
+        <li>Retrieval system unless retrieval would increase risk.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 8 — Heavy Equipment Lifting + Rigging</div>
+    <ul>
+        <li>Rooftop units, AHUs, chillers — typically craned. Coordinate with GC's crane plan +
+            ground-bearing analysis.</li>
+        <li>Critical-lift criteria: load &gt; 75% of crane capacity, lifts over occupied buildings,
+            lifts of expensive / irreplaceable equipment.</li>
+        <li>Rigging — synthetic slings inspected, choker hitches per OSHA 1926.251, tag lines for
+            wind control.</li>
+        <li>Roof access — fall protection per 1926.501.</li>
+        <li>Lift area cleared of personnel + barricaded.</li>
+        <li>Operator certification — crane operators must be certified per 1926.1427.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 9 — Working at Heights</div>
+    <ul>
+        <li>Fall protection &gt; 6 ft (construction) — 1926.501.</li>
+        <li>Mechanical equipment on rooftops without parapet → fall-arrest tie-off or warning-line
+            system.</li>
+        <li>Aerial lift training + daily inspection.</li>
+        <li>Material lift to roof — coordinate with crane / hoist; don't carry heavy items on ladders.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 10 — Hazmat Encountered</div>
+    <ul>
+        <li><strong>Asbestos</strong> in pipe insulation (pre-1980) — STOP, isolate, abatement vendor.</li>
+        <li><strong>Lead-based paint</strong> on legacy ductwork — RRP-certified renovator if pre-1978.</li>
+        <li><strong>Mold</strong> in damp coils / drain pans — clean + remediate per IICRC S520 before
+            new work.</li>
+        <li><strong>PCBs</strong> in old transformers serving mech equipment — confirm w/ EC before
+            disturbance.</li>
+        <li><strong>Mercury</strong> — old fluorescent ballasts on legacy AHUs.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 11 — Indoor Air Quality + Construction-Phase IAQ</div>
+    <ul>
+        <li>ASHRAE 62.1 ventilation rates — verify at TAB. Increase OA per Table 6.1 if missed at
+            design.</li>
+        <li><strong>Construction-Phase IAQ Management Plan</strong> (LEED IEQc3 / SMACNA IAQ Guidelines)
+            — protect installed ductwork during construction; cap open ends; HEPA-vacuum before final.</li>
+        <li>Pre-occupancy flush-out — minimum 14,000 ft³ of OA per ft² of floor area BEFORE
+            occupancy if LEED IEQc3.2.</li>
+        <li>Filter replacement — install permanent MERV filters AFTER flush-out + before turnover.</li>
+        <li>Document IAQ plan compliance for LEED / WELL projects.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 12 — Multi-Trade Coordination</div>
+    <ul>
+        <li>BIM coordination — Mechanical typically priority above ceiling after structure +
+            gravity (sanitary / storm). Coordinate with sprinkler mains + electrical conduit.</li>
+        <li>Sleeves + roof curbs coordinated with structural + roofing.</li>
+        <li>Power to mech equipment — confirm scope split with EC.</li>
+        <li>Control wiring — confirm scope with BAS sub.</li>
+        <li>Floor sleeves through occupied areas — coordinate with arch / interiors.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 13 — Occupied-Building / ICRA / Live-Cutover</div>
+    <ul>
+        <li><strong>Hospital ICRA</strong> tier 3+ — HEPA negative-pressure containment for any work
+            disturbing existing duct or piping. Coordinate with IP.</li>
+        <li><strong>Live-cutover</strong> — written plan + occupant notification + temporary ventilation
+            during shutdown. Coordinate with owner ops.</li>
+        <li><strong>Steam / chilled water cutovers</strong> — isolate, drain, lock + tag. Test for
+            zero pressure before opening.</li>
+        <li><strong>Refrigerant leak in occupied area</strong> — evacuate + ventilate per ASHRAE 15
+            machinery room protocols.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 14 — TAB + Commissioning Touchpoints</div>
+    <ul>
+        <li>Pre-TAB clean filter set installed; final filters per spec.</li>
+        <li>TAB by NEBB-certified or AABC-certified firm. Use the project TAB report template.</li>
+        <li>Sequence-of-Operations review with controls + EOR before integration test.</li>
+        <li>Functional Performance Tests (FPT) per Cx spec.</li>
+        <li>Integrated systems test if multiple subsystems handed over together.</li>
+        <li>Document deficiencies + retest after correction.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 15 — Emergency Response + Stop-Work Triggers</div>
+    <table class="data-table">
+        <tr><td class="label">Site First-Aid / AED</td><td><span class="field">[location]</span></td></tr>
+        <tr><td class="label">Nearest Hospital + ER</td><td><span class="field">[name + drive time]</span></td></tr>
+        <tr><td class="label">Refrigerant Emergency Vendor</td><td><span class="field">[24-hr phone]</span></td></tr>
+        <tr><td class="label">Gas Emergency</td><td><span class="field">[Utility 24-hr]</span></td></tr>
+        <tr><td class="label">Hazmat Vendor</td><td><span class="field">[24-hr]</span></td></tr>
+    </table>
+    <div class="sub-title">Stop-Work Triggers</div>
+    <ul>
+        <li>Suspected asbestos / lead / mold disturbed.</li>
+        <li>Refrigerant leak in occupied space.</li>
+        <li>Gas leak detected at any concentration.</li>
+        <li>Confined-space entry without permit.</li>
+        <li>Hot work without permit / fire watch.</li>
+        <li>Crane lift exceeds 75% capacity or weather thresholds exceeded.</li>
+        <li>Code-edition conflict between drawings and AHJ adopted code.</li>
+        <li>Pressure-test failure that cannot be promptly diagnosed.</li>
+        <li>A2L refrigerant work without LFL monitoring.</li>
+        <li>Worker injury exceeding first-aid level.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 16 — Signatures</div>
+    <div class="signature-line">Mechanical Superintendent — Print + Date + Sign</div>
+    <div class="signature-line">Master Mech of Record — License # + Date + Sign</div>
+    <div class="signature-line">GC Project Manager — Date + Sign</div>
+    <div class="signature-line">Owner's Representative — Date + Sign</div>
+    <div class="signature-line">Mechanical Engineer of Record — Date + Sign (reviewed)</div>
+    <div class="signature-line">AHJ Mechanical Inspector — acknowledged at pre-con walk — Date</div>
+    <p class="footnote">Revision history: log each substantive change. Post current version at jobsite.</p>
+</div>
+
+<div class="notice" style="margin-top: 30px;">
+    <strong>Document version:</strong> SSMP v1.0 — 2026-05-19. ContrPro Complete Tier · Mechanical
+    Trade Pack. References current as of January 2026. Not legal advice. Not a substitute for the
+    Master Mechanical of Record's professional judgment or AHJ direction.
+</div>
+
+</body>
+</html>

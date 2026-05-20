@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ductwork + Piping Installation &amp; Test Guide — Mechanical Trade Pack</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.55; max-width: 880px; margin: 40px auto; padding: 20px; color: #222; }
+        .header { text-align: center; border-bottom: 3px double #1e3a5f; padding-bottom: 20px; margin-bottom: 30px; }
+        .form-title { font-size: 26px; font-weight: bold; color: #1e3a5f; margin-bottom: 6px; }
+        .form-subtitle { font-size: 15px; color: #444; font-weight: 600; }
+        .section { margin: 26px 0; page-break-inside: avoid; }
+        .section-title { font-weight: bold; color: #1e3a5f; font-size: 16px; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+        .sub-title { font-weight: bold; color: #1e3a5f; font-size: 14px; margin: 14px 0 6px 0; }
+        .warning { background: #f8d7da; border-left: 4px solid #dc3545; padding: 14px 16px; margin: 18px 0; }
+        .notice { background: #d1ecf1; border-left: 4px solid #0c5460; padding: 14px 16px; margin: 18px 0; }
+        .practice-note { background: #fdf6e3; border-left: 4px solid #b58900; padding: 14px 16px; margin: 14px 0; font-size: 13.5px; }
+        .practice-note .label { font-weight: bold; color: #1e3a5f; font-size: 14px; display: block; margin-bottom: 6px; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        td, th { padding: 7px 8px; vertical-align: top; }
+        th { background: #1e3a5f; color: #fff; text-align: left; font-size: 12.5px; }
+        .data-table td { border: 1px solid #ccc; font-size: 13px; }
+        .data-table td.label { font-weight: 600; background: #f9f9f9; }
+        .toc { background: #f4f6f9; border: 1px solid #c0cad8; padding: 16px 22px; margin: 20px 0 28px 0; border-radius: 6px; }
+        .toc-title { font-weight: bold; color: #1e3a5f; font-size: 14px; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+        .toc ol { margin: 0; padding-left: 22px; }
+        @media print { body { margin: 0; max-width: 100%; } .section { page-break-inside: avoid; } }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="form-title">DUCTWORK + PIPING INSTALLATION + TEST GUIDE</div>
+    <div class="form-subtitle">SMACNA HVAC Duct Construction &middot; IMC &middot; ASME B31.9 &middot; IFGC 406</div>
+</div>
+
+<div class="notice">
+    <strong>Purpose.</strong> Field reference for duct construction, hangers, leakage testing,
+    hydronic + steam piping, gas piping, insulation, and acceptance procedures. Companion
+    <em>Mechanical Pressure + Leakage Test Log</em> XLSX captures every test.
+</div>
+
+<div class="toc">
+    <div class="toc-title">Contents</div>
+    <ol>
+        <li>Ductwork — Gauge Selection (SMACNA)</li>
+        <li>Duct Reinforcement + Joint Selection</li>
+        <li>Duct Support Spacing</li>
+        <li>Duct Sealing + Leakage Class</li>
+        <li>Duct Leakage Testing (SMACNA DCS)</li>
+        <li>Hydronic Piping — Material + Hanger Spacing</li>
+        <li>Hydronic Pressure Testing + Flush + Fill</li>
+        <li>Gas Piping (IFGC 406)</li>
+        <li>Steam + Condensate</li>
+        <li>Acceptance Documentation</li>
+    </ol>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 1 — Ductwork: Gauge Selection (SMACNA)</div>
+    <p>Per SMACNA HVAC Duct Construction Standards. Gauge depends on duct dimension, pressure
+    class (1 in wg, 2 in wg, 4 in wg, 6 in wg, 10 in wg), and seismic + service.</p>
+    <table class="data-table">
+        <tr><th>Pressure Class</th><th>Max Static (in wg)</th><th>Typical Application</th></tr>
+        <tr><td>1 in wg (low)</td><td>1.0</td><td>Most return + low-velocity supply</td></tr>
+        <tr><td>2 in wg</td><td>2.0</td><td>Typical commercial supply</td></tr>
+        <tr><td>4 in wg</td><td>4.0</td><td>High-velocity / long-run supply</td></tr>
+        <tr><td>6 in wg</td><td>6.0</td><td>Process / industrial</td></tr>
+        <tr><td>10 in wg</td><td>10.0</td><td>High-volume process</td></tr>
+    </table>
+    <div class="practice-note">
+        <span class="label">Practice note — gauge selection vs. SMACNA tables.</span>
+        Field substitutions to thinner gauge "to save material" are a common cause of duct deflection,
+        torn joints, and leakage failures. Follow SMACNA tables exactly; reinforcement spacing
+        compensates for thinner gauge but introduces more joints.
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 2 — Duct Reinforcement + Joint Selection</div>
+    <ul>
+        <li>SMACNA tables provide reinforcement type + spacing based on gauge + pressure class.</li>
+        <li>Joints: TDC, TDF, slip-and-drive, S-cleat — match SMACNA T-classification.</li>
+        <li>Seal class — A (all transverse + longitudinal + penetrations), B (transverse +
+            longitudinal), C (transverse only).</li>
+        <li>Sealant — UL 181A (rigid duct) or UL 181B (flex). Approved tape only — duct tape
+            (cotton fabric) NOT approved.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 3 — Duct Support Spacing</div>
+    <p>Per SMACNA. General rules — vary by gauge + size.</p>
+    <table class="data-table">
+        <tr><th>Duct Size (largest dimension)</th><th>Max Hanger Spacing</th><th>Hanger Material (typical)</th></tr>
+        <tr><td>Up to 30"</td><td>10 ft horizontal</td><td>1" × 18ga strap or 3/8" rod</td></tr>
+        <tr><td>31" - 60"</td><td>10 ft horizontal</td><td>1.5" × 16ga strap or 3/8"-1/2" rod</td></tr>
+        <tr><td>61" - 96"</td><td>8 ft horizontal</td><td>1.5" × 14ga strap or 1/2" rod</td></tr>
+        <tr><td>Over 96"</td><td>per SMACNA + EOR</td><td>Engineered support</td></tr>
+        <tr><td>Vertical riser</td><td>Per story / 12 ft min</td><td>SMACNA bracket schedule</td></tr>
+    </table>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 4 — Duct Sealing + Leakage Class</div>
+    <table class="data-table">
+        <tr><th>Pressure Class</th><th>Seal Class</th><th>Leakage Class CL (cfm/100sf at 1" wg)</th></tr>
+        <tr><td>≤2 in wg, return</td><td>B (transverse + longitudinal)</td><td>CL 12 (12 cfm/100sf)</td></tr>
+        <tr><td>≤2 in wg, supply</td><td>A (all joints sealed)</td><td>CL 6</td></tr>
+        <tr><td>3-4 in wg</td><td>A</td><td>CL 6</td></tr>
+        <tr><td>6+ in wg</td><td>A</td><td>CL 3</td></tr>
+    </table>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 5 — Duct Leakage Testing (SMACNA DCS Chapter 5)</div>
+    <ul>
+        <li>Required by IECC 2021 and many spec sections for ducts in unconditioned spaces.</li>
+        <li>Apparatus: calibrated fan, orifice or flow meter, manometer, pressure tap.</li>
+        <li>Isolate the duct section + cap all openings.</li>
+        <li>Pressurize to test pressure (typically equal to design static).</li>
+        <li>Measure leakage at the test pressure.</li>
+        <li>Calculate CL = leakage cfm × 100 / total surface area sq ft.</li>
+        <li>Pass if measured CL ≤ specified CL.</li>
+        <li>Document on the Pressure + Leakage Test Log.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 6 — Hydronic Piping: Material + Hanger Spacing</div>
+    <table class="data-table">
+        <tr><th>Material</th><th>Pipe Size</th><th>Horizontal Spacing</th></tr>
+        <tr><td>Copper Type L</td><td>1/2" - 1"</td><td>6 ft</td></tr>
+        <tr><td>Copper Type L</td><td>1-1/4" - 2"</td><td>8 ft</td></tr>
+        <tr><td>Copper Type L</td><td>2-1/2" - 4"</td><td>10 ft</td></tr>
+        <tr><td>Black Steel</td><td>1" - 2"</td><td>10 ft</td></tr>
+        <tr><td>Black Steel</td><td>2-1/2" - 4"</td><td>12 ft</td></tr>
+        <tr><td>Black Steel</td><td>5" - 8"</td><td>14 ft</td></tr>
+        <tr><td>PEX-A (oxygen barrier)</td><td>1/2" - 1"</td><td>32" (per most mfrs)</td></tr>
+    </table>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 7 — Hydronic Pressure Testing + Flush + Fill</div>
+    <ul>
+        <li><strong>Pressure test</strong> — typical 1.5 × working pressure or 100 psi minimum.
+            Hold 1 hour for sub-50 psi systems; longer for larger systems per spec. No pressure
+            loss permitted.</li>
+        <li><strong>Flush</strong> — full system flush to dislodge debris BEFORE filling. Flushing
+            water bypasses sensitive components (coils, control valves). Flush to clear.</li>
+        <li><strong>Chemical treatment / glycol</strong> — fill with treated water or glycol blend
+            per spec. Chemical addition with pot feeder.</li>
+        <li><strong>Air venting</strong> — air-vent at every high point during fill + final purge.</li>
+        <li><strong>Cross-connection</strong> — RPZ at make-up. Document on plumbing's Backflow Test Log.</li>
+        <li><strong>Closed-loop water analysis</strong> — sample + lab analysis at commissioning for
+            glycol concentration + chemical inhibitor levels.</li>
+    </ul>
+    <div class="warning">
+        <strong>WARNING — never pressure-test with refrigerant.</strong>
+        Use nitrogen or dry air for pressure testing. Refrigerant in a leaky system vents to
+        atmosphere — Clean Air Act §608 violation. Nitrogen also keeps moisture out of clean
+        copper lines.
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 8 — Gas Piping (IFGC 406 / NFPA 54)</div>
+    <ul>
+        <li>Black iron (Schedule 40) or CSST (with arc-bonding per CSST listing).</li>
+        <li>Sizing per IFGC Table 402 or NFPA 54.</li>
+        <li>Drip leg + sediment trap at each appliance.</li>
+        <li>Shutoff valve within 6 ft of each appliance.</li>
+        <li>Test pressure: 3 psi minimum for 2-psi systems; 1.5× working pressure higher.</li>
+        <li>Test duration: 10 minutes minimum on small systems; longer for larger.</li>
+        <li>Test medium: air or nitrogen — NEVER fuel gas for testing.</li>
+        <li>Soap-test every joint. Witness by AHJ inspector.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 9 — Steam + Condensate</div>
+    <ul>
+        <li>Schedule 40 black steel typical. Schedule 80 for high-pressure.</li>
+        <li>Welded or threaded per pressure class. ASME B31.9 power-piping rules apply at higher
+            pressures.</li>
+        <li>Pitch toward drip legs + traps; condensate gravity drainage to receiver.</li>
+        <li>Traps: F&amp;T (float + thermostatic) for steady drainage; thermostatic for radiant.</li>
+        <li>Strainer upstream of each trap.</li>
+        <li>Pressure test: hydrostatic 1.5× working (typically); pneumatic only with engineering
+            sign-off + safety provisions.</li>
+        <li>Insulation per ASHRAE 90.1 + spec.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 10 — Acceptance Documentation</div>
+    <ul>
+        <li>Pressure test logs on each system (duct, hydronic, gas, steam, refrigerant).</li>
+        <li>Leakage test reports (duct CL calculation).</li>
+        <li>Flush + chemical treatment records (hydronic).</li>
+        <li>Vacuum decay results (refrigerant — to 500 micron decay test).</li>
+        <li>Equipment startup forms by manufacturer's tech.</li>
+        <li>Photos of every penetration / firestop before cover.</li>
+        <li>As-built redlines current with field deviations.</li>
+        <li>Submit per spec — typically pre-final inspection.</li>
+    </ul>
+</div>
+
+<div class="notice" style="margin-top: 30px;">
+    <strong>Document version:</strong> Ductwork + Piping Installation + Test Guide v1.0 — 2026-05-19.
+    ContrPro Complete Tier · Mechanical Trade Pack. References SMACNA HVAC Duct Construction
+    Standards, IMC 2024, ASME B31.9, IFGC 2024 / NFPA 54. Verify AHJ adoption + local amendments.
+</div>
+
+</body>
+</html>

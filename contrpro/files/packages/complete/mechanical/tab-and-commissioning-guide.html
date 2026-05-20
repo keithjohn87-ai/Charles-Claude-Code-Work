@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TAB + Commissioning Guide — Mechanical Trade Pack</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.55; max-width: 880px; margin: 40px auto; padding: 20px; color: #222; }
+        .header { text-align: center; border-bottom: 3px double #1e3a5f; padding-bottom: 20px; margin-bottom: 30px; }
+        .form-title { font-size: 26px; font-weight: bold; color: #1e3a5f; margin-bottom: 6px; }
+        .form-subtitle { font-size: 15px; color: #444; font-weight: 600; }
+        .section { margin: 26px 0; page-break-inside: avoid; }
+        .section-title { font-weight: bold; color: #1e3a5f; font-size: 16px; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+        .sub-title { font-weight: bold; color: #1e3a5f; font-size: 14px; margin: 14px 0 6px 0; }
+        .warning { background: #f8d7da; border-left: 4px solid #dc3545; padding: 14px 16px; margin: 18px 0; }
+        .notice { background: #d1ecf1; border-left: 4px solid #0c5460; padding: 14px 16px; margin: 18px 0; }
+        .practice-note { background: #fdf6e3; border-left: 4px solid #b58900; padding: 14px 16px; margin: 14px 0; font-size: 13.5px; }
+        .practice-note .label { font-weight: bold; color: #1e3a5f; font-size: 14px; display: block; margin-bottom: 6px; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        td, th { padding: 7px 8px; vertical-align: top; }
+        th { background: #1e3a5f; color: #fff; text-align: left; font-size: 12.5px; }
+        .data-table td { border: 1px solid #ccc; font-size: 13px; }
+        .data-table td.label { font-weight: 600; background: #f9f9f9; }
+        .toc { background: #f4f6f9; border: 1px solid #c0cad8; padding: 16px 22px; margin: 20px 0 28px 0; border-radius: 6px; }
+        .toc-title { font-weight: bold; color: #1e3a5f; font-size: 14px; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+        .toc ol { margin: 0; padding-left: 22px; }
+        @media print { body { margin: 0; max-width: 100%; } .section { page-break-inside: avoid; } }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="form-title">TAB + COMMISSIONING GUIDE</div>
+    <div class="form-subtitle">NEBB &middot; AABC &middot; ASHRAE Guideline 0 / 1.1 &middot; LEED Cx Pre-Req</div>
+</div>
+
+<div class="notice">
+    <strong>Purpose.</strong> Roadmap for Testing, Adjusting, Balancing (TAB) and commissioning
+    (Cx) on commercial HVAC. Aligns the mechanical contractor's responsibilities with the
+    Cx Authority's checks. Companion <em>TAB + Cx Functional Test Log</em> XLSX captures
+    balance values + FPT results.
+</div>
+
+<div class="toc">
+    <div class="toc-title">Contents</div>
+    <ol>
+        <li>TAB vs Cx — Roles + Sequence</li>
+        <li>TAB Methodology (NEBB / AABC)</li>
+        <li>Air-Side TAB Procedures</li>
+        <li>Water-Side TAB Procedures</li>
+        <li>Cx Authority (CxA) Process per ASHRAE Guideline 0</li>
+        <li>Sequence of Operations Review</li>
+        <li>Functional Performance Tests (FPT)</li>
+        <li>Integrated Systems Test</li>
+        <li>Deficiency Log + Re-Test</li>
+        <li>Final Reports + Owner Training</li>
+    </ol>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 1 — TAB vs Cx</div>
+    <table class="data-table">
+        <tr><th></th><th>TAB</th><th>Commissioning (Cx)</th></tr>
+        <tr><td class="label">Purpose</td>
+            <td>Measure + adjust airflows, water flows, and pressures to match design</td>
+            <td>Verify systems function per Owner's Project Requirements (OPR) + Basis of Design (BOD)</td></tr>
+        <tr><td class="label">Performer</td>
+            <td>NEBB or AABC certified firm (typically a sub)</td>
+            <td>Cx Authority (CxA) — owner-direct, independent of mech contractor</td></tr>
+        <tr><td class="label">Reference Standard</td>
+            <td>NEBB Procedural Standard / AABC National Standard</td>
+            <td>ASHRAE Guideline 0 (overall Cx process), ASHRAE Guideline 1.1 (HVAC Cx)</td></tr>
+        <tr><td class="label">Timing</td>
+            <td>Pre-substantial; after install + before final inspection</td>
+            <td>Spans design through 12-month post-occupancy</td></tr>
+        <tr><td class="label">Output</td>
+            <td>TAB report with as-measured values</td>
+            <td>Cx report — FPT results, deficiency log, training records</td></tr>
+    </table>
+    <div class="sub-title">Typical sequence</div>
+    <ol>
+        <li>Mechanical install complete + pressure tested + filters installed.</li>
+        <li>Pre-functional checklists (PFC) — installer verifies + signs each piece of equipment.</li>
+        <li>Equipment start-up — manufacturer's tech where required.</li>
+        <li>Air-side TAB — measure + adjust supply / return / exhaust flows.</li>
+        <li>Water-side TAB — measure + adjust hydronic flows.</li>
+        <li>Sequence of Operations (SoO) review with CxA + EOR + controls.</li>
+        <li>Functional Performance Tests (FPT) — system + integrated.</li>
+        <li>Deficiency correction + re-test.</li>
+        <li>Owner training + O&amp;M handover.</li>
+        <li>12-month seasonal verification (cooling + heating).</li>
+    </ol>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 2 — TAB Methodology (NEBB / AABC)</div>
+    <ul>
+        <li>NEBB-certified or AABC-certified firm (verify cert + project-specific TAB technician
+            cert).</li>
+        <li>Instrument calibration current — required on every project. Verify cal sticker.</li>
+        <li>Pre-TAB inspection: filters installed (clean), dampers open, system per design.</li>
+        <li>TAB report template per NEBB / AABC standard.</li>
+        <li>Project-specific tolerance — typically ±10% of design value for airflow, ±5% for
+            water flow (verify spec).</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 3 — Air-Side TAB Procedures</div>
+    <ol>
+        <li>Start at the AHU/RTU: total supply + return + OA airflows. Adjust at unit volume control or
+            VFD to reach design.</li>
+        <li>Trunk + main branches — Pitot traverse where access permits. Measure velocities → calculate cfm.</li>
+        <li>Terminal units (VAV / FCU) — measure inlet + adjust min/max settings.</li>
+        <li>Diffusers + grilles — hood capture method or Alnor traversing. Adjust dampers to
+            distribute design cfm.</li>
+        <li>Re-balance trunk + main after diffusers — minor iteration.</li>
+        <li>Outdoor air (OA) — verify per fixed minimum or DCV setpoint.</li>
+        <li>Exhaust flows — kitchen, lab, bathroom, parking ramp.</li>
+        <li>Pressure relationships — building, room, lab — measured + recorded.</li>
+        <li>Document each terminal + each piece of equipment on TAB Air-Side Log.</li>
+    </ol>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 4 — Water-Side TAB Procedures</div>
+    <ol>
+        <li>Pump GPM + head — measure at design + verify against pump curve.</li>
+        <li>Riser flows — adjust via balancing valves to design.</li>
+        <li>Coil flows — measure via P-T plugs + pressure-drop or via balancing-valve gauge.</li>
+        <li>Boiler + chiller — verify delta-T per design.</li>
+        <li>Cooling tower — verify approach + range.</li>
+        <li>Document on TAB Water-Side Log.</li>
+    </ol>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 5 — Cx Authority Process per ASHRAE Guideline 0</div>
+    <ul>
+        <li><strong>OPR</strong> — Owner's Project Requirements document (often by CxA).</li>
+        <li><strong>BOD</strong> — Basis of Design (by EOR).</li>
+        <li><strong>Design Review</strong> — CxA reviews design against OPR.</li>
+        <li><strong>Cx Plan</strong> — issued by CxA at construction start. Includes Cx schedule,
+            equipment list, FPT scope, training plan.</li>
+        <li><strong>Installation Verification</strong> — Pre-Functional Checklists (PFC) by installer +
+            verified by CxA.</li>
+        <li><strong>FPT</strong> — Functional Performance Tests per equipment + system.</li>
+        <li><strong>Integrated Systems Test</strong> — multi-system test (life-safety + smoke + HVAC integration).</li>
+        <li><strong>Training + Documentation</strong> — owner training; final Cx report; warranty period
+            follow-up.</li>
+        <li><strong>Seasonal Verification</strong> — opposite-season testing (typically 9-12 months post).</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 6 — Sequence of Operations Review</div>
+    <ul>
+        <li>Review SoO from BAS submittal with CxA + EOR + controls before FPT.</li>
+        <li>Each operating mode (occupied / unoccupied / warm-up / setback / morning-warm-up / smoke
+            mode / fire-alarm) — define triggers + expected response + override behavior.</li>
+        <li>Setpoints + dead-bands documented.</li>
+        <li>Alarm thresholds + escalation defined.</li>
+        <li>BAS graphics + point lists reviewed for completeness.</li>
+        <li>Owner-facing dashboards reviewed.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 7 — Functional Performance Tests (FPT)</div>
+    <ul>
+        <li>Equipment-specific FPT — each AHU, RTU, chiller, boiler, pump, fan, VFD per spec template.</li>
+        <li>Stepwise tests: start, run at min/normal/max output, stop, alarms, BAS reporting.</li>
+        <li>Verify safeties — low-temp cutout, smoke detector trip, freeze stat, high-static cut-out.</li>
+        <li>Verify staging on multi-piece equipment (lead-lag, alternation).</li>
+        <li>Verify control-loop response (no hunting, stable PID).</li>
+        <li>Document on FPT Log; deficiency → re-test after correction.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 8 — Integrated Systems Test</div>
+    <ul>
+        <li>Integration of multiple systems: HVAC + fire alarm + smoke control + life-safety.</li>
+        <li>Test smoke-mode response: smoke detector trips → HVAC shutdown + dampers operate +
+            stairwell pressurization.</li>
+        <li>Test fire-alarm interface: dampers close, emergency exhaust starts, AHUs shut down per SoO.</li>
+        <li>Test power-loss + emergency restoration: equipment restart sequence per SoO.</li>
+        <li>Witness by CxA + AHJ where required by life-safety code.</li>
+        <li>Document on Integrated Test Log.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 9 — Deficiency Log + Re-Test</div>
+    <ul>
+        <li>Log every deficiency identified during FPT / IST.</li>
+        <li>Assign owner + due date.</li>
+        <li>Re-test after correction; don't simply mark "done."</li>
+        <li>Open deficiencies → withhold from substantial completion sign-off.</li>
+        <li>Categorize by severity: punch (cosmetic), functional (impacts operation), critical
+            (impacts safety / OPR compliance).</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 10 — Final Reports + Owner Training</div>
+    <ul>
+        <li><strong>TAB Final Report</strong> — by NEBB / AABC firm. Includes as-measured values for every
+            terminal + equipment + system pressure.</li>
+        <li><strong>Cx Final Report</strong> — by CxA. Includes OPR + BOD, FPT results, deficiency log
+            closeout, training records, recommendations.</li>
+        <li><strong>Owner Training</strong> — typically 8+ hours covering system overview, sequence of
+            operations, BAS interface, alarms, routine maintenance. Documented with sign-in sheet.</li>
+        <li><strong>O&amp;M Manual integration</strong> — TAB + Cx reports become part of O&amp;M manual.</li>
+        <li><strong>Warranty period</strong> — Cx-tracked deficiencies addressed under warranty;
+            12-month seasonal verification typical.</li>
+    </ul>
+</div>
+
+<div class="notice" style="margin-top: 30px;">
+    <strong>Document version:</strong> TAB + Commissioning Guide v1.0 — 2026-05-19. ContrPro
+    Complete Tier · Mechanical Trade Pack. References NEBB / AABC Procedural Standards, ASHRAE
+    Guidelines 0 + 1.1. Verify project-specific spec. Not a substitute for NEBB/AABC certified
+    TAB or qualified CxA services.
+</div>
+
+</body>
+</html>

@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site-Specific Plumbing Plan — IPC/UPC + OSHA 1926 / Plumbing Trade Pack</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.55; max-width: 880px; margin: 40px auto; padding: 20px; color: #222; }
+        .header { text-align: center; border-bottom: 3px double #1e3a5f; padding-bottom: 20px; margin-bottom: 30px; }
+        .form-title { font-size: 26px; font-weight: bold; color: #1e3a5f; margin-bottom: 6px; }
+        .form-subtitle { font-size: 15px; color: #444; font-weight: 600; }
+        .doc-meta { font-size: 13px; color: #666; margin-top: 8px; }
+        .field { background: #f0f0f0; padding: 2px 8px; border-radius: 3px; font-style: italic; color: #555; }
+        .section { margin: 26px 0; page-break-inside: avoid; }
+        .section-title { font-weight: bold; color: #1e3a5f; font-size: 16px; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+        .article-title { font-weight: bold; color: #1e3a5f; font-size: 17px; margin: 22px 0 10px 0; padding-top: 10px; border-top: 2px solid #1e3a5f; }
+        .clause-num { font-weight: bold; color: #1e3a5f; }
+        .sub-title { font-weight: bold; color: #1e3a5f; font-size: 14px; margin: 14px 0 6px 0; }
+        .warning { background: #f8d7da; border-left: 4px solid #dc3545; padding: 14px 16px; margin: 18px 0; }
+        .warning strong { color: #721c24; }
+        .notice { background: #d1ecf1; border-left: 4px solid #0c5460; padding: 14px 16px; margin: 18px 0; }
+        .practice-note { background: #fdf6e3; border-left: 4px solid #b58900; padding: 14px 16px; margin: 14px 0; font-size: 13.5px; }
+        .practice-note .label { font-weight: bold; color: #1e3a5f; font-size: 14px; display: block; margin-bottom: 6px; }
+        .citation { background: #e9ecef; border-left: 4px solid #495057; padding: 10px 14px; margin: 10px 0; font-size: 12.5px; font-family: 'Courier New', monospace; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        td, th { padding: 7px 8px; vertical-align: top; }
+        th { background: #1e3a5f; color: #fff; text-align: left; font-size: 12.5px; }
+        .data-table td { border: 1px solid #ccc; font-size: 13px; }
+        .data-table td.label { font-weight: 600; background: #f9f9f9; width: 40%; }
+        .checklist { background: #f9f9f9; border: 1px solid #ddd; padding: 16px 20px; border-radius: 6px; }
+        .checklist ol { margin: 0; padding-left: 22px; }
+        .checklist li { margin-bottom: 6px; font-size: 13.5px; }
+        .toc { background: #f4f6f9; border: 1px solid #c0cad8; padding: 16px 22px; margin: 20px 0 28px 0; border-radius: 6px; }
+        .toc-title { font-weight: bold; color: #1e3a5f; font-size: 14px; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+        .toc ol { margin: 0; padding-left: 22px; }
+        .toc li { margin-bottom: 4px; font-size: 13.5px; }
+        .toc a { color: #1e3a5f; text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+        .footnote { font-size: 11.5px; color: #666; font-style: italic; }
+        .page-break { page-break-before: always; }
+        .signature-block { margin-top: 40px; }
+        .signature-line { border-top: 1px solid #000; width: 360px; margin-top: 50px; padding-top: 5px; font-size: 12.5px; }
+        @media print {
+            .no-print { display: none; }
+            body { margin: 0; max-width: 100%; }
+            .section { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="no-print" style="background: #fff3cd; border: 2px solid #856404; padding: 18px; border-radius: 8px; margin-bottom: 24px;">
+    <strong style="color: #856404; font-size: 16px;">TAILOR + SIGN BEFORE FIRST UNDERGROUND ROUGH-IN</strong>
+    <p style="margin: 8px 0 0 0; font-size: 13.5px;">
+        This Site-Specific Plumbing Plan ("SSPP") is the plumbing contractor's project-specific
+        compliance roadmap covering AHJ coordination, the inspection sequence, cross-connection
+        control, hydrostatic and pressure testing, confined-space work, trenching, hot work,
+        hazmat encountered during demolition, and multi-trade coordination. Tailor every variable
+        to the actual project, walk it with the project superintendent + AHJ plumbing inspector
+        before underground rough-in begins, and sign at Section 16. Keep a copy in the jobsite
+        trailer with the permit, plumbing drawings, and the Universal Sub Suite's Daily Field
+        Report binder. The OSHA Multi-Employer Citation Policy applies — the controlling
+        contractor and the plumbing contractor are jointly citable for site-specific violations.
+    </p>
+</div>
+
+<div class="header">
+    <div class="form-title">SITE-SPECIFIC PLUMBING PLAN</div>
+    <div class="form-subtitle">IPC / UPC Compliance &middot; OSHA 29 CFR 1926 &middot; AWWA C651 &middot; ASSE/CSA Backflow</div>
+    <div class="doc-meta">
+        Project: <span class="field">[Project Name]</span> &nbsp;|&nbsp;
+        Plumbing Contractor: <span class="field">[Contractor Legal Name]</span> &nbsp;|&nbsp;
+        Plan Version: <span class="field">[v1.0 / Date]</span>
+    </div>
+</div>
+
+<div class="notice">
+    <strong>Purpose of this plan.</strong> The Site-Specific Plumbing Plan ("SSPP") is the plumbing
+    contractor's project-specific roadmap for safe, code-compliant performance from underground
+    rough-in through final inspection. It is the controlling reference for the plumbing
+    superintendent, journeymen, the controlling contractor's safety officer, the AHJ plumbing
+    inspector, and the building owner's representative. The plan is a <em>living document</em>:
+    revise and reissue when scope, sequence, or project conditions change materially (added
+    floors, occupied-area phasing, change of code edition mid-project, etc.).
+</div>
+
+<div class="toc">
+    <div class="toc-title">Table of Contents</div>
+    <ol>
+        <li><a href="#sec-parties">Section 1 — Parties &amp; Project Identification</a></li>
+        <li><a href="#sec-permit">Section 2 — Permits, AHJ &amp; Code Edition</a></li>
+        <li><a href="#sec-inspection">Section 3 — Inspection Sequence (UG / Rough / Top-Out / Final)</a></li>
+        <li><a href="#sec-scope">Section 4 — Plumbing Scope of Work</a></li>
+        <li><a href="#sec-xconnect">Section 5 — Cross-Connection Control Plan</a></li>
+        <li><a href="#sec-hydro">Section 6 — Hydrostatic &amp; Pressure Testing</a></li>
+        <li><a href="#sec-disinfect">Section 7 — Disinfection of Potable Water (AWWA C651)</a></li>
+        <li><a href="#sec-trench">Section 8 — Excavation &amp; Trenching (Subpart P)</a></li>
+        <li><a href="#sec-confined">Section 9 — Confined-Space Entry (1910.146 / 1926 Subpart AA)</a></li>
+        <li><a href="#sec-hot">Section 10 — Hot Work (Welding, Soldering, Sweating)</a></li>
+        <li><a href="#sec-hazmat">Section 11 — Hazmat Encountered (Asbestos / Lead / Mold)</a></li>
+        <li><a href="#sec-coord">Section 12 — Multi-Trade Coordination (MEP)</a></li>
+        <li><a href="#sec-occupied">Section 13 — Occupied-Building / ICRA Considerations</a></li>
+        <li><a href="#sec-emergency">Section 14 — Emergency Response</a></li>
+        <li><a href="#sec-stopwork">Section 15 — Stop-Work Triggers</a></li>
+        <li><a href="#sec-sig">Section 16 — Signatures</a></li>
+    </ol>
+</div>
+
+<div class="section" id="sec-parties">
+    <div class="section-title">Section 1 — Parties &amp; Project Identification</div>
+    <table class="data-table">
+        <tr><td class="label">Project Name</td><td><span class="field">[Project Name]</span></td></tr>
+        <tr><td class="label">Project Address</td><td><span class="field">[Address, City, State ZIP]</span></td></tr>
+        <tr><td class="label">Owner</td><td><span class="field">[Owner Legal Name + Rep + Phone]</span></td></tr>
+        <tr><td class="label">General Contractor (controlling)</td><td><span class="field">[GC Legal Name + Project Manager + Phone]</span></td></tr>
+        <tr><td class="label">Architect</td><td><span class="field">[Architect Firm + Project Architect]</span></td></tr>
+        <tr><td class="label">Plumbing Engineer of Record</td><td><span class="field">[MEP Firm + Engineer-of-Record stamp]</span></td></tr>
+        <tr><td class="label">Plumbing Contractor</td><td><span class="field">[Plumbing Contractor Legal Name]</span></td></tr>
+        <tr><td class="label">Plumbing State License #</td><td><span class="field">[License # + Master Plumber name]</span></td></tr>
+        <tr><td class="label">Plumbing Superintendent</td><td><span class="field">[Name + Phone — primary site contact]</span></td></tr>
+        <tr><td class="label">Plumbing Foreman</td><td><span class="field">[Name + Phone]</span></td></tr>
+        <tr><td class="label">Estimated Start Date</td><td><span class="field">[Date]</span></td></tr>
+        <tr><td class="label">Estimated Substantial Completion</td><td><span class="field">[Date]</span></td></tr>
+        <tr><td class="label">Project Type</td><td><span class="field">[New Construction / Renovation / Tenant Fit-out / Adaptive Reuse]</span></td></tr>
+        <tr><td class="label">Building Occupancy Group</td><td><span class="field">[A / B / E / F / H / I / M / R / S / U — IBC Chapter 3]</span></td></tr>
+        <tr><td class="label">Construction Type</td><td><span class="field">[I-A / I-B / II-A / II-B / III-A / III-B / IV / V-A / V-B — IBC Chapter 6]</span></td></tr>
+    </table>
+</div>
+
+<div class="section" id="sec-permit">
+    <div class="section-title">Section 2 — Permits, AHJ &amp; Code Edition</div>
+    <table class="data-table">
+        <tr><td class="label">Plumbing Permit #</td><td><span class="field">[Permit number + issue date]</span></td></tr>
+        <tr><td class="label">AHJ — Building Department</td><td><span class="field">[Jurisdiction name + phone + portal URL]</span></td></tr>
+        <tr><td class="label">AHJ — Plumbing Inspector</td><td><span class="field">[Inspector name + cell + email]</span></td></tr>
+        <tr><td class="label">Inspection Request Method</td><td><span class="field">[Online portal / phone / email — and required lead time]</span></td></tr>
+        <tr><td class="label">Adopted Plumbing Code</td><td><span class="field">[IPC 2024 / UPC 2024 / NSPC + local amendments]</span></td></tr>
+        <tr><td class="label">Adopted Fuel Gas Code</td><td><span class="field">[IFGC 2024 / NFPA 54]</span></td></tr>
+        <tr><td class="label">Local Cross-Connection Authority</td><td><span class="field">[Water purveyor + cross-connection specialist]</span></td></tr>
+        <tr><td class="label">Water Purveyor</td><td><span class="field">[Utility name + meter / tap fee account #]</span></td></tr>
+        <tr><td class="label">Sanitary Sewer Authority</td><td><span class="field">[Utility name + connection-permit account #]</span></td></tr>
+        <tr><td class="label">Storm Sewer Authority</td><td><span class="field">[Same or different — name + account]</span></td></tr>
+    </table>
+
+    <div class="practice-note">
+        <span class="label">Practice note — code-edition mismatch.</span>
+        The construction documents may reference one code edition (e.g. IPC 2021) while the AHJ
+        has adopted a newer edition (e.g. IPC 2024 with state amendments). At the pre-construction
+        meeting, confirm which edition controls and document any deltas. Common 2021→2024
+        deltas include water-closet flush volume, lavatory faucet flow, hot-water delivery
+        time at fixtures, hose-bibb requirements, and water-heater seismic strapping in
+        higher-zone jurisdictions. Treat any unresolved code-edition conflict as a stop-work
+        item until the EOR issues an RFI response.
+    </div>
+</div>
+
+<div class="section" id="sec-inspection">
+    <div class="section-title">Section 3 — Inspection Sequence (UG / Rough-In / Top-Out / Final)</div>
+    <p>The following sequence is typical for new commercial construction. Confirm with the
+    AHJ plumbing inspector at the pre-construction meeting. <strong>No subsequent work covers
+    inspected work until the inspector signs off.</strong></p>
+    <table class="data-table">
+        <tr><th style="width:24%">Inspection</th><th>Trigger</th><th>What gets inspected</th></tr>
+        <tr><td class="label">Underground / In-Slab</td>
+            <td>Before backfill / slab pour</td>
+            <td>Sanitary, storm, and water lines under slab; cleanouts; trap-primer rough; sleeves; hydrostatic / air test held during inspection</td></tr>
+        <tr><td class="label">Above-Slab Rough-In</td>
+            <td>Before drywall</td>
+            <td>DWV stacks + vents + horizontal branches; domestic water risers + branches; gas lines; pressure tests held; hangers + supports per IPC 308; firestop seals visible</td></tr>
+        <tr><td class="label">Top-Out / Stack Test</td>
+            <td>DWV system pressurized for final inspection</td>
+            <td>Stack tested to top fitting (10 ft head OR 5 psi air); no leaks; vents per IPC Chapter 9 sizing</td></tr>
+        <tr><td class="label">Gas Pressure Test</td>
+            <td>Before connection of any appliance</td>
+            <td>System held at test pressure per IFGC 406 (typically 3 psi for 10 min minimum on 2-psi systems); inspector witnesses</td></tr>
+        <tr><td class="label">Backflow Initial Test</td>
+            <td>After installation, before placing in service</td>
+            <td>Certified tester (state-licensed) tests each RPZ / DCV / PVB per ASSE/CSA; submits report to water purveyor + AHJ</td></tr>
+        <tr><td class="label">Water-Heater / Boiler</td>
+            <td>Before insulation / drywall over T&amp;P discharge piping</td>
+            <td>T&amp;P relief discharge routed per IPC 504.6; seismic strap (high-zone); combustion air per IFGC Ch 9; vent connector</td></tr>
+        <tr><td class="label">Final</td>
+            <td>All fixtures installed + system commissioned</td>
+            <td>Fixtures secure + functional; faucets meet flow limits; hot-water delivery time; trap seals; backflow report on file; disinfection certificate on file</td></tr>
+    </table>
+
+    <div class="practice-note">
+        <span class="label">Practice note — re-inspection fees.</span>
+        Most AHJs charge a re-trip fee ($75–$250) for each failed inspection. The two
+        most common failures: (1) work not ready when the inspector arrives, and (2) field
+        deviations from the stamped drawings without an approved RFI. Mitigation:
+        walk every system the day before the scheduled inspection; if anything is unclear,
+        reschedule rather than risk a fail.
+    </div>
+</div>
+
+<div class="section" id="sec-scope">
+    <div class="section-title">Section 4 — Plumbing Scope of Work</div>
+    <p>List the CSI Division 22 scope items this contract covers. Cross-reference Division 23
+    (mechanical) and Division 26 (electrical) for shared scope items. Mark each as
+    <strong>BY US</strong>, <strong>BY OTHERS</strong>, or <strong>SHARED</strong>.</p>
+    <table class="data-table">
+        <tr><th>CSI Code</th><th>System</th><th>Scope</th></tr>
+        <tr><td>22 11</td><td>Domestic Water Distribution</td><td><span class="field">BY US / BY OTHERS / SHARED — describe</span></td></tr>
+        <tr><td>22 13</td><td>Sanitary Sewerage (interior)</td><td><span class="field">[scope]</span></td></tr>
+        <tr><td>22 14</td><td>Storm Drainage (interior)</td><td><span class="field">[scope]</span></td></tr>
+        <tr><td>22 33-35</td><td>Water Heaters / Heat Exchangers</td><td><span class="field">[scope — note IFGC vent install boundary]</span></td></tr>
+        <tr><td>22 42-47</td><td>Commercial Plumbing Fixtures</td><td><span class="field">[scope]</span></td></tr>
+        <tr><td>22 67</td><td>Natural-Gas Piping (interior)</td><td><span class="field">[scope — note boundary with utility]</span></td></tr>
+        <tr><td>22 60-63</td><td>Medical / Lab Gas (if applicable)</td><td><span class="field">[N/A or scope]</span></td></tr>
+        <tr><td>23 21</td><td>Hydronic Piping (cross-ref to mechanical)</td><td><span class="field">[typically BY OTHERS — confirm]</span></td></tr>
+        <tr><td>21 13</td><td>Fire-Suppression Sprinklers</td><td><span class="field">[BY OTHERS — separate trade]</span></td></tr>
+        <tr><td>33 10</td><td>Site Utility — Water Service</td><td><span class="field">[BY US to building / BY OTHERS in ROW]</span></td></tr>
+        <tr><td>33 30</td><td>Site Utility — Sanitary Sewer</td><td><span class="field">[BY US to ROW / BY OTHERS]</span></td></tr>
+        <tr><td>31 23</td><td>Excavation &amp; Backfill</td><td><span class="field">[BY US / SHARED with site contractor]</span></td></tr>
+    </table>
+</div>
+
+<div class="section" id="sec-xconnect">
+    <div class="section-title">Section 5 — Cross-Connection Control Plan</div>
+    <p>Every potable-water system has cross-connection hazards. The contractor must identify
+    each, select the correct backflow-prevention device, and arrange initial + annual testing
+    by a state-licensed cross-connection control specialist.</p>
+
+    <div class="sub-title">5.1 Hazard classification</div>
+    <table class="data-table">
+        <tr><th>Hazard Level</th><th>Definition</th><th>Required Device</th></tr>
+        <tr><td><strong>High</strong></td>
+            <td>Contains substances that, if backflowed, would cause illness, death, or other
+                serious harm (sewage, chemicals, processed water)</td>
+            <td>RPZ (Reduced-Pressure-Zone Principle Backflow Preventer) — ASSE 1013</td></tr>
+        <tr><td><strong>Low</strong></td>
+            <td>Contains substances objectionable but non-toxic (food, beverage)</td>
+            <td>DCV (Double Check Valve Assembly) — ASSE 1015</td></tr>
+        <tr><td><strong>Air-gap acceptable</strong></td>
+            <td>Direct discharge with air gap of 2× pipe diameter or 1 inch, whichever larger</td>
+            <td>Physical air gap — IPC 608.13.1</td></tr>
+    </table>
+
+    <div class="sub-title">5.2 Typical assignments (verify against project conditions)</div>
+    <ul>
+        <li><strong>Building water service entry</strong> — RPZ or DCV per water purveyor's policy. In most modern jurisdictions, commercial buildings require RPZ at the meter.</li>
+        <li><strong>Boilers / hydronic systems</strong> — RPZ (high hazard — chemicals/glycol).</li>
+        <li><strong>Cooling-tower make-up</strong> — RPZ (high hazard — biocides + scale inhibitors).</li>
+        <li><strong>Lawn-irrigation system</strong> — PVB (Pressure-Vacuum Breaker) ASSE 1020 or DCV depending on chemical injection.</li>
+        <li><strong>Fire-protection sprinkler</strong> — DCV without chemical additives; RPZ with chemical additives or recycled water.</li>
+        <li><strong>Carbonators / soda machines</strong> — ASSE 1022 stainless-steel double-check; coordinate with foodservice vendor.</li>
+        <li><strong>Wall hydrants / hose bibbs</strong> — integral vacuum breaker per IPC 608.15.4.1.</li>
+        <li><strong>Hand-held showers / kitchen sprayers</strong> — integral backflow preventer per fixture standard.</li>
+    </ul>
+
+    <div class="warning">
+        <strong>WARNING — backflow on potable water.</strong>
+        Failure to install the correct backflow device, or installing it backwards, has caused
+        documented illness and death incidents. The plumbing contractor is responsible for
+        installing the device per manufacturer's instructions AND arranging initial testing by
+        a licensed cross-connection control specialist BEFORE placing the system in service.
+        Most jurisdictions require an annual test thereafter, with the report submitted to the
+        water purveyor.
+    </div>
+
+    <div class="practice-note">
+        <span class="label">Practice note — orientation.</span>
+        RPZs must be installed horizontally with the relief port pointing down and a minimum
+        12-inch clearance below the relief port (some manufacturers require more — read the
+        instructions). The relief port WILL discharge during normal operation; route the
+        discharge to an indirect waste with an air gap, not directly to the sanitary sewer.
+        Cold-climate installations require freeze protection — heat tape or an interior
+        location.
+    </div>
+</div>
+
+<div class="section" id="sec-hydro">
+    <div class="section-title">Section 6 — Hydrostatic &amp; Pressure Testing</div>
+    <p>All plumbing systems require pressure testing before being concealed and again at
+    completion. Performance below is the contractor's responsibility; the inspector witnesses
+    selected tests.</p>
+
+    <table class="data-table">
+        <tr><th>System</th><th>Test Pressure</th><th>Duration</th><th>Reference</th></tr>
+        <tr><td class="label">DWV (rough-in)</td><td>10-foot head of water OR 5 psi air</td><td>15 min minimum — no pressure loss</td><td>IPC 312.2 / UPC 712</td></tr>
+        <tr><td class="label">DWV (finish, stack test)</td><td>Water to top of stack OR 1 psi air</td><td>15 min — no leaks</td><td>IPC 312.4</td></tr>
+        <tr><td class="label">Domestic water (rough-in)</td><td>Working pressure +50 psi, minimum 100 psi</td><td>15 min — no pressure loss</td><td>IPC 312.5</td></tr>
+        <tr><td class="label">Domestic water (finish)</td><td>Working pressure</td><td>Verify by fixture operation</td><td>IPC 312.5</td></tr>
+        <tr><td class="label">Natural gas (2-psi)</td><td>3 psi minimum, 1-1/2× working pressure</td><td>10 min minimum (longer for larger systems)</td><td>IFGC 406.4 / NFPA 54</td></tr>
+        <tr><td class="label">Natural gas (high-pressure)</td><td>Per engineer of record + utility — typically 1-1/2× working</td><td>Per IFGC 406 / utility requirement</td><td>IFGC 406</td></tr>
+        <tr><td class="label">Storm</td><td>10-foot head of water OR 5 psi air</td><td>15 min — no pressure loss</td><td>IPC 1108</td></tr>
+        <tr><td class="label">Medical gas (if applicable)</td><td>Per NFPA 99 — multiple-stage test</td><td>Per NFPA 99 testing protocol</td><td>NFPA 99 Ch 5</td></tr>
+    </table>
+
+    <div class="sub-title">6.1 Test procedure (typical)</div>
+    <ol>
+        <li>Verify all openings capped + test caps rated for the test pressure.</li>
+        <li>For air tests over 5 psi: clear personnel from the test radius (failures can launch fittings — see warning below). Tape barricade.</li>
+        <li>Apply test pressure with calibrated gauge. Record start time + pressure.</li>
+        <li>Soap or leak-detect every joint visually. Look + listen.</li>
+        <li>At end of duration, record finish pressure. No drop = pass.</li>
+        <li>Document on the Pressure Test Log XLSX. Photo the gauge + system at start + finish.</li>
+    </ol>
+
+    <div class="warning">
+        <strong>WARNING — air vs. water for testing.</strong>
+        Air testing is faster + leaves no water in the system, but air is compressible and a
+        failed fitting under air pressure can launch into a worker. ASME B31.9 and NFPA 54
+        require additional precautions for air testing including isolation, barricades, and
+        relief valves on the test apparatus. <strong>Water testing is preferred for any test
+        pressure above 50 psi.</strong> If air is required, follow the manufacturer's test-cap
+        rating and use a relief valve set 10% above the target test pressure.
+    </div>
+
+    <div class="practice-note">
+        <span class="label">Practice note — failed test diagnosis.</span>
+        A test that fails by a few psi is usually a fitting, joint, or test cap leak. A test
+        that fails fast is usually a missing cap or a transposed fitting. Soap-bubble each
+        joint methodically — start from the test source and work outward.
+    </div>
+</div>
+
+<div class="section" id="sec-disinfect">
+    <div class="section-title">Section 7 — Disinfection of Potable Water Systems (AWWA C651)</div>
+    <p>Domestic water piping must be disinfected before being placed in service.
+    Most AHJs require a disinfection report on file before issuing the Certificate of
+    Occupancy.</p>
+
+    <div class="sub-title">7.1 Standard procedure (Method 1, continuous-feed)</div>
+    <ol>
+        <li>Flush the system thoroughly to remove debris.</li>
+        <li>Introduce chlorine to achieve 50 mg/L (50 ppm) free chlorine residual at the
+            farthest fixture. Verify with a DPD-1 test strip or colorimeter.</li>
+        <li>Hold for 24 hours minimum.</li>
+        <li>Test all dead-ends + outlets for ≥10 mg/L residual at end of hold.</li>
+        <li>Flush the entire system until residual drops to ambient (≤1.0 mg/L typically).</li>
+        <li>Submit two bacteriological samples taken 24 hours apart to an accredited lab.
+            Both must show no coliform OR per-jurisdiction equivalent.</li>
+        <li>Submit the lab report + chain-of-custody to the AHJ + water purveyor.</li>
+    </ol>
+
+    <div class="practice-note">
+        <span class="label">Practice note — chlorine source + handling.</span>
+        Granular calcium hypochlorite (HTH) or sodium hypochlorite (bleach) are the standard
+        sources. Read the SDS and provide PPE — eye protection minimum, full face shield +
+        chemical-resistant gloves for HTH. Never mix bleach with any acid or ammonia-based
+        cleaner — produces toxic chlorine gas. Ventilate the work area. Dispose of dechlorinated
+        water per the water purveyor's discharge permit; uncontrolled discharge to a storm sewer
+        or surface water is a federal Clean Water Act violation.
+    </div>
+
+    <div class="warning">
+        <strong>WARNING — Legionella risk in stagnant systems.</strong>
+        Long construction durations between rough-in and occupancy create dead-leg stagnation
+        that can incubate Legionella. ASHRAE 188 requires a Water Management Plan for many
+        building types. Coordinate with the engineer of record for systems sized above
+        ASHRAE 188 thresholds and document flushing frequency between disinfection + occupancy.
+    </div>
+</div>
+
+<div class="section" id="sec-trench">
+    <div class="section-title">Section 8 — Excavation &amp; Trenching (29 CFR 1926 Subpart P)</div>
+    <p>Underground plumbing work involves trenching that triggers OSHA 1926 Subpart P. The
+    most-cited deaths are cave-ins; the most-cited violation is failure to identify a Competent
+    Person.</p>
+
+    <div class="sub-title">8.1 Required before any excavation</div>
+    <ol>
+        <li><strong>Call 811</strong> minimum 2 business days before digging — locate all utilities.</li>
+        <li>Document the locate ticket + paint markings before breaking ground. Photograph.</li>
+        <li>Designate a <strong>Competent Person</strong> for each shift — trained per 1926.651(k).</li>
+        <li>Pre-plan the soil classification (Type A / B / C per 1926 App A).</li>
+        <li>Select the protective system (sloping / shoring / shielding) appropriate to depth + soil.</li>
+        <li>Confirm spoil pile ≥2 ft from edge of excavation.</li>
+        <li>Provide ladders or steps in any trench ≥4 ft, max 25 ft of lateral travel.</li>
+    </ol>
+
+    <div class="sub-title">8.2 Protective systems — quick reference</div>
+    <table class="data-table">
+        <tr><th>Depth</th><th>Soil Type A (cohesive, hard clay)</th><th>Soil Type B (cohesive, sandy clay)</th><th>Soil Type C (granular, water-saturated)</th></tr>
+        <tr><td><strong>0 – 4 ft</strong></td><td>No system required if competent person evaluates</td><td>No system if competent person evaluates</td><td>No system if competent person evaluates</td></tr>
+        <tr><td><strong>4 – 5 ft</strong></td><td>Slope 3/4:1 or shore</td><td>Slope 1:1 or shore</td><td>Slope 1-1/2:1 or shield</td></tr>
+        <tr><td><strong>5 – 20 ft</strong></td><td>Slope 3/4:1 or engineered shoring</td><td>Slope 1:1 or engineered shoring/shield</td><td>Slope 1-1/2:1 or engineered shield (trench box)</td></tr>
+        <tr><td><strong>&gt; 20 ft</strong></td><td colspan="3">Engineered system required — registered PE design</td></tr>
+    </table>
+
+    <div class="warning">
+        <strong>WARNING — confined-space crossover in trenches.</strong>
+        A trench ≥4 ft deep with hazardous atmospheres (e.g. tied into a sewer line with
+        H2S) triggers permit-required confined-space rules in addition to Subpart P. Carry a
+        4-gas meter on any sewer tie-in trench and follow Section 9 of this plan.
+    </div>
+
+    <div class="practice-note">
+        <span class="label">Practice note — trench box vs. sloping.</span>
+        Trench boxes (shields) save time but require the contractor to enter only the protected
+        zone within the box. Workers reaching outside the box into unsloped soil are
+        unprotected. Sloping is cheaper for short runs but consumes large surface area at
+        depth — verify property-line setbacks before committing.
+    </div>
+</div>
+
+<div class="section" id="sec-confined">
+    <div class="section-title">Section 9 — Confined-Space Entry (1910.146 / 1926 Subpart AA)</div>
+    <p>Plumbing work frequently encounters permit-required confined spaces: existing sanitary
+    or storm manholes, sumps, sewage ejector pits, tanks, boiler rooms with limited egress.
+    Document the program below for every entry.</p>
+
+    <div class="sub-title">9.1 Entry decision tree</div>
+    <ol>
+        <li>Identify the space. Is it large enough to bodily enter, with limited or restricted
+            means of entry/exit, NOT designed for continuous occupancy? → confined space.</li>
+        <li>Does it have ANY hazard (atmospheric, engulfment, configuration-trap,
+            electrical, mechanical)? → permit-required confined space (PRCS).</li>
+        <li>If PRCS: STOP. Implement the permit program.</li>
+    </ol>
+
+    <div class="sub-title">9.2 Permit-required entry minimums</div>
+    <ul>
+        <li>Written entry permit signed by the Entry Supervisor before any entry.</li>
+        <li>Atmospheric testing in this order: <strong>oxygen → flammable gases → toxics</strong>.
+            Re-test continuously while occupied (or every 15 min minimum).</li>
+        <li>Authorized entrant(s), attendant(s) outside, and entry supervisor — all trained per
+            1910.146(g) within the prior 12 months.</li>
+        <li>Communication system between entrant and attendant maintained throughout.</li>
+        <li>Retrieval system (full-body harness + retrieval line + mechanical advantage)
+            unless retrieval would increase risk.</li>
+        <li>Rescue services available — verify response time + capability before entry.</li>
+        <li>Lock-out / tag-out of all energy sources that could enter the space.</li>
+    </ul>
+
+    <div class="warning">
+        <strong>WARNING — most confined-space deaths are rescuers.</strong>
+        OSHA data: over 60% of confined-space fatalities are would-be rescuers who entered
+        without their own PPE + air monitoring. NEVER enter a space to rescue a downed
+        worker without your own air supply + harness + a second attendant. Train every
+        plumber on this in toolbox talks before the first PRCS-eligible job.
+    </div>
+</div>
+
+<div class="section" id="sec-hot">
+    <div class="section-title">Section 10 — Hot Work (Welding, Soldering, Sweating)</div>
+    <p>Most plumbing operations include some hot work — soldering copper, sweating Pro-Press
+    in tight areas, gas-piping welding, brazing of medical gas. The General Contractor's
+    site-specific Hot Work Permit program controls.</p>
+
+    <ul>
+        <li>Obtain a Hot Work Permit from the GC before each shift. Don't pre-pull or rubber-stamp.</li>
+        <li>Clear 35 ft of combustibles or cover with welding blankets / FR tarps. Sweep up dust + lint within the radius.</li>
+        <li>Fire watch designated for the duration of hot work PLUS a minimum 30-min cool-down (60 min on some AHJ amendments).</li>
+        <li>Fire extinguisher (Class A + B + C) within 10 ft of the work.</li>
+        <li>Suspend hot work and notify GC if smoke alarms are disabled and not re-armed within 30 min of work completion.</li>
+        <li>Brazing of medical gas: NITROGEN PURGE during the braze per NFPA 99 5.1.10.5. No exceptions.</li>
+        <li>Outdoor wind: cease hot work above 15 mph wind or during dust events.</li>
+    </ul>
+
+    <div class="practice-note">
+        <span class="label">Practice note — soldering near membrane roofs.</span>
+        Roofing torches + soldering near asphaltic or single-ply membranes is a documented
+        ignition risk. Coordinate with the roofer's mock-up specs and consider press-fit
+        connections as a substitute. Many GCs prohibit open-flame work on the roof entirely
+        without written exception.
+    </div>
+</div>
+
+<div class="section" id="sec-hazmat">
+    <div class="section-title">Section 11 — Hazmat Encountered (Asbestos / Lead / Mold)</div>
+    <p>Renovations and tenant fit-outs in buildings constructed before approximately 1980 may
+    expose workers to asbestos pipe insulation, lead solder, lead-based paint disturbance,
+    and mold growth in damp envelopes. Treat each as a stop-work item until characterized.</p>
+
+    <div class="sub-title">11.1 Asbestos-containing material (ACM)</div>
+    <ul>
+        <li>Common in pre-1980 commercial pipe insulation (white plaster-like wrap on hot-water
+            and boiler-feed lines).</li>
+        <li>STOP work and isolate the area. Notify the GC + owner immediately.</li>
+        <li>Survey by a state-licensed asbestos inspector before any disturbance.</li>
+        <li>Removal by a licensed abatement contractor. The plumbing contractor does NOT remove
+            ACM unless specifically licensed.</li>
+        <li>Federal: 29 CFR 1926.1101 (construction) + 40 CFR Part 61 Subpart M (NESHAP).</li>
+    </ul>
+
+    <div class="sub-title">11.2 Lead solder + lead-based coatings</div>
+    <ul>
+        <li>Pre-1986 domestic water solder was 50% lead. Replacement service lines + soldered
+            connections must be lead-free per the 2014 SDWA amendment (≤0.25% lead weighted
+            average).</li>
+        <li>Renovation in pre-1978 buildings that disturb painted surfaces triggers EPA RRP
+            (Renovation, Repair, and Painting) requirements — certified renovator on site.</li>
+        <li>Lead solder cutout: HEPA vacuum the work area, contain dust, and document chain of
+            custody for disposal.</li>
+    </ul>
+
+    <div class="sub-title">11.3 Mold</div>
+    <ul>
+        <li>Wet drywall + insulation around leaking pipes can incubate mold within 48–72 hours.</li>
+        <li>Containment + remediation per IICRC S520 or local AHJ standard before plumbing
+            work resumes in the affected area.</li>
+    </ul>
+</div>
+
+<div class="section" id="sec-coord">
+    <div class="section-title">Section 12 — Multi-Trade Coordination (MEP)</div>
+    <p>Plumbing rough-in conflicts with HVAC ducts, electrical conduit, fire-protection mains,
+    and structural framing more than any other trade. Resolve before installation.</p>
+
+    <ul>
+        <li><strong>Coordination drawings</strong> — overlay plumbing rough on the M / E / FP /
+            S drawings. Identify clashes before pulling permits.</li>
+        <li><strong>BIM coordination meetings</strong> on projects using BIM 360 / Navisworks —
+            attend every cycle. Document clash resolutions in writing.</li>
+        <li><strong>Slab and wall openings</strong> — coordinate with concrete + framing
+            contractors. Provide sleeve schedule, openings packet, embed locations 7–10 days
+            ahead of pour.</li>
+        <li><strong>Hangers and supports</strong> — verify structural attachment points are
+            approved by the EOR. No drilling into post-tensioned slabs without scan + EOR sign-off.</li>
+        <li><strong>Firestop coordination</strong> — UL-listed assemblies for each penetration
+            type. Coordinate with the firestop sub on inspection witness.</li>
+        <li><strong>Above-ceiling priority</strong> — typical commercial: structure → gravity
+            (storm, sanitary) → HVAC ducts → sprinkler mains → domestic water → electrical →
+            communications. Confirm at coordination meeting.</li>
+    </ul>
+</div>
+
+<div class="section" id="sec-occupied">
+    <div class="section-title">Section 13 — Occupied-Building / ICRA Considerations</div>
+    <p>Tenant fit-outs, hospital renovations, and educational-facility work often proceed
+    with occupants in adjacent areas. Adjust the plan accordingly.</p>
+
+    <ul>
+        <li><strong>Healthcare ICRA tier</strong> — coordinate with the infection-control
+            preventionist. Tier III or IV work requires negative-pressure containment + HEPA.</li>
+        <li><strong>Water-shutdown notice</strong> — give occupants minimum 48-hour written
+            notice for any planned water shutdown. Schedule for off-hours where feasible.</li>
+        <li><strong>Sewer-cap protocols</strong> — never leave an open DWV line uncapped; sewer
+            gases (H2S, methane) accumulate in inhabited spaces within hours.</li>
+        <li><strong>Noise + odor</strong> — solder + flux smoke, no-hub coupling work, and gas
+            purges all create odors. Coordinate ventilation + occupant notice.</li>
+        <li><strong>After-hours work</strong> — verify janitorial schedule + alarm systems.
+            Document badge access + after-hours sign-in procedure.</li>
+    </ul>
+</div>
+
+<div class="section" id="sec-emergency">
+    <div class="section-title">Section 14 — Emergency Response</div>
+    <table class="data-table">
+        <tr><td class="label">Site First-Aid Station</td><td><span class="field">[Location + supplies + AED if equipped]</span></td></tr>
+        <tr><td class="label">Nearest Hospital</td><td><span class="field">[Name + address + ER phone + drive time]</span></td></tr>
+        <tr><td class="label">Site Emergency Contact</td><td><span class="field">[GC superintendent + cell]</span></td></tr>
+        <tr><td class="label">Owner Emergency Contact</td><td><span class="field">[Owner's facilities rep]</span></td></tr>
+        <tr><td class="label">Water Shutoff — Main</td><td><span class="field">[Location + valve handle + responsible person]</span></td></tr>
+        <tr><td class="label">Gas Shutoff — Main</td><td><span class="field">[Location + valve + responsible person]</span></td></tr>
+        <tr><td class="label">Sewer Backup Response</td><td><span class="field">[Vendor + 24-hr phone]</span></td></tr>
+        <tr><td class="label">Hazmat / Spill Contact</td><td><span class="field">[Vendor + 24-hr phone + EPA NRC 800-424-8802]</span></td></tr>
+        <tr><td class="label">911 Address Reciprocity</td><td><span class="field">[How to direct EMS to site — gate codes, exact entry, posted address]</span></td></tr>
+    </table>
+</div>
+
+<div class="section" id="sec-stopwork">
+    <div class="section-title">Section 15 — Stop-Work Triggers</div>
+    <p>Any worker on this project has Stop-Work Authority for the following conditions.
+    Document the stop, notify the plumbing superintendent + GC, and do not resume until
+    documented resolution.</p>
+    <ul>
+        <li>Suspected asbestos, lead-based paint, or mold disturbance.</li>
+        <li>Confined-space entry without a valid permit + atmospheric test.</li>
+        <li>Trench cave-in risk — soil change, water intrusion, equipment vibration.</li>
+        <li>Cross-connection identified that was not previously documented.</li>
+        <li>Pressure-test failure that cannot be diagnosed within reasonable time.</li>
+        <li>Energized utility encountered unexpectedly (live water main, live gas).</li>
+        <li>Code-edition conflict between drawings and AHJ adopted code.</li>
+        <li>Backflow device discharging continuously (failed RPZ or test cock open).</li>
+        <li>Sewage spill exceeding 5 gallons indoors or any spill outdoors.</li>
+        <li>Worker injury exceeding first-aid level.</li>
+    </ul>
+</div>
+
+<div class="section" id="sec-sig">
+    <div class="section-title">Section 16 — Signatures</div>
+    <p>The undersigned have reviewed this Site-Specific Plumbing Plan and concur with the
+    procedures, responsibilities, and stop-work triggers documented herein.</p>
+    <div class="signature-block">
+        <div class="signature-line">Plumbing Superintendent — Print name + Date + Signature</div>
+        <div class="signature-line">Master Plumber of Record — License # + Date + Signature</div>
+        <div class="signature-line">Controlling Contractor / GC Project Manager — Date + Signature</div>
+        <div class="signature-line">Owner's Representative — Date + Signature</div>
+        <div class="signature-line">Plumbing Engineer of Record — Date + Signature (reviewed for code alignment)</div>
+        <div class="signature-line">AHJ Plumbing Inspector — acknowledged at pre-construction walk — Date</div>
+    </div>
+    <p class="footnote">
+        Revision history: log each substantive change with date, page reference, and signer.
+        Post the current version at the jobsite trailer. Older versions to the project closeout
+        binder.
+    </p>
+</div>
+
+<div class="notice" style="margin-top: 30px;">
+    <strong>Document version:</strong> Site-Specific Plumbing Plan v1.0 — 2026-05-19.
+    ContrPro Complete Tier · Plumbing Trade Pack.
+    Code references current as of January 2026 — verify against the AHJ-adopted edition for
+    your project (IPC 2024 / UPC 2024 / IFGC 2024 / NFPA 54 / NFPA 99 / AWWA C651 / OSHA 29
+    CFR 1926). Not legal advice. Not a substitute for the Master Plumber of Record's professional
+    judgment or the AHJ's project-specific direction.
+</div>
+
+</body>
+</html>

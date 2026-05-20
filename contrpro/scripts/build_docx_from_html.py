@@ -181,7 +181,12 @@ def main():
     args = ap.parse_args()
 
     root = Path(args.root)
-    html_files = sorted([p for p in root.glob("**/*.html") if "documents" in p.parts or "gc" in p.parts or "sub" in p.parts or "steel-erection" in p.parts])
+    html_files = sorted([
+        p for p in root.glob("**/*.html")
+        if "documents" in p.parts or "gc" in p.parts or "sub" in p.parts
+        or "steel-erection" in p.parts or "plumbing" in p.parts
+        or "electrical" in p.parts or "mechanical" in p.parts
+    ])
 
     print(f"Found {len(html_files)} HTML files under {root}")
     print()

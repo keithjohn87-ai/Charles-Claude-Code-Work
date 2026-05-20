@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cross-Connection Control &amp; Backflow Prevention — Plumbing Trade Pack</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.55; max-width: 880px; margin: 40px auto; padding: 20px; color: #222; }
+        .header { text-align: center; border-bottom: 3px double #1e3a5f; padding-bottom: 20px; margin-bottom: 30px; }
+        .form-title { font-size: 26px; font-weight: bold; color: #1e3a5f; margin-bottom: 6px; }
+        .form-subtitle { font-size: 15px; color: #444; font-weight: 600; }
+        .doc-meta { font-size: 13px; color: #666; margin-top: 8px; }
+        .field { background: #f0f0f0; padding: 2px 8px; border-radius: 3px; font-style: italic; color: #555; }
+        .section { margin: 26px 0; page-break-inside: avoid; }
+        .section-title { font-weight: bold; color: #1e3a5f; font-size: 16px; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+        .sub-title { font-weight: bold; color: #1e3a5f; font-size: 14px; margin: 14px 0 6px 0; }
+        .warning { background: #f8d7da; border-left: 4px solid #dc3545; padding: 14px 16px; margin: 18px 0; }
+        .notice { background: #d1ecf1; border-left: 4px solid #0c5460; padding: 14px 16px; margin: 18px 0; }
+        .practice-note { background: #fdf6e3; border-left: 4px solid #b58900; padding: 14px 16px; margin: 14px 0; font-size: 13.5px; }
+        .practice-note .label { font-weight: bold; color: #1e3a5f; font-size: 14px; display: block; margin-bottom: 6px; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        td, th { padding: 7px 8px; vertical-align: top; }
+        th { background: #1e3a5f; color: #fff; text-align: left; font-size: 12.5px; }
+        .data-table td { border: 1px solid #ccc; font-size: 13px; }
+        .data-table td.label { font-weight: 600; background: #f9f9f9; width: 35%; }
+        .toc { background: #f4f6f9; border: 1px solid #c0cad8; padding: 16px 22px; margin: 20px 0 28px 0; border-radius: 6px; }
+        .toc-title { font-weight: bold; color: #1e3a5f; font-size: 14px; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+        .toc ol { margin: 0; padding-left: 22px; }
+        .footnote { font-size: 11.5px; color: #666; font-style: italic; }
+        @media print { .no-print { display: none; } body { margin: 0; max-width: 100%; } .section { page-break-inside: avoid; } }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="form-title">CROSS-CONNECTION CONTROL &amp; BACKFLOW PREVENTION</div>
+    <div class="form-subtitle">IPC 608 &middot; UPC 603 &middot; ASSE/CSA &middot; AWWA M14 &middot; Plumbing Trade Pack</div>
+    <div class="doc-meta">Compliance guide for plumbing contractors + companion to Backflow Test Log XLSX</div>
+</div>
+
+<div class="notice">
+    <strong>Purpose.</strong> This guide covers cross-connection identification, backflow-device
+    selection, installation requirements, initial + annual field testing, and reporting. It is
+    a compliance reference, not a substitute for state-licensed cross-connection control
+    specialist certification. The companion <em>Backflow Test Log</em> XLSX captures the per-
+    device test records the water purveyor and AHJ require.
+</div>
+
+<div class="toc">
+    <div class="toc-title">Table of Contents</div>
+    <ol>
+        <li>Why Backflow Matters — Hazard Mechanics</li>
+        <li>Hazard Classifications (Health / Pollution / Severity)</li>
+        <li>Device Types (RPZ / DCV / PVB / SVB / AVB / Air Gap)</li>
+        <li>Device-Selection Matrix by Application</li>
+        <li>Installation Requirements (Orientation, Clearance, Discharge)</li>
+        <li>Initial Field Test Procedures (RPZ + DCV)</li>
+        <li>Annual Testing &amp; Reporting</li>
+        <li>Repair Decision Criteria</li>
+        <li>Documentation &amp; Submission</li>
+        <li>Common Field Errors</li>
+    </ol>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 1 — Why Backflow Matters: Hazard Mechanics</div>
+    <p>Backflow occurs whenever water flows in the reverse of intended direction. Two physical
+    mechanisms drive it:</p>
+    <ul>
+        <li><strong>Backpressure</strong> — downstream pressure (boiler, pump, elevated tank,
+            chemical feed) exceeds upstream supply pressure. The high side pushes back into the
+            potable supply.</li>
+        <li><strong>Backsiphonage</strong> — upstream supply pressure drops below atmospheric
+            (main break, fire flow, repair drawdown). Downstream non-potable water siphons into
+            the main.</li>
+    </ul>
+    <p>Both mechanisms are documented in fatality + illness incidents. The EPA + CDC track
+    several hundred reportable cross-connection incidents per year nationally. The mitigating
+    device must match the hazard mechanism AND the hazard severity.</p>
+    <div class="warning">
+        <strong>WARNING.</strong> Failure to install the correct backflow device, or installing
+        it backwards, has caused documented illness and death. The plumbing contractor is
+        responsible for selection, installation per manufacturer's instructions, AND arranging
+        initial testing by a licensed cross-connection control specialist BEFORE the system
+        goes into service.
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 2 — Hazard Classifications</div>
+    <p>Most jurisdictions use a two-tier (or three-tier) hazard system. Match the highest
+    plausible severity for the application.</p>
+    <table class="data-table">
+        <tr><th>Class</th><th>Definition</th><th>Examples</th></tr>
+        <tr><td><strong>High (Health)</strong></td>
+            <td>Backflow would cause illness, death, or serious bodily harm.</td>
+            <td>Sewage / wastewater, boilers with chemicals, cooling towers with biocides,
+                lab reagents, irrigation with chemical injection, medical-gas systems,
+                fire systems with antifreeze.</td></tr>
+        <tr><td><strong>Low (Non-Health / Pollution)</strong></td>
+            <td>Backflow would be objectionable but non-toxic.</td>
+            <td>Food + beverage processing, soda fountain water (without injection),
+                non-chemical irrigation, non-chemical fire systems, secondary heat
+                exchangers.</td></tr>
+        <tr><td><strong>Air-gap acceptable</strong></td>
+            <td>Physical separation of supply outlet from receiving vessel.</td>
+            <td>Indirect waste from washer / icemaker, RPZ relief discharge, mop sink fill.</td></tr>
+    </table>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 3 — Device Types</div>
+    <table class="data-table">
+        <tr><th>Device</th><th>Standard</th><th>Protects Against</th><th>Health Hazard?</th><th>Continuous Pressure?</th></tr>
+        <tr><td><strong>Air Gap</strong></td><td>IPC 608.13.1 (2× pipe dia or 1" min)</td><td>Backpressure + Backsiphonage</td><td>Yes</td><td>N/A</td></tr>
+        <tr><td><strong>RPZ</strong> — Reduced Pressure Zone</td><td>ASSE 1013</td><td>Backpressure + Backsiphonage</td><td>Yes</td><td>Yes</td></tr>
+        <tr><td><strong>DCV</strong> — Double Check Valve</td><td>ASSE 1015</td><td>Backpressure + Backsiphonage</td><td>No</td><td>Yes</td></tr>
+        <tr><td><strong>PVB</strong> — Pressure Vacuum Breaker</td><td>ASSE 1020</td><td>Backsiphonage only</td><td>Yes</td><td>Yes</td></tr>
+        <tr><td><strong>SVB</strong> — Spill-Resistant Vacuum Breaker</td><td>ASSE 1056</td><td>Backsiphonage only</td><td>Yes</td><td>Yes</td></tr>
+        <tr><td><strong>AVB</strong> — Atmospheric Vacuum Breaker</td><td>ASSE 1001</td><td>Backsiphonage only</td><td>Yes</td><td><strong>No</strong> — 12 hr max</td></tr>
+        <tr><td><strong>Dual-Check w/ Atm. Vent</strong></td><td>ASSE 1022</td><td>Backflow (limited)</td><td>Yes</td><td>Yes</td></tr>
+        <tr><td><strong>HBVB</strong> — Hose-Bibb Vacuum Breaker</td><td>ASSE 1011</td><td>Backsiphonage at hose-bibb</td><td>Yes (limited)</td><td>No</td></tr>
+    </table>
+    <div class="practice-note">
+        <span class="label">Practice note — RPZ vs. DCV.</span>
+        Both stop backpressure + backsiphonage but only the RPZ is rated for health hazards.
+        When in doubt, default to RPZ — the cost premium is small relative to the liability
+        exposure if a DCV is installed where a health-hazard device was required.
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 4 — Device-Selection Matrix</div>
+    <table class="data-table">
+        <tr><th>Application</th><th>Hazard</th><th>Device</th></tr>
+        <tr><td>Building water service entry (commercial)</td><td>Variable — often health</td><td>RPZ (per most jurisdictions); DCV if explicitly permitted</td></tr>
+        <tr><td>Boiler make-up water (chemical treatment)</td><td>High</td><td>RPZ</td></tr>
+        <tr><td>Boiler make-up water (no chemicals)</td><td>Low</td><td>DCV (verify with AHJ)</td></tr>
+        <tr><td>Hydronic system with glycol</td><td>High</td><td>RPZ</td></tr>
+        <tr><td>Cooling tower make-up (biocide treated)</td><td>High</td><td>RPZ</td></tr>
+        <tr><td>Irrigation — no chemical injection</td><td>Low</td><td>PVB or DCV</td></tr>
+        <tr><td>Irrigation — with chemical injection</td><td>High</td><td>RPZ</td></tr>
+        <tr><td>Fire-protection — no chemicals</td><td>Low</td><td>DCV (DCDA double-check detector assembly)</td></tr>
+        <tr><td>Fire-protection — antifreeze or recycled water</td><td>High</td><td>RPZ</td></tr>
+        <tr><td>Carbonators / soda dispensers</td><td>Low</td><td>ASSE 1022 stainless or air gap</td></tr>
+        <tr><td>Hose-bibb / sillcock</td><td>Low</td><td>Integral HBVB (ASSE 1011)</td></tr>
+        <tr><td>Wash-down spray (low-pressure)</td><td>Low</td><td>AVB or HBVB (intermittent only)</td></tr>
+        <tr><td>Mop sink fill</td><td>Low</td><td>Air gap (mounted high enough)</td></tr>
+        <tr><td>Photographic developer / lab</td><td>High</td><td>RPZ + air gap on receiving vessels</td></tr>
+        <tr><td>Hospital — patient-care equipment</td><td>High</td><td>RPZ at each branch + air gap on devices</td></tr>
+        <tr><td>Dental vacuum + air systems</td><td>High</td><td>Air gap on vacuum discharge + dedicated water source</td></tr>
+        <tr><td>Decorative fountain / pool fill</td><td>High</td><td>Air gap (no submerged inlet)</td></tr>
+    </table>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 5 — Installation Requirements</div>
+    <div class="sub-title">5.1 RPZ + DCV — physical orientation</div>
+    <ul>
+        <li>Install horizontally with the body level. Most manufacturers DO NOT permit vertical
+            installation of RPZ — read the instructions and reject any field directive otherwise.</li>
+        <li>Minimum 12-inch clearance below the relief port (some manufacturers require more).
+            The relief port discharges visibly and audibly during normal operation.</li>
+        <li>Minimum 6-inch clearance around the body for testing access.</li>
+        <li>Test cocks (4 on RPZ, 4 on DCV) accessible without removing the device.</li>
+        <li>Strainer upstream — recommended on DCV; required on RPZ for many manufacturers.</li>
+        <li>Isolation valves upstream + downstream (ball or gate, full-port).</li>
+        <li>NEVER plumb the relief port back to the sanitary line directly — must discharge to
+            an indirect waste with an air gap of 2× pipe dia (1" min).</li>
+        <li>Adequate floor drain to accept the relief discharge volume.</li>
+    </ul>
+    <div class="sub-title">5.2 Cold-climate freeze protection</div>
+    <ul>
+        <li>Install indoors where possible.</li>
+        <li>Outdoor enclosure rated for the device + heated to 40&deg;F minimum.</li>
+        <li>Heat tape with thermostat on body + test cocks; insulation on body but not over
+            relief port discharge path.</li>
+        <li>Drain valves at low points; isolation valves accessible from inside enclosure.</li>
+    </ul>
+    <div class="sub-title">5.3 PVB / SVB installation</div>
+    <ul>
+        <li>Install 6 inches minimum above the highest downstream outlet (12-inch is best
+            practice — confirm AHJ + manufacturer).</li>
+        <li>No isolation valve downstream of PVB (would create the same backpressure scenario
+            the PVB is NOT rated for).</li>
+        <li>Outdoors only on dedicated irrigation use, not building potable.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 6 — Initial Field Test Procedures</div>
+    <p>Tests must be performed by a state-licensed cross-connection control specialist using
+    a calibrated 3-needle differential gauge. The procedures below are the ASSE-standard test
+    sequence. Document in the Backflow Test Log XLSX (Initial Test tab).</p>
+
+    <div class="sub-title">6.1 RPZ test sequence (ASSE 1013 abbreviated)</div>
+    <ol>
+        <li>Install gauge hoses on test cocks. Open all four cocks one at a time to clear lines.</li>
+        <li><strong>Test 1 — Check Valve #1.</strong> Close downstream isolation. Open test cock
+            #4 to drop downstream pressure. Read static differential at test cock #2 / #3. PASS
+            criteria: ≥1.0 psid (some specs require ≥2.0 psid).</li>
+        <li><strong>Test 2 — Relief Valve Opening.</strong> Slowly close upstream isolation
+            valve while reading the differential gauge. Relief should open at ≥2.0 psid AND
+            before the gauge reads zero. PASS criteria: opens at ≥2.0 psid.</li>
+        <li><strong>Test 3 — Check Valve #2.</strong> Equalize pressures + close test cock #4.
+            Verify second check holds tight against zero differential.</li>
+        <li>Record: device location, serial number, model, all three test values, pass/fail,
+            date, tester name + license #.</li>
+        <li>If any test fails: tag device "OUT OF SERVICE — DO NOT USE" + arrange repair.</li>
+    </ol>
+
+    <div class="sub-title">6.2 DCV test sequence (ASSE 1015 abbreviated)</div>
+    <ol>
+        <li>Open test cock #4 to drop downstream pressure.</li>
+        <li><strong>Test 1 — Check #1.</strong> Verify ≥1.0 psid differential held.</li>
+        <li><strong>Test 2 — Check #2.</strong> Close test cock #4, open #3 + verify ≥1.0 psid
+            held by check #2.</li>
+        <li>Record results.</li>
+    </ol>
+
+    <div class="practice-note">
+        <span class="label">Practice note — gauge calibration.</span>
+        Test gauges must be calibrated within the previous 12 months. Calibration certificate
+        must accompany every test report. AHJs increasingly check for current calibration —
+        a test performed with an out-of-cal gauge will be rejected.
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 7 — Annual Testing &amp; Reporting</div>
+    <p>Most jurisdictions require annual testing of every continuous-pressure backflow device
+    in commercial service. The owner is typically responsible for arranging the test; the
+    plumbing contractor may perform under separate service contract.</p>
+    <ul>
+        <li><strong>Test interval</strong> — 12 months from initial test, then annually.
+            Some jurisdictions require 6-month testing for hospitals + high-risk locations.</li>
+        <li><strong>Testing party</strong> — state-licensed cross-connection control specialist
+            with current gauge calibration.</li>
+        <li><strong>Report destinations</strong> — typically: (1) building owner / facility
+            manager, (2) water purveyor, (3) local AHJ. Confirm with each jurisdiction at the
+            initial install.</li>
+        <li><strong>Report retention</strong> — 5 years minimum. Many AHJs require longer.</li>
+        <li><strong>Out-of-service tagging</strong> — failed devices must be tagged AND the
+            owner notified in writing within 24 hours. Repair or replace within 30 days.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 8 — Repair Decision Criteria</div>
+    <table class="data-table">
+        <tr><th>Symptom</th><th>Likely Cause</th><th>Action</th></tr>
+        <tr><td>Relief port discharges continuously</td><td>Debris in #1 check OR low supply pressure</td><td>Flush + reseat; if persists, rebuild check #1</td></tr>
+        <tr><td>Check #1 differential below pass</td><td>Worn check seat or fouled disc</td><td>Rebuild kit; if seat damaged → replace</td></tr>
+        <tr><td>Check #2 fails to hold</td><td>Worn seat / disc OR test cock leak</td><td>Inspect cocks first; then rebuild check #2</td></tr>
+        <tr><td>Relief opens too early (&lt; 2 psid)</td><td>Worn relief diaphragm</td><td>Rebuild relief valve</td></tr>
+        <tr><td>Relief fails to open</td><td>Stuck relief; debris in sensing line</td><td>Disassemble + clean; rebuild if needed</td></tr>
+        <tr><td>Body leak (visible weeping)</td><td>Cracked body, gasket failure, or freeze damage</td><td>Replace device — body damage is non-repairable for most models</td></tr>
+        <tr><td>Persistent failure after rebuild</td><td>End-of-life device</td><td>Replace</td></tr>
+    </table>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 9 — Documentation &amp; Submission</div>
+    <p>Use the companion <strong>Backflow Test Log XLSX</strong> to capture every test. Each
+    test record should include:</p>
+    <ul>
+        <li>Device identifier — owner-assigned ID + serial number.</li>
+        <li>Location — building, floor, room.</li>
+        <li>Make + model + size.</li>
+        <li>Hazard application (water service, boiler, irrigation, etc.).</li>
+        <li>Test date + tester name + license #.</li>
+        <li>All three test readings (check 1 differential, relief opening, check 2 held).</li>
+        <li>Pass / fail.</li>
+        <li>Gauge serial # + calibration date.</li>
+        <li>Repairs performed if applicable.</li>
+        <li>Owner notification + signature.</li>
+        <li>Submission confirmation to water purveyor + AHJ.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 10 — Common Field Errors</div>
+    <ol>
+        <li>Installing an RPZ vertically (most are horizontal-only).</li>
+        <li>Plumbing the relief port directly to drain (must be indirect with air gap).</li>
+        <li>Selecting DCV where RPZ is required (health-hazard application).</li>
+        <li>Using AVB on continuous-pressure application (12-hour-max rating).</li>
+        <li>No clearance below relief port (some require 18" minimum).</li>
+        <li>Test cocks blocked by adjacent piping (no testing access).</li>
+        <li>Reversed flow direction (read the arrow on the body).</li>
+        <li>Hose-bibb vacuum breaker missing on outdoor sillcocks.</li>
+        <li>Service-entry RPZ installed without bypass — every test interrupts the building's water.</li>
+        <li>Skipping initial test because "we tested at the bench" (not equivalent — AHJ wants the field test).</li>
+    </ol>
+</div>
+
+<div class="notice" style="margin-top: 30px;">
+    <strong>Document version:</strong> Cross-Connection Control &amp; Backflow Prevention Guide v1.0 — 2026-05-19.
+    ContrPro Complete Tier · Plumbing Trade Pack. References current as of January 2026 — verify
+    against AHJ-adopted IPC / UPC + applicable ASSE / CSA standards. Not a substitute for
+    state-licensed cross-connection control specialist certification. Test procedures abbreviated;
+    for the complete ASSE 1013 / 1015 test method, consult the standard directly.
+</div>
+
+</body>
+</html>

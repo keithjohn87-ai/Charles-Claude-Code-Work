@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pipe Installation &amp; Test Guide — Plumbing Trade Pack</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.55; max-width: 880px; margin: 40px auto; padding: 20px; color: #222; }
+        .header { text-align: center; border-bottom: 3px double #1e3a5f; padding-bottom: 20px; margin-bottom: 30px; }
+        .form-title { font-size: 26px; font-weight: bold; color: #1e3a5f; margin-bottom: 6px; }
+        .form-subtitle { font-size: 15px; color: #444; font-weight: 600; }
+        .doc-meta { font-size: 13px; color: #666; margin-top: 8px; }
+        .field { background: #f0f0f0; padding: 2px 8px; border-radius: 3px; font-style: italic; color: #555; }
+        .section { margin: 26px 0; page-break-inside: avoid; }
+        .section-title { font-weight: bold; color: #1e3a5f; font-size: 16px; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+        .sub-title { font-weight: bold; color: #1e3a5f; font-size: 14px; margin: 14px 0 6px 0; }
+        .warning { background: #f8d7da; border-left: 4px solid #dc3545; padding: 14px 16px; margin: 18px 0; }
+        .notice { background: #d1ecf1; border-left: 4px solid #0c5460; padding: 14px 16px; margin: 18px 0; }
+        .practice-note { background: #fdf6e3; border-left: 4px solid #b58900; padding: 14px 16px; margin: 14px 0; font-size: 13.5px; }
+        .practice-note .label { font-weight: bold; color: #1e3a5f; font-size: 14px; display: block; margin-bottom: 6px; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        td, th { padding: 7px 8px; vertical-align: top; }
+        th { background: #1e3a5f; color: #fff; text-align: left; font-size: 12.5px; }
+        .data-table td { border: 1px solid #ccc; font-size: 13px; }
+        .data-table td.label { font-weight: 600; background: #f9f9f9; }
+        .toc { background: #f4f6f9; border: 1px solid #c0cad8; padding: 16px 22px; margin: 20px 0 28px 0; border-radius: 6px; }
+        .toc-title { font-weight: bold; color: #1e3a5f; font-size: 14px; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+        .toc ol { margin: 0; padding-left: 22px; }
+        .footnote { font-size: 11.5px; color: #666; font-style: italic; }
+        @media print { body { margin: 0; max-width: 100%; } .section { page-break-inside: avoid; } }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="form-title">PIPE INSTALLATION &amp; TEST GUIDE</div>
+    <div class="form-subtitle">IPC 312 + 314 &middot; UPC Chapter 3 &middot; ASTM Standards &middot; IFGC 406 &middot; AWWA C651</div>
+    <div class="doc-meta">Field reference for commercial plumbing installation &middot; companion to Pressure Test Log</div>
+</div>
+
+<div class="notice">
+    <strong>Purpose.</strong> Field-ready reference for material selection, joining methods,
+    support spacing, expansion, insulation, sleeves, firestop, pressure testing, and
+    disinfection. Used by the foreman to verify every installation meets code minimums
+    BEFORE inspection. Companion <em>Pressure Test Log XLSX</em> captures each pressure
+    test as it's run.
+</div>
+
+<div class="toc">
+    <div class="toc-title">Table of Contents</div>
+    <ol>
+        <li>Pipe Material Selection by System</li>
+        <li>Joining Methods (Solder / Press / Threaded / Solvent / Crimp / Welded)</li>
+        <li>Hanger &amp; Support Spacing (IPC 308 / UPC 314)</li>
+        <li>Pipe Expansion &amp; Thermal Movement</li>
+        <li>Insulation &amp; Cold-Water Sweating</li>
+        <li>Sleeves &amp; Firestop at Penetrations</li>
+        <li>Pressure Testing (IPC 312)</li>
+        <li>Gas Pressure Testing (IFGC 406)</li>
+        <li>Disinfection (AWWA C651)</li>
+        <li>Common Installation Errors</li>
+    </ol>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 1 — Pipe Material Selection by System</div>
+    <table class="data-table">
+        <tr><th>System</th><th>Common Materials</th><th>Notes</th></tr>
+        <tr><td class="label">Domestic Cold Water</td>
+            <td>Copper Type L, PEX-A, PEX-B, CPVC</td>
+            <td>PEX-A best freeze tolerance + flow; copper most expensive but longest life</td></tr>
+        <tr><td class="label">Domestic Hot Water</td>
+            <td>Copper Type L, PEX-A, PEX-B, CPVC</td>
+            <td>Verify PEX rating at design temperature; copper at 180&deg;F+ near WH</td></tr>
+        <tr><td class="label">DWV — sanitary + vent</td>
+            <td>PVC Sch 40, ABS, cast iron service-weight, cast iron no-hub</td>
+            <td>Cast iron required by some AHJs for fire-rated assemblies + commercial multi-story</td></tr>
+        <tr><td class="label">Storm Drainage</td>
+            <td>PVC Sch 40, cast iron, HDPE</td>
+            <td>HDPE for buried site storm; PVC for interior</td></tr>
+        <tr><td class="label">Natural Gas (interior)</td>
+            <td>Black iron schedule 40, CSST (with arc-bonding)</td>
+            <td>CSST requires arc-bonding for lightning protection per NFPA 54</td></tr>
+        <tr><td class="label">Natural Gas (underground)</td>
+            <td>PE-2406 / 2708 (utility-grade plastic), coated steel</td>
+            <td>PE requires tracer wire + meter-side transition fitting</td></tr>
+        <tr><td class="label">Compressed Air</td>
+            <td>Copper Type L, aluminum (e.g. Transair), galvanized steel</td>
+            <td>NEVER use PVC for compressed air — catastrophic failure mode</td></tr>
+        <tr><td class="label">Medical Gas (per NFPA 99)</td>
+            <td>ASTM B819 medical-gas copper (Type K or L)</td>
+            <td>Brazing under nitrogen purge; ASSE 6010 brazer required</td></tr>
+        <tr><td class="label">Hot-Water Heating (hydronic)</td>
+            <td>Copper Type L, PEX-A with oxygen barrier, black steel</td>
+            <td>Oxygen-barrier PEX required by most boiler manufacturers</td></tr>
+        <tr><td class="label">Glycol Loops</td>
+            <td>Copper Type L, black steel, PEX-A with O2 barrier</td>
+            <td>RPZ required upstream (cross-connection)</td></tr>
+    </table>
+    <div class="warning">
+        <strong>WARNING — never use PVC on hot water or compressed air.</strong>
+        PVC is rated for 73&deg;F continuous service. Use CPVC for hot water (rated 180&deg;F).
+        Compressed-air failure of PVC has caused documented worker injuries from fragmentation.
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 2 — Joining Methods</div>
+    <table class="data-table">
+        <tr><th>Method</th><th>Material</th><th>Key Points</th></tr>
+        <tr><td><strong>Solder (sweat)</strong></td><td>Copper</td>
+            <td>Lead-free solder only (≤0.25% Pb, SDWA). Clean + flux + heat evenly + apply solder
+                to joint not flame. Hot work permit + fire watch required.</td></tr>
+        <tr><td><strong>Press fitting</strong></td><td>Copper, stainless, carbon</td>
+            <td>ProPress, Megapress. Calibrated press tool. Mark insertion depth + visually
+                confirm before pressing. No hot work — eliminates fire-watch + permit.</td></tr>
+        <tr><td><strong>Solvent cement</strong></td><td>PVC, CPVC, ABS</td>
+            <td>Primer (purple — required by most AHJs for PVC + CPVC), then cement. Quarter-turn
+                during insertion. Hold per ASTM cure-time table. Verify SDS ventilation.</td></tr>
+        <tr><td><strong>Threaded</strong></td><td>Black iron, galvanized, brass</td>
+            <td>Thread compound or PTFE tape rated for gas service. NEVER tape PVC threads — use
+                Teflon-paste designed for plastic. Don't over-tighten plastic threads.</td></tr>
+        <tr><td><strong>PEX crimp / cinch / expansion</strong></td><td>PEX-A, PEX-B</td>
+            <td>Match the fitting + tool to the brand. Go/no-go gauge after crimp. Expansion
+                fittings (PEX-A only) require expander tool.</td></tr>
+        <tr><td><strong>Welded</strong></td><td>Black iron, stainless</td>
+            <td>Certified welder (AWS QW-461). Pressure-system welding subject to ASME B31.9
+                where applicable.</td></tr>
+        <tr><td><strong>Brazed (silver)</strong></td><td>Medical-gas copper</td>
+            <td>Nitrogen purge during braze (NFPA 99 5.1.10.5). BCuP or BAg brazing alloy.
+                ASSE 6010 brazer certificate.</td></tr>
+        <tr><td><strong>No-hub coupling</strong></td><td>Cast iron DWV</td>
+            <td>Stainless shield with neoprene gasket + clamps. Torque per manufacturer
+                (typically 60–80 in-lb). Verify torque on every joint.</td></tr>
+        <tr><td><strong>Fusion (heat)</strong></td><td>HDPE, polypropylene</td>
+            <td>Socket / butt fusion with the manufacturer's machine + temperature chart.</td></tr>
+    </table>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 3 — Hanger &amp; Support Spacing</div>
+    <p>Per IPC 308 / UPC 314. Verify the AHJ-adopted edition + any local amendments.
+    Vertical support typically at every story OR 10 feet max — whichever is shorter.</p>
+    <table class="data-table">
+        <tr><th>Material</th><th>Pipe Size</th><th>Horizontal Spacing</th><th>Vertical Spacing</th></tr>
+        <tr><td><strong>Copper</strong></td><td>1/2" - 1"</td><td>6 ft</td><td>10 ft / per story</td></tr>
+        <tr><td>Copper</td><td>1-1/4" - 2"</td><td>8 ft</td><td>10 ft / per story</td></tr>
+        <tr><td>Copper</td><td>2-1/2" +</td><td>10 ft</td><td>10 ft / per story</td></tr>
+        <tr><td><strong>CPVC</strong></td><td>1/2" - 1"</td><td>3 ft (hot) / 4 ft (cold)</td><td>per story</td></tr>
+        <tr><td>CPVC</td><td>1-1/4" +</td><td>4 ft (hot) / 5 ft (cold)</td><td>per story</td></tr>
+        <tr><td><strong>PVC DWV</strong></td><td>All sizes</td><td>4 ft (1-1/2" -2") / 4 ft (3"+) — verify code</td><td>per story</td></tr>
+        <tr><td><strong>Cast Iron</strong></td><td>All sizes</td><td>5 ft maximum AND at every joint</td><td>per story + at base</td></tr>
+        <tr><td><strong>PEX</strong></td><td>1/2" - 1"</td><td>32" (per most manufacturers)</td><td>per story</td></tr>
+        <tr><td><strong>Black Iron Gas</strong></td><td>1/2" - 1"</td><td>6 ft (horizontal)</td><td>per story</td></tr>
+        <tr><td>Black Iron Gas</td><td>1-1/4" +</td><td>10 ft (horizontal)</td><td>per story</td></tr>
+    </table>
+    <div class="practice-note">
+        <span class="label">Practice note — overhead-deck attachment.</span>
+        Attachments to bar joists, open-web steel, or wood trusses must be approved by the EOR.
+        No top-chord-only attachment without specific approval. Side-attached hangers must be
+        rated for the load + a safety factor.
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 4 — Pipe Expansion &amp; Thermal Movement</div>
+    <p>Hot lines expand. Failure to accommodate movement bows pipes between hangers, breaks
+    fittings, and creates noise complaints in occupied spaces. Use expansion loops, swing
+    joints, or expansion compensators on runs >30 ft of hot water.</p>
+    <table class="data-table">
+        <tr><th>Material</th><th>Expansion (in / 100 ft / 100&deg;F)</th><th>Note</th></tr>
+        <tr><td>Copper</td><td>1.1"</td><td>Brittle if frozen — bursts on cold runs without insulation</td></tr>
+        <tr><td>CPVC</td><td>4.6"</td><td>Significant — design expansion loops on all hot runs</td></tr>
+        <tr><td>PEX-A</td><td>9.0"</td><td>Most forgiving — but anchor at fixtures + valves</td></tr>
+        <tr><td>Steel (black iron)</td><td>0.8"</td><td>Threads tolerant; welded systems need bellows</td></tr>
+        <tr><td>HDPE</td><td>10.0"</td><td>Buried installations rely on soil restraint</td></tr>
+    </table>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 5 — Insulation</div>
+    <ul>
+        <li><strong>Hot water</strong> — IECC 2021 + most state energy codes require insulation
+            on all hot-water lines. Thickness varies by pipe size (typically 1" for 1/2"-1"
+            and 1-1/2" for larger).</li>
+        <li><strong>Cold water</strong> — sweating control + freeze prevention in
+            unconditioned spaces. R-2.5 minimum or per local code.</li>
+        <li><strong>Recirculation loops</strong> — full insulation including return.
+            Uninsulated recirc lines are an enormous energy waste.</li>
+        <li><strong>Vapor barriers</strong> — required on cold lines in humid spaces to
+            prevent condensation drip.</li>
+        <li><strong>Joint sealing</strong> — overlap joints + seal with PVC tape or vapor-tight
+            sealant. Open seams defeat the system.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 6 — Sleeves &amp; Firestop</div>
+    <p>Every penetration through a rated wall, floor, or ceiling must be firestopped per a
+    UL-listed assembly that matches the substrate AND the pipe.</p>
+    <ul>
+        <li><strong>Sleeve sizing</strong> — typically 1" larger than pipe OD for thermal movement.
+            Larger if floating insulation or vibration.</li>
+        <li><strong>Floor sleeves</strong> — extend 1" above finished floor in wet areas; coordinated
+            with finished-floor schedule.</li>
+        <li><strong>Firestop products</strong> — intumescent sealant (3M, Hilti, STI). NEVER
+            substitute generic foam or caulk — the AHJ will fail the inspection.</li>
+        <li><strong>UL listing</strong> — match the system number to the assembly. Photograph
+            each penetration with the system number visible for closeout.</li>
+        <li><strong>Cast-iron through firewall</strong> — many UL systems require a metal
+            collar; don't omit.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 7 — Pressure Testing (IPC 312)</div>
+    <table class="data-table">
+        <tr><th>System</th><th>Test Pressure</th><th>Duration</th><th>Pass</th></tr>
+        <tr><td>DWV (rough-in)</td><td>10' head water OR 5 psi air</td><td>15 min min</td><td>No pressure loss</td></tr>
+        <tr><td>DWV (finish, stack)</td><td>Water to top of stack OR 1 psi air</td><td>15 min</td><td>No leaks</td></tr>
+        <tr><td>Domestic water (rough)</td><td>Working +50 psi, 100 psi min</td><td>15 min</td><td>No pressure loss</td></tr>
+        <tr><td>Storm</td><td>10' head water OR 5 psi air</td><td>15 min</td><td>No pressure loss</td></tr>
+        <tr><td>Hydronic</td><td>Per engineer of record</td><td>Per spec</td><td>No pressure loss</td></tr>
+    </table>
+    <div class="warning">
+        <strong>WARNING — air-test safety.</strong>
+        Air is compressible; a failed fitting under air pressure can launch into a worker.
+        Above 5 psi, prefer water. If air is required, set a relief valve 10% above the target
+        pressure, clear the test radius, barricade access, and follow the manufacturer's test-cap
+        pressure rating. ASME B31.9 + NFPA 54 require these precautions.
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 8 — Gas Pressure Testing (IFGC 406 / NFPA 54)</div>
+    <table class="data-table">
+        <tr><th>System</th><th>Test Pressure</th><th>Duration</th></tr>
+        <tr><td>2-psi (typical commercial)</td><td>3 psi minimum, 1-1/2× working</td><td>10 min minimum; longer for larger systems</td></tr>
+        <tr><td>High-pressure (&gt; 14 oz / sq in)</td><td>1-1/2× working, gauged + witnessed</td><td>Per IFGC 406 / engineer of record</td></tr>
+        <tr><td>Medical gas (NFPA 99)</td><td>Multi-stage per NFPA 99 Ch 5</td><td>Per NFPA 99 — pressure + cross-connection + concentration tests</td></tr>
+    </table>
+    <ul>
+        <li>Test with inert gas (air or nitrogen). Never use the fuel gas itself for testing.</li>
+        <li>Calibrated gauge in line with the test pressure range — pressure should fall in
+            middle third of gauge scale.</li>
+        <li>Soap-test every joint. AHJ may witness selected joints.</li>
+        <li>Document test in Pressure Test Log XLSX.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 9 — Disinfection (AWWA C651)</div>
+    <p>Domestic water systems must be disinfected before service. Most AHJs require a
+    disinfection certificate on file for Certificate of Occupancy.</p>
+    <ul>
+        <li>Method 1 — continuous-feed, 50 mg/L (50 ppm), 24-hour hold.</li>
+        <li>Method 2 — high-dose, 200 mg/L, 3-hour hold (rarely used commercially).</li>
+        <li>Flush to ≤1 mg/L residual.</li>
+        <li>Two bacteriological samples ≥24 hours apart — no coliform.</li>
+        <li>Submit lab report + chain-of-custody to AHJ + water purveyor.</li>
+    </ul>
+    <div class="practice-note">
+        <span class="label">Practice note — discharging chlorinated water.</span>
+        Uncontrolled discharge to a storm sewer or surface water is a Clean Water Act
+        violation. Dechlorinate with sodium thiosulfate or vitamin C before discharge, or
+        coordinate the discharge with the water purveyor's policy. Document chain-of-custody.
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 10 — Common Installation Errors</div>
+    <ol>
+        <li>Tight-grade DWV slopes that result in solids dropout (≥1/4" per ft to 1/2" per ft for &gt;3"; 1/8" per ft minimum &lt;3").</li>
+        <li>Tape on plastic threads — use paste designed for plastic.</li>
+        <li>Hot work without permit + fire watch.</li>
+        <li>RPZ installed without bypass on critical service-entry locations.</li>
+        <li>Solvent cement applied to wet pipe (rain or condensation) — joint never cures.</li>
+        <li>PEX run through metal stud without grommet — chafe + leak in 1-3 years.</li>
+        <li>CPVC under stress at fittings — radius-to-fitting transition cracks the fitting.</li>
+        <li>Missing trap primer on infrequently-used floor drains — odor + sewer-gas migration.</li>
+        <li>Combustion air not provided to gas-fired water heater in confined-space closet.</li>
+        <li>Pressure test with water in winter (freezes in unheated areas).</li>
+    </ol>
+</div>
+
+<div class="notice" style="margin-top: 30px;">
+    <strong>Document version:</strong> Pipe Installation &amp; Test Guide v1.0 — 2026-05-19.
+    ContrPro Complete Tier · Plumbing Trade Pack. References current as of January 2026 —
+    verify against AHJ-adopted IPC / UPC / IFGC / NFPA / ASTM. Not legal advice.
+</div>
+
+</body>
+</html>

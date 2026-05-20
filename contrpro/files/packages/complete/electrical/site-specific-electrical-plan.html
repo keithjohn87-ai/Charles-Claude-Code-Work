@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site-Specific Electrical Safety Plan — NEC + NFPA 70E + OSHA / Electrical Trade Pack</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.55; max-width: 880px; margin: 40px auto; padding: 20px; color: #222; }
+        .header { text-align: center; border-bottom: 3px double #1e3a5f; padding-bottom: 20px; margin-bottom: 30px; }
+        .form-title { font-size: 26px; font-weight: bold; color: #1e3a5f; margin-bottom: 6px; }
+        .form-subtitle { font-size: 15px; color: #444; font-weight: 600; }
+        .doc-meta { font-size: 13px; color: #666; margin-top: 8px; }
+        .field { background: #f0f0f0; padding: 2px 8px; border-radius: 3px; font-style: italic; color: #555; }
+        .section { margin: 26px 0; page-break-inside: avoid; }
+        .section-title { font-weight: bold; color: #1e3a5f; font-size: 16px; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+        .sub-title { font-weight: bold; color: #1e3a5f; font-size: 14px; margin: 14px 0 6px 0; }
+        .warning { background: #f8d7da; border-left: 4px solid #dc3545; padding: 14px 16px; margin: 18px 0; }
+        .notice { background: #d1ecf1; border-left: 4px solid #0c5460; padding: 14px 16px; margin: 18px 0; }
+        .practice-note { background: #fdf6e3; border-left: 4px solid #b58900; padding: 14px 16px; margin: 14px 0; font-size: 13.5px; }
+        .practice-note .label { font-weight: bold; color: #1e3a5f; font-size: 14px; display: block; margin-bottom: 6px; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        td, th { padding: 7px 8px; vertical-align: top; }
+        th { background: #1e3a5f; color: #fff; text-align: left; font-size: 12.5px; }
+        .data-table td { border: 1px solid #ccc; font-size: 13px; }
+        .data-table td.label { font-weight: 600; background: #f9f9f9; width: 38%; }
+        .toc { background: #f4f6f9; border: 1px solid #c0cad8; padding: 16px 22px; margin: 20px 0 28px 0; border-radius: 6px; }
+        .toc-title { font-weight: bold; color: #1e3a5f; font-size: 14px; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+        .toc ol { margin: 0; padding-left: 22px; }
+        .footnote { font-size: 11.5px; color: #666; font-style: italic; }
+        .signature-line { border-top: 1px solid #000; width: 360px; margin-top: 50px; padding-top: 5px; font-size: 12.5px; }
+        @media print { .no-print { display: none; } body { margin: 0; max-width: 100%; } .section { page-break-inside: avoid; } }
+    </style>
+</head>
+<body>
+
+<div class="no-print" style="background: #fff3cd; border: 2px solid #856404; padding: 18px; border-radius: 8px; margin-bottom: 24px;">
+    <strong style="color: #856404; font-size: 16px;">TAILOR + SIGN BEFORE FIRST CONDUIT PULL</strong>
+    <p style="margin: 8px 0 0 0; font-size: 13.5px;">
+        This Site-Specific Electrical Safety Plan ("SSEP") is the electrical contractor's
+        project-specific roadmap covering NEC compliance, NFPA 70E electrical safety, lockout/
+        tagout, arc-flash boundaries, energized work, AHJ inspection sequencing, and multi-trade
+        coordination. Tailor every variable to the actual project, walk it with the GC and the
+        AHJ electrical inspector at the pre-construction meeting, and sign at Section 16.
+        OSHA Multi-Employer Citation Policy applies — controlling contractor + electrical
+        contractor are jointly citable for site-specific violations.
+    </p>
+</div>
+
+<div class="header">
+    <div class="form-title">SITE-SPECIFIC ELECTRICAL SAFETY PLAN</div>
+    <div class="form-subtitle">NEC 2023 &middot; NFPA 70E 2024 &middot; OSHA 29 CFR 1926 Subpart K &middot; 29 CFR 1910.147 LOTO</div>
+    <div class="doc-meta">
+        Project: <span class="field">[Project Name]</span> &nbsp;|&nbsp;
+        Electrical Contractor: <span class="field">[Contractor Legal Name]</span> &nbsp;|&nbsp;
+        Plan Version: <span class="field">[v1.0 / Date]</span>
+    </div>
+</div>
+
+<div class="notice">
+    <strong>Purpose.</strong> The Site-Specific Electrical Safety Plan ("SSEP") is the electrical
+    contractor's project-specific roadmap for safe, code-compliant performance from underground
+    raceway through final acceptance test. Controlling reference for electrical superintendent,
+    journeymen, GC safety officer, AHJ electrical inspector, owner's representative. Living
+    document — revise when scope, sequence, or conditions change materially.
+</div>
+
+<div class="toc">
+    <div class="toc-title">Table of Contents</div>
+    <ol>
+        <li>Parties &amp; Project Identification</li>
+        <li>Permits, AHJ &amp; NEC Edition</li>
+        <li>Inspection Sequence (UG / Rough / Service / Final)</li>
+        <li>Electrical Scope of Work</li>
+        <li>Lockout / Tagout Program (1910.147)</li>
+        <li>NFPA 70E Electrical Safety — Energized Work + Arc-Flash</li>
+        <li>Temporary Power &amp; GFCI</li>
+        <li>Working at Heights — Lifts, Ladders, Tools</li>
+        <li>Trenching &amp; Underground Raceway (Subpart P)</li>
+        <li>Hazmat Encountered (Asbestos / Lead / PCBs)</li>
+        <li>Multi-Trade Coordination</li>
+        <li>Occupied-Building / Live-Building Considerations</li>
+        <li>Acceptance Testing &amp; Commissioning</li>
+        <li>Emergency Response</li>
+        <li>Stop-Work Triggers</li>
+        <li>Signatures</li>
+    </ol>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 1 — Parties &amp; Project Identification</div>
+    <table class="data-table">
+        <tr><td class="label">Project Name</td><td><span class="field">[Project Name]</span></td></tr>
+        <tr><td class="label">Project Address</td><td><span class="field">[Address]</span></td></tr>
+        <tr><td class="label">Owner</td><td><span class="field">[Owner + Rep]</span></td></tr>
+        <tr><td class="label">General Contractor (controlling)</td><td><span class="field">[GC + Project Manager]</span></td></tr>
+        <tr><td class="label">Electrical Engineer of Record</td><td><span class="field">[MEP Firm + EOR stamp]</span></td></tr>
+        <tr><td class="label">Electrical Contractor</td><td><span class="field">[Contractor Legal Name]</span></td></tr>
+        <tr><td class="label">Electrical State License #</td><td><span class="field">[License # + Master Electrician of Record]</span></td></tr>
+        <tr><td class="label">Electrical Superintendent</td><td><span class="field">[Name + Phone]</span></td></tr>
+        <tr><td class="label">Foreman</td><td><span class="field">[Name + Phone]</span></td></tr>
+        <tr><td class="label">Service Size</td><td><span class="field">[Amps / Volts / Phase]</span></td></tr>
+        <tr><td class="label">Estimated Start</td><td><span class="field">[Date]</span></td></tr>
+        <tr><td class="label">Substantial Completion</td><td><span class="field">[Date]</span></td></tr>
+        <tr><td class="label">Project Type</td><td><span class="field">[New / Renovation / Tenant Fit-out / Adaptive Reuse]</span></td></tr>
+        <tr><td class="label">Building Occupancy / Construction Type</td><td><span class="field">[IBC Ch 3 / Ch 6]</span></td></tr>
+    </table>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 2 — Permits, AHJ &amp; NEC Edition</div>
+    <table class="data-table">
+        <tr><td class="label">Electrical Permit #</td><td><span class="field">[Permit + issue date]</span></td></tr>
+        <tr><td class="label">AHJ — Electrical Inspector</td><td><span class="field">[Name + Cell + Email]</span></td></tr>
+        <tr><td class="label">Inspection Request Method</td><td><span class="field">[Portal / Phone + Lead Time]</span></td></tr>
+        <tr><td class="label">Adopted NEC Edition</td><td><span class="field">[NEC 2023 + Local Amendments]</span></td></tr>
+        <tr><td class="label">Utility Coordinator (Power Company)</td><td><span class="field">[Utility + Acct + Coordinator]</span></td></tr>
+        <tr><td class="label">Pre-Energization Test Lab</td><td><span class="field">[NETA cert vendor if applicable]</span></td></tr>
+        <tr><td class="label">Adopted NFPA 70E Edition</td><td><span class="field">[NFPA 70E 2024 + Local Adoption]</span></td></tr>
+    </table>
+    <div class="practice-note">
+        <span class="label">Practice note — NEC edition delta.</span>
+        Drawings stamped under an older NEC edition but constructed under a newer edition
+        create code conflicts that surface at inspection. Common 2020→2023 deltas: GFCI scope
+        (210.8), AFCI scope (210.12), receptacle outlet spacing (210.52), surge protection
+        (230.67 — new commercial requirement), EVSE provisions (Article 625), energy storage
+        (Article 706). Document deltas at pre-construction; RFI any unresolved conflict.
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 3 — Inspection Sequence</div>
+    <table class="data-table">
+        <tr><th>Inspection</th><th>Trigger</th><th>What Gets Inspected</th></tr>
+        <tr><td class="label">Underground Raceway</td>
+            <td>Before backfill / encasement</td>
+            <td>Conduit routing, depth (NEC 300.5), bedding, mandrel pull-test if specified, separation from other utilities</td></tr>
+        <tr><td class="label">Rough-In</td>
+            <td>Before drywall</td>
+            <td>Boxes set, conduit + wire installed (some AHJs require unfinished conductors), grounding electrode system, bonding, mounting heights</td></tr>
+        <tr><td class="label">Service / Meter</td>
+            <td>Before energization</td>
+            <td>Service-entrance conductors, meter base, main disconnect, grounding electrode system, bonding, working clearance (NEC 110.26)</td></tr>
+        <tr><td class="label">Pre-Energization Acceptance</td>
+            <td>Pre-utility-tie</td>
+            <td>Megger test feeders, ground resistance test, panel exercise, arc-flash labels per NEC 110.16, NETA test report if specified</td></tr>
+        <tr><td class="label">Trim Out / Devices</td>
+            <td>Before final</td>
+            <td>Devices set + tested, GFCI/AFCI verification, polarity, working illumination</td></tr>
+        <tr><td class="label">Final</td>
+            <td>Pre-TCO</td>
+            <td>All circuits labeled, panel schedules complete, working illumination, exit signs functional, emergency battery test 90-min, fire-alarm cert on file</td></tr>
+    </table>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 4 — Electrical Scope of Work</div>
+    <table class="data-table">
+        <tr><th>CSI Code</th><th>System</th><th>Scope</th></tr>
+        <tr><td>26 05</td><td>Common Work Results — raceway, wire, supports, grounding</td><td><span class="field">BY US</span></td></tr>
+        <tr><td>26 24 13</td><td>Switchboards (service entrance)</td><td><span class="field">[scope — BY US / by switchgear vendor]</span></td></tr>
+        <tr><td>26 24 16</td><td>Panelboards</td><td><span class="field">BY US</span></td></tr>
+        <tr><td>26 27 13</td><td>Service Entrance + Meter</td><td><span class="field">BY US to utility meter; utility side BY OTHERS</span></td></tr>
+        <tr><td>26 32 13</td><td>Engine Generators</td><td><span class="field">[BY US / BY OTHERS — vendor commissioning included?]</span></td></tr>
+        <tr><td>26 36 23</td><td>Automatic Transfer Switches</td><td><span class="field">[scope]</span></td></tr>
+        <tr><td>26 41 13</td><td>Lightning Protection</td><td><span class="field">[BY US / specialty sub]</span></td></tr>
+        <tr><td>26 51 13</td><td>Interior Lighting</td><td><span class="field">BY US — fixtures owner-direct or contractor-supplied?</span></td></tr>
+        <tr><td>26 52 13</td><td>Exterior Lighting + Site</td><td><span class="field">[scope]</span></td></tr>
+        <tr><td>27 11</td><td>Communications cabling</td><td><span class="field">[scope — by EC or by IT vendor]</span></td></tr>
+        <tr><td>28 31</td><td>Fire Detection + Alarm</td><td><span class="field">[BY US — design-build / by fire-alarm sub]</span></td></tr>
+        <tr><td>28 13/23</td><td>Access Control / Video</td><td><span class="field">[BY US / by specialty sub]</span></td></tr>
+        <tr><td>33 71</td><td>Underground Utility Power</td><td><span class="field">[BY US / by utility / shared with site]</span></td></tr>
+    </table>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 5 — Lockout / Tagout Program (29 CFR 1910.147)</div>
+    <p>Every job must have a written LOTO program. Every energized circuit a worker touches must
+    be verified de-energized + locked + tagged. Recurring training documented.</p>
+
+    <div class="sub-title">5.1 LOTO procedure</div>
+    <ol>
+        <li>Identify all energy sources for the equipment / circuit (utility, generator, UPS, battery, control).</li>
+        <li>Notify affected persons; coordinate with operations on live-building projects.</li>
+        <li>Open the disconnect / breaker. Verify the disconnect is in OFF position.</li>
+        <li>Apply individual lock + tag. Each worker on the job applies HIS OR HER OWN lock.</li>
+        <li>Test for voltage with a known-good meter. Test the meter on a live source before AND after the verification — confirms the meter itself is working.</li>
+        <li>Discharge stored energy (capacitors, springs, hydraulic).</li>
+        <li>Perform work.</li>
+        <li>On completion: remove personal tools, notify affected persons, remove personal lock + tag, restore energy.</li>
+    </ol>
+
+    <div class="warning">
+        <strong>WARNING — never remove another worker's lock.</strong>
+        Exceptions per 1910.147(e)(3) require: (a) worker not on site, (b) reasonable effort to
+        contact, (c) verification before removing, (d) inform worker before they resume work.
+        Document every removal-by-supervisor. Many electrocutions involve removed locks.
+    </div>
+
+    <div class="practice-note">
+        <span class="label">Practice note — multiple workers on same circuit.</span>
+        Use a multi-lock hasp on the disconnect: every worker adds their own lock; the hasp
+        cannot be removed until the last lock is off. Standard practice for sub-foreman + 2-3
+        journeymen on a feeder pull.
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 6 — NFPA 70E: Energized Work + Arc-Flash</div>
+    <p>De-energize first. Only justify energized work per NFPA 70E 110.4 — additional hazards
+    of de-energization, infeasibility of de-energizing (life-safety circuits, troubleshooting),
+    or operations &lt;50 V where no arc-flash hazard exists.</p>
+
+    <div class="sub-title">6.1 Energized Work Permit (EWP)</div>
+    <p>Required for any energized work over 50 V. Permit must document:</p>
+    <ul>
+        <li>Work to be performed + justification why de-energization is infeasible.</li>
+        <li>Shock-protection boundary + arc-flash boundary based on engineered study OR NFPA 70E Table 130.5(C).</li>
+        <li>PPE required + verified on site (arc-rated clothing, gloves with leather protectors, face shield, etc.).</li>
+        <li>Job briefing performed; tools verified; safe work practices reviewed.</li>
+        <li>Worker qualified per 1910.332 + 70E 110.6.</li>
+        <li>Authorized signatures: qualified employee + supervisor + safety officer.</li>
+    </ul>
+
+    <div class="sub-title">6.2 Arc-Flash Boundary + PPE Categories</div>
+    <p>Project-specific arc-flash study (engineered) controls when available. Without a study,
+    NFPA 70E Table 130.7(C)(15) defaults apply.</p>
+    <table class="data-table">
+        <tr><th>PPE Cat</th><th>Incident Energy (cal/cm²)</th><th>Arc-Rated Clothing</th><th>Equipment</th></tr>
+        <tr><td>1</td><td>4</td><td>AR shirt + pants OR coverall (rated 4)</td><td>Hard hat + AR face shield + safety glasses + AR gloves + leather + ear canal inserts</td></tr>
+        <tr><td>2</td><td>8</td><td>AR shirt + pants OR coverall (rated 8)</td><td>Hard hat + AR balaclava + AR face shield + safety glasses + AR gloves + leather + ear inserts</td></tr>
+        <tr><td>3</td><td>25</td><td>AR shirt + pants + coverall OR AR flash suit jacket + pants (rated 25)</td><td>Hard hat + AR hood + safety glasses + AR gloves + leather + ear inserts</td></tr>
+        <tr><td>4</td><td>40</td><td>AR flash suit jacket + pants OR flash suit coverall (rated 40)</td><td>Hard hat + AR hood + safety glasses + AR gloves + leather + ear inserts</td></tr>
+    </table>
+
+    <div class="warning">
+        <strong>WARNING — incident energy &gt;40 cal/cm² is "EXCLUSION ZONE."</strong>
+        NFPA 70E 130.7(A) advises NO live work above 40 cal/cm² without specifically engineered
+        controls. Arc blast (pressure) becomes equally lethal — PPE alone is insufficient.
+        Treat 40+ as a stop-work threshold requiring engineered remote racking / circuit isolation.
+    </div>
+
+    <div class="sub-title">6.3 Field labeling — NEC 110.16</div>
+    <ul>
+        <li>Switchboards, panelboards, industrial control panels, meter socket enclosures, and
+            motor control centers in non-dwelling occupancies require warning labels.</li>
+        <li>NEC 110.16(B) requires service equipment ≥1200 A in non-dwelling occupancies to also
+            list nominal voltage, available fault current, clearing time of OCPD, date of label.</li>
+        <li>Engineered arc-flash study labels add incident energy + arc-flash boundary + working
+            distance + PPE category.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 7 — Temporary Power &amp; GFCI</div>
+    <ul>
+        <li>All 15A and 20A 125V receptacles used by construction personnel must be GFCI protected
+            (1926.404(b)(1)(ii)).</li>
+        <li>Alternative: documented Assured Equipment Grounding Conductor Program.</li>
+        <li>Temporary power panels — proper service rating, grounding electrode system, weather-
+            tight if outdoors, lockable disconnect.</li>
+        <li>Cords — extra-hard usage (S, SE, SO, ST, STO, SOO), no splices except molded plug-end
+            replacement, no Romex through doorways or as building wiring.</li>
+        <li>Daily inspection of cords + GFCI test pre-shift.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 8 — Working at Heights</div>
+    <ul>
+        <li>Fall protection at heights &gt; 6 ft (construction) per OSHA 1926.501.</li>
+        <li>Aerial lift / scissor lift training current; daily inspection of fall-arrest anchor.</li>
+        <li>Ladder selection: extension ladder reaches 3 ft above landing; A-frame fully open + locked.</li>
+        <li>Working on energized circuits at heights → consider arc-flash PPE + 4-point harness +
+            tool tethering.</li>
+        <li>Hot work in lifts — fire watch from ground if welding/grinding sparks could fall on
+            combustibles.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 9 — Trenching &amp; Underground Raceway (Subpart P)</div>
+    <ul>
+        <li>Call 811 minimum 2 business days before digging.</li>
+        <li>Designate Competent Person per 1926.651(k) trained in soil classification + protective systems.</li>
+        <li>Soil classification: Type A/B/C per 1926 App A.</li>
+        <li>Trench &gt;4 ft requires ladder/step within 25 ft.</li>
+        <li>Trench &gt;5 ft requires protective system (slope/shore/shield) unless solid rock.</li>
+        <li>Spoil pile ≥2 ft from edge.</li>
+        <li>NEC depth: 600V or less direct burial — 24" cover (NEC Table 300.5); other depths
+            for conduit + duct-bank concrete encasement.</li>
+        <li>Maintain 12" separation from other utilities or per local code.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 10 — Hazmat Encountered</div>
+    <ul>
+        <li><strong>Asbestos</strong> — pre-1980 buildings may have ACM in conduit fittings, fire-stop,
+            cement-board. Survey before disturbance.</li>
+        <li><strong>Lead-based coatings</strong> — pre-1978 buildings may have lead paint on conduit,
+            boxes, or wall surfaces. RRP-certified renovator required.</li>
+        <li><strong>PCBs</strong> — old fluorescent ballasts (pre-1979) + transformers may contain PCBs.
+            Disposal per 40 CFR 761. Coordinate hazwaste vendor; document chain-of-custody.</li>
+        <li><strong>Mercury</strong> — old fluorescent tubes contain mercury. Break-and-bag is OSHA
+            violation; use crushers with vapor control or universal-waste recycler.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 11 — Multi-Trade Coordination</div>
+    <ul>
+        <li>Coordination drawings overlay EC against M / FP / Plumb / S — clashes resolved
+            before installation.</li>
+        <li>Above-ceiling priority sequence — confirm at GC coordination meeting.</li>
+        <li>Sleeves + slab penetrations coordinated with concrete.</li>
+        <li>Lighting layout vs. ductwork / sprinkler heads — confirmed via reflected ceiling plan
+            overlay.</li>
+        <li>Power for plumbing/mechanical equipment — confirm final-connection scope split.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 12 — Occupied-Building / Live-Building Considerations</div>
+    <ul>
+        <li>Live-cutover plan — define every step from de-energization through re-energization,
+            including circuit-by-circuit timing. Coordinate with owner ops + life-safety vendor.</li>
+        <li>Occupant notification — 48-hour minimum for planned outages; off-hours work where feasible.</li>
+        <li>Tie-in to existing — verify panel directory current; door labels match installed circuits.</li>
+        <li>ICRA (hospitals) — coordinate with infection-control preventionist; HEPA + containment
+            per ICRA tier.</li>
+        <li>UPS / emergency-system handover — never interrupt without owner's written authorization.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 13 — Acceptance Testing &amp; Commissioning</div>
+    <ul>
+        <li><strong>Megger insulation test</strong> — feeders + branch conductors ≥600V; record results;
+            replace any conductor below the standard threshold.</li>
+        <li><strong>Ground resistance test</strong> — 3-point fall-of-potential per IEEE 81. Target
+            ≤25 Ω (NEC 250.53 single-rod) or ≤5 Ω where required by spec.</li>
+        <li><strong>Panel + breaker exercise</strong> — open + close every breaker; verify trip on a known
+            overload (where lab-test possible) or per NETA acceptance criteria.</li>
+        <li><strong>Bonding continuity</strong> — verify with ohmmeter or ground tester.</li>
+        <li><strong>Arc-flash labeling</strong> — install labels per NEC 110.16 + engineered study (if any).</li>
+        <li><strong>Fire-alarm certification</strong> — by fire-alarm sub; integration with EC scope verified.</li>
+        <li><strong>Emergency-system 90-minute battery test</strong> — per NEC 700.3(C) and NFPA 110.</li>
+        <li><strong>Lighting controls + occupancy sensor</strong> — verify per spec sequence of operation.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 14 — Emergency Response</div>
+    <table class="data-table">
+        <tr><td class="label">Site First-Aid Station / AED</td><td><span class="field">[Location]</span></td></tr>
+        <tr><td class="label">Nearest Hospital + ER</td><td><span class="field">[Name + address + drive time]</span></td></tr>
+        <tr><td class="label">Site Emergency Contact</td><td><span class="field">[GC superintendent + cell]</span></td></tr>
+        <tr><td class="label">Utility Emergency (24-hr)</td><td><span class="field">[Power company emergency line]</span></td></tr>
+        <tr><td class="label">Main Service Disconnect</td><td><span class="field">[Location + responsible person]</span></td></tr>
+        <tr><td class="label">Hazmat / PCB Vendor</td><td><span class="field">[24-hr phone]</span></td></tr>
+        <tr><td class="label">911 Address Reciprocity</td><td><span class="field">[How EMS finds site — gate code, exact entry]</span></td></tr>
+    </table>
+    <div class="warning">
+        <strong>WARNING — electrical-contact victim.</strong>
+        Don't touch a victim still in contact with energy. Cut power first or use insulated
+        rescue equipment. Trained workers only. Most second-victims are would-be rescuers.
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 15 — Stop-Work Triggers</div>
+    <ul>
+        <li>Energized circuit encountered without LOTO or EWP.</li>
+        <li>Arc-flash incident energy &gt; 40 cal/cm² without engineered controls.</li>
+        <li>Suspected ACM, lead-based paint, or PCBs disturbed.</li>
+        <li>Trench cave-in risk or unsafe access.</li>
+        <li>NEC working clearance (110.26) violated — equipment placement requires field reroute.</li>
+        <li>Code-edition conflict between drawings and AHJ adopted code.</li>
+        <li>GFCI tripping on temp power and not resetting (ground fault present).</li>
+        <li>Insulation test failure on a circuit that hasn't been remediated.</li>
+        <li>Worker injury exceeding first-aid level.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 16 — Signatures</div>
+    <p>The undersigned have reviewed this SSEP and concur with the procedures, responsibilities,
+    and stop-work triggers.</p>
+    <div class="signature-line">Electrical Superintendent — Print + Date + Sign</div>
+    <div class="signature-line">Master Electrician of Record — License # + Date + Sign</div>
+    <div class="signature-line">GC Project Manager — Date + Sign</div>
+    <div class="signature-line">Owner's Representative — Date + Sign</div>
+    <div class="signature-line">Electrical Engineer of Record — Date + Sign (reviewed)</div>
+    <div class="signature-line">AHJ Electrical Inspector — acknowledged at pre-con walk — Date</div>
+    <p class="footnote">
+        Revision history: log each substantive change with date, page, signer. Post current
+        version at trailer; archive older.
+    </p>
+</div>
+
+<div class="notice" style="margin-top: 30px;">
+    <strong>Document version:</strong> SSEP v1.0 — 2026-05-19. ContrPro Complete Tier · Electrical
+    Trade Pack. Code references current as of January 2026. Not legal advice. Not a substitute
+    for the Master Electrician of Record's professional judgment, the AHJ's project direction,
+    or NETA-certified acceptance testing.
+</div>
+
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Refrigerant Handling + Hot Work Guide — Mechanical Trade Pack</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.55; max-width: 880px; margin: 40px auto; padding: 20px; color: #222; }
+        .header { text-align: center; border-bottom: 3px double #1e3a5f; padding-bottom: 20px; margin-bottom: 30px; }
+        .form-title { font-size: 26px; font-weight: bold; color: #1e3a5f; margin-bottom: 6px; }
+        .form-subtitle { font-size: 15px; color: #444; font-weight: 600; }
+        .section { margin: 26px 0; page-break-inside: avoid; }
+        .section-title { font-weight: bold; color: #1e3a5f; font-size: 16px; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+        .sub-title { font-weight: bold; color: #1e3a5f; font-size: 14px; margin: 14px 0 6px 0; }
+        .warning { background: #f8d7da; border-left: 4px solid #dc3545; padding: 14px 16px; margin: 18px 0; }
+        .notice { background: #d1ecf1; border-left: 4px solid #0c5460; padding: 14px 16px; margin: 18px 0; }
+        .practice-note { background: #fdf6e3; border-left: 4px solid #b58900; padding: 14px 16px; margin: 14px 0; font-size: 13.5px; }
+        .practice-note .label { font-weight: bold; color: #1e3a5f; font-size: 14px; display: block; margin-bottom: 6px; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        td, th { padding: 7px 8px; vertical-align: top; }
+        th { background: #1e3a5f; color: #fff; text-align: left; font-size: 12.5px; }
+        .data-table td { border: 1px solid #ccc; font-size: 13px; }
+        .data-table td.label { font-weight: 600; background: #f9f9f9; }
+        .toc { background: #f4f6f9; border: 1px solid #c0cad8; padding: 16px 22px; margin: 20px 0 28px 0; border-radius: 6px; }
+        .toc-title { font-weight: bold; color: #1e3a5f; font-size: 14px; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+        .toc ol { margin: 0; padding-left: 22px; }
+        @media print { body { margin: 0; max-width: 100%; } .section { page-break-inside: avoid; } }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="form-title">REFRIGERANT HANDLING + HOT WORK GUIDE</div>
+    <div class="form-subtitle">EPA 608 &middot; ASHRAE 15 &middot; ASHRAE 34 &middot; NFPA 1 &middot; OSHA Hot Work</div>
+</div>
+
+<div class="notice">
+    <strong>Purpose.</strong> Field reference for refrigerant handling, recovery, leak detection,
+    brazing under nitrogen, and hot-work permit compliance. Includes A2L (mildly flammable
+    refrigerant) protocols. Companion <em>Refrigerant + Hot Work Log</em> XLSX captures every
+    recovery, charge, leak test, and hot-work permit.
+</div>
+
+<div class="toc">
+    <div class="toc-title">Contents</div>
+    <ol>
+        <li>EPA 608 Certification Levels</li>
+        <li>Refrigerant Classifications (ASHRAE 34)</li>
+        <li>Recovery + Recycling + Reclaim</li>
+        <li>Leak Detection + Repair Requirements</li>
+        <li>ASHRAE 15 Machinery Room Requirements</li>
+        <li>A2L Refrigerant Protocols</li>
+        <li>Brazing Under Nitrogen — Step-by-Step</li>
+        <li>Hot Work Permit + Fire Watch</li>
+        <li>Hose + Cylinder Handling</li>
+        <li>Documentation Requirements</li>
+    </ol>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 1 — EPA 608 Certification Levels</div>
+    <table class="data-table">
+        <tr><th>Type</th><th>Scope</th><th>Examples</th></tr>
+        <tr><td><strong>Type I</strong></td><td>Small appliance (≤5 lb refrigerant) servicing</td><td>Domestic refrigerator, vending machine</td></tr>
+        <tr><td><strong>Type II</strong></td><td>High-pressure appliance servicing</td><td>Most commercial HVAC, R-410A, R-32, R-454B</td></tr>
+        <tr><td><strong>Type III</strong></td><td>Low-pressure appliance servicing</td><td>R-123 centrifugal chillers</td></tr>
+        <tr><td><strong>Universal</strong></td><td>All three above</td><td>—</td></tr>
+    </table>
+    <p>Every technician opening a refrigerant circuit needs the appropriate certification.
+    Document cert + expiry on the Refrigerant Log. Disposing of refrigerant without recovery is a
+    Clean Air Act §608 violation — fines per incident plus possible criminal liability.</p>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 2 — Refrigerant Classifications (ASHRAE 34)</div>
+    <table class="data-table">
+        <tr><th>Class</th><th>Definition</th><th>Examples</th></tr>
+        <tr><td>A1</td><td>Low toxicity, no flame propagation</td><td>R-410A, R-134a, R-22 (legacy)</td></tr>
+        <tr><td>A2L</td><td>Low toxicity, mildly flammable (LFL &gt; 3.5%, BV &lt; 10 cm/s)</td><td>R-32, R-454B, R-1234yf, R-1234ze</td></tr>
+        <tr><td>A2</td><td>Low toxicity, flammable</td><td>R-152a</td></tr>
+        <tr><td>A3</td><td>Low toxicity, higher flammability</td><td>R-290 (propane), R-600a (isobutane)</td></tr>
+        <tr><td>B1</td><td>Higher toxicity, no flame propagation</td><td>R-123 (low-pressure)</td></tr>
+        <tr><td>B2L / B2 / B3</td><td>Higher toxicity, flammable variants</td><td>R-717 (ammonia) — B2L</td></tr>
+    </table>
+    <div class="warning">
+        <strong>WARNING — A2L transition.</strong>
+        The U.S. transition from R-410A to A2L refrigerants is in progress (AIM Act). New equipment
+        increasingly uses R-32 / R-454B. A2L installation + service requires LFL detection in
+        installation area, leak-tight commissioning, and ignition-source-free brazing environment.
+        Train every refrigeration tech on A2L handling before first A2L install.
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 3 — Recovery + Recycling + Reclaim</div>
+    <ul>
+        <li><strong>Recovery</strong> — remove refrigerant from a system into a DOT-rated recovery cylinder
+            using an EPA-certified recovery machine. EPA-required pressure levels:
+            <ul>
+                <li>High-pressure ≥15 hp: 10 in Hg vacuum.</li>
+                <li>High-pressure &lt;15 hp: 0 psig.</li>
+                <li>Low-pressure: 25 mm Hg absolute (29 in Hg vacuum).</li>
+            </ul>
+        </li>
+        <li><strong>Recycle</strong> — clean refrigerant on site using a recycler; suitable for return to
+            same equipment.</li>
+        <li><strong>Reclaim</strong> — send to a certified reclamation facility; brings refrigerant to
+            ARI-700 purity for resale.</li>
+        <li><strong>Cylinder labels</strong> — yellow top for recovery; never refill virgin cylinders
+            with recovered refrigerant.</li>
+        <li><strong>Disposal</strong> — through certified reclaimer; never vent.</li>
+        <li>Log each recovery on the Refrigerant Log: date, equipment, lbs recovered, cylinder ID.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 4 — Leak Detection + Repair Requirements</div>
+    <ul>
+        <li>EPA Section 608 (Subpart F) requires leak repair on systems with charge ≥50 lb in commercial
+            applications. Annual leak rate triggers:
+            <ul>
+                <li>Commercial refrigeration &gt;30% annual leak → repair required.</li>
+                <li>Comfort cooling &gt;10% annual leak → repair required.</li>
+            </ul>
+        </li>
+        <li>Leak detection methods: electronic detector (most sensitive), bubble (soap) test, UV dye + lamp.</li>
+        <li>Verify repair via initial verification test (within 30 days) + follow-up (within 30 days).</li>
+        <li>Document each leak event + repair + verification on the Refrigerant Log.</li>
+        <li>Refrigerant management plan required for facilities with multiple systems.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 5 — ASHRAE 15 Machinery Room Requirements</div>
+    <p>Machinery rooms housing refrigeration equipment must meet ASHRAE 15 requirements:</p>
+    <ul>
+        <li>Refrigerant detection — sensor + alarm at concentration thresholds (typically 25%
+            of RCL or per local code).</li>
+        <li>Mechanical ventilation — interlocked with detector; minimum cfm per ASHRAE 15 formula.</li>
+        <li>Emergency stop / shut-off — readily accessible at exit door.</li>
+        <li>Egress — minimum two means of egress on opposite walls for rooms above threshold size.</li>
+        <li>Self-contained breathing apparatus (SCBA) — required outside the door for class B
+            refrigerants and A2L in many cases. Verify per local code.</li>
+        <li>Labels — refrigerant type + amount posted at room entrance.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 6 — A2L Refrigerant Protocols</div>
+    <ul>
+        <li>LFL detection in installation areas (refrigerant-specific sensor).</li>
+        <li>Leak-tight commissioning + pressure test before charging.</li>
+        <li>Charge limits per ASHRAE 15 + IMC 2024 Section 1106 (varies by occupancy + room size).</li>
+        <li>NO ignition sources within the installation envelope during brazing.</li>
+        <li>Brazing on dedicated refrigerant lines OK with proper nitrogen purge + post-braze leak test.</li>
+        <li>Training documentation — every tech touching A2L systems trained + competency-tested.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 7 — Brazing Under Nitrogen — Step-by-Step</div>
+    <ol>
+        <li>Verify line is recovered + isolated.</li>
+        <li>Connect nitrogen regulator + flow meter; set 5-10 SCFH.</li>
+        <li>Crack open opposite end so nitrogen can flow through.</li>
+        <li>Apply heat + braze filler. BCuP-2 or BAg alloy as spec'd.</li>
+        <li>Maintain nitrogen flow during cool-down (slow cooling = scale-free interior).</li>
+        <li>Pressure test post-braze: nitrogen pressurize per spec (commonly 150-500 psig depending on
+            high/low side); soap-test every joint; hold for spec'd duration.</li>
+        <li>Vacuum to 500 microns; hold per spec (typically 15 min decay test &lt; 500 microns).</li>
+        <li>Charge to spec.</li>
+        <li>Verify subcool / superheat per equipment data plate.</li>
+        <li>Document each step on the Refrigerant Log.</li>
+    </ol>
+    <div class="practice-note">
+        <span class="label">Practice note — nitrogen purge eliminates copper scale.</span>
+        Without purge, brazing copper in air produces copper oxide scale that flakes off into the
+        refrigerant circuit, plugging expansion valves and damaging compressors within weeks.
+        The 30-second saved by skipping the purge is the most expensive 30 seconds in HVAC.
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 8 — Hot Work Permit + Fire Watch</div>
+    <ul>
+        <li>Hot Work Permit required for brazing, welding, soldering, grinding, cutting.</li>
+        <li>Permit issued daily by GC (or qualified site safety person).</li>
+        <li>Clear 35 ft of combustibles or cover with welding blankets / FR tarps.</li>
+        <li>Sweep up combustible dust + lint within radius.</li>
+        <li>Fire watch present during work + 30-min cool-down (60 min in some jurisdictions).</li>
+        <li>Fire extinguisher (A + B + C) within 10 ft.</li>
+        <li>Smoke-detector + sprinkler isolation coordinated + restored before leaving.</li>
+        <li>Outdoor wind — cease at &gt; 15 mph wind / dust events.</li>
+        <li>NEVER hot work near refrigerant cylinders or open A2L refrigerant systems without LFL clearance.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 9 — Hose + Cylinder Handling</div>
+    <ul>
+        <li>Hoses rated for the refrigerant + pressure.</li>
+        <li>Self-sealing connectors (low-loss fittings) — avoid venting on disconnect.</li>
+        <li>Cylinders secured upright; never lay-down a recovery cylinder during use.</li>
+        <li>Cylinder weight checks — verify recovery cylinder not over 80% fill (DOT requirement).</li>
+        <li>Outdoor storage — direct sunlight + heat increases pressure; shade + ventilate.</li>
+        <li>DOT marking compliance: USDOT-rated cylinders only; never use disposable cylinders for recovery.</li>
+        <li>Transport — secured + placarded per DOT 49 CFR 173.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 10 — Documentation Requirements</div>
+    <ul>
+        <li>Per-tech EPA 608 certification on file + on site.</li>
+        <li>Per-event recovery log: date, equipment, lbs in, lbs out, cylinder ID.</li>
+        <li>Leak detection + repair log per Subpart F.</li>
+        <li>Hot Work Permit log + signed permits archived per project.</li>
+        <li>Nitrogen pressure test results + vacuum decay logged per system.</li>
+        <li>Final refrigerant charge documented (equipment data plate + service tag).</li>
+        <li>EPA refrigerant management plan for facilities with multiple systems above threshold.</li>
+    </ul>
+</div>
+
+<div class="notice" style="margin-top: 30px;">
+    <strong>Document version:</strong> Refrigerant + Hot Work Guide v1.0 — 2026-05-19.
+    ContrPro Complete Tier · Mechanical Trade Pack. References EPA 608 / ASHRAE 15 + 34 current
+    as of January 2026. Not legal advice. AIM Act phase-down schedule subject to change — verify.
+</div>
+
+</body>
+</html>

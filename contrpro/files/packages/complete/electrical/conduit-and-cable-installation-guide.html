@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Conduit &amp; Cable Installation Guide — Electrical Trade Pack</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.55; max-width: 880px; margin: 40px auto; padding: 20px; color: #222; }
+        .header { text-align: center; border-bottom: 3px double #1e3a5f; padding-bottom: 20px; margin-bottom: 30px; }
+        .form-title { font-size: 26px; font-weight: bold; color: #1e3a5f; margin-bottom: 6px; }
+        .form-subtitle { font-size: 15px; color: #444; font-weight: 600; }
+        .section { margin: 26px 0; page-break-inside: avoid; }
+        .section-title { font-weight: bold; color: #1e3a5f; font-size: 16px; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+        .sub-title { font-weight: bold; color: #1e3a5f; font-size: 14px; margin: 14px 0 6px 0; }
+        .warning { background: #f8d7da; border-left: 4px solid #dc3545; padding: 14px 16px; margin: 18px 0; }
+        .notice { background: #d1ecf1; border-left: 4px solid #0c5460; padding: 14px 16px; margin: 18px 0; }
+        .practice-note { background: #fdf6e3; border-left: 4px solid #b58900; padding: 14px 16px; margin: 14px 0; font-size: 13.5px; }
+        .practice-note .label { font-weight: bold; color: #1e3a5f; font-size: 14px; display: block; margin-bottom: 6px; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        td, th { padding: 7px 8px; vertical-align: top; }
+        th { background: #1e3a5f; color: #fff; text-align: left; font-size: 12.5px; }
+        .data-table td { border: 1px solid #ccc; font-size: 13px; }
+        .data-table td.label { font-weight: 600; background: #f9f9f9; }
+        .toc { background: #f4f6f9; border: 1px solid #c0cad8; padding: 16px 22px; margin: 20px 0 28px 0; border-radius: 6px; }
+        .toc-title { font-weight: bold; color: #1e3a5f; font-size: 14px; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+        .toc ol { margin: 0; padding-left: 22px; }
+        @media print { body { margin: 0; max-width: 100%; } .section { page-break-inside: avoid; } }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="form-title">CONDUIT &amp; CABLE INSTALLATION GUIDE</div>
+    <div class="form-subtitle">NEC 2023 Chapter 3 &middot; UL Listings &middot; Manufacturer Instructions</div>
+</div>
+
+<div class="notice">
+    <strong>Purpose.</strong> Field reference for raceway selection, conduit fill, support spacing,
+    bend radius, pull tension, splice + termination, and acceptance testing. Companion
+    <em>Pull + Insulation Test Log</em> XLSX captures every cable pull + megger test.
+</div>
+
+<div class="toc">
+    <div class="toc-title">Contents</div>
+    <ol>
+        <li>Raceway Selection by Environment</li>
+        <li>Conduit Fill (NEC Chapter 9 Table 1)</li>
+        <li>Conduit Support Spacing</li>
+        <li>Bend Radius + Pull Boxes</li>
+        <li>Conductor Selection (Ampacity + Voltage Drop)</li>
+        <li>Pull Tension Limits + Pulling Compound</li>
+        <li>Splices + Terminations</li>
+        <li>Voltage-Class Separation</li>
+        <li>Underground Raceway (NEC 300.5)</li>
+        <li>Acceptance Tests (Megger Insulation)</li>
+    </ol>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 1 — Raceway Selection by Environment</div>
+    <table class="data-table">
+        <tr><th>Environment</th><th>Acceptable Raceway</th><th>Notes</th></tr>
+        <tr><td class="label">Interior, exposed, dry</td>
+            <td>EMT, RMC, IMC, MC cable, AC cable</td>
+            <td>EMT most common; verify hangers at proper spacing</td></tr>
+        <tr><td class="label">Interior, concealed, dry (above-grade)</td>
+            <td>EMT, MC, AC, RMC, IMC</td>
+            <td>MC cable common in commercial drywall</td></tr>
+        <tr><td class="label">Wet location indoor (cooler, wash-down)</td>
+            <td>RMC, IMC, PVC, liquidtight flex</td>
+            <td>Liquidtight for vibration loops</td></tr>
+        <tr><td class="label">Outdoor, exposed</td>
+            <td>RMC, IMC, PVC schedule 80 (above grade)</td>
+            <td>PVC Schedule 80 only above-grade for above-ground use per NEC 352.10(F)</td></tr>
+        <tr><td class="label">Underground direct burial</td>
+            <td>PVC schedule 40 / 80, RGS, IMC w/ approved coating</td>
+            <td>Concrete encasement may upgrade depth</td></tr>
+        <tr><td class="label">Classified hazardous</td>
+            <td>RMC, IMC w/ explosion-proof fittings, MC-HL cable</td>
+            <td>NEC Article 500-516; engineering required</td></tr>
+        <tr><td class="label">Plenum (above acoustic tile ceiling)</td>
+            <td>Plenum-rated cable (CMP, MPP), EMT</td>
+            <td>Verify ceiling category (return-air plenum vs. ducted)</td></tr>
+        <tr><td class="label">Cable tray</td>
+            <td>Tray-rated cables (TC), single conductors in some applications</td>
+            <td>Article 392 fill limits</td></tr>
+    </table>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 2 — Conduit Fill (NEC Chapter 9)</div>
+    <p>NEC Chapter 9 Table 1 — maximum fill:</p>
+    <ul>
+        <li><strong>1 conductor</strong>: 53% of conduit cross-section.</li>
+        <li><strong>2 conductors</strong>: 31%.</li>
+        <li><strong>3 or more conductors</strong>: 40%.</li>
+    </ul>
+    <p>Use Chapter 9 Tables 4 (raceway area) + 5 (conductor area) to verify. Or use a conduit
+    fill calculator. ALSO verify NEC 310.15(B)(3)(a) ampacity adjustment for &gt;3 CCC in raceway.</p>
+    <table class="data-table">
+        <tr><th>Conduit</th><th>40% fill area (sq in)</th><th>Approx. #12 THHN count</th></tr>
+        <tr><td>1/2" EMT</td><td>0.122</td><td>9</td></tr>
+        <tr><td>3/4" EMT</td><td>0.213</td><td>16</td></tr>
+        <tr><td>1" EMT</td><td>0.346</td><td>26</td></tr>
+        <tr><td>1-1/4" EMT</td><td>0.598</td><td>44</td></tr>
+        <tr><td>1-1/2" EMT</td><td>0.814</td><td>60</td></tr>
+        <tr><td>2" EMT</td><td>1.342</td><td>99</td></tr>
+        <tr><td>2-1/2" EMT</td><td>2.343</td><td>173</td></tr>
+        <tr><td>3" EMT</td><td>3.538</td><td>261</td></tr>
+        <tr><td>4" EMT</td><td>6.140</td><td>454</td></tr>
+    </table>
+    <div class="warning">
+        <strong>WARNING — derating.</strong>
+        Beyond fill, NEC 310.15(B)(3)(a) requires ampacity adjustment when more than 3
+        current-carrying conductors share a raceway. Counts for: 4-6 CCCs → 80%, 7-9 CCCs → 70%,
+        10-20 → 50%, 21-30 → 45%, 31-40 → 40%, 41+ → 35%. Easy to miss; results in undersized
+        conductor at AHJ inspection.
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 3 — Conduit Support Spacing</div>
+    <table class="data-table">
+        <tr><th>Type</th><th>Max Support Spacing (Horizontal)</th><th>Support Within</th></tr>
+        <tr><td>EMT 1/2" - 3/4"</td><td>10 ft</td><td>3 ft of each box/fitting</td></tr>
+        <tr><td>EMT 1" - 2"</td><td>10 ft</td><td>3 ft of each box/fitting</td></tr>
+        <tr><td>EMT 2-1/2" - 4"</td><td>10 ft</td><td>3 ft of each box/fitting</td></tr>
+        <tr><td>RMC / IMC ≤1"</td><td>10 ft</td><td>3 ft of each box/fitting</td></tr>
+        <tr><td>PVC schedule 40 — 1/2" to 1"</td><td>3 ft</td><td>3 ft of each box/fitting</td></tr>
+        <tr><td>PVC schedule 40 — 1-1/4" to 2"</td><td>5 ft</td><td>3 ft of each box/fitting</td></tr>
+        <tr><td>PVC schedule 40 — 2-1/2" to 6"</td><td>8 ft</td><td>3 ft of each box/fitting</td></tr>
+        <tr><td>MC cable</td><td>6 ft</td><td>12 in of each box</td></tr>
+        <tr><td>AC cable</td><td>4.5 ft</td><td>12 in of each box</td></tr>
+        <tr><td>Flex (Greenfield) ≤ 1-1/4"</td><td>4.5 ft (where required)</td><td>12 in of each box</td></tr>
+    </table>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 4 — Bend Radius + Pull Boxes</div>
+    <ul>
+        <li><strong>Max 360° of bend</strong> between pull boxes (NEC 358.26 EMT, 344.26 RMC, 352.26 PVC).</li>
+        <li><strong>Minimum bend radius</strong> — NEC Chapter 9 Table 2. PVC larger than steel.
+            Example: 1" RGS / IMC = 5-3/4"; 1" PVC = 6"; 2" RGS = 9-1/2".</li>
+        <li><strong>Pull boxes</strong> sized per NEC 314.28 — straight pulls ≥8× largest raceway;
+            angle pulls per formula. Pull-box sizing failure is the most common rejection at
+            rough-in inspection.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 5 — Conductor Selection</div>
+    <ul>
+        <li><strong>Ampacity</strong> — NEC Table 310.16. Calibrate for ambient temperature (310.15(B)(1))
+            and number of CCCs in raceway (310.15(B)(3)(a)).</li>
+        <li><strong>Voltage drop</strong> — informational, not mandatory by NEC, but typically targeted
+            at ≤3% on branch + ≤5% combined (NEC Informational Note 215.2). Reference
+            calculation = K × I × L / Cmils (single phase) or 1.732 × K × I × L / Cmils (3-phase),
+            with K = 12.9 (copper) or 21.2 (aluminum) at 75°C.</li>
+        <li><strong>Insulation rating</strong> — match the equipment terminal temperature limit
+            (typically 60°C for breakers ≤100A; 75°C for &gt;100A unless specifically marked otherwise).</li>
+        <li><strong>Color code</strong> — NEC 200.6 (white = grounded), 250.119 (green = equipment
+            ground), 210.5 + 215.12 (ungrounded conductors identified by system voltage).</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 6 — Pull Tension + Pulling Compound</div>
+    <ul>
+        <li>Maximum pull tension limit — verify manufacturer spec; typical thumb rule = 0.008 × CM (copper
+            single conductor). Exceeded tension damages insulation.</li>
+        <li>Pulling compound (lube) reduces friction by 30-60%. Match compound to insulation type
+            (some lubes attack XLPE).</li>
+        <li>Sidewall pressure limit at bends — typical 500 lb/ft for solid dielectric.</li>
+        <li>Tugger + sheave size — verify cable manufacturer's minimum sheave diameter.</li>
+        <li>Document pull tension on the Pull Log if engineering required.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 7 — Splices + Terminations</div>
+    <ul>
+        <li>Splices in junction boxes only — NEC 300.15 except where specifically permitted.</li>
+        <li>UL-listed connectors (wire nuts to compression lugs). Sized to conductor + listed for
+            material (copper-only, aluminum-only, or AL/CU).</li>
+        <li>Aluminum splices/terminations — anti-oxidant compound + listed AL/CU connector;
+            NEC 110.14 listed.</li>
+        <li>Compression lugs — use the manufacturer's die + check with go/no-go gauge.</li>
+        <li>Strip length — match the connector spec. Too long = exposed conductor; too short = poor seat.</li>
+        <li>Torque to manufacturer spec — NEC 110.14(D) requires torque-wrench use where specified.</li>
+    </ul>
+    <div class="practice-note">
+        <span class="label">Practice note — aluminum terminations.</span>
+        The most common cause of aluminum-conductor failure is improper torque or lack of
+        anti-oxidant compound. Use a calibrated torque screwdriver / wrench, not a feel-method.
+        AHJs in many jurisdictions now require documented torque values on aluminum terminations.
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 8 — Voltage-Class Separation</div>
+    <ul>
+        <li>Class 1 and Class 2 wiring may NOT share a raceway except per NEC 725.136. Most installations
+            keep them in separate conduits / cables.</li>
+        <li>Power (600V or less) vs. communications (Article 800) — minimum 2 in separation in open
+            spaces; physical separation in shared trays.</li>
+        <li>Fire alarm (Article 760) — power-limited circuits separated from non-power-limited.</li>
+        <li>Verify by raceway labeling (NEC 110.21(B)) + tray section labels.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 9 — Underground Raceway (NEC 300.5)</div>
+    <ul>
+        <li>Burial depth per Table 300.5:</li>
+        <li>Direct burial 0-600V: 24" (residential branch 12-18" with GFCI / metallic conduit).</li>
+        <li>RGS / IMC: 6" cover.</li>
+        <li>PVC schedule 40 / 80 (non-concrete-encased): 18" cover.</li>
+        <li>PVC under building slab: 18" below slab.</li>
+        <li>Maintain 12" separation from other underground utilities or per local code.</li>
+        <li>Locator tape / tracer wire required for non-metallic raceway per many AHJs.</li>
+        <li>Sweeps + risers — long-radius bends; protect with bollards where exposed to vehicle traffic.</li>
+        <li>Concrete encasement per NEC 300.50 for medium voltage; reduces required cover.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <div class="section-title">Section 10 — Acceptance Tests (Megger Insulation)</div>
+    <ul>
+        <li>Test feeders + branches with insulation resistance tester (megger). Typical commercial
+            spec: 500 VDC for circuits ≤600V; 1000 VDC for medium voltage.</li>
+        <li>NETA acceptance criteria: minimum 100 MΩ at 500 VDC for solid dielectric cable in
+            new installation; many specs require higher.</li>
+        <li>Apply test for 60 seconds; record reading at 60 s. Calculate Polarization Index (10 min ÷ 1
+            min ratio) for critical feeders — &gt;2 considered acceptable.</li>
+        <li>Disconnect equipment + neutrals before testing to prevent damage to electronics.</li>
+        <li>Document results on the Pull + Insulation Test Log XLSX. Submit to GC + AHJ if required.</li>
+        <li>Any reading below the specified threshold → investigate before energizing; do not
+            "accept" with notation.</li>
+    </ul>
+</div>
+
+<div class="notice" style="margin-top: 30px;">
+    <strong>Document version:</strong> Conduit + Cable Installation Guide v1.0 — 2026-05-19.
+    ContrPro Complete Tier · Electrical Trade Pack. References NEC 2023; verify local
+    amendments.
+</div>
+
+</body>
+</html>
