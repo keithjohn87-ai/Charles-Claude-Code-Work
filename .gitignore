@@ -26,6 +26,9 @@ contrpro/contrpro.db-wal
 contrpro/emails/
 # Fly first-boot seed snapshot = a copy of the orders DB (customer data). Never commit.
 contrpro/deploy/fly/seed/contrpro.db
+# Pre-assembled per-state/trade delivery zips: 414MB of regenerable build-cache
+# output from build_tailored_zip.py. Baked into the deploy image, not source.
+contrpro/files/packages/built/
 # Empty handlers/ dir is a placeholder for future per-event handlers
 contrpro/handlers/
 
