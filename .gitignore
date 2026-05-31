@@ -24,6 +24,8 @@ contrpro/contrpro.db
 contrpro/contrpro.db-shm
 contrpro/contrpro.db-wal
 contrpro/emails/
+# Fly first-boot seed snapshot = a copy of the orders DB (customer data). Never commit.
+contrpro/deploy/fly/seed/contrpro.db
 # Empty handlers/ dir is a placeholder for future per-event handlers
 contrpro/handlers/
 

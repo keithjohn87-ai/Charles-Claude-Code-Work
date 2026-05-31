@@ -1,0 +1,38 @@
+# ContrPro webhook+delivery backend — Fly.io app config.
+# Rename `app` to whatever `fly launch` reserves for you, then keep it stable.
+app = "contrpro-webhook"
+primary_region = "iad"  # US-East, near most buyers; change if you prefer
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  CONTRPRO_SITE_ROOT = "/app/files"
+  CONTRPRO_DB_PATH = "/data/contrpro.db"
+  CONTRPRO_LOG_DIR = "/data/logs"
+  CONTRPRO_GMAIL_TOKEN_PATH = "/data/gmail_token.json"
+  CONTRPRO_HOST = "0.0.0.0"
+  CONTRPRO_PORT = "8080"
+  # Non-secret sender identity (same as the Mac). The PUBLIC_BASE that download
+  # links are built from is set via `fly secrets set` after the first deploy,
+  # once the app URL is known.
+  CONTRPRO_GMAIL_SENDER = "CharlesCreatorAI@gmail.com"
+  CONTRPRO_SUPPORT_EMAIL = "support@contrpro.com"
+
+# Persistent disk for the orders DB, Gmail token, and logs. 1GB is plenty —
+# the 425MB of packages live in the image, not here.
+[[mounts]]
+  source = "contrpro_data"
+  destination = "/data"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  # Always-on: a Stripe webhook must never arrive at a stopped machine.
+  auto_stop_machines = "off"
+  auto_start_machines = true
+  min_machines_running = 1
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"

@@ -1,0 +1,10 @@
+fastapi==0.128.8
+uvicorn==0.46.0
+starlette==0.52.1
+pydantic==2.12.5
+python-multipart==0.0.27
+stripe==15.1.0
+google-api-python-client==2.196.0
+google-auth==2.52.0
+google-auth-oauthlib==1.4.0
+httplib2==0.31.2

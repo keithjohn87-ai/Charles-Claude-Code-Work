@@ -79,7 +79,7 @@ from fastapi.responses import FileResponse, JSONResponse, RedirectResponse, HTML
 # Logging
 # ---------------------------------------------------------------------------
 
-LOG_DIR = Path("/Users/home/charles/contrpro/logs")
+LOG_DIR = Path(os.environ.get("CONTRPRO_LOG_DIR", "/Users/home/charles/contrpro/logs"))
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 logging.basicConfig(
     filename=str(LOG_DIR / "webhook_server.log"),
@@ -289,7 +289,7 @@ STRIPE_PRICE_TO_TIER: dict[str, str] = {
 # Persistence: SQLite for issued tokens + delivery records
 # ---------------------------------------------------------------------------
 
-DB_PATH = Path("/Users/home/charles/contrpro/contrpro.db")
+DB_PATH = Path(os.environ.get("CONTRPRO_DB_PATH", "/Users/home/charles/contrpro/contrpro.db"))
 
 
 def _db() -> sqlite3.Connection:
